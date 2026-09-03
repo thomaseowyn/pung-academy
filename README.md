@@ -11,9 +11,16 @@ step, no backend. Open `index.html` in a browser and it works.
 ```
 pung-academy/
 ├── index.html            Homepage: hero, roadmap visual, why / how / philosophy, CTA
+├── courses.html          Course roadmap: the vertical learning path
+├── coming-soon.html      Placeholder for the two future career paths
 ├── login.html            Standalone login page
 ├── register.html         Standalone registration page
 ├── about.html            Team introduction + links to the four profiles
+│
+├── courses/
+│   ├── introduction-to-programming.html   Course overview + chapter list
+│   └── introduction/
+│       └── lesson-1.html … lesson-10.html  One page per chapter
 │
 ├── team/                 Individual profile pages (each with its own design)
 │   ├── kevin.html        Dark "terminal" identity
@@ -23,6 +30,8 @@ pung-academy/
 │
 ├── css/
 │   ├── style.css         Shared tokens, navbar, footer, homepage
+│   ├── courses.css       Roadmap + course overview
+│   ├── lessons.css       Chapter pages, code editor, exercises
 │   ├── auth.css          Login + registration
 │   ├── about.css         About Us page
 │   └── team/             One standalone stylesheet per profile
@@ -31,12 +40,58 @@ pung-academy/
 ├── js/
 │   ├── auth.js           localStorage accounts + login/register form handling
 │   ├── navigation.js     Signed-in / signed-out header state
+│   ├── courses.js        Course data, progress engine, roadmap + overview rendering
+│   ├── lessons.js        Chapter runtime: access guard, exercises, completion
 │   └── main.js           Copyright year, image fallbacks, "coming soon" links
 │
 └── assets/
     ├── icons/logo.svg
     └── images/           Placeholder portraits (kevin/bryan/elvin/thomas .svg)
 ```
+
+## The course system
+
+**Roadmap** (`courses.html`) — a vertical path: start node → Introduction to
+Programming → a locked gate → a fork into Web Development and Artificial
+Intelligence. Both branches stay locked until the first course is finished.
+
+**Progression** — Chapter 1 is open from the start; every other chapter needs
+the one before it completed. A chapter counts as complete only after its
+exercise is passed, never just by opening the page. The rule is enforced in
+JavaScript, so typing `courses/introduction/lesson-8.html` directly shows a
+locked screen rather than the content.
+
+**Exercises** — chapters 1–2 use a concept-check question; chapters 3–10 use a
+built-in code editor (plain textarea plus a line-number gutter, no external
+library). Submissions are checked against patterns for the concepts each task
+requires. Nothing is executed — Python cannot run in a static page, and the
+editor says so rather than pretending otherwise. Checks tolerate extra spaces,
+tabs, curly quotes and either quote style.
+
+**Progress storage** — `pungAcademyProgress_<email>` for a signed-in user, or
+`pungAcademyProgress_guest` when nobody is signed in, so two local accounts do
+not share a position:
+
+```json
+{
+  "introductionToProgramming": {
+    "completedChapters": [1, 2, 3],
+    "exercisesCompleted": { "1": true, "2": true, "3": true },
+    "updatedAt": "2026-09-03T15:31:20.764Z"
+  }
+}
+```
+
+**Adding chapter videos** — every chapter shows a marked placeholder instead of
+a player, because no YouTube ids have been verified. Put an id into
+`chapters[N].videoId` in `js/courses.js` and that chapter's player appears; no
+other change is needed.
+
+**Editing course content** — chapter titles, summaries, topics, projects and
+every exercise (prompt, starter code, checks, hint, solution) live in the
+`chapters` object at the top of `js/courses.js`. The chapter pages hold only the
+written tutorial text.
+
 
 ## Local accounts
 
@@ -98,8 +153,12 @@ a 1:1 frame.
 - **No backend.** Accounts exist only in the browser that created them; clearing
   site data deletes them, and they do not follow you to another device.
 - **Passwords are stored as plain text** (see the warning above).
-- **Lessons and Resources are not built.** Both navigation items are signposted
-  with a "Soon" badge and explain themselves when clicked.
+- **Resources is not built.** The navigation item is signposted with a "Soon"
+  badge and explains itself when clicked.
+- **Only Introduction to Programming exists.** Web Development and Artificial
+  Intelligence are shown on the roadmap and link to `coming-soon.html`.
+- **Exercises are pattern-checked, not executed.** A submission that contains
+  the right constructs passes even if the program would not actually run.
 - Google Fonts are loaded from a CDN, so the pages fall back to system fonts
   when offline.
 

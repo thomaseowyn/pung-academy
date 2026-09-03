@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 3 — Variables &amp; Data — Pung Academy</title>
+    <meta name="description" content="Chapter 3 of Introduction to Programming: variables, data types, strings, numbers, booleans, user input and type conversion." />
+    <link rel="icon" href="../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/courses.css" />
+    <link rel="stylesheet" href="../../css/lessons.css" />
+  </head>
+  <body data-chapter="3">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- ============================ Header ============================ -->
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="../../index.html">
+          <img
+            class="brand__mark"
+            src="../../assets/icons/logo.svg"
+            alt=""
+            width="30"
+            height="30"
+          />
+          Pung Academy
+        </a>
+
+        <nav class="nav" id="primary-navigation" data-nav aria-label="Main">
+          <ul class="nav__list nav__list--primary">
+            <li>
+              <a class="nav__link" href="../../courses.html" aria-current="page"
+                >Lessons</a
+              >
+            </li>
+            <li><a class="nav__link" href="../../about.html">About Us</a></li>
+            <li>
+              <a
+                class="nav__link nav__link--soon"
+                href="../../index.html#resources"
+                data-coming-soon="The resource library"
+                >Resources <span class="nav__badge">Soon</span></a
+              >
+            </li>
+          </ul>
+
+          <div class="nav__session">
+            <ul class="nav__list nav__list--actions" data-session="guest">
+              <li><a class="btn btn--ghost" href="../../login.html">Login</a></li>
+              <li>
+                <a class="btn btn--primary" href="../../register.html">Sign Up</a>
+              </li>
+            </ul>
+
+            <div class="nav__session" data-session="user" hidden>
+              <span class="nav__user"
+                >Hi, <span data-user-name>learner</span></span
+              >
+              <button class="btn btn--secondary" type="button" data-logout>
+                Log out
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 3</span
+            >
+            <h1 data-chapter-title>Variables &amp; Data</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Variables: giving a value a name</h2>
+
+            <p>
+              So far your programs have had no memory. They print something and
+              forget it. A <strong>variable</strong> is a name attached to a
+              value, so the program can keep hold of information and use it
+              again later.
+            </p>
+
+            <pre class="code-block"><code>name = "Alex"
+age = 20</code></pre>
+
+            <p>
+              Read the <code>=</code> as "is set to", not as "equals". It is an
+              instruction, not a statement of fact: <em>take the value on the
+              right, and attach the name on the left to it.</em> Afterwards,
+              writing <code>name</code> anywhere in your program means
+              <code>"Alex"</code>.
+            </p>
+
+            <pre class="code-block"><code>name = "Alex"
+print("Hello,", name)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello, Alex</code></pre>
+
+            <h3>Why variables exist</h3>
+
+            <p>
+              Because information that is used twice should be written once. If
+              a price appears in six places in your program and it changes, you
+              have six chances to miss one. Stored in a variable, it changes in
+              a single place and every use follows.
+            </p>
+
+            <h3>Variables can be reassigned</h3>
+
+            <pre class="code-block"><code>score = 0
+print(score)
+
+score = 10
+print(score)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>0
+10</code></pre>
+
+            <p>
+              The old value is simply gone. A variable holds one value at a
+              time — the most recent one it was given.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip — naming</span>
+              <p>
+                Use lowercase words joined by underscores:
+                <code>first_name</code>, <code>total_price</code>,
+                <code>is_finished</code>. Names cannot contain spaces, cannot
+                start with a digit, and should say what the thing
+                <em>is</em>. <code>x</code> and <code>data2</code> will cost you
+                time later.
+              </p>
+            </div>
+
+            <h2>Data types</h2>
+
+            <p>
+              Every value has a <strong>type</strong>, and the type decides what
+              you can do with it. Adding two numbers gives you their sum; adding
+              two pieces of text glues them together. Python needs to know which
+              you meant, so it tracks the type of everything.
+            </p>
+
+            <p>The four types you need now:</p>
+
+            <ul>
+              <li>
+                <strong>str</strong> (string) — text, always in quotes:
+                <code>"Alex"</code>, <code>"20"</code>, <code>""</code>
+              </li>
+              <li>
+                <strong>int</strong> (integer) — whole numbers, no quotes:
+                <code>20</code>, <code>0</code>, <code>-7</code>
+              </li>
+              <li>
+                <strong>float</strong> — numbers with a decimal point:
+                <code>4.50</code>, <code>-0.5</code>, <code>3.0</code>
+              </li>
+              <li>
+                <strong>bool</strong> (boolean) — one of exactly two values:
+                <code>True</code> or <code>False</code>
+              </li>
+            </ul>
+
+            <p>You can ask Python what type something is:</p>
+
+            <pre class="code-block"><code>print(type("Alex"))
+print(type(20))
+print(type(4.50))
+print(type(True))</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>&lt;class 'str'&gt;
+&lt;class 'int'&gt;
+&lt;class 'float'&gt;
+&lt;class 'bool'&gt;</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                <code>20</code> and <code>"20"</code> are not the same thing.
+                One is a number you can do arithmetic with; the other is two
+                characters of text that happen to look like a number. This
+                single distinction causes more beginner confusion than any other
+                idea in this chapter.
+              </p>
+            </div>
+
+            <h2>Strings</h2>
+
+            <p>
+              A <strong>string</strong> is a sequence of characters. Single and
+              double quotes both work, which is handy when the text itself
+              contains a quote:
+            </p>
+
+            <pre class="code-block"><code>greeting = "Hello"
+name = 'Alex'
+message = "It's a nice day"</code></pre>
+
+            <p>
+              Joining strings together is called
+              <strong>concatenation</strong>, and uses <code>+</code>:
+            </p>
+
+            <pre class="code-block"><code>first = "Ada"
+last = "Lovelace"
+full = first + " " + last
+print(full)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Ada Lovelace</code></pre>
+
+            <p>
+              Note the <code>" "</code> in the middle. Without it you would get
+              <code>AdaLovelace</code> — Python adds exactly what you tell it to
+              and no helpful spaces of its own.
+            </p>
+
+            <h3>f-strings: the tidier way</h3>
+
+            <p>
+              Building sentences with <code>+</code> gets ugly fast. An
+              <strong>f-string</strong> lets you drop variables straight into
+              text. Put an <code>f</code> before the opening quote and wrap each
+              variable in curly braces:
+            </p>
+
+            <pre class="code-block"><code>name = "Alex"
+age = 20
+print(f"{name} is {age} years old")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Alex is 20 years old</code></pre>
+
+            <h2>Numbers</h2>
+
+            <p>
+              Integers and floats behave as you would expect from school
+              arithmetic:
+            </p>
+
+            <pre class="code-block"><code>price = 4.50
+quantity = 3
+total = price * quantity
+print(total)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>13.5</code></pre>
+
+            <p>
+              You will meet the full set of arithmetic operators in the next
+              chapter. For now, know that numbers are stored without quotes, and
+              that mixing an int and a float gives you a float.
+            </p>
+
+            <h2>Boolean values</h2>
+
+            <p>
+              A <strong>boolean</strong> is either <code>True</code> or
+              <code>False</code> — capitalised exactly like that, and without
+              quotes. Booleans exist to record whether something is the case,
+              which is what lets a program make decisions in Chapter 5.
+            </p>
+
+            <pre class="code-block"><code>is_logged_in = True
+has_paid = False
+
+print(is_logged_in)</code></pre>
+
+            <p>
+              Comparisons produce booleans, which is where they usually come
+              from in real programs:
+            </p>
+
+            <pre class="code-block"><code>age = 20
+print(age &gt;= 18)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>True</code></pre>
+
+            <h2>User input</h2>
+
+            <p>
+              A program that only ever works with values you typed into the file
+              is not much use. <code>input()</code> pauses the program, waits
+              for the person to type something and press Enter, and hands back
+              what they typed.
+            </p>
+
+            <pre class="code-block"><code>name = input("What is your name? ")
+print(f"Hello, {name}!")</code></pre>
+
+            <span class="output-label">Output (with "Alex" typed)</span>
+            <pre class="output-block"><code>What is your name? Alex
+Hello, Alex!</code></pre>
+
+            <p>
+              The text inside the brackets is the <strong>prompt</strong> — it
+              is shown before the program waits. Ending it with a space stops
+              the person's typing from butting against your question mark.
+            </p>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — this one catches everybody</span>
+              <p>
+                <code>input()</code> <em>always</em> gives you a string. Even if
+                the person types <code>20</code>, you get the text
+                <code>"20"</code>, not the number <code>20</code>.
+              </p>
+            </div>
+
+            <p>Which leads directly to this trap:</p>
+
+            <pre class="code-block"><code>age = input("Your age: ")
+print(age + 1)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>TypeError: can only concatenate str (not "int") to str</code></pre>
+
+            <p>
+              Python is telling you, in its own way, that you asked it to glue a
+              number onto some text and it does not know how.
+            </p>
+
+            <h2>Type conversion</h2>
+
+            <p>
+              <strong>Type conversion</strong> — also called casting — turns a
+              value of one type into another. Three functions cover almost
+              everything you need:
+            </p>
+
+            <ul>
+              <li><code>int(x)</code> — make a whole number</li>
+              <li><code>float(x)</code> — make a decimal number</li>
+              <li><code>str(x)</code> — make text</li>
+            </ul>
+
+            <pre class="code-block"><code>age = int(input("Your age: "))
+print(f"Next year you will be {age + 1}")</code></pre>
+
+            <span class="output-label">Output (with "20" typed)</span>
+            <pre class="output-block"><code>Your age: 20
+Next year you will be 21</code></pre>
+
+            <p>
+              Read <code>int(input("Your age: "))</code> from the inside out:
+              <code>input</code> collects text, and <code>int</code> converts
+              that text into a number. Wrapping one call around another like
+              this is extremely common.
+            </p>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                <code>int("hello")</code> fails with a
+                <code>ValueError</code> — there is no sensible number in
+                "hello". Converting only works when the text genuinely looks
+                like a number.
+              </p>
+            </div>
+
+            <h2>Worked example — the Personal Information Program</h2>
+
+            <p>
+              This chapter's project pulls every idea together: input, storage,
+              conversion, types and formatted output.
+            </p>
+
+            <pre class="code-block"><code># Personal Information Program
+
+name = input("What is your name? ")
+age = int(input("How old are you? "))
+city = input("Where do you live? ")
+height = float(input("How tall are you in metres? "))
+
+print()
+print("--- Your details ---")
+print(f"Name:   {name}")
+print(f"Age:    {age}")
+print(f"City:   {city}")
+print(f"Height: {height} m")
+print(f"In ten years you will be {age + 10}.")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>What is your name? Alex
+How old are you? 20
+Where do you live? Jakarta
+How tall are you in metres? 1.72
+
+--- Your details ---
+Name:   Alex
+Age:    20
+City:   Jakarta
+Height: 1.72 m
+In ten years you will be 30.</code></pre>
+
+            <p>
+              Note which inputs were converted and which were not.
+              <code>name</code> and <code>city</code> stay as text because they
+              are text. <code>age</code> becomes an <code>int</code> and
+              <code>height</code> a <code>float</code>, because both are used in
+              arithmetic. Choosing the right type for each value is a real
+              decision, and you just made four of them.
+            </p>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                Add two lines to the program above: ask for a favourite number,
+                and print that number doubled. Which type does it need to be,
+                and why?
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+
+    <!-- ============================ Footer ============================ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__bottom">
+          <p>
+            &copy; <span data-current-year>2026</span> Pung Academy. Built as a
+            student project.
+          </p>
+          <p>Prototype — accounts and progress are stored in your browser only.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/navigation.js"></script>
+    <script src="../../js/courses.js"></script>
+    <script src="../../js/lessons.js"></script>
+    <script src="../../js/main.js"></script>
+  </body>
+</html>

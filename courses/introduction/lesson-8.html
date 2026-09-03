@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 8 — Functions — Pung Academy</title>
+    <meta name="description" content="Chapter 8 of Introduction to Programming: why functions exist, defining them, parameters, arguments, return values and decomposition." />
+    <link rel="icon" href="../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/courses.css" />
+    <link rel="stylesheet" href="../../css/lessons.css" />
+  </head>
+  <body data-chapter="8">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- ============================ Header ============================ -->
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="../../index.html">
+          <img
+            class="brand__mark"
+            src="../../assets/icons/logo.svg"
+            alt=""
+            width="30"
+            height="30"
+          />
+          Pung Academy
+        </a>
+
+        <nav class="nav" id="primary-navigation" data-nav aria-label="Main">
+          <ul class="nav__list nav__list--primary">
+            <li>
+              <a class="nav__link" href="../../courses.html" aria-current="page"
+                >Lessons</a
+              >
+            </li>
+            <li><a class="nav__link" href="../../about.html">About Us</a></li>
+            <li>
+              <a
+                class="nav__link nav__link--soon"
+                href="../../index.html#resources"
+                data-coming-soon="The resource library"
+                >Resources <span class="nav__badge">Soon</span></a
+              >
+            </li>
+          </ul>
+
+          <div class="nav__session">
+            <ul class="nav__list nav__list--actions" data-session="guest">
+              <li><a class="btn btn--ghost" href="../../login.html">Login</a></li>
+              <li>
+                <a class="btn btn--primary" href="../../register.html">Sign Up</a>
+              </li>
+            </ul>
+
+            <div class="nav__session" data-session="user" hidden>
+              <span class="nav__user"
+                >Hi, <span data-user-name>learner</span></span
+              >
+              <button class="btn btn--secondary" type="button" data-logout>
+                Log out
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 8</span
+            >
+            <h1 data-chapter-title>Functions</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Why functions?</h2>
+
+            <p>
+              Look at a program that greets three people:
+            </p>
+
+            <pre class="code-block"><code>print("Hello, Alex!")
+print("Welcome to Pung Academy.")
+
+print("Hello, Bo!")
+print("Welcome to Pung Academy.")
+
+print("Hello, Chris!")
+print("Welcome to Pung Academy.")</code></pre>
+
+            <p>
+              The same idea, written three times. Change the welcome message and
+              you must change it in three places — and eventually you will
+              change two of them and ship the third.
+            </p>
+
+            <p>
+              A <strong>function</strong> is a named piece of work you define
+              once and use as often as you like. You have been calling functions
+              since Chapter 2: <code>print()</code>, <code>input()</code>,
+              <code>len()</code>, <code>int()</code>. Now you write your own.
+            </p>
+
+            <h2>Creating functions</h2>
+
+            <pre class="code-block"><code>def greet():
+    print("Hello!")
+    print("Welcome to Pung Academy.")</code></pre>
+
+            <p>The parts:</p>
+
+            <ul>
+              <li>
+                <code>def</code> tells Python you are defining a function.
+              </li>
+              <li>
+                <code>greet</code> is the name. Same rules as variable names,
+                and it should describe an action.
+              </li>
+              <li>The brackets will hold inputs — empty for now.</li>
+              <li>The colon and indented body, exactly as with if and for.</li>
+            </ul>
+
+            <p>
+              Defining a function does not run it. It only teaches Python what
+              the name means. To run it, <strong>call</strong> it:
+            </p>
+
+            <pre class="code-block"><code>def greet():
+    print("Hello!")
+
+greet()
+greet()</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello!
+Hello!</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                <code>greet</code> without brackets does not call the function —
+                it just refers to it. The brackets are what say "do it now".
+              </p>
+            </div>
+
+            <h2>Parameters and arguments</h2>
+
+            <p>
+              A function that always does exactly the same thing is limited. A
+              <strong>parameter</strong> is a name inside the brackets that
+              stands for a value the caller will supply.
+            </p>
+
+            <pre class="code-block"><code>def greet(name):
+    print(f"Hello, {name}!")
+
+greet("Alex")
+greet("Bo")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello, Alex!
+Hello, Bo!</code></pre>
+
+            <p>
+              The two words are often used loosely, but they are different
+              things:
+            </p>
+
+            <ul>
+              <li>
+                <strong>Parameter</strong> — the name in the definition
+                (<code>name</code>). A placeholder.
+              </li>
+              <li>
+                <strong>Argument</strong> — the actual value passed in when
+                calling (<code>"Alex"</code>).
+              </li>
+            </ul>
+
+            <h3>Several parameters</h3>
+
+            <pre class="code-block"><code>def describe(name, age, city):
+    print(f"{name} is {age} and lives in {city}.")
+
+describe("Alex", 20, "Jakarta")</code></pre>
+
+            <p>
+              Order matters — arguments are matched to parameters by position.
+              Calling <code>describe(20, "Alex", "Jakarta")</code> produces
+              nonsense without any error at all.
+            </p>
+
+            <h3>Default values</h3>
+
+            <pre class="code-block"><code>def greet(name, greeting="Hello"):
+    print(f"{greeting}, {name}!")
+
+greet("Alex")                      # Hello, Alex!
+greet("Bo", "Good morning")        # Good morning, Bo!</code></pre>
+
+            <h2>Return values</h2>
+
+            <p>
+              This is the idea that makes functions powerful, and the one
+              beginners most often miss. So far our functions have
+              <em>printed</em> things. Printing shows a human some text. It does
+              not give the value back to the program.
+            </p>
+
+            <p>
+              <code>return</code> hands a value back to whoever called the
+              function:
+            </p>
+
+            <pre class="code-block"><code>def add(a, b):
+    return a + b
+
+result = add(2, 3)
+print(result)          # 5
+print(add(10, 20))     # 30
+print(add(1, 2) * 10)  # 30</code></pre>
+
+            <p>Compare the two versions carefully:</p>
+
+            <pre class="code-block"><code>def add_and_print(a, b):
+    print(a + b)          # shows the answer, gives back nothing
+
+def add_and_return(a, b):
+    return a + b          # hands the answer back
+
+x = add_and_print(2, 3)   # prints 5, but x is None
+y = add_and_return(2, 3)  # prints nothing, but y is 5</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                A function that calculates something should nearly always
+                <code>return</code> the result rather than print it. Printing is
+                a decision about presentation — leave it to the code that called
+                you, which knows what it wants to do with the answer.
+              </p>
+            </div>
+
+            <h3>return ends the function immediately</h3>
+
+            <pre class="code-block"><code>def check_age(age):
+    if age &lt; 0:
+        return "That is not a valid age."
+    if age &gt;= 18:
+        return "Adult"
+    return "Minor"
+
+print(check_age(20))    # Adult
+print(check_age(-5))    # That is not a valid age.</code></pre>
+
+            <p>
+              Nothing after a <code>return</code> that runs will execute. That
+              makes it useful for handling bad input at the top and getting out
+              early.
+            </p>
+
+            <h2>Breaking problems into functions</h2>
+
+            <p>
+              <strong>Decomposition</strong> is splitting a large problem into
+              small named pieces. It is the single most valuable habit in this
+              chapter.
+            </p>
+
+            <p>
+              Consider a quiz. As one block it is a tangle. Divided up, each
+              piece is small enough to hold in your head and test on its own:
+            </p>
+
+            <pre class="code-block"><code>def ask_question(question, correct_answer):
+    &quot;&quot;&quot;Ask one question. Return True if answered correctly.&quot;&quot;&quot;
+    given = input(question + " ")
+    return given.strip().lower() == correct_answer.lower()
+
+
+def report(score, total):
+    &quot;&quot;&quot;Print the final result.&quot;&quot;&quot;
+    print(f"You scored {score} out of {total}.")
+    if score == total:
+        print("Perfect.")
+    elif score &gt;= total / 2:
+        print("A decent effort.")
+    else:
+        print("Worth another go.")</code></pre>
+
+            <p>
+              The text in triple quotes at the top of each function is a
+              <strong>docstring</strong> — a short note about what the function
+              does, for anyone reading it later.
+            </p>
+
+            <h3>Signs a function is doing too much</h3>
+
+            <ul>
+              <li>You struggle to name it without using "and".</li>
+              <li>It is longer than about twenty lines.</li>
+              <li>You cannot describe what it returns in one sentence.</li>
+            </ul>
+
+            <h2>Worked example — the Quiz Game</h2>
+
+            <pre class="code-block"><code># Quiz Game
+
+def ask_question(question, correct_answer):
+    given = input(question + " ")
+    return given.strip().lower() == correct_answer.lower()
+
+
+def report(score, total):
+    print()
+    print(f"You scored {score} out of {total}.")
+    if score == total:
+        print("Perfect.")
+    elif score &gt;= total / 2:
+        print("A decent effort.")
+    else:
+        print("Worth another go.")
+
+
+questions = [
+    {"q": "What does CPU stand for?", "a": "central processing unit"},
+    {"q": "What symbol starts a comment in Python?", "a": "#"},
+    {"q": "What is 7 * 6?", "a": "42"}
+]
+
+score = 0
+
+for item in questions:
+    if ask_question(item["q"], item["a"]):
+        print("Correct.")
+        score += 1
+    else:
+        print(f"No - the answer was {item['a']}.")
+
+report(score, len(questions))</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>What does CPU stand for? central processing unit
+Correct.
+What symbol starts a comment in Python? #
+Correct.
+What is 7 * 6? 41
+No - the answer was 42.
+
+You scored 2 out of 3.
+A decent effort.</code></pre>
+
+            <p>
+              Every idea from the course so far is in there: variables, a list of
+              dictionaries, a loop, conditions, and two functions that each do
+              one job. <code>.strip().lower()</code> makes the check forgiving of
+              stray spaces and capitals — a small kindness worth building into
+              anything that reads human input.
+            </p>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>What does this print, and why is it not 8?</p>
+              <pre class="code-block"><code>def double(number):
+    number * 2
+
+print(double(4))</code></pre>
+              <p>
+                It prints <code>None</code>. The function calculates the double
+                and then throws it away — there is no <code>return</code>.
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+
+    <!-- ============================ Footer ============================ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__bottom">
+          <p>
+            &copy; <span data-current-year>2026</span> Pung Academy. Built as a
+            student project.
+          </p>
+          <p>Prototype — accounts and progress are stored in your browser only.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/navigation.js"></script>
+    <script src="../../js/courses.js"></script>
+    <script src="../../js/lessons.js"></script>
+    <script src="../../js/main.js"></script>
+  </body>
+</html>

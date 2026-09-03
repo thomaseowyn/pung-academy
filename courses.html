@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Courses — Pung Academy</title>
+    <meta
+      name="description"
+      content="The Pung Academy learning path: start with Introduction to Programming, then branch into Web Development or Artificial Intelligence."
+    />
+    <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/courses.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- ================= Header ================= -->
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="index.html">
+          <img
+            class="brand__mark"
+            src="assets/icons/logo.svg"
+            alt=""
+            width="30"
+            height="30"
+          />
+          Pung Academy
+        </a>
+
+        <nav class="nav" id="primary-navigation" data-nav aria-label="Main">
+          <ul class="nav__list nav__list--primary">
+            <li>
+              <a class="nav__link" href="courses.html" aria-current="page"
+                >Lessons</a
+              >
+            </li>
+            <li><a class="nav__link" href="about.html">About Us</a></li>
+            <li>
+              <a
+                class="nav__link nav__link--soon"
+                href="index.html#resources"
+                data-coming-soon="The resource library"
+                >Resources <span class="nav__badge">Soon</span></a
+              >
+            </li>
+          </ul>
+
+          <div class="nav__session">
+            <ul class="nav__list nav__list--actions" data-session="guest">
+              <li><a class="btn btn--ghost" href="login.html">Login</a></li>
+              <li>
+                <a class="btn btn--primary" href="register.html">Sign Up</a>
+              </li>
+            </ul>
+
+            <div class="nav__session" data-session="user" hidden>
+              <span class="nav__user"
+                >Hi, <span data-user-name>learner</span></span
+              >
+              <button class="btn btn--secondary" type="button" data-logout>
+                Log out
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ================= Intro ================= -->
+      <section class="courses-hero">
+        <div class="container courses-hero__inner">
+          <p class="eyebrow">Courses</p>
+          <h1>One path, followed in order</h1>
+          <p class="lead">
+            This is not a catalogue to browse. It is a route. Everyone starts at
+            the same place, and the next stage opens only once the one before it
+            is finished — so you always know exactly what to do next.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= The path ================= -->
+      <section class="path-section">
+        <div class="container">
+          <ol class="path">
+            <!-- Start -->
+            <li class="path__step">
+              <span class="node node--start" aria-hidden="true">Start</span>
+              <p class="node__caption">You start here — no experience needed</p>
+            </li>
+
+            <li class="path__step" aria-hidden="true">
+              <span class="connector"></span>
+            </li>
+
+            <!-- Course 1: Introduction to Programming -->
+            <li class="path__step">
+              <a class="course-card" data-course-card href="courses/introduction-to-programming.html">
+                <div class="course-card__top">
+                  <div>
+                    <span class="course-card__eyebrow">Course 1 · Available now</span>
+                    <h2 class="course-card__title">Introduction to Programming</h2>
+                  </div>
+                  <span class="course-card__badge" data-course-badge>Start here</span>
+                </div>
+
+                <p class="course-card__text">
+                  Ten chapters that take you from never having written code to
+                  finishing a working program of your own. Fundamentals first,
+                  one chapter at a time.
+                </p>
+
+                <div class="progress">
+                  <span class="progress__track">
+                    <span class="progress__fill" data-course-progress-fill></span>
+                  </span>
+                  <span class="progress__text" data-course-progress-text
+                    >0 / 10 chapters</span
+                  >
+                </div>
+
+                <p class="course-card__cta" data-course-cta>Open the course →</p>
+              </a>
+            </li>
+
+            <li class="path__step" aria-hidden="true">
+              <span class="connector"></span>
+            </li>
+
+            <!-- Gate -->
+            <li class="path__step">
+              <span class="node node--gate" data-gate-node aria-hidden="true">🔒</span>
+              <p class="node__caption" data-gate-caption>
+                Complete Introduction to Programming to open the paths below
+              </p>
+            </li>
+          </ol>
+
+          <!-- Fork into two future paths -->
+          <div class="fork" aria-hidden="true">
+            <span class="fork__stem"></span>
+            <span class="fork__bar"></span>
+            <span class="fork__drop fork__drop--left"></span>
+            <span class="fork__drop fork__drop--right"></span>
+          </div>
+
+          <div class="branches">
+            <article class="branch-card" data-branch>
+              <span class="branch-card__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <h2 class="branch-card__title">Web Development</h2>
+              <p class="branch-card__text">
+                Build for the browser: structure, styling, interactivity and
+                putting a real site online.
+              </p>
+              <span class="branch-card__status" data-branch-status>Locked</span>
+              <p data-branch-note></p>
+            </article>
+
+            <article class="branch-card" data-branch>
+              <span class="branch-card__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <h2 class="branch-card__title">Artificial Intelligence</h2>
+              <p class="branch-card__text">
+                Work with data, then with models: how machines find patterns and
+                where the limits of that actually are.
+              </p>
+              <span class="branch-card__status" data-branch-status>Locked</span>
+              <p data-branch-note></p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= How the path works ================= -->
+      <section class="section section--alt">
+        <div class="container">
+          <div class="section__header section__header--center">
+            <p class="eyebrow">How the path works</p>
+            <h2>Locked until you are ready, not until you pay</h2>
+          </div>
+
+          <div class="grid grid--3">
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">1</span>
+              <h3 class="card__title">Chapters open in order</h3>
+              <p class="card__text">
+                Chapter 1 is open from the start. Every chapter after it unlocks
+                when the one before is finished — no jumping ahead.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">2</span>
+              <h3 class="card__title">Finishing means doing</h3>
+              <p class="card__text">
+                Opening a page is not progress. A chapter counts as complete
+                only once you have passed its exercise.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">3</span>
+              <h3 class="card__title">Then you choose</h3>
+              <p class="card__text">
+                Complete the foundation and both career paths open, so you pick
+                a direction knowing what the work actually feels like.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= Footer ================= -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__grid">
+          <div class="site-footer__about">
+            <a class="brand" href="index.html">
+              <img
+                class="brand__mark"
+                src="assets/icons/logo.svg"
+                alt=""
+                width="30"
+                height="30"
+              />
+              Pung Academy
+            </a>
+            <p>
+              A structured starting point for people learning to program. We put
+              the lessons in order so beginners can spend their energy on
+              learning rather than on planning.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="site-footer__title">Learn</h2>
+            <ul class="site-footer__list">
+              <li><a href="courses.html">Lessons</a></li>
+              <li>
+                <a href="index.html#resources" data-coming-soon="The resource library"
+                  >Resources</a
+                >
+              </li>
+              <li><a href="index.html#philosophy">Learning philosophy</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="site-footer__title">Academy</h2>
+            <ul class="site-footer__list">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="register.html">Sign Up</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="site-footer__bottom">
+          <p>
+            &copy; <span data-current-year>2026</span> Pung Academy. Built as a
+            student project.
+          </p>
+          <p>Prototype — accounts and progress are stored in your browser only.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/courses.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

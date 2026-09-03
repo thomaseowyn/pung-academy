@@ -1,0 +1,607 @@
+/* ==========================================================================
+   Pung Academy — Courses roadmap + course overview
+   Loaded after style.css; reuses the shared tokens.
+   ========================================================================== */
+
+:root {
+  --color-locked: #94a3b8;
+  --color-locked-bg: #f1f5f9;
+  --color-done: #15803d;
+  --color-done-bg: #f0fdf4;
+  --color-done-border: #bbf7d0;
+}
+
+/* ------------------------------ Page intro ----------------------------- */
+.courses-hero {
+  padding-block: var(--space-8) var(--space-7);
+  background-color: var(--color-accent-soft);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.courses-hero__inner {
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.courses-hero h1 {
+  margin-bottom: var(--space-4);
+}
+
+.courses-hero .lead {
+  margin-bottom: 0;
+}
+
+/* =======================================================================
+   The vertical learning path
+   ======================================================================= */
+.path-section {
+  padding-block: var(--space-8) var(--space-9);
+}
+
+.path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.path__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Vertical connector drawn between steps. */
+.connector {
+  display: block;
+  width: 3px;
+  height: 40px;
+  background-color: var(--color-border-strong);
+  border-radius: 2px;
+}
+
+.connector--short {
+  height: 26px;
+}
+
+.connector--dashed {
+  background-image: linear-gradient(
+    var(--color-border-strong) 55%,
+    transparent 55%
+  );
+  background-size: 3px 12px;
+  background-color: transparent;
+}
+
+/* ------------------------------- Nodes -------------------------------- */
+.node {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  background-color: var(--color-bg);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.node--start {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.node--gate {
+  border-color: var(--color-border-strong);
+  color: var(--color-locked);
+}
+
+.node--gate.is-open {
+  border-color: var(--color-done);
+  background-color: var(--color-done-bg);
+  color: var(--color-done);
+}
+
+.node__caption {
+  margin: var(--space-3) 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* =======================================================================
+   Course card on the path
+   ======================================================================= */
+.course-card {
+  display: block;
+  width: 100%;
+  padding: var(--space-6);
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  color: inherit;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+a.course-card:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(18, 59, 115, 0.16);
+}
+
+.course-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.course-card__eyebrow {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.course-card__title {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.course-card__badge {
+  flex: none;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background-color: var(--color-accent-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.course-card__badge--done {
+  background-color: var(--color-done-bg);
+  color: var(--color-done);
+}
+
+.course-card__text {
+  margin: 0 0 var(--space-5);
+  color: var(--color-text-muted);
+}
+
+.course-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.course-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Progress bar, shared by the card and the course overview. */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.progress__track {
+  flex: 1;
+  height: 10px;
+  background-color: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress__fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background-color: var(--color-accent);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progress__fill--done {
+  background-color: var(--color-done);
+}
+
+.progress__text {
+  flex: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* =======================================================================
+   Fork into the two future paths
+   ======================================================================= */
+.fork {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  height: 58px;
+  margin-inline: auto;
+}
+
+.fork__stem,
+.fork__drop {
+  position: absolute;
+  width: 3px;
+  background-color: var(--color-border-strong);
+}
+
+.fork__stem {
+  top: 0;
+  left: 50%;
+  height: 26px;
+  transform: translateX(-50%);
+}
+
+.fork__bar {
+  position: absolute;
+  top: 26px;
+  left: 25%;
+  right: 25%;
+  height: 3px;
+  background-color: var(--color-border-strong);
+}
+
+.fork__drop {
+  top: 26px;
+  height: 32px;
+}
+
+.fork__drop--left {
+  left: 25%;
+  transform: translateX(-50%);
+}
+
+.fork__drop--right {
+  left: 75%;
+  transform: translateX(-50%);
+}
+
+.branches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ------------------------- Locked branch cards ------------------------- */
+.branch-card {
+  padding: var(--space-5);
+  background-color: var(--color-locked-bg);
+  border: 2px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.branch-card__icon {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: 1.5rem;
+}
+
+.branch-card__title {
+  margin-bottom: var(--space-2);
+  font-size: 1.1rem;
+  color: var(--color-locked);
+}
+
+.branch-card__text {
+  margin: 0 0 var(--space-4);
+  font-size: 0.88rem;
+}
+
+.branch-card__status {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Unlocked once the course is finished. */
+.branch-card.is-unlocked {
+  background-color: var(--color-bg);
+  border-style: solid;
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.branch-card.is-unlocked .branch-card__title {
+  color: var(--color-primary-dark);
+}
+
+.branch-card.is-unlocked .branch-card__status {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-primary);
+}
+
+/* =======================================================================
+   Course overview page
+   ======================================================================= */
+.course-hero {
+  padding-block: var(--space-8) var(--space-7);
+  background-color: var(--color-accent-soft);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.course-hero__inner {
+  max-width: 46rem;
+}
+
+.course-hero h1 {
+  margin-bottom: var(--space-4);
+}
+
+.course-hero__text {
+  font-size: 1.075rem;
+  color: var(--color-text-muted);
+}
+
+.course-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.course-hero__progress {
+  max-width: 34rem;
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.course-stats {
+  display: flex;
+  gap: var(--space-6);
+  margin-top: var(--space-5);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.course-stats strong {
+  display: block;
+  font-size: 1.35rem;
+  color: var(--color-primary);
+}
+
+/* ------------------------- Chapter list ------------------------- */
+.chapter-list {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapter {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  gap: var(--space-5);
+  align-items: start;
+  padding: var(--space-5);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.chapter__marker {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-strong);
+  background-color: var(--color-bg-alt);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.chapter__state {
+  display: inline-block;
+  margin-bottom: var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.chapter__title {
+  margin: 0 0 var(--space-2);
+  font-size: 1.1rem;
+}
+
+.chapter__summary {
+  margin: 0 0 var(--space-3);
+  font-size: 0.93rem;
+  color: var(--color-text-muted);
+}
+
+.chapter__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapter__topics li {
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-alt);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.chapter__project {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent-soft);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.chapter__action {
+  align-self: center;
+  text-align: right;
+}
+
+.chapter__hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  max-width: 12rem;
+}
+
+/* ---- Completed ---- */
+.chapter--completed {
+  background-color: var(--color-done-bg);
+  border-color: var(--color-done-border);
+}
+
+.chapter--completed .chapter__marker {
+  border-color: var(--color-done);
+  background-color: var(--color-bg);
+  color: var(--color-done);
+}
+
+.chapter--completed .chapter__state {
+  color: var(--color-done);
+}
+
+/* ---- Current / unlocked ---- */
+.chapter--current {
+  border-color: var(--color-primary);
+  border-width: 2px;
+  box-shadow: var(--shadow-md);
+}
+
+.chapter--current .chapter__marker {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.chapter--current .chapter__state {
+  color: var(--color-accent);
+}
+
+/* ---- Locked ---- */
+.chapter--locked {
+  background-color: var(--color-locked-bg);
+  border-style: dashed;
+}
+
+.chapter--locked .chapter__title,
+.chapter--locked .chapter__summary {
+  color: var(--color-locked);
+}
+
+.chapter--locked .chapter__marker {
+  color: var(--color-locked);
+}
+
+/* Inline message shown when a locked chapter is clicked. */
+.locked-message {
+  grid-column: 1 / -1;
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid #f3c9c4;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-danger-bg);
+  font-size: 0.88rem;
+  color: var(--color-danger);
+}
+
+/* Final-project row gets a little extra weight. */
+.chapter--final {
+  border-left: 4px solid var(--color-accent);
+}
+
+/* ------------------------ Reset progress ------------------------ */
+.course-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* ------------------------ Coming soon page ------------------------ */
+.soon {
+  display: grid;
+  place-items: center;
+  padding-block: var(--space-9);
+  text-align: center;
+}
+
+.soon__inner {
+  max-width: 34rem;
+}
+
+.soon__icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.soon__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
