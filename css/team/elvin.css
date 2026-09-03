@@ -1,0 +1,378 @@
+/* ==========================================================================
+   Elvin Dylan Sutanto — personal profile page
+   Standalone stylesheet. Soft, rounded, pastel designer-portfolio identity.
+   ========================================================================== */
+
+:root {
+  --e-bg: #f7f5ff;
+  --e-card: #ffffff;
+  --e-mint: #d9f2ea;
+  --e-lilac: #e6e2fb;
+  --e-peach: #ffe8dd;
+  --e-ink: #2f2b45;
+  --e-ink-soft: #6f6a8a;
+  --e-accent: #6b5ce7;
+  --e-accent-2: #2fb894;
+  --e-font: "Poppins", "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* Desktop-only layout: hold the page width, no mobile reflow. */
+  min-width: 1040px;
+  background-color: var(--e-bg);
+  color: var(--e-ink);
+  font-family: var(--e-font);
+  font-size: 1rem;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--e-accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--e-accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.shell {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* ------------------------------- Nav pill ---------------------------- */
+.pill-nav {
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 0.65rem 0.75rem 0.65rem 1.4rem;
+  background-color: var(--e-card);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(47, 43, 69, 0.08);
+}
+
+.pill-nav__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pill-nav__links {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.pill-nav__links a {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--e-ink-soft);
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.pill-nav__links a:hover {
+  background-color: var(--e-lilac);
+  color: var(--e-accent);
+}
+
+/* --------------------------------- Hero ------------------------------ */
+.intro {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 3rem;
+  align-items: center;
+  padding-block: 4.5rem 3.5rem;
+}
+
+/* Decorative soft shapes behind the hero. */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+  z-index: -1;
+}
+
+.blob--one {
+  width: 220px;
+  height: 220px;
+  top: 1rem;
+  right: -60px;
+  background-color: var(--e-mint);
+  opacity: 0.7;
+}
+
+.blob--two {
+  width: 150px;
+  height: 150px;
+  bottom: -40px;
+  left: -95px;
+  background-color: var(--e-peach);
+  opacity: 0.75;
+}
+
+.intro__hello {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background-color: var(--e-lilac);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--e-accent);
+}
+
+.intro h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2.1rem, 1.5rem + 2.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.intro__role {
+  margin: 0 0 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--e-accent-2);
+}
+
+.intro__text {
+  margin: 0;
+  max-width: 32rem;
+  color: var(--e-ink-soft);
+}
+
+.intro__portrait {
+  width: 240px;
+  height: 240px;
+  border-radius: 32px;
+  object-fit: cover;
+  background-color: var(--e-lilac);
+  box-shadow: 0 18px 40px rgba(47, 43, 69, 0.14);
+}
+
+/* ------------------------------- Sections ---------------------------- */
+.block {
+  padding-block: 2rem;
+}
+
+.block__title {
+  margin: 0 0 1.25rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.block p {
+  margin: 0 0 1.1rem;
+  max-width: 44rem;
+  color: var(--e-ink-soft);
+}
+
+.block p strong {
+  color: var(--e-ink);
+  font-weight: 600;
+}
+
+.soft-card {
+  padding: 2rem 2.25rem;
+  background-color: var(--e-card);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(47, 43, 69, 0.07);
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.mini-card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  background-color: var(--e-card);
+  box-shadow: 0 8px 22px rgba(47, 43, 69, 0.06);
+}
+
+.mini-card__emoji {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 0.9rem;
+  border-radius: 14px;
+  font-size: 1.2rem;
+}
+
+.mini-card:nth-child(1) .mini-card__emoji {
+  background-color: var(--e-mint);
+}
+.mini-card:nth-child(2) .mini-card__emoji {
+  background-color: var(--e-lilac);
+}
+.mini-card:nth-child(3) .mini-card__emoji {
+  background-color: var(--e-peach);
+}
+
+.mini-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.mini-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--e-ink-soft);
+}
+
+/* Skill meters */
+.skills {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skills li {
+  margin-bottom: 1rem;
+}
+
+.skills__label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.skills__label span:last-child {
+  color: var(--e-ink-soft);
+  font-weight: 400;
+}
+
+.skills__bar {
+  height: 8px;
+  border-radius: 999px;
+  background-color: var(--e-lilac);
+  overflow: hidden;
+}
+
+.skills__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--e-accent);
+}
+
+/* Fill widths as modifiers, so the markup stays free of inline styles. */
+.skills__fill--85 {
+  width: 85%;
+}
+.skills__fill--80 {
+  width: 80%;
+}
+.skills__fill--55 {
+  width: 55%;
+}
+.skills__fill--40 {
+  width: 40%;
+}
+
+/* --------------------------------- Footer ---------------------------- */
+.outro {
+  margin-block: 2rem 3.5rem;
+  padding: 2.5rem;
+  border-radius: 28px;
+  background-color: var(--e-lilac);
+  text-align: center;
+}
+
+.outro h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.outro p {
+  margin: 0 auto 1.5rem;
+  max-width: 30rem;
+  color: var(--e-ink-soft);
+}
+
+.outro__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.round-button {
+  display: inline-block;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.round-button--solid {
+  background-color: var(--e-accent);
+  color: #ffffff;
+}
+
+.round-button--solid:hover {
+  background-color: #5847d6;
+  transform: translateY(-1px);
+}
+
+.round-button--soft {
+  background-color: var(--e-card);
+  color: var(--e-ink);
+}
+
+.round-button--soft:hover {
+  transform: translateY(-1px);
+}
+
+.fineprint {
+  padding-bottom: 2.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--e-ink-soft);
+}
+
+.fineprint p {
+  margin: 0 0 0.35rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

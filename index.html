@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pung Academy — Structured Learning Paths for Beginner Programmers</title>
+    <meta
+      name="description"
+      content="Pung Academy gives complete beginners an ordered roadmap for learning programming: fundamentals first, then practice, projects and a clear career direction."
+    />
+    <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- ================= Header ================= -->
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="index.html">
+          <img
+            class="brand__mark"
+            src="assets/icons/logo.svg"
+            alt=""
+            width="30"
+            height="30"
+          />
+          Pung Academy
+        </a>
+
+        <nav class="nav" id="primary-navigation" data-nav aria-label="Main">
+          <ul class="nav__list nav__list--primary">
+            <li>
+              <a
+                class="nav__link nav__link--soon"
+                href="#roadmap-preview"
+                data-coming-soon="The lesson library"
+                >Lessons <span class="nav__badge">Soon</span></a
+              >
+            </li>
+            <li><a class="nav__link" href="about.html">About Us</a></li>
+            <li>
+              <a
+                class="nav__link nav__link--soon"
+                href="#resources"
+                data-coming-soon="The resource library"
+                >Resources <span class="nav__badge">Soon</span></a
+              >
+            </li>
+          </ul>
+
+          <div class="nav__session">
+            <ul class="nav__list nav__list--actions" data-session="guest">
+              <li><a class="btn btn--ghost" href="login.html">Login</a></li>
+              <li>
+                <a class="btn btn--primary" href="register.html">Sign Up</a>
+              </li>
+            </ul>
+
+            <div class="nav__session" data-session="user" hidden>
+              <span class="nav__user"
+                >Hi, <span data-user-name>learner</span></span
+              >
+              <button class="btn btn--secondary" type="button" data-logout>
+                Log out
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ================= Hero ================= -->
+      <section class="hero">
+        <div class="container hero__grid">
+          <div>
+            <p class="eyebrow">Structured learning for absolute beginners</p>
+            <h1 class="hero__title">
+              Learn Programming.<br /><span>Build Your Path.</span>
+            </h1>
+            <p class="hero__text">
+              Most beginners do not fail because they lack ability. They stall
+              because nobody told them what to learn first, what comes next, or
+              when they are ready to move on. Pung Academy replaces that guesswork
+              with one ordered roadmap that carries you from your very first line
+              of code to a realistic career direction.
+            </p>
+
+            <div class="hero__actions">
+              <a class="btn btn--primary btn--lg" href="login.html"
+                >Get Started</a
+              >
+              <a class="btn btn--secondary btn--lg" href="#why">See how it works</a>
+            </div>
+
+            <ul class="hero__points">
+              <li>No prior experience needed</li>
+              <li>One step at a time</li>
+              <li>Curated resources only</li>
+            </ul>
+          </div>
+
+          <!-- Roadmap visual: pure CSS, no images required. -->
+          <div class="roadmap" id="roadmap-preview" aria-labelledby="roadmap-title">
+            <div class="roadmap__header">
+              <h2 class="roadmap__title" id="roadmap-title">
+                Your learning roadmap
+              </h2>
+              <span class="roadmap__meta">Example path</span>
+            </div>
+
+            <ol class="roadmap__steps">
+              <li class="roadmap__step roadmap__step--active">
+                <span class="roadmap__num" aria-hidden="true"></span>
+                <span>
+                  <span class="roadmap__label">Basics</span>
+                  <span class="roadmap__desc"
+                    >How computers think, variables, logic, problem solving</span
+                  >
+                </span>
+              </li>
+              <li class="roadmap__step">
+                <span class="roadmap__num" aria-hidden="true"></span>
+                <span>
+                  <span class="roadmap__label">Programming</span>
+                  <span class="roadmap__desc"
+                    >One language, properly: syntax, data, functions, debugging</span
+                  >
+                </span>
+              </li>
+              <li class="roadmap__step">
+                <span class="roadmap__num" aria-hidden="true"></span>
+                <span>
+                  <span class="roadmap__label">Projects</span>
+                  <span class="roadmap__desc"
+                    >Small builds that turn knowledge into working software</span
+                  >
+                </span>
+              </li>
+              <li class="roadmap__step">
+                <span class="roadmap__num" aria-hidden="true"></span>
+                <span>
+                  <span class="roadmap__label">Career Path</span>
+                  <span class="roadmap__desc"
+                    >Choose a direction: web, data, mobile or software engineering</span
+                  >
+                </span>
+              </li>
+            </ol>
+
+            <p class="roadmap__footer">
+              <span class="roadmap__progress" aria-hidden="true"><span></span></span>
+              Step 1 of 4
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Why Pung Academy ================= -->
+      <section class="section" id="why">
+        <div class="container">
+          <div class="section__header">
+            <p class="eyebrow">Why Pung Academy</p>
+            <h2>The hard part is not learning. It is knowing what to learn.</h2>
+            <p class="lead">
+              There has never been more free material for beginners, and that is
+              exactly the problem. Ten tutorials teach the same first lesson, none
+              of them agree on the second, and no one tells you when you are ready
+              to move forward.
+            </p>
+          </div>
+
+          <div class="compare">
+            <article class="compare__panel compare__panel--problem">
+              <h3>Learning without a path</h3>
+              <ul class="compare__list">
+                <li>
+                  Dozens of open tabs, three unfinished courses and no idea which
+                  one matters.
+                </li>
+                <li>
+                  Jumping between languages before the fundamentals ever settle.
+                </li>
+                <li>
+                  Copying code that works without understanding why it works.
+                </li>
+                <li>
+                  Progress that feels invisible, which is when most beginners quit.
+                </li>
+              </ul>
+            </article>
+
+            <article class="compare__panel compare__panel--solution">
+              <h3>Learning with Pung Academy</h3>
+              <ul class="compare__list">
+                <li>
+                  One ordered sequence, so there is always exactly one next step.
+                </li>
+                <li>
+                  Fundamentals taught before frameworks, in a deliberate order.
+                </li>
+                <li>
+                  A short, reviewed list of resources for each stage instead of an
+                  endless feed.
+                </li>
+                <li>
+                  Visible checkpoints that show how far you have actually come.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= How it works ================= -->
+      <section class="section section--alt" id="how-it-works">
+        <div class="container">
+          <div class="section__header section__header--center">
+            <p class="eyebrow">How it works</p>
+            <h2>Four steps, in order</h2>
+            <p class="lead">
+              You never have to design your own curriculum. Start where you are,
+              follow the sequence, and let each stage unlock the next.
+            </p>
+          </div>
+
+          <ol class="steps">
+            <li class="step">
+              <span class="step__num" aria-hidden="true"></span>
+              <h3 class="card__title">Choose your starting point</h3>
+              <p class="card__text">
+                A short set of questions places you at the right stage — whether
+                you have never written code or already recognise a for-loop.
+              </p>
+            </li>
+            <li class="step">
+              <span class="step__num" aria-hidden="true"></span>
+              <h3 class="card__title">Follow the roadmap</h3>
+              <p class="card__text">
+                Each stage lists what to learn, why it matters now, and what you
+                should be able to do before moving on.
+              </p>
+            </li>
+            <li class="step">
+              <span class="step__num" aria-hidden="true"></span>
+              <h3 class="card__title">Learn from curated resources</h3>
+              <p class="card__text">
+                Every topic points to a small, reviewed set of readings, videos
+                and exercises. No infinite lists, no paid detours.
+              </p>
+            </li>
+            <li class="step">
+              <span class="step__num" aria-hidden="true"></span>
+              <h3 class="card__title">Build toward a career goal</h3>
+              <p class="card__text">
+                Once the fundamentals are solid, the roadmap branches into
+                practical directions such as web, data or mobile development.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ================= Learning philosophy ================= -->
+      <section class="section" id="philosophy">
+        <div class="container philosophy">
+          <div>
+            <p class="eyebrow">Our learning philosophy</p>
+            <h2>Fundamentals first. Everything else is built on top.</h2>
+            <p class="lead">
+              Pung Academy is designed for beginners, not for experienced
+              developers picking up a new tool. That single decision shapes
+              everything: we would rather you understand one concept completely
+              than recognise ten of them vaguely.
+            </p>
+            <p>
+              Frameworks change every few years. The way a program stores data,
+              repeats work and fails loudly does not. We teach the durable part
+              first, then let you apply it in the direction you care about.
+            </p>
+          </div>
+
+          <div class="phases">
+            <article class="phases__item">
+              <span class="phases__marker" aria-hidden="true"
+                ><span class="phases__dot"></span
+              ></span>
+              <div>
+                <h3 class="phases__title">Fundamentals</h3>
+                <p class="phases__text">
+                  Logic, data, control flow and how to read an error message
+                  without panicking. Slow here means fast later.
+                </p>
+              </div>
+            </article>
+
+            <article class="phases__item">
+              <span class="phases__marker" aria-hidden="true"
+                ><span class="phases__dot"></span
+              ></span>
+              <div>
+                <h3 class="phases__title">Practice</h3>
+                <p class="phases__text">
+                  Short, repeated exercises that turn a concept you have read
+                  about into something your hands can do without hesitating.
+                </p>
+              </div>
+            </article>
+
+            <article class="phases__item">
+              <span class="phases__marker" aria-hidden="true"
+                ><span class="phases__dot"></span
+              ></span>
+              <div>
+                <h3 class="phases__title">Projects</h3>
+                <p class="phases__text">
+                  Real, finishable builds. A project you completed teaches more
+                  than a course you abandoned at sixty percent.
+                </p>
+              </div>
+            </article>
+
+            <article class="phases__item">
+              <span class="phases__marker" aria-hidden="true"
+                ><span class="phases__dot"></span
+              ></span>
+              <div>
+                <h3 class="phases__title">Career direction</h3>
+                <p class="phases__text">
+                  With the basics secure, you choose a specialisation on evidence
+                  rather than on whichever job title sounded best online.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Resources preview ================= -->
+      <section class="section section--alt" id="resources">
+        <div class="container">
+          <div class="section__header section__header--center">
+            <p class="eyebrow">Resources</p>
+            <h2>A short shelf, not an endless feed</h2>
+            <p class="lead">
+              Every stage of the roadmap will link to a handful of resources that
+              our team has actually worked through. The library is still being
+              assembled — here is the shape it will take.
+            </p>
+          </div>
+
+          <div class="grid grid--3">
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">📘</span>
+              <h3 class="card__title">Reading</h3>
+              <p class="card__text">
+                Documentation and written guides chosen for clarity, with a note
+                on which sections a beginner should skip for now.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">🎬</span>
+              <h3 class="card__title">Watching</h3>
+              <p class="card__text">
+                A few well-made video courses per topic, so you can see a concept
+                explained a second way when the first one does not land.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">🛠️</span>
+              <h3 class="card__title">Doing</h3>
+              <p class="card__text">
+                Exercises and starter projects sized so that finishing one is a
+                realistic evening, not an abandoned weekend.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Final CTA ================= -->
+      <section class="cta">
+        <div class="container">
+          <h2>Ready to stop guessing what to learn next?</h2>
+          <p>
+            Create a free account and start at step one. You can always change
+            direction later — but you will never again have to wonder which tab
+            to open first.
+          </p>
+          <div class="cta__actions">
+            <a class="btn btn--on-dark btn--lg" href="login.html">Get Started</a>
+            <a class="btn btn--outline-light btn--lg" href="about.html"
+              >Meet the team</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= Footer ================= -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__grid">
+          <div class="site-footer__about">
+            <a class="brand" href="index.html">
+              <img
+                class="brand__mark"
+                src="assets/icons/logo.svg"
+                alt=""
+                width="30"
+                height="30"
+              />
+              Pung Academy
+            </a>
+            <p>
+              A structured starting point for people learning to program. We put
+              the lessons in order so beginners can spend their energy on
+              learning rather than on planning.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="site-footer__title">Learn</h2>
+            <ul class="site-footer__list">
+              <li>
+                <a href="#roadmap-preview" data-coming-soon="The lesson library"
+                  >Lessons</a
+                >
+              </li>
+              <li>
+                <a href="#resources" data-coming-soon="The resource library"
+                  >Resources</a
+                >
+              </li>
+              <li><a href="#philosophy">Learning philosophy</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="site-footer__title">Academy</h2>
+            <ul class="site-footer__list">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="register.html">Sign Up</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="site-footer__bottom">
+          <p>
+            &copy; <span data-current-year>2026</span> Pung Academy. Built as a
+            student project.
+          </p>
+          <p>Prototype — accounts are stored in your browser only.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

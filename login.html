@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Log in — Pung Academy</title>
+    <meta
+      name="description"
+      content="Log in to Pung Academy and continue along your structured programming roadmap."
+    />
+    <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body class="auth-page">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <main class="auth" id="main">
+      <!-- ------------------------- Form ------------------------- -->
+      <div class="auth__main">
+        <div class="auth__inner">
+          <a class="auth__brand" href="index.html">
+            <img
+              class="brand__mark"
+              src="assets/icons/logo.svg"
+              alt=""
+              width="30"
+              height="30"
+            />
+            Pung Academy
+          </a>
+
+          <h1 class="auth__title">Welcome back</h1>
+          <p class="auth__subtitle">
+            Log in to pick up your roadmap exactly where you left it.
+          </p>
+
+          <form data-form="login" novalidate>
+            <p
+              class="form-message"
+              data-form-message
+              role="alert"
+              tabindex="-1"
+              hidden
+            ></p>
+
+            <div class="form-field">
+              <label class="form-field__label" for="login-email">Email</label>
+              <input
+                class="form-field__input"
+                id="login-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                aria-describedby="login-email-error"
+                required
+              />
+              <span
+                class="form-field__error"
+                id="login-email-error"
+                data-error-for="email"
+                hidden
+              ></span>
+            </div>
+
+            <div class="form-field">
+              <label class="form-field__label" for="login-password"
+                >Password</label
+              >
+              <input
+                class="form-field__input"
+                id="login-password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Your password"
+                aria-describedby="login-password-error"
+                required
+              />
+              <span
+                class="form-field__error"
+                id="login-password-error"
+                data-error-for="password"
+                hidden
+              ></span>
+            </div>
+
+            <button class="btn btn--primary btn--block auth__submit" type="submit">
+              Log in
+            </button>
+          </form>
+
+          <div class="auth__links">
+            <p>
+              Don't have an account? <a href="register.html">Sign up</a>
+            </p>
+            <p><a href="index.html">&larr; Back to homepage</a></p>
+          </div>
+
+          <p class="auth__note">
+            <strong>Prototype notice:</strong> accounts are saved in this
+            browser's local storage and are not protected. Please do not reuse a
+            real password here.
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------------------- Side panel ---------------------- -->
+      <aside class="auth__aside">
+        <div class="auth__aside-inner">
+          <span class="auth__aside-label">Why an account?</span>
+          <h2>Your place on the roadmap, remembered.</h2>
+          <p>
+            An account is what turns a long list of topics into a path with a
+            position on it — so every visit starts with one clear next step.
+          </p>
+          <ul class="auth__checklist">
+            <li>Keep your current stage and completed checkpoints.</li>
+            <li>Save the resources that actually helped you.</li>
+            <li>Switch career direction later without losing progress.</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

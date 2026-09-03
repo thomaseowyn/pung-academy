@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="480" height="480" role="img" aria-label="Placeholder portrait for Bryan Vegard Suwarno">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#123B73"/>
+      <stop offset="100%" stop-color="#3E7CB1"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="480" fill="url(#bg)"/>
+  <circle cx="240" cy="185" r="78" fill="#FFFFFF" opacity="0.92"/>
+  <path d="M240 285c-84 0-152 52-164 122h328c-12-70-80-122-164-122z" fill="#FFFFFF" opacity="0.92"/>
+  <text x="240" y="205" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="72" font-weight="700" fill="#123B73" text-anchor="middle">BV</text>
+  <text x="240" y="452" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#FFFFFF" opacity="0.85" text-anchor="middle">Placeholder image</text>
+</svg>

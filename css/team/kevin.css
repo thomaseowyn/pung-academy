@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Kevin Jonathan Saan — personal profile page
+   Standalone stylesheet. Dark "terminal" identity, deliberately different
+   from the main Pung Academy site and from the other team pages.
+   ========================================================================== */
+
+:root {
+  --k-bg: #0d1117;
+  --k-surface: #151b23;
+  --k-surface-2: #1c242e;
+  --k-line: #2a3440;
+  --k-text: #d7e0ea;
+  --k-muted: #8b98a8;
+  --k-accent: #4ee6b8;
+  --k-accent-dim: #2a9d7f;
+  --k-mono: "JetBrains Mono", "Consolas", "SFMono-Regular", ui-monospace,
+    monospace;
+  --k-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* Desktop-only layout: hold the page width, no mobile reflow. */
+  min-width: 1020px;
+  background-color: var(--k-bg);
+  color: var(--k-text);
+  font-family: var(--k-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--k-accent);
+}
+
+img {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--k-accent);
+  outline-offset: 3px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 940px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* ------------------------------ Top bar ------------------------------ */
+.topbar {
+  border-bottom: 1px solid var(--k-line);
+  background-color: rgba(13, 17, 23, 0.9);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+
+.topbar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.9rem;
+  font-family: var(--k-mono);
+  font-size: 0.82rem;
+}
+
+.topbar__path {
+  color: var(--k-muted);
+}
+
+.topbar__path b {
+  color: var(--k-accent);
+  font-weight: 500;
+}
+
+.topbar__links {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.topbar__links a {
+  color: var(--k-muted);
+  text-decoration: none;
+}
+
+.topbar__links a:hover {
+  color: var(--k-accent);
+  text-decoration: underline;
+}
+
+/* ------------------------------- Hero -------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+  padding-block: 4rem 3rem;
+}
+
+.hero__portrait {
+  width: 200px;
+  height: 200px;
+  border-radius: 4px;
+  border: 1px solid var(--k-line);
+  object-fit: cover;
+  background-color: var(--k-surface);
+}
+
+.hero__prompt {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family: var(--k-mono);
+  font-size: 0.85rem;
+  color: var(--k-accent-dim);
+}
+
+.hero__prompt::before {
+  content: "$ ";
+}
+
+.hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 2.9rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.hero__role {
+  margin: 0 0 1.25rem;
+  font-family: var(--k-mono);
+  font-size: 0.9rem;
+  color: var(--k-accent);
+}
+
+.hero__summary {
+  margin: 0;
+  max-width: 38rem;
+  color: var(--k-muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--k-line);
+  border-radius: 3px;
+  background-color: var(--k-surface);
+  font-family: var(--k-mono);
+  font-size: 0.75rem;
+  color: var(--k-muted);
+}
+
+/* ------------------------------ Sections ----------------------------- */
+.section {
+  padding-block: 2.5rem;
+  border-top: 1px solid var(--k-line);
+}
+
+.section__label {
+  margin: 0 0 1.25rem;
+  font-family: var(--k-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--k-accent-dim);
+}
+
+.section h2 {
+  margin: 0 0 1rem;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.section h3 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.section p {
+  margin: 0 0 1rem;
+  max-width: 46rem;
+}
+
+/* Two-column detail grid */
+.panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.panel {
+  padding: 1.5rem;
+  background-color: var(--k-surface);
+  border: 1px solid var(--k-line);
+  border-radius: 6px;
+}
+
+.panel h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.panel p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--k-muted);
+}
+
+/* Terminal-styled block used for the "currently learning" list */
+.terminal {
+  border: 1px solid var(--k-line);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--k-surface);
+  font-family: var(--k-mono);
+  font-size: 0.85rem;
+}
+
+.terminal__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background-color: var(--k-surface-2);
+  border-bottom: 1px solid var(--k-line);
+}
+
+.terminal__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--k-line);
+}
+
+.terminal__title {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--k-muted);
+}
+
+.terminal__body {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  list-style: none;
+  color: var(--k-muted);
+}
+
+.terminal__body li {
+  padding-block: 0.2rem;
+}
+
+.terminal__body li::before {
+  content: "> ";
+  color: var(--k-accent);
+}
+
+/* ------------------------------- Footer ------------------------------ */
+.footer {
+  padding-block: 2.5rem 3rem;
+  border-top: 1px solid var(--k-line);
+  font-size: 0.9rem;
+  color: var(--k-muted);
+}
+
+.footer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.6rem 1.15rem;
+  border: 1px solid var(--k-line);
+  border-radius: 4px;
+  font-family: var(--k-mono);
+  font-size: 0.85rem;
+  color: var(--k-text);
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.button:hover {
+  border-color: var(--k-accent);
+  color: var(--k-accent);
+}
+
+.button--primary {
+  background-color: var(--k-accent);
+  border-color: var(--k-accent);
+  color: #06231b;
+  font-weight: 600;
+}
+
+.button--primary:hover {
+  background-color: #3fd0a5;
+  border-color: #3fd0a5;
+  color: #06231b;
+}
+
+.note {
+  font-size: 0.8rem;
+  color: #6c7a8a;
+}
