@@ -1,10 +1,6 @@
 /* ==========================================================================
    Pung Academy — local account handling
    --------------------------------------------------------------------------
-   PROTOTYPE ONLY. Accounts live in the browser's localStorage and passwords
-   are stored as plain text. This is not secure authentication and must never
-   be used for real accounts — it exists so the interface can be demonstrated
-   without a backend.
    ========================================================================== */
 
 window.PungAuth = (function () {
