@@ -12,30 +12,38 @@
    work locally and 404 in production.
    ========================================================================== */
 
-/** Prefix from the current page back to the site root, e.g. "../../". */
-export function rootPath() {
-  const root = document.documentElement.getAttribute("data-root");
-  if (!root || root === ".") {
-    return "";
+window.Pung = window.Pung || {};
+
+Pung.PathService = (function () {
+  "use strict";
+
+  /** Prefix from the current page back to the site root, e.g. "../../". */
+  function rootPath() {
+    const root = document.documentElement.getAttribute("data-root");
+    if (!root || root === ".") {
+      return "";
+    }
+    return root.replace(/\/?$/, "/");
   }
-  return root.replace(/\/?$/, "/");
-}
 
-/** Resolve a root-relative path for use on the current page. */
-export function url(fromRoot) {
-  return rootPath() + fromRoot.replace(/^\//, "");
-}
+  /** Resolve a root-relative path for use on the current page. */
+  function url(fromRoot) {
+    return rootPath() + fromRoot.replace(/^\//, "");
+  }
 
-/* Named destinations, so a rename only has to happen here. */
-export const routes = {
-  home: () => url("index.html"),
-  login: () => url("pages/login.html"),
-  signup: () => url("pages/signup.html"),
-  about: () => url("pages/about-us.html"),
-  courseTree: () => url("pages/course-tree.html"),
-  comingSoon: () => url("pages/coming-soon.html"),
-  courseOverview: () => url("pages/courses/introduction-to-programming.html"),
-  chapter: (n) => url(`pages/courses/introduction/lesson-${Number(n)}.html`),
-  teamMember: (who) => url(`pages/team/${who}.html`),
-  asset: (file) => url(`assets/${file}`),
-};
+  /* Named destinations, so a rename only has to happen here. */
+  const routes = {
+    home: () => url("index.html"),
+    login: () => url("pages/login.html"),
+    signup: () => url("pages/signup.html"),
+    about: () => url("pages/about-us.html"),
+    courseTree: () => url("pages/course-tree.html"),
+    comingSoon: () => url("pages/coming-soon.html"),
+    courseOverview: () => url("pages/courses/introduction-to-programming.html"),
+    chapter: (n) => url(`pages/courses/introduction/lesson-${Number(n)}.html`),
+    teamMember: (who) => url(`pages/team/${who}.html`),
+    asset: (file) => url(`assets/${file}`),
+  };
+
+  return { rootPath, routes, url };
+})();

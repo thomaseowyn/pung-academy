@@ -1,6 +1,7 @@
-/* Introduction to Programming overview page */
-import { initPage } from "./_shared.js";
-import { initCourseOverview } from "../controllers/CourseController.js";
+/* Entry point for the course-overview page. */
+(function () {
+  "use strict";
 
-initPage();
-initCourseOverview();
+  Pung.Shared.initPage();
+  Pung.CourseController.initCourseOverview();
+})();

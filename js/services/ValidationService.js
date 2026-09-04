@@ -5,40 +5,48 @@
    functions so they can be used by any model or controller.
    ========================================================================== */
 
-export function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email).trim());
-}
+window.Pung = window.Pung || {};
 
-export function normaliseEmail(email) {
-  return String(email || "").trim().toLowerCase();
-}
+Pung.ValidationService = (function () {
+  "use strict";
 
-export function isLongEnough(value, minimum) {
-  return String(value || "").length >= minimum;
-}
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email).trim());
+  }
 
-export function isNotBlank(value) {
-  return String(value || "").trim().length > 0;
-}
+  function normaliseEmail(email) {
+    return String(email || "").trim().toLowerCase();
+  }
 
-/**
- * Tidy a code submission so formatting differences do not fail a correct
- * answer: curly quotes become straight, tabs become spaces, trailing
- * whitespace and stray carriage returns go.
- */
-export function normaliseCode(text) {
-  return String(text)
-    .replace(/\r\n?/g, "\n")
-    .replace(/[‘’‛]/g, "'")
-    .replace(/[“”]/g, '"')
-    .replace(/\t/g, "    ")
-    .replace(/[ \t]+$/gm, "");
-}
+  function isLongEnough(value, minimum) {
+    return String(value || "").length >= minimum;
+  }
 
-/** Drop blank lines and comments, so an untouched starter cannot pass. */
-export function meaningfulCode(text) {
-  return normaliseCode(text)
-    .split("\n")
-    .filter((line) => line.trim() !== "" && line.trim()[0] !== "#")
-    .join("\n");
-}
+  function isNotBlank(value) {
+    return String(value || "").trim().length > 0;
+  }
+
+  /**
+   * Tidy a code submission so formatting differences do not fail a correct
+   * answer: curly quotes become straight, tabs become spaces, trailing
+   * whitespace and stray carriage returns go.
+   */
+  function normaliseCode(text) {
+    return String(text)
+      .replace(/\r\n?/g, "\n")
+      .replace(/[‘’‛]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/\t/g, "    ")
+      .replace(/[ \t]+$/gm, "");
+  }
+
+  /** Drop blank lines and comments, so an untouched starter cannot pass. */
+  function meaningfulCode(text) {
+    return normaliseCode(text)
+      .split("\n")
+      .filter((line) => line.trim() !== "" && line.trim()[0] !== "#")
+      .join("\n");
+  }
+
+  return { isLongEnough, isNotBlank, isValidEmail, meaningfulCode, normaliseCode, normaliseEmail };
+})();

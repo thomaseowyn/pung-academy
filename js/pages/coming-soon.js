@@ -1,4 +1,6 @@
-/* Coming soon placeholder page */
-import { initPage } from "./_shared.js";
+/* Entry point for the coming-soon page. */
+(function () {
+  "use strict";
 
-initPage();
+  Pung.Shared.initPage();
+})();

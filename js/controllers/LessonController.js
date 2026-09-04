@@ -8,187 +8,184 @@
    typing its URL hides the content and renders the locked screen instead.
    ========================================================================== */
 
-import {
-  TOTAL_CHAPTERS,
-  getChapter,
-  isChapterUnlocked,
-  isChapterCompleted,
-  isExerciseCompleted,
-  markExerciseCompleted,
-  completeChapter,
-  completedCount,
-  progressPercent,
-  isCourseComplete,
-} from "../models/CourseProgressModel.js";
-import { normaliseCode, meaningfulCode } from "../services/ValidationService.js";
-import * as View from "../views/LessonView.js";
+window.Pung = window.Pung || {};
 
-export function initLessonPage() {
-  const chapterNumber = Number(document.body.getAttribute("data-chapter"));
-  const chapter = getChapter(chapterNumber);
-  if (!chapterNumber || !chapter) {
-    return;
-  }
+Pung.LessonController = (function () {
+  "use strict";
 
-  /* ---- 1. the access rule ---------------------------------------------- */
-  if (!isChapterUnlocked(chapterNumber)) {
-    View.renderLockedScreen(
-      chapterNumber,
-      getChapter(chapterNumber - 1)?.title || ""
-    );
-    return;
-  }
+  const { TOTAL_CHAPTERS, getChapter, isChapterUnlocked, isChapterCompleted, isExerciseCompleted, markExerciseCompleted, completeChapter, completedCount, progressPercent, isCourseComplete } = Pung.CourseProgressModel;
+  const { normaliseCode, meaningfulCode } = Pung.ValidationService;
+  const View = Pung.LessonView;
 
-  /* ---- 2. page state ---------------------------------------------------- */
-  const state = {
-    materialViewed: isChapterCompleted(chapterNumber),
-    exercisePassed: isExerciseCompleted(chapterNumber),
-  };
+  function initLessonPage() {
+    const chapterNumber = Number(document.body.getAttribute("data-chapter"));
+    const chapter = getChapter(chapterNumber);
+    if (!chapterNumber || !chapter) {
+      return;
+    }
 
-  const refreshCompletion = () =>
-    View.renderCompletion({
-      ...state,
-      alreadyDone: isChapterCompleted(chapterNumber),
-      chapterNumber,
-    });
+    /* ---- 1. the access rule ---------------------------------------------- */
+    if (!isChapterUnlocked(chapterNumber)) {
+      View.renderLockedScreen(
+        chapterNumber,
+        getChapter(chapterNumber - 1)?.title || ""
+      );
+      return;
+    }
 
-  const refreshProgress = () =>
-    View.renderCourseProgress({
-      completed: completedCount(),
-      total: TOTAL_CHAPTERS,
-      percent: progressPercent(),
-    });
+    /* ---- 2. page state ---------------------------------------------------- */
+    const state = {
+      materialViewed: isChapterCompleted(chapterNumber),
+      exercisePassed: isExerciseCompleted(chapterNumber),
+    };
 
-  /* ---- 3. render -------------------------------------------------------- */
-  View.renderHeader(chapterNumber, chapter, TOTAL_CHAPTERS);
-  refreshProgress();
-  View.renderVideo(chapterNumber, chapter);
-  View.renderChapterNav(
-    chapterNumber,
-    TOTAL_CHAPTERS,
-    isChapterUnlocked(chapterNumber + 1)
-  );
+    const refreshCompletion = () =>
+      View.renderCompletion({
+        ...state,
+        alreadyDone: isChapterCompleted(chapterNumber),
+        chapterNumber,
+      });
 
-  View.renderExercise(chapter.exercise, (form) =>
-    checkAnswer(form, chapter.exercise)
-  );
+    const refreshProgress = () =>
+      View.renderCourseProgress({
+        completed: completedCount(),
+        total: TOTAL_CHAPTERS,
+        percent: progressPercent(),
+      });
 
-  if (state.exercisePassed) {
-    View.showFeedback("✓ Correct! Great job.", "success");
-    View.showSolved(chapter.exercise);
-  }
-
-  refreshCompletion();
-  trackMaterialViewed();
-  wireCompleteButton();
-
-  if (isChapterCompleted(chapterNumber)) {
-    View.renderNextStep(
+    /* ---- 3. render -------------------------------------------------------- */
+    View.renderHeader(chapterNumber, chapter, TOTAL_CHAPTERS);
+    refreshProgress();
+    View.renderVideo(chapterNumber, chapter);
+    View.renderChapterNav(
       chapterNumber,
       TOTAL_CHAPTERS,
-      getChapter(chapterNumber + 1)
+      isChapterUnlocked(chapterNumber + 1)
     );
-  }
 
-  /* ---- 4. exercise validation ------------------------------------------ */
-  function checkAnswer(form, exercise) {
-    if (exercise.kind === "choice") {
-      const picked = form.querySelector("input[name='answer']:checked");
-      if (!picked) {
-        View.showFeedback("Choose an answer first.", "neutral");
-        return;
-      }
-      if (Number(picked.value) === exercise.answer) {
-        pass(exercise);
-      } else {
-        View.showIncorrect("Not quite. Check your logic and try again.");
-      }
-      return;
+    View.renderExercise(chapter.exercise, (form) =>
+      checkAnswer(form, chapter.exercise)
+    );
+
+    if (state.exercisePassed) {
+      View.showFeedback("✓ Correct! Great job.", "success");
+      View.showSolved(chapter.exercise);
     }
 
-    const code = normaliseCode(form.elements.code.value);
-    if (meaningfulCode(code).trim() === "") {
-      View.showFeedback("Write some code in the editor first.", "neutral");
-      return;
-    }
-
-    const failed = exercise.checks.find((check) => !check.test.test(code));
-    if (failed) {
-      View.showIncorrect("Not quite. Check your logic and try again.", failed.message);
-      return;
-    }
-
-    pass(exercise);
-  }
-
-  function pass(exercise) {
-    View.showFeedback("✓ Correct! Great job.", "success");
-    markExerciseCompleted(chapterNumber);
-    state.exercisePassed = true;
-
-    /* Passing the exercise means the material was reached, so a missed
-       IntersectionObserver can never leave the chapter uncompletable. */
-    state.materialViewed = true;
-
-    View.showSolved(exercise);
     refreshCompletion();
-  }
+    trackMaterialViewed();
+    wireCompleteButton();
 
-  /* ---- 5. completion ---------------------------------------------------- */
-  function wireCompleteButton() {
-    const button = document.querySelector("[data-complete-chapter]");
-    if (!button) {
-      return;
+    if (isChapterCompleted(chapterNumber)) {
+      View.renderNextStep(
+        chapterNumber,
+        TOTAL_CHAPTERS,
+        getChapter(chapterNumber + 1)
+      );
     }
 
-    button.addEventListener("click", () => {
-      if (!completeChapter(chapterNumber)) {
-        View.showFeedback(
-          "The exercise has to be passed before this chapter can be completed.",
-          "error"
-        );
+    /* ---- 4. exercise validation ------------------------------------------ */
+    function checkAnswer(form, exercise) {
+      if (exercise.kind === "choice") {
+        const picked = form.querySelector("input[name='answer']:checked");
+        if (!picked) {
+          View.showFeedback("Choose an answer first.", "neutral");
+          return;
+        }
+        if (Number(picked.value) === exercise.answer) {
+          pass(exercise);
+        } else {
+          View.showIncorrect("Not quite. Check your logic and try again.");
+        }
         return;
       }
 
-      refreshCompletion();
-      refreshProgress();
-
-      if (chapter.isFinalProject && isCourseComplete()) {
-        View.showCourseComplete();
-      } else {
-        View.renderNextStep(
-          chapterNumber,
-          TOTAL_CHAPTERS,
-          getChapter(chapterNumber + 1)
-        );
+      const code = normaliseCode(form.elements.code.value);
+      if (meaningfulCode(code).trim() === "") {
+        View.showFeedback("Write some code in the editor first.", "neutral");
+        return;
       }
-    });
-  }
 
-  /* "Material viewed" ticks once the exercise scrolls into view — by then
-     the learner has passed the whole written lesson. */
-  function trackMaterialViewed() {
-    if (state.materialViewed) {
-      return;
+      const failed = exercise.checks.find((check) => !check.test.test(code));
+      if (failed) {
+        View.showIncorrect("Not quite. Check your logic and try again.", failed.message);
+        return;
+      }
+
+      pass(exercise);
     }
 
-    const marker = document.querySelector("[data-exercise]");
-    if (!marker || typeof window.IntersectionObserver !== "function") {
+    function pass(exercise) {
+      View.showFeedback("✓ Correct! Great job.", "success");
+      markExerciseCompleted(chapterNumber);
+      state.exercisePassed = true;
+
+      /* Passing the exercise means the material was reached, so a missed
+         IntersectionObserver can never leave the chapter uncompletable. */
       state.materialViewed = true;
+
+      View.showSolved(exercise);
       refreshCompletion();
-      return;
     }
 
-    const observer = new window.IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          state.materialViewed = true;
-          refreshCompletion();
-          observer.disconnect();
+    /* ---- 5. completion ---------------------------------------------------- */
+    function wireCompleteButton() {
+      const button = document.querySelector("[data-complete-chapter]");
+      if (!button) {
+        return;
+      }
+
+      button.addEventListener("click", () => {
+        if (!completeChapter(chapterNumber)) {
+          View.showFeedback(
+            "The exercise has to be passed before this chapter can be completed.",
+            "error"
+          );
+          return;
         }
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(marker);
+
+        refreshCompletion();
+        refreshProgress();
+
+        if (chapter.isFinalProject && isCourseComplete()) {
+          View.showCourseComplete();
+        } else {
+          View.renderNextStep(
+            chapterNumber,
+            TOTAL_CHAPTERS,
+            getChapter(chapterNumber + 1)
+          );
+        }
+      });
+    }
+
+    /* "Material viewed" ticks once the exercise scrolls into view — by then
+       the learner has passed the whole written lesson. */
+    function trackMaterialViewed() {
+      if (state.materialViewed) {
+        return;
+      }
+
+      const marker = document.querySelector("[data-exercise]");
+      if (!marker || typeof window.IntersectionObserver !== "function") {
+        state.materialViewed = true;
+        refreshCompletion();
+        return;
+      }
+
+      const observer = new window.IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            state.materialViewed = true;
+            refreshCompletion();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.15 }
+      );
+      observer.observe(marker);
+    }
   }
-}
+
+  return { initLessonPage };
+})();

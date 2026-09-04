@@ -1,6 +1,7 @@
-/* Any chapter page — the chapter number comes from <body data-chapter="N"> */
-import { initPage } from "./_shared.js";
-import { initLessonPage } from "../controllers/LessonController.js";
+/* Entry point for the lesson page. */
+(function () {
+  "use strict";
 
-initPage();
-initLessonPage();
+  Pung.Shared.initPage();
+  Pung.LessonController.initLessonPage();
+})();

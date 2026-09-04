@@ -4,15 +4,13 @@ A static educational website that gives beginner programmers a structured
 learning roadmap instead of a pile of unordered tutorials.
 
 Built with **HTML5, CSS3 and vanilla JavaScript only** — no frameworks, no build
-step, no backend. It uses ES modules, so it needs to be served over HTTP:
-double-click `start.bat`, or see [Running it](#running-it).
+step, no backend. Double-click `index.html` and it works.
 
 ## Structure
 
 ```
 pung-academy/
 ├── index.html              Landing page (entry point)
-├── start.bat               Double-click to serve the site locally
 │
 ├── pages/                  One HTML file per screen
 │   ├── login.html  signup.html  about-us.html
@@ -49,10 +47,15 @@ pung-academy/
 
 ## How the code is organised
 
-**One `<script>` tag per page.** Each HTML file loads a single entry module
-from `js/pages/`, and that module imports whatever it needs. Load order is
-derived by the browser, never hand-maintained — adding a dependency means
-adding one `import` line, not editing HTML.
+**One namespace, `Pung`.** Each file wraps itself in an IIFE and registers on
+`window.Pung`, e.g. `Pung.CourseProgressModel`. Nothing else is global, so no
+two files can collide.
+
+**Plain `<script>` tags, in dependency order.** Not ES modules — those cannot
+load from `file://`, and this project has to work when someone double-clicks
+`index.html`. The order is: services → config → models → views → controllers →
+`pages/_shared.js` → the page's own entry. Every page lists the same core set
+plus its own entry; a new file goes in after whatever it depends on.
 
 **Layers, and the rule for each:**
 
@@ -65,13 +68,16 @@ adding one `import` line, not editing HTML.
 | `controllers/` | Listens for events, asks a model, tells a view. |
 | `pages/` | One tiny entry file per page that wires the above together. |
 
+Adding a feature means adding one file per layer it needs — not all six.
+
 **The navbar and footer are rendered once**, by `views/SiteChromeView.js`, into
 two placeholders (`<header data-site-header>` / `<footer data-site-footer>`).
 Changing the navigation is one edit, not twenty-one.
 
 **Paths are always relative, never root-absolute.** GitHub Pages serves this
 project from `/pung-academy/`, so `/js/…` would work locally and 404 in
-production. Pages declare their depth with `<html data-root="../..">` and
+production — and root-absolute paths break under `file://` entirely. Pages
+declare their depth with `<html data-root="../..">` and
 `services/PathService.js` turns that into working links.
 
 ### Before you push
@@ -82,7 +88,8 @@ python tools/check-paths.py
 
 There is no build step, so a mistyped path fails silently at runtime on one
 page. This walks every HTML, JS and CSS file and confirms each local
-reference resolves. It also flags root-absolute paths.
+reference resolves — including every `<script>` tag. It also flags
+root-absolute paths.
 
 
 ## The course system
@@ -185,8 +192,6 @@ a 1:1 frame.
 
 ## Known limitations
 
-- **Must be served over HTTP.** ES modules do not load from `file://`, so
-  double-clicking an HTML file will not work — use `start.bat`.
 - **Desktop only.** There is no mobile or tablet layout: the pages hold a fixed
   desktop width and narrow windows scroll horizontally.
 - **No backend.** Accounts exist only in the browser that created them; clearing
@@ -203,11 +208,10 @@ a 1:1 frame.
 
 ## Running it
 
-The site uses ES modules, which browsers refuse to load over `file://`. So it
-must be served rather than opened directly. Double-click **`start.bat`**, or:
+Double-click `index.html`. That is the whole thing — no server, no build.
+
+If you would rather serve it over HTTP (closer to how GitHub Pages behaves):
 
 ```bash
 python -m http.server 5500
 ```
-
-Then open `http://localhost:5500`.

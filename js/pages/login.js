@@ -1,6 +1,7 @@
-/* Login page */
-import { initPage } from "./_shared.js";
-import { initLoginForm } from "../controllers/AuthController.js";
+/* Entry point for the login page. */
+(function () {
+  "use strict";
 
-initPage();
-initLoginForm();
+  Pung.Shared.initPage();
+  Pung.AuthController.initLoginForm();
+})();

@@ -1,4 +1,6 @@
-/* About Us page */
-import { initPage } from "./_shared.js";
+/* Entry point for the about-us page. */
+(function () {
+  "use strict";
 
-initPage();
+  Pung.Shared.initPage();
+})();

@@ -1,6 +1,7 @@
-/* Sign-up page */
-import { initPage } from "./_shared.js";
-import { initRegisterForm } from "../controllers/AuthController.js";
+/* Entry point for the signup page. */
+(function () {
+  "use strict";
 
-initPage();
-initRegisterForm();
+  Pung.Shared.initPage();
+  Pung.AuthController.initRegisterForm();
+})();

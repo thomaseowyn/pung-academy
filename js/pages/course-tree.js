@@ -1,6 +1,7 @@
-/* Courses roadmap page */
-import { initPage } from "./_shared.js";
-import { initCourseTree } from "../controllers/CourseController.js";
+/* Entry point for the course-tree page. */
+(function () {
+  "use strict";
 
-initPage();
-initCourseTree();
+  Pung.Shared.initPage();
+  Pung.CourseController.initCourseTree();
+})();

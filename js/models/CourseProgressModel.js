@@ -11,143 +11,149 @@
    browser do not share a position in the course.
    ========================================================================== */
 
-import { readJSON, writeJSON } from "../services/StorageService.js";
-import { COURSE_ID, TOTAL_CHAPTERS, chapters } from "../config/courseData.js";
-import { getCurrentUser } from "./UserModel.js";
+window.Pung = window.Pung || {};
 
-const PROGRESS_PREFIX = "pungAcademyProgress_";
+Pung.CourseProgressModel = (function () {
+  "use strict";
 
-/* ---------------------------------------------------------------- storage */
+  const { readJSON, writeJSON } = Pung.StorageService;
+  const { COURSE_ID, TOTAL_CHAPTERS, chapters } = Pung.courseData;
+  const { getCurrentUser } = Pung.UserModel;
 
-/** Guests get their own bucket, separate from every signed-in account. */
-function storageKey() {
-  const user = getCurrentUser();
-  return PROGRESS_PREFIX + (user?.email || "guest");
-}
+  const PROGRESS_PREFIX = "pungAcademyProgress_";
 
-function isChapterNumber(value) {
-  const n = Number(value);
-  return Number.isInteger(n) && n >= 1 && n <= TOTAL_CHAPTERS;
-}
+  /* ---------------------------------------------------------------- storage */
 
-/** The course record, always with a usable shape. */
-export function getCourseProgress() {
-  const all = readJSON(storageKey(), {}) || {};
-  const record = all[COURSE_ID] || {};
-  return {
-    completedChapters: Array.isArray(record.completedChapters)
-      ? record.completedChapters.filter(isChapterNumber).sort((a, b) => a - b)
-      : [],
-    exercisesCompleted:
-      record.exercisesCompleted && typeof record.exercisesCompleted === "object"
-        ? record.exercisesCompleted
-        : {},
-    updatedAt: record.updatedAt || null,
-  };
-}
-
-function saveCourseProgress(record) {
-  const all = readJSON(storageKey(), {}) || {};
-  all[COURSE_ID] = { ...record, updatedAt: new Date().toISOString() };
-  writeJSON(storageKey(), all);
-}
-
-/* ------------------------------------------------------- progression rules */
-
-export function isChapterCompleted(number) {
-  return getCourseProgress().completedChapters.includes(Number(number));
-}
-
-export function isChapterUnlocked(number) {
-  const n = Number(number);
-  if (!isChapterNumber(n)) {
-    return false;
+  /** Guests get their own bucket, separate from every signed-in account. */
+  function storageKey() {
+    const user = getCurrentUser();
+    return PROGRESS_PREFIX + (user?.email || "guest");
   }
-  return n === 1 || isChapterCompleted(n - 1);
-}
 
-/** "completed" | "current" | "locked" — used for rendering. */
-export function chapterState(number) {
-  if (isChapterCompleted(number)) {
-    return "completed";
+  function isChapterNumber(value) {
+    const n = Number(value);
+    return Number.isInteger(n) && n >= 1 && n <= TOTAL_CHAPTERS;
   }
-  return isChapterUnlocked(number) ? "current" : "locked";
-}
 
-/** First unfinished chapter — where Begin/Continue Course points. */
-export function nextChapter() {
-  for (let n = 1; n <= TOTAL_CHAPTERS; n += 1) {
-    if (!isChapterCompleted(n)) {
-      return n;
+  /** The course record, always with a usable shape. */
+  function getCourseProgress() {
+    const all = readJSON(storageKey(), {}) || {};
+    const record = all[COURSE_ID] || {};
+    return {
+      completedChapters: Array.isArray(record.completedChapters)
+        ? record.completedChapters.filter(isChapterNumber).sort((a, b) => a - b)
+        : [],
+      exercisesCompleted:
+        record.exercisesCompleted && typeof record.exercisesCompleted === "object"
+          ? record.exercisesCompleted
+          : {},
+      updatedAt: record.updatedAt || null,
+    };
+  }
+
+  function saveCourseProgress(record) {
+    const all = readJSON(storageKey(), {}) || {};
+    all[COURSE_ID] = { ...record, updatedAt: new Date().toISOString() };
+    writeJSON(storageKey(), all);
+  }
+
+  /* ------------------------------------------------------- progression rules */
+
+  function isChapterCompleted(number) {
+    return getCourseProgress().completedChapters.includes(Number(number));
+  }
+
+  function isChapterUnlocked(number) {
+    const n = Number(number);
+    if (!isChapterNumber(n)) {
+      return false;
     }
+    return n === 1 || isChapterCompleted(n - 1);
   }
-  return TOTAL_CHAPTERS;
-}
 
-export function completedCount() {
-  return getCourseProgress().completedChapters.length;
-}
-
-export function progressPercent() {
-  return Math.round((completedCount() / TOTAL_CHAPTERS) * 100);
-}
-
-export function isCourseComplete() {
-  return completedCount() >= TOTAL_CHAPTERS;
-}
-
-/* ------------------------------------------------------ recording progress */
-
-export function isExerciseCompleted(number) {
-  return getCourseProgress().exercisesCompleted[String(number)] === true;
-}
-
-export function markExerciseCompleted(number) {
-  if (!isChapterNumber(number)) {
-    return;
+  /** "completed" | "current" | "locked" — used for rendering. */
+  function chapterState(number) {
+    if (isChapterCompleted(number)) {
+      return "completed";
+    }
+    return isChapterUnlocked(number) ? "current" : "locked";
   }
-  const record = getCourseProgress();
-  record.exercisesCompleted[String(number)] = true;
-  saveCourseProgress(record);
-}
 
-/**
- * Mark a chapter finished. Refuses when the chapter is locked or its
- * exercise has not been passed, so the rule cannot be bypassed by calling
- * this from the console.
- * @returns {boolean} whether it was accepted
- */
-export function completeChapter(number) {
-  const n = Number(number);
-  if (!isChapterUnlocked(n) || !isExerciseCompleted(n)) {
-    return false;
+  /** First unfinished chapter — where Begin/Continue Course points. */
+  function nextChapter() {
+    for (let n = 1; n <= TOTAL_CHAPTERS; n += 1) {
+      if (!isChapterCompleted(n)) {
+        return n;
+      }
+    }
+    return TOTAL_CHAPTERS;
   }
-  const record = getCourseProgress();
-  if (!record.completedChapters.includes(n)) {
-    record.completedChapters.push(n);
-    record.completedChapters.sort((a, b) => a - b);
+
+  function completedCount() {
+    return getCourseProgress().completedChapters.length;
   }
-  saveCourseProgress(record);
-  return true;
-}
 
-export function resetProgress() {
-  const all = readJSON(storageKey(), {}) || {};
-  delete all[COURSE_ID];
-  writeJSON(storageKey(), all);
-}
+  function progressPercent() {
+    return Math.round((completedCount() / TOTAL_CHAPTERS) * 100);
+  }
 
-/* ---------------------------------------------------------------- helpers */
+  function isCourseComplete() {
+    return completedCount() >= TOTAL_CHAPTERS;
+  }
 
-export function getChapter(number) {
-  return chapters[Number(number)] || null;
-}
+  /* ------------------------------------------------------ recording progress */
 
-export function allChapters() {
-  return Array.from({ length: TOTAL_CHAPTERS }, (_, i) => ({
-    number: i + 1,
-    data: chapters[i + 1],
-  }));
-}
+  function isExerciseCompleted(number) {
+    return getCourseProgress().exercisesCompleted[String(number)] === true;
+  }
 
-export { TOTAL_CHAPTERS };
+  function markExerciseCompleted(number) {
+    if (!isChapterNumber(number)) {
+      return;
+    }
+    const record = getCourseProgress();
+    record.exercisesCompleted[String(number)] = true;
+    saveCourseProgress(record);
+  }
+
+  /**
+   * Mark a chapter finished. Refuses when the chapter is locked or its
+   * exercise has not been passed, so the rule cannot be bypassed by calling
+   * this from the console.
+   * @returns {boolean} whether it was accepted
+   */
+  function completeChapter(number) {
+    const n = Number(number);
+    if (!isChapterUnlocked(n) || !isExerciseCompleted(n)) {
+      return false;
+    }
+    const record = getCourseProgress();
+    if (!record.completedChapters.includes(n)) {
+      record.completedChapters.push(n);
+      record.completedChapters.sort((a, b) => a - b);
+    }
+    saveCourseProgress(record);
+    return true;
+  }
+
+  function resetProgress() {
+    const all = readJSON(storageKey(), {}) || {};
+    delete all[COURSE_ID];
+    writeJSON(storageKey(), all);
+  }
+
+  /* ---------------------------------------------------------------- helpers */
+
+  function getChapter(number) {
+    return chapters[Number(number)] || null;
+  }
+
+  function allChapters() {
+    return Array.from({ length: TOTAL_CHAPTERS }, (_, i) => ({
+      number: i + 1,
+      data: chapters[i + 1],
+    }));
+  }
+
+  return { TOTAL_CHAPTERS, allChapters, chapterState, completeChapter, completedCount, getChapter, getCourseProgress, isChapterCompleted, isChapterUnlocked, isCourseComplete, isExerciseCompleted, markExerciseCompleted, nextChapter, progressPercent, resetProgress };
+})();

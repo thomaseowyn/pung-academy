@@ -1,4 +1,6 @@
-/* Landing page (index.html) */
-import { initPage } from "./_shared.js";
+/* Entry point for the landing page. */
+(function () {
+  "use strict";
 
-initPage();
+  Pung.Shared.initPage();
+})();
