@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 1 — What is Programming? — Pung Academy</title>
+    <meta name="description" content="Chapter 1 of Introduction to Programming: what a program is, what an algorithm is, and how to plan a solution with pseudocode and flowcharts." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/base/reset.css" />
+    <link rel="stylesheet" href="../../../css/base/variables.css" />
+    <link rel="stylesheet" href="../../../css/base/global.css" />
+    <link rel="stylesheet" href="../../../css/components/brand.css" />
+    <link rel="stylesheet" href="../../../css/components/navbar.css" />
+    <link rel="stylesheet" href="../../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../../css/components/footer.css" />
+    <link rel="stylesheet" href="../../../css/components/progress.css" />
+    <link rel="stylesheet" href="../../../css/components/video.css" />
+    <link rel="stylesheet" href="../../../css/components/code-block.css" />
+    <link rel="stylesheet" href="../../../css/components/callouts.css" />
+    <link rel="stylesheet" href="../../../css/components/code-editor.css" />
+    <link rel="stylesheet" href="../../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../../css/components/feedback.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="1">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 1</span
+            >
+            <h1 data-chapter-title>What is Programming?</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>What programming actually is</h2>
+
+            <p>
+              A computer is astonishingly fast and completely unimaginative. It
+              will do exactly what you tell it, in exactly the order you tell
+              it, several billion times a second — and it will never once work
+              out what you <em>meant</em>. Programming is the craft of writing
+              instructions precise enough for something that literal.
+            </p>
+
+            <p>
+              That is the whole job. Not memorising syntax, not knowing every
+              function by heart. Taking a task you understand, breaking it into
+              steps small enough that nothing is left to interpretation, and
+              writing those steps down in a language the machine can read.
+            </p>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                People often say programming is like giving directions. The
+                better comparison is giving directions to someone who has never
+                been outside, cannot see, and will walk into a wall rather than
+                assume you meant "turn before the wall".
+              </p>
+            </div>
+
+            <h3>What a program is</h3>
+
+            <p>
+              A <strong>program</strong> is a saved list of instructions. When
+              you run it, the computer works through the list from top to bottom
+              and does what each line says. Your web browser is a program. So is
+              the calculator on your phone, and so is the three-line file you
+              are going to write in the next chapter.
+            </p>
+
+            <p>
+              Programs are written in a <strong>programming language</strong> —
+              a limited, unambiguous vocabulary designed so that every statement
+              has exactly one meaning. This course uses <strong>Python</strong>,
+              because it reads closer to English than most languages and gets
+              out of your way while you are learning the ideas underneath.
+            </p>
+
+            <h2>Algorithms: the plan before the code</h2>
+
+            <p>
+              An <strong>algorithm</strong> is a finite, ordered set of steps
+              that solves a problem. That is a formal-sounding definition for
+              something you already do constantly. A recipe is an algorithm.
+              Long division is an algorithm. The route you take to school is an
+              algorithm.
+            </p>
+
+            <p>
+              Three things make a set of steps an algorithm rather than a vague
+              intention:
+            </p>
+
+            <ul>
+              <li>
+                <strong>It is ordered.</strong> Step 3 happens after step 2.
+                Swapping them changes the outcome.
+              </li>
+              <li>
+                <strong>It is unambiguous.</strong> Every step means exactly one
+                thing. "Add a bit of salt" is not an algorithm step. "Add 5
+                grams of salt" is.
+              </li>
+              <li>
+                <strong>It finishes.</strong> There is a point at which the task
+                is done and you stop.
+              </li>
+            </ul>
+
+            <h3>Why this matters more than the code</h3>
+
+            <p>
+              Beginners usually believe their problem is that they do not know
+              enough syntax. Almost always, the real problem is that they have
+              started typing before they know what the steps are. If you cannot
+              describe the solution in plain language, no amount of Python will
+              rescue you — you will just produce a very precise description of a
+              plan you have not made yet.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                When you get stuck later in this course, the fix is nearly
+                always to stop writing code and describe, out loud, what should
+                happen step by step. The bug is usually in the plan.
+              </p>
+            </div>
+
+            <h2>Pseudocode: writing the plan down</h2>
+
+            <p>
+              <strong>Pseudocode</strong> is your algorithm written in plain
+              language, but structured like a program. It is not a real language
+              and no computer runs it. It exists so you can think about the
+              steps without also fighting the rules of a language.
+            </p>
+
+            <p>
+              Say you want to work out whether someone is old enough to vote:
+            </p>
+
+            <pre class="code-block"><code>ASK the person for their age
+STORE the answer as age
+
+IF age is 18 or more
+    SHOW "You can vote"
+OTHERWISE
+    SHOW "You are too young to vote"</code></pre>
+
+            <p>
+              There is no Python here at all, and yet the logic is completely
+              settled. Every decision that matters has been made. Turning this
+              into real code later becomes translation rather than problem
+              solving — and that is a much easier job.
+            </p>
+
+            <h3>How to write useful pseudocode</h3>
+
+            <ul>
+              <li>Use one line per step.</li>
+              <li>
+                Indent the steps that only happen in a particular case, as with
+                the two <code>SHOW</code> lines above.
+              </li>
+              <li>
+                Write verbs you could actually carry out: ASK, STORE, ADD, SHOW,
+                REPEAT, IF.
+              </li>
+              <li>
+                Do not worry about being neat. Pseudocode is a thinking tool,
+                not a deliverable.
+              </li>
+            </ul>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                Before reading on, write pseudocode for making a cup of tea.
+                Then look at it again and ask: did you say what happens if there
+                is no water in the kettle? A computer would need to be told.
+              </p>
+            </div>
+
+            <h2>Flowcharts: the plan as a picture</h2>
+
+            <p>
+              A <strong>flowchart</strong> is the same idea drawn instead of
+              written. It is useful when a problem has several branches and you
+              want to see all the paths at once. The shapes are conventional:
+            </p>
+
+            <ul>
+              <li>
+                <strong>Oval</strong> — where the program starts or stops.
+              </li>
+              <li>
+                <strong>Rectangle</strong> — an action, such as a calculation.
+              </li>
+              <li>
+                <strong>Parallelogram</strong> — input or output, such as asking
+                a question or showing a result.
+              </li>
+              <li>
+                <strong>Diamond</strong> — a decision, with one arrow out for
+                yes and one for no.
+              </li>
+            </ul>
+
+            <p>The voting example as a flowchart, sketched in text:</p>
+
+            <pre class="code-block"><code>        ( Start )
+             |
+     [ Ask for age ]
+             |
+      &lt; age &gt;= 18 ? &gt;
+        /         \
+     yes           no
+      |             |
+[ "You can vote" ] [ "Too young" ]
+        \           /
+         ( Stop )</code></pre>
+
+            <p>
+              Notice that both branches come back together and end in one place.
+              A program with a path that simply stops halfway, leaving the
+              person with no answer, is almost always a program with a bug.
+            </p>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              The working order for the rest of this course, and honestly for
+              the rest of your programming life, is:
+            </p>
+
+            <ol>
+              <li>Understand the problem. Say it back in your own words.</li>
+              <li>Work out the steps. Pseudocode or a flowchart.</li>
+              <li>Translate the steps into code.</li>
+              <li>Run it, see what actually happens, and fix the difference.</li>
+            </ol>
+
+            <p>
+              Beginners skip straight to step 3 and then wonder why step 4 takes
+              all evening. You now know the trick, which puts you ahead of where
+              most people start.
+            </p>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script type="module" src="../../../js/pages/lesson.js"></script>
+
+  </body>
+</html>

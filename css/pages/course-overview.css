@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Introduction to Programming overview
+   ========================================================================== */
+
+/* =======================================================================
+   Course overview page
+   ======================================================================= */
+.course-hero {
+  padding-block: var(--space-8) var(--space-7);
+  background-color: var(--color-accent-soft);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.course-hero__inner {
+  max-width: 46rem;
+}
+
+.course-hero h1 {
+  margin-bottom: var(--space-4);
+}
+
+.course-hero__text {
+  font-size: 1.075rem;
+  color: var(--color-text-muted);
+}
+
+.course-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.course-hero__progress {
+  max-width: 34rem;
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.course-stats {
+  display: flex;
+  gap: var(--space-6);
+  margin-top: var(--space-5);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.course-stats strong {
+  display: block;
+  font-size: 1.35rem;
+  color: var(--color-primary);
+}
+
+/* ------------------------ Reset progress ------------------------ */
+.course-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}

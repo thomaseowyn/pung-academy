@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Design tokens — colours, spacing, typography, shape
+   ========================================================================== */
+
+:root {
+  /* Brand */
+  --color-primary: #123b73;
+  --color-primary-dark: #0b2545;
+  --color-accent: #2563a6;
+  --color-accent-soft: #eaf2fa;
+
+  /* Surfaces */
+  --color-bg: #ffffff;
+  --color-bg-alt: #f6f8fb;
+
+  /* Text */
+  --color-text: #172033;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  /* Lines & states */
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+  --color-danger: #b42318;
+  --color-danger-bg: #fef3f2;
+  --color-success: #15803d;
+  --color-success-bg: #f0fdf4;
+
+  /* Typography */
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
+    Arial, sans-serif;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* Shape & depth (kept deliberately subtle) */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+
+  /* Layout */
+  --container: 1140px;
+  --header-height: 72px;
+}
+
+/* Course states */
+:root {
+  --color-locked: #94a3b8;
+  --color-locked-bg: #f1f5f9;
+  --color-done: #15803d;
+  --color-done-bg: #f0fdf4;
+  --color-done-border: #bbf7d0;
+}

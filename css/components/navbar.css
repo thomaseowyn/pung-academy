@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Site header and primary navigation
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  min-height: var(--header-height);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: var(--space-5);
+}
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__list--primary {
+  flex: 1;
+}
+
+.nav__link {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.nav__link:hover {
+  background-color: var(--color-accent-soft);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.nav__link[aria-current="page"] {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Items that are signposted but not built yet. */
+.nav__link--soon {
+  color: var(--color-text-muted);
+}
+
+.nav__badge {
+  margin-left: var(--space-2);
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background-color: var(--color-bg-alt);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  vertical-align: 2px;
+}
+
+/* Session-aware navigation bits, toggled by js/navigation.js */
+.nav__session {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav__user {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  white-space: nowrap;
+}
+
+[hidden] {
+  display: none !important;
+}

@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Call-to-action band
+   ========================================================================== */
+
+.cta {
+  padding-block: var(--space-8);
+  background-color: var(--color-primary-dark);
+  color: #dbe6f3;
+  text-align: center;
+}
+
+.cta h2 {
+  color: var(--color-text-inverse);
+}
+
+.cta p {
+  max-width: 38rem;
+  margin-inline: auto;
+  color: #b9cbe0;
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}

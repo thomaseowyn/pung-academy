@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 5 — Making Decisions — Pung Academy</title>
+    <meta name="description" content="Chapter 5 of Introduction to Programming: if, else, elif, nested conditions and combining conditions." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/base/reset.css" />
+    <link rel="stylesheet" href="../../../css/base/variables.css" />
+    <link rel="stylesheet" href="../../../css/base/global.css" />
+    <link rel="stylesheet" href="../../../css/components/brand.css" />
+    <link rel="stylesheet" href="../../../css/components/navbar.css" />
+    <link rel="stylesheet" href="../../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../../css/components/footer.css" />
+    <link rel="stylesheet" href="../../../css/components/progress.css" />
+    <link rel="stylesheet" href="../../../css/components/video.css" />
+    <link rel="stylesheet" href="../../../css/components/code-block.css" />
+    <link rel="stylesheet" href="../../../css/components/callouts.css" />
+    <link rel="stylesheet" href="../../../css/components/code-editor.css" />
+    <link rel="stylesheet" href="../../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../../css/components/feedback.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="5">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 5</span
+            >
+            <h1 data-chapter-title>Making Decisions</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Why programs need decisions</h2>
+
+            <p>
+              Every program you have written so far does exactly the same thing
+              every time it runs. Useful programs do not. They react: a login
+              page behaves differently for the right password than the wrong
+              one; a game reacts differently to a hit than to a miss.
+            </p>
+
+            <p>
+              A <strong>conditional statement</strong> lets a program choose
+              between paths, based on a boolean. This is where the comparison
+              operators from Chapter 4 start earning their keep.
+            </p>
+
+            <h2>The if statement</h2>
+
+            <pre class="code-block"><code>age = 20
+
+if age &gt;= 18:
+    print("You are an adult.")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>You are an adult.</code></pre>
+
+            <p>The anatomy of that, piece by piece:</p>
+
+            <ul>
+              <li>
+                <code>if</code> starts the statement.
+              </li>
+              <li>
+                <code>age &gt;= 18</code> is the <strong>condition</strong>. It
+                produces <code>True</code> or <code>False</code>.
+              </li>
+              <li>
+                The <strong>colon</strong> at the end of the line is required.
+                Forgetting it is a rite of passage.
+              </li>
+              <li>
+                The <strong>indented line</strong> underneath is the
+                <strong>body</strong> — the code that runs only if the condition
+                is True.
+              </li>
+            </ul>
+
+            <h3>Indentation is the block</h3>
+
+            <p>
+              In Python, indentation is not decoration. It is how the language
+              knows which lines belong to the <code>if</code>. Compare:
+            </p>
+
+            <pre class="code-block"><code>age = 10
+
+if age &gt;= 18:
+    print("You are an adult.")
+    print("This line is indented, so it only runs for adults.")
+print("This line is not indented, so it always runs.")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>This line is not indented, so it always runs.</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Use four spaces per level and be consistent. Mixing tabs and
+                spaces produces <code>IndentationError</code> or, worse, code
+                that runs but groups the wrong lines together.
+              </p>
+            </div>
+
+            <h2>else: the other path</h2>
+
+            <p>
+              <code>else</code> supplies what happens when the condition is
+              False. It has no condition of its own — it is simply "otherwise".
+            </p>
+
+            <pre class="code-block"><code>age = 15
+
+if age &gt;= 18:
+    print("You are an adult.")
+else:
+    print("You are not an adult yet.")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>You are not an adult yet.</code></pre>
+
+            <p>
+              With <code>if</code>/<code>else</code>, exactly one of the two
+              branches runs. Never both, never neither.
+            </p>
+
+            <h2>elif: more than two options</h2>
+
+            <p>
+              <code>elif</code> — short for "else if" — adds extra conditions,
+              each tested only if the ones above it were False.
+            </p>
+
+            <pre class="code-block"><code>score = 74
+
+if score &gt;= 90:
+    grade = "A"
+elif score &gt;= 80:
+    grade = "B"
+elif score &gt;= 70:
+    grade = "C"
+elif score &gt;= 60:
+    grade = "D"
+else:
+    grade = "F"
+
+print(f"Your grade is {grade}")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Your grade is C</code></pre>
+
+            <p>
+              Python checks top to bottom and <strong>stops at the first
+              match</strong>. With a score of 74 it asks "90 or more?" (no), "80
+              or more?" (no), "70 or more?" (yes) — and then skips everything
+              below without testing it.
+            </p>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — order matters enormously</span>
+              <p>
+                Write that same chain starting with <code>score &gt;= 60</code>
+                and every passing score becomes a D, because the first branch
+                catches them all. With overlapping ranges, always test the
+                narrowest or highest condition first.
+              </p>
+            </div>
+
+            <h2>Nested conditions</h2>
+
+            <p>
+              An <code>if</code> can live inside another <code>if</code>. The
+              inner one is only reached when the outer condition passed.
+            </p>
+
+            <pre class="code-block"><code>logged_in = True
+is_admin = False
+
+if logged_in:
+    print("Welcome back!")
+    if is_admin:
+        print("You have admin access.")
+    else:
+        print("You have standard access.")
+else:
+    print("Please log in.")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Welcome back!
+You have standard access.</code></pre>
+
+            <p>
+              Note <code>if logged_in:</code> with no comparison at all. The
+              variable is already a boolean, so comparing it to
+              <code>True</code> would be redundant.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Deep nesting gets unreadable fast. If you find yourself four
+                levels in, that is usually a sign the conditions should be
+                combined with <code>and</code>, or the work moved into a
+                function — which you will learn in Chapter 8.
+              </p>
+            </div>
+
+            <h2>Combining conditions</h2>
+
+            <p>
+              Rather than nesting, join conditions with the logical operators
+              from Chapter 4:
+            </p>
+
+            <pre class="code-block"><code>age = 20
+has_ticket = True
+
+if age &gt;= 18 and has_ticket:
+    print("Enjoy the film.")
+elif age &gt;= 18 and not has_ticket:
+    print("You need to buy a ticket.")
+else:
+    print("You are too young for this film.")</code></pre>
+
+            <p>These two are identical in behaviour — pick whichever reads better:</p>
+
+            <pre class="code-block"><code># nested
+if logged_in:
+    if is_admin:
+        print("Admin panel")
+
+# combined
+if logged_in and is_admin:
+    print("Admin panel")</code></pre>
+
+            <h2>Worked example — the Grade Calculator</h2>
+
+            <p>
+              This chapter's project, with the input validation the calculator
+              in Chapter 4 was missing.
+            </p>
+
+            <pre class="code-block"><code># Grade Calculator
+
+name = input("Student name: ")
+score = float(input("Score out of 100: "))
+
+if score &lt; 0 or score &gt; 100:
+    print("That is not a valid score.")
+else:
+    if score &gt;= 90:
+        grade = "A"
+    elif score &gt;= 80:
+        grade = "B"
+    elif score &gt;= 70:
+        grade = "C"
+    elif score &gt;= 60:
+        grade = "D"
+    else:
+        grade = "F"
+
+    print(f"{name} scored {score} and receives grade {grade}.")
+
+    if grade == "F":
+        print("This is a fail. Please see your tutor.")
+    elif grade == "A":
+        print("Outstanding work.")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Student name: Alex
+Score out of 100: 93
+
+Alex scored 93.0 and receives grade A.
+Outstanding work.</code></pre>
+
+            <p>
+              The invalid-input check comes first and everything else sits in
+              its <code>else</code>. Rejecting bad data before working with it
+              is a habit worth forming now — most real bugs come from data that
+              was not what the programmer assumed.
+            </p>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                What does this print, and why is it probably not what the author
+                intended?
+              </p>
+              <pre class="code-block"><code>temperature = 35
+
+if temperature &gt; 0:
+    print("Above freezing")
+elif temperature &gt; 30:
+    print("Very hot")</code></pre>
+              <p>
+                It prints only "Above freezing". The first condition is true, so
+                Python never tests the second. The branches are in the wrong
+                order.
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script type="module" src="../../../js/pages/lesson.js"></script>
+
+  </body>
+</html>

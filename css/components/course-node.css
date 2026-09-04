@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Roadmap path: nodes, connectors, the fork and course cards
+   ========================================================================== */
+
+/* =======================================================================
+   The vertical learning path
+   ======================================================================= */
+.path-section {
+  padding-block: var(--space-8) var(--space-9);
+}
+
+.path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.path__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Vertical connector drawn between steps. */
+.connector {
+  display: block;
+  width: 3px;
+  height: 40px;
+  background-color: var(--color-border-strong);
+  border-radius: 2px;
+}
+
+.connector--short {
+  height: 26px;
+}
+
+.connector--dashed {
+  background-image: linear-gradient(
+    var(--color-border-strong) 55%,
+    transparent 55%
+  );
+  background-size: 3px 12px;
+  background-color: transparent;
+}
+
+/* ------------------------------- Nodes -------------------------------- */
+.node {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  background-color: var(--color-bg);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.node--start {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.node--gate {
+  border-color: var(--color-border-strong);
+  color: var(--color-locked);
+}
+
+.node--gate.is-open {
+  border-color: var(--color-done);
+  background-color: var(--color-done-bg);
+  color: var(--color-done);
+}
+
+.node__caption {
+  margin: var(--space-3) 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* =======================================================================
+   Course card on the path
+   ======================================================================= */
+.course-card {
+  display: block;
+  width: 100%;
+  padding: var(--space-6);
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  color: inherit;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+a.course-card:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(18, 59, 115, 0.16);
+}
+
+.course-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.course-card__eyebrow {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.course-card__title {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.course-card__badge {
+  flex: none;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background-color: var(--color-accent-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.course-card__badge--done {
+  background-color: var(--color-done-bg);
+  color: var(--color-done);
+}
+
+.course-card__text {
+  margin: 0 0 var(--space-5);
+  color: var(--color-text-muted);
+}
+
+.course-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.course-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Progress bar, shared by the card and the course overview. */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.progress__track {
+  flex: 1;
+  height: 10px;
+  background-color: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress__fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background-color: var(--color-accent);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progress__fill--done {
+  background-color: var(--color-done);
+}
+
+.progress__text {
+  flex: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.fork__drop {
+  top: 26px;
+  height: 32px;
+}
+
+.fork__drop--left {
+  left: 25%;
+  transform: translateX(-50%);
+}
+
+.fork__drop--right {
+  left: 75%;
+  transform: translateX(-50%);
+}
+
+.branches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ------------------------- Locked branch cards ------------------------- */
+.branch-card {
+  padding: var(--space-5);
+  background-color: var(--color-locked-bg);
+  border: 2px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.branch-card__icon {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: 1.5rem;
+}
+
+.branch-card__title {
+  margin-bottom: var(--space-2);
+  font-size: 1.1rem;
+  color: var(--color-locked);
+}
+
+.branch-card__text {
+  margin: 0 0 var(--space-4);
+  font-size: 0.88rem;
+}
+
+.branch-card__status {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Unlocked once the course is finished. */
+.branch-card.is-unlocked {
+  background-color: var(--color-bg);
+  border-style: solid;
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.branch-card.is-unlocked .branch-card__title {
+  color: var(--color-primary-dark);
+}
+
+.branch-card.is-unlocked .branch-card__status {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-primary);
+}

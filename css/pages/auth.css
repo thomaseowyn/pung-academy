@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Login and sign-up pages
+   ========================================================================== */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Two-column shell: form on the left, supporting panel on the right. */
+.auth {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+}
+
+.auth__main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-7) var(--space-5);
+  background-color: var(--color-bg);
+}
+
+.auth__inner {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.auth__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.auth__brand:hover {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+
+.auth__title {
+  margin-bottom: var(--space-2);
+  font-size: 1.85rem;
+}
+
+.auth__subtitle {
+  margin-bottom: var(--space-6);
+  color: var(--color-text-muted);
+}
+
+/* --------------------------- Side panel --------------------------- */
+.auth__aside {
+  display: flex;
+  align-items: center;
+  padding: var(--space-7) var(--space-6);
+  background-color: var(--color-primary-dark);
+  color: #dbe6f3;
+}
+
+.auth__aside-inner {
+  max-width: 26rem;
+  margin-inline: auto;
+}
+
+.auth__aside h2 {
+  color: var(--color-text-inverse);
+  font-size: 1.6rem;
+}
+
+.auth__aside p {
+  color: #b9cbe0;
+}
+
+.auth__checklist {
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.auth__checklist li {
+  position: relative;
+  padding-left: 1.9rem;
+  margin-bottom: var(--space-4);
+  font-size: 0.95rem;
+}
+
+.auth__checklist li:last-child {
+  margin-bottom: 0;
+}
+
+.auth__checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgba(127, 179, 232, 0.18);
+  color: #7fb3e8;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.auth__aside-label {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7fb3e8;
+}

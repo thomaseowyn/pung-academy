@@ -1,0 +1,203 @@
+/* ==========================================================================
+   Cards, grids, comparison panels, steps and phases
+   ========================================================================== */
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+  padding: var(--space-5);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.card__title {
+  font-size: 1.05rem;
+  margin-bottom: var(--space-2);
+}
+
+.card__text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.card__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent-soft);
+  color: var(--color-primary);
+}
+
+/* Problem / solution split used in "Why Pung Academy" */
+.compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.compare__panel {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+}
+
+.compare__panel--solution {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: #dbe6f3;
+}
+
+.compare__panel--solution h3 {
+  color: var(--color-text-inverse);
+}
+
+.compare__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compare__list li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: var(--space-3);
+  font-size: 0.95rem;
+}
+
+.compare__list li:last-child {
+  margin-bottom: 0;
+}
+
+.compare__list li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+}
+
+.compare__panel--problem .compare__list li::before {
+  content: "✕";
+  color: var(--color-danger);
+}
+
+.compare__panel--solution .compare__list li::before {
+  content: "✓";
+  color: #7fb3e8;
+}
+
+/* "How it works" numbered steps */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step {
+  padding: var(--space-5);
+  border-top: 3px solid var(--color-accent);
+  background-color: var(--color-bg);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.step__num {
+  counter-increment: step;
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+}
+
+.step__num::before {
+  content: "STEP 0" counter(step);
+}
+
+/* Philosophy timeline */
+.philosophy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.phases {
+  margin: 0;
+  padding: 0;
+}
+
+.phases__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  padding-bottom: var(--space-5);
+}
+
+.phases__item:last-child {
+  padding-bottom: 0;
+}
+
+.phases__marker {
+  position: relative;
+  display: grid;
+  place-items: start center;
+  width: 28px;
+}
+
+.phases__dot {
+  width: 14px;
+  height: 14px;
+  margin-top: 6px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  background-color: var(--color-bg);
+}
+
+.phases__item:not(:last-child) .phases__marker::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: -14px;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background-color: var(--color-border-strong);
+}
+
+.phases__title {
+  margin-bottom: var(--space-1);
+  font-size: 1.05rem;
+}
+
+.phases__text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}

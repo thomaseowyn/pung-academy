@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Site footer
+   ========================================================================== */
+
+.site-footer {
+  padding-block: var(--space-7) var(--space-5);
+  background-color: var(--color-bg-alt);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.92rem;
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.site-footer__about p {
+  max-width: 28rem;
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.site-footer__title {
+  margin-bottom: var(--space-3);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark);
+}
+
+.site-footer__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__list li {
+  margin-bottom: var(--space-2);
+}
+
+.site-footer__list a {
+  color: var(--color-text-muted);
+}
+
+.site-footer__list a:hover {
+  color: var(--color-primary);
+}
+
+.site-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.site-footer__bottom p {
+  margin: 0;
+}

@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Coming soon placeholder page
+   ========================================================================== */
+
+/* ------------------------ Coming soon page ------------------------ */
+.soon {
+  display: grid;
+  place-items: center;
+  padding-block: var(--space-9);
+  text-align: center;
+}
+
+.soon__inner {
+  max-width: 34rem;
+}
+
+.soon__icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.soon__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}

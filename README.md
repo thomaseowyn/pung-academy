@@ -4,62 +4,98 @@ A static educational website that gives beginner programmers a structured
 learning roadmap instead of a pile of unordered tutorials.
 
 Built with **HTML5, CSS3 and vanilla JavaScript only** — no frameworks, no build
-step, no backend. Open `index.html` in a browser and it works.
+step, no backend. It uses ES modules, so it needs to be served over HTTP:
+double-click `start.bat`, or see [Running it](#running-it).
 
 ## Structure
 
 ```
 pung-academy/
-├── index.html            Homepage: hero, roadmap visual, why / how / philosophy, CTA
-├── courses.html          Course roadmap: the vertical learning path
-├── coming-soon.html      Placeholder for the two future career paths
-├── login.html            Standalone login page
-├── register.html         Standalone registration page
-├── about.html            Team introduction + links to the four profiles
+├── index.html              Landing page (entry point)
+├── start.bat               Double-click to serve the site locally
 │
-├── courses/
-│   ├── introduction-to-programming.html   Course overview + chapter list
-│   └── introduction/
-│       └── lesson-1.html … lesson-10.html  One page per chapter
-│
-├── team/                 Individual profile pages (each with its own design)
-│   ├── kevin.html        Dark "terminal" identity
-│   ├── bryan.html        Warm editorial / magazine identity
-│   ├── elvin.html        Soft pastel designer identity
-│   └── thomas.html       Bold geometric identity
+├── pages/                  One HTML file per screen
+│   ├── login.html  signup.html  about-us.html
+│   ├── course-tree.html    The roadmap
+│   ├── coming-soon.html
+│   ├── courses/
+│   │   ├── introduction-to-programming.html
+│   │   └── introduction/lesson-1.html … lesson-10.html
+│   └── team/kevin.html  bryan.html  elvin.html  thomas.html
 │
 ├── css/
-│   ├── style.css         Shared tokens, navbar, footer, homepage
-│   ├── courses.css       Roadmap + course overview
-│   ├── lessons.css       Chapter pages, code editor, exercises
-│   ├── auth.css          Login + registration
-│   ├── about.css         About Us page
-│   └── team/             One standalone stylesheet per profile
-│       ├── kevin.css  bryan.css  elvin.css  thomas.css
+│   ├── base/               reset · variables (tokens) · global
+│   ├── components/         brand, navbar, footer, buttons, cards, forms,
+│   │                       progress, course-node, chapter-row, callouts,
+│   │                       code-block, code-editor, feedback, video, cta
+│   └── pages/              landing, auth, about, course-tree,
+│                           course-overview, lesson, coming-soon, team/*
 │
 ├── js/
-│   ├── auth.js           localStorage accounts + login/register form handling
-│   ├── navigation.js     Signed-in / signed-out header state
-│   ├── courses.js        Course data, progress engine, roadmap + overview rendering
-│   ├── lessons.js        Chapter runtime: access guard, exercises, completion
-│   └── main.js           Copyright year, image fallbacks, "coming soon" links
+│   ├── config/             courseData.js — the whole course, as data
+│   ├── services/           StorageService · ValidationService · PathService
+│   ├── models/             UserModel · CourseProgressModel      (state, no DOM)
+│   ├── views/              SiteChrome · CourseTree · CourseOverview ·
+│   │                       Lesson · Auth                        (DOM, no state)
+│   ├── controllers/        Auth · Course · Lesson               (the glue)
+│   └── pages/              One entry module per page
+│
+├── tools/
+│   └── check-paths.py      Verifies every link and import resolves
 │
 └── assets/
-    ├── icons/logo.svg
-    └── images/           Placeholder portraits (kevin/bryan/elvin/thomas .svg)
+    ├── icons/  images/
 ```
+
+## How the code is organised
+
+**One `<script>` tag per page.** Each HTML file loads a single entry module
+from `js/pages/`, and that module imports whatever it needs. Load order is
+derived by the browser, never hand-maintained — adding a dependency means
+adding one `import` line, not editing HTML.
+
+**Layers, and the rule for each:**
+
+| Layer | Rule |
+| --- | --- |
+| `config/` | Static data only. No logic. |
+| `services/` | Technical utilities — storage, validation, paths. No app concepts. |
+| `models/` | State and rules. Never touches the DOM. |
+| `views/` | Renders DOM. Holds no state of its own. |
+| `controllers/` | Listens for events, asks a model, tells a view. |
+| `pages/` | One tiny entry file per page that wires the above together. |
+
+**The navbar and footer are rendered once**, by `views/SiteChromeView.js`, into
+two placeholders (`<header data-site-header>` / `<footer data-site-footer>`).
+Changing the navigation is one edit, not twenty-one.
+
+**Paths are always relative, never root-absolute.** GitHub Pages serves this
+project from `/pung-academy/`, so `/js/…` would work locally and 404 in
+production. Pages declare their depth with `<html data-root="../..">` and
+`services/PathService.js` turns that into working links.
+
+### Before you push
+
+```bash
+python tools/check-paths.py
+```
+
+There is no build step, so a mistyped path fails silently at runtime on one
+page. This walks every HTML, JS and CSS file and confirms each local
+reference resolves. It also flags root-absolute paths.
+
 
 ## The course system
 
-**Roadmap** (`courses.html`) — a vertical path: start node → Introduction to
+**Roadmap** (`pages/course-tree.html`) — a vertical path: start node → Introduction to
 Programming → a locked gate → a fork into Web Development and Artificial
 Intelligence. Both branches stay locked until the first course is finished.
 
 **Progression** — Chapter 1 is open from the start; every other chapter needs
 the one before it completed. A chapter counts as complete only after its
 exercise is passed, never just by opening the page. The rule is enforced in
-JavaScript, so typing `courses/introduction/lesson-8.html` directly shows a
-locked screen rather than the content.
+JavaScript, so typing `pages/courses/introduction/lesson-8.html` directly shows
+a locked screen rather than the content.
 
 **Exercises** — chapters 1–2 use a concept-check question; chapters 3–10 use a
 built-in code editor (plain textarea plus a line-number gutter, no external
@@ -84,12 +120,12 @@ not share a position:
 
 **Adding chapter videos** — every chapter shows a marked placeholder instead of
 a player, because no YouTube ids have been verified. Put an id into
-`chapters[N].videoId` in `js/courses.js` and that chapter's player appears; no
-other change is needed.
+`chapters[N].videoId` in `js/config/courseData.js` and that chapter's player
+appears; no other change is needed.
 
 **Editing course content** — chapter titles, summaries, topics, projects and
-every exercise (prompt, starter code, checks, hint, solution) live in the
-`chapters` object at the top of `js/courses.js`. The chapter pages hold only the
+every exercise (prompt, starter code, checks, hint, solution) live in
+`js/config/courseData.js`. The chapter pages hold only the
 written tutorial text.
 
 
@@ -119,35 +155,38 @@ localStorage.removeItem("pungAcademyUsers"); localStorage.removeItem("pungAcadem
 
 ## Replacing the placeholder team content
 
-**Text** — each profile's biography is fictional placeholder copy. Edit the
-paragraphs directly in `team/<name>.html`, and update the short blurbs and role
-labels in the team cards in `about.html`.
+**Text** — Kevin, Bryan and Elvin still have placeholder biographies; Thomas's
+is real. Edit the paragraphs in `pages/team/<name>.html`, and the short blurbs
+and role labels in `pages/about-us.html`.
 
-**Photos** — the portraits are generated SVG placeholders in `assets/images/`.
-Two ways to replace them:
+**Photos** — Kevin, Bryan and Elvin use generated SVG placeholders in
+`assets/images/`; Thomas uses a real `thomas.jpg`. Two ways to replace one:
 
 1. *Simplest* — save your photo as `assets/images/kevin.svg` (etc.), overwriting
    the placeholder. Nothing else needs to change.
 2. *Or* drop in `assets/images/kevin.jpg` and update that page's `src` to point
    at it. Every portrait `<img>` also carries a `data-fallback` attribute
    pointing at the bundled placeholder, so if your file is ever missing,
-   `js/main.js` swaps the placeholder back in instead of showing a broken image.
+   `js/pages/_shared.js` swaps the placeholder back in rather than showing a
+   broken image.
 
 The images to change:
 
 | Page | Image |
 | --- | --- |
-| `about.html` | `assets/images/{kevin,bryan,elvin,thomas}.svg` (four cards) |
-| `team/kevin.html` | `assets/images/kevin.svg` |
-| `team/bryan.html` | `assets/images/bryan.svg` |
-| `team/elvin.html` | `assets/images/elvin.svg` |
-| `team/thomas.html` | `assets/images/thomas.svg` |
+| `pages/about-us.html` | all four, in the team cards |
+| `pages/team/kevin.html` | `assets/images/kevin.svg` |
+| `pages/team/bryan.html` | `assets/images/bryan.svg` |
+| `pages/team/elvin.html` | `assets/images/elvin.svg` |
+| `pages/team/thomas.html` | `assets/images/thomas.jpg` (real photo) |
 
 Square images look best — the About cards and three of the four profiles crop to
 a 1:1 frame.
 
 ## Known limitations
 
+- **Must be served over HTTP.** ES modules do not load from `file://`, so
+  double-clicking an HTML file will not work — use `start.bat`.
 - **Desktop only.** There is no mobile or tablet layout: the pages hold a fixed
   desktop width and narrow windows scroll horizontally.
 - **No backend.** Accounts exist only in the browser that created them; clearing
@@ -164,8 +203,11 @@ a 1:1 frame.
 
 ## Running it
 
-Just open `index.html`. If you would rather serve it over HTTP:
+The site uses ES modules, which browsers refuse to load over `file://`. So it
+must be served rather than opened directly. Double-click **`start.bat`**, or:
 
 ```bash
 python -m http.server 5500
 ```
+
+Then open `http://localhost:5500`.

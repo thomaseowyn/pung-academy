@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-root="..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Courses — Pung Academy</title>
+    <meta
+      name="description"
+      content="The Pung Academy learning path: start with Introduction to Programming, then branch into Web Development or Artificial Intelligence."
+    />
+    <link rel="icon" href="../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/global.css" />
+    <link rel="stylesheet" href="../css/components/brand.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/cards.css" />
+    <link rel="stylesheet" href="../css/components/progress.css" />
+    <link rel="stylesheet" href="../css/components/course-node.css" />
+    <link rel="stylesheet" href="../css/pages/course-tree.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <main id="main">
+      <!-- ================= Intro ================= -->
+      <section class="courses-hero">
+        <div class="container courses-hero__inner">
+          <p class="eyebrow">Courses</p>
+          <h1>One path, followed in order</h1>
+          <p class="lead">
+            This is not a catalogue to browse. It is a route. Everyone starts at
+            the same place, and the next stage opens only once the one before it
+            is finished — so you always know exactly what to do next.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= The path ================= -->
+      <section class="path-section">
+        <div class="container">
+          <ol class="path">
+            <!-- Start -->
+            <li class="path__step">
+              <span class="node node--start" aria-hidden="true">Start</span>
+              <p class="node__caption">You start here — no experience needed</p>
+            </li>
+
+            <li class="path__step" aria-hidden="true">
+              <span class="connector"></span>
+            </li>
+
+            <!-- Course 1: Introduction to Programming -->
+            <li class="path__step">
+              <a class="course-card" data-course-card href="courses/introduction-to-programming.html">
+                <div class="course-card__top">
+                  <div>
+                    <span class="course-card__eyebrow">Course 1 · Available now</span>
+                    <h2 class="course-card__title">Introduction to Programming</h2>
+                  </div>
+                  <span class="course-card__badge" data-course-badge>Start here</span>
+                </div>
+
+                <p class="course-card__text">
+                  Ten chapters that take you from never having written code to
+                  finishing a working program of your own. Fundamentals first,
+                  one chapter at a time.
+                </p>
+
+                <div class="progress">
+                  <span class="progress__track">
+                    <span class="progress__fill" data-course-progress-fill></span>
+                  </span>
+                  <span class="progress__text" data-course-progress-text
+                    >0 / 10 chapters</span
+                  >
+                </div>
+
+                <p class="course-card__cta" data-course-cta>Open the course →</p>
+              </a>
+            </li>
+
+            <li class="path__step" aria-hidden="true">
+              <span class="connector"></span>
+            </li>
+
+            <!-- Gate -->
+            <li class="path__step">
+              <span class="node node--gate" data-gate-node aria-hidden="true">🔒</span>
+              <p class="node__caption" data-gate-caption>
+                Complete Introduction to Programming to open the paths below
+              </p>
+            </li>
+          </ol>
+
+          <!-- Fork into two future paths -->
+          <div class="fork" aria-hidden="true">
+            <span class="fork__stem"></span>
+            <span class="fork__bar"></span>
+            <span class="fork__drop fork__drop--left"></span>
+            <span class="fork__drop fork__drop--right"></span>
+          </div>
+
+          <div class="branches">
+            <article class="branch-card" data-branch>
+              <span class="branch-card__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <h2 class="branch-card__title">Web Development</h2>
+              <p class="branch-card__text">
+                Build for the browser: structure, styling, interactivity and
+                putting a real site online.
+              </p>
+              <span class="branch-card__status" data-branch-status>Locked</span>
+              <p data-branch-note></p>
+            </article>
+
+            <article class="branch-card" data-branch>
+              <span class="branch-card__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <h2 class="branch-card__title">Artificial Intelligence</h2>
+              <p class="branch-card__text">
+                Work with data, then with models: how machines find patterns and
+                where the limits of that actually are.
+              </p>
+              <span class="branch-card__status" data-branch-status>Locked</span>
+              <p data-branch-note></p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= How the path works ================= -->
+      <section class="section section--alt">
+        <div class="container">
+          <div class="section__header section__header--center">
+            <p class="eyebrow">How the path works</p>
+            <h2>Locked until you are ready, not until you pay</h2>
+          </div>
+
+          <div class="grid grid--3">
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">1</span>
+              <h3 class="card__title">Chapters open in order</h3>
+              <p class="card__text">
+                Chapter 1 is open from the start. Every chapter after it unlocks
+                when the one before is finished — no jumping ahead.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">2</span>
+              <h3 class="card__title">Finishing means doing</h3>
+              <p class="card__text">
+                Opening a page is not progress. A chapter counts as complete
+                only once you have passed its exercise.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card__icon" aria-hidden="true">3</span>
+              <h3 class="card__title">Then you choose</h3>
+              <p class="card__text">
+                Complete the foundation and both career paths open, so you pick
+                a direction knowing what the work actually feels like.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer data-site-footer data-full></footer>
+    <script type="module" src="../js/pages/course-tree.js"></script>
+
+  </body>
+</html>

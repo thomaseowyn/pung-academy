@@ -1,0 +1,340 @@
+/* ==========================================================================
+   Chapter (lesson) pages
+   ========================================================================== */
+
+.lesson {
+  max-width: 780px;
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+/* ----------------------------- Chapter header ---------------------------- */
+.lesson-header {
+  padding-block: var(--space-7) var(--space-6);
+  background-color: var(--color-accent-soft);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.lesson-header__inner {
+  max-width: 780px;
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+.lesson-header__eyebrow {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.lesson-header h1 {
+  margin-bottom: var(--space-3);
+}
+
+.lesson-header__summary {
+  max-width: 42rem;
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+}
+
+.lesson-header__progress {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.lesson-header__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lesson-header__topics li {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* -------------------------------- Sections ------------------------------- */
+.lesson-section {
+  padding-block: var(--space-7);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.lesson-section:last-of-type {
+  border-bottom: 0;
+}
+
+.lesson-section__label {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.lesson-section h2 {
+  font-size: 1.55rem;
+  margin-bottom: var(--space-4);
+}
+
+.lesson-section h3 {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+  font-size: 1.12rem;
+}
+
+.lesson-section p,
+.lesson-section li {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.lesson-section ul,
+.lesson-section ol {
+  margin-bottom: var(--space-4);
+}
+
+.lesson-section li {
+  margin-bottom: var(--space-2);
+}
+
+/* ================================ Exercise =============================== */
+.exercise {
+  padding: var(--space-6);
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.exercise__heading {
+  margin-bottom: var(--space-3);
+  font-size: 1.3rem;
+}
+
+.exercise__prompt {
+  margin-bottom: var(--space-5);
+  color: var(--color-text);
+}
+
+.exercise__actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+/* ============================== Completion =============================== */
+.completion {
+  padding: var(--space-6);
+  background-color: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.completion h2 {
+  font-size: 1.3rem;
+  margin-bottom: var(--space-4);
+}
+
+.checklist {
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.check__mark {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-strong);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.check--done {
+  color: var(--color-done);
+  font-weight: 600;
+}
+
+.check--done .check__mark {
+  border-color: var(--color-done);
+  background-color: var(--color-done-bg);
+  color: var(--color-done);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  background-color: var(--color-primary);
+}
+
+/* --------------------------- Next step panel ---------------------------- */
+.next-step {
+  margin-top: var(--space-6);
+  padding: var(--space-6);
+  background-color: var(--color-primary-dark);
+  border-radius: var(--radius-lg);
+  color: #dbe6f3;
+}
+
+.next-step__label {
+  margin: 0 0 var(--space-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7fb3e8;
+}
+
+.next-step__title {
+  margin: 0 0 var(--space-3);
+  font-size: 1.3rem;
+  color: var(--color-text-inverse);
+}
+
+.next-step__text {
+  margin: 0 0 var(--space-5);
+  color: #b9cbe0;
+}
+
+.next-step .btn--primary {
+  background-color: var(--color-bg);
+  color: var(--color-primary-dark);
+}
+
+.next-step .btn--primary:hover {
+  background-color: var(--color-accent-soft);
+}
+
+/* --------------------------- Chapter navigation ------------------------- */
+.chapter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.chapter-nav__link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.chapter-nav__link--locked {
+  color: var(--color-locked);
+  cursor: not-allowed;
+}
+
+.chapter-nav__link--locked:hover {
+  text-decoration: none;
+}
+
+/* ---------------------------- Locked chapter ---------------------------- */
+.locked-panel {
+  max-width: 34rem;
+  margin: var(--space-9) auto;
+  padding: var(--space-7);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.locked-panel__icon {
+  margin: 0 0 var(--space-4);
+  font-size: 2.25rem;
+}
+
+.locked-panel__title {
+  margin-bottom: var(--space-3);
+}
+
+.locked-panel__text {
+  color: var(--color-text-muted);
+}
+
+.locked-panel__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+/* ------------------------- Course complete screen ----------------------- */
+.course-complete {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  background-color: rgba(11, 37, 69, 0.72);
+}
+
+.course-complete__card {
+  max-width: 34rem;
+  padding: var(--space-8) var(--space-7);
+  background-color: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 60px rgba(11, 37, 69, 0.35);
+  text-align: center;
+}
+
+.course-complete__emoji {
+  margin: 0 0 var(--space-3);
+  font-size: 2.75rem;
+}
+
+.course-complete__label {
+  margin: 0 0 var(--space-2);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-done);
+}
+
+.course-complete__title {
+  margin-bottom: var(--space-4);
+}
+
+.course-complete__text {
+  color: var(--color-text-muted);
+  font-size: 0.97rem;
+}
+
+.course-complete .btn {
+  margin-top: var(--space-4);
+}

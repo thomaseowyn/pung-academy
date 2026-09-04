@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Exercise feedback, hints and solved state
+   ========================================================================== */
+
+/* ------------------------------- Feedback -------------------------------- */
+.feedback {
+  margin: var(--space-5) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.feedback--success {
+  background-color: var(--color-done-bg);
+  border-color: var(--color-done-border);
+  color: var(--color-done);
+}
+
+.feedback--error {
+  background-color: var(--color-danger-bg);
+  border-color: #f3c9c4;
+  color: var(--color-danger);
+}
+
+.feedback--neutral {
+  background-color: var(--color-bg-alt);
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.feedback__detail {
+  display: block;
+  margin-top: var(--space-2);
+  font-weight: 400;
+}
+
+.hint {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid #b45309;
+  border-radius: var(--radius-sm);
+  background-color: #fffbeb;
+  font-size: 0.93rem;
+  color: #7c4a06;
+}
+
+.hint strong {
+  color: #b45309;
+}
+
+/* Shown once the exercise is passed. */
+.solved {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.solved__text {
+  color: var(--color-text-muted);
+}
+
+.solved__heading {
+  margin-bottom: var(--space-3);
+  font-size: 0.95rem;
+}

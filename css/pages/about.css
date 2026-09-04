@@ -1,0 +1,163 @@
+/* ==========================================================================
+   About Us page
+   ========================================================================== */
+
+/* ---------------------------- Page header ---------------------------- */
+.page-hero {
+  padding-block: var(--space-8) var(--space-7);
+  background-color: var(--color-accent-soft);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-hero__inner {
+  max-width: 48rem;
+}
+
+.page-hero h1 {
+  margin-bottom: var(--space-4);
+}
+
+.page-hero .lead {
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+/* --------------------------- Mission blocks -------------------------- */
+.mission {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.mission__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.stat {
+  padding: var(--space-5);
+  background-color: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.stat__value {
+  display: block;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-primary);
+  letter-spacing: -0.03em;
+}
+
+.stat__label {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------- Values ------------------------------ */
+.mission__values-title {
+  margin-top: var(--space-7);
+}
+
+.value-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.value-list li {
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.value-list li:last-child {
+  border-bottom: 0;
+}
+
+.value-list strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--color-primary-dark);
+}
+
+.value-list span {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* -------------------------- Team member cards ------------------------ */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.member:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.member__photo {
+  display: block;
+  width: 100%;
+  /* height:auto is required so aspect-ratio wins over the height attribute. */
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background-color: var(--color-accent-soft);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.member__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-5);
+}
+
+.member__name {
+  margin-bottom: var(--space-1);
+  font-size: 1.05rem;
+}
+
+.member__role {
+  margin-bottom: var(--space-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.member__text {
+  flex: 1;
+  margin-bottom: var(--space-5);
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+.member__link {
+  align-self: flex-start;
+}
+
+.photo-note {
+  margin-top: var(--space-5);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}

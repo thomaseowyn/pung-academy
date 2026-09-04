@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 2 — Your First Program — Pung Academy</title>
+    <meta name="description" content="Chapter 2 of Introduction to Programming: write and run your first Python program, understand syntax, and learn to read error messages." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/base/reset.css" />
+    <link rel="stylesheet" href="../../../css/base/variables.css" />
+    <link rel="stylesheet" href="../../../css/base/global.css" />
+    <link rel="stylesheet" href="../../../css/components/brand.css" />
+    <link rel="stylesheet" href="../../../css/components/navbar.css" />
+    <link rel="stylesheet" href="../../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../../css/components/footer.css" />
+    <link rel="stylesheet" href="../../../css/components/progress.css" />
+    <link rel="stylesheet" href="../../../css/components/video.css" />
+    <link rel="stylesheet" href="../../../css/components/code-block.css" />
+    <link rel="stylesheet" href="../../../css/components/callouts.css" />
+    <link rel="stylesheet" href="../../../css/components/code-editor.css" />
+    <link rel="stylesheet" href="../../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../../css/components/feedback.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="2">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 2</span
+            >
+            <h1 data-chapter-title>Your First Program</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Writing your first program</h2>
+
+            <p>
+              Here is a complete, working Python program. One line long, and it
+              genuinely counts.
+            </p>
+
+            <pre class="code-block"><code>print("Hello, world!")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello, world!</code></pre>
+
+            <p>Take it apart, because every piece matters:</p>
+
+            <ul>
+              <li>
+                <code>print</code> is the name of a built-in
+                <strong>function</strong> — a piece of work Python already knows
+                how to do. This one displays something on screen.
+              </li>
+              <li>
+                The <strong>brackets</strong> <code>( )</code> are how you call a
+                function. They hold whatever you are giving it to work with.
+              </li>
+              <li>
+                The <strong>quotation marks</strong> mark the start and end of
+                some text. Without them Python would think
+                <code>Hello</code> was the name of something you had defined.
+              </li>
+            </ul>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                "Hello, world" is the traditional first program in almost every
+                language. It is not there to teach you anything about text — it
+                is there to prove your setup works before you write anything
+                harder.
+              </p>
+            </div>
+
+            <h2>Syntax: the rules of the language</h2>
+
+            <p>
+              <strong>Syntax</strong> is the set of rules about how code must be
+              written. English has syntax too — "programming is fun" is a
+              sentence and "fun programming is" is a mess — but English readers
+              cope with mistakes. Python does not. One missing bracket and it
+              refuses to run anything at all.
+            </p>
+
+            <p>The rules you meet immediately:</p>
+
+            <ul>
+              <li>
+                <strong>Brackets come in pairs.</strong> Every <code>(</code>
+                needs a <code>)</code>.
+              </li>
+              <li>
+                <strong>Quotes come in pairs, and must match.</strong>
+                <code>"Hello"</code> and <code>'Hello'</code> are both fine.
+                <code>"Hello'</code> is not.
+              </li>
+              <li>
+                <strong>Spelling and case matter.</strong> <code>print</code>
+                works; <code>Print</code> and <code>prnt</code> do not.
+              </li>
+              <li>
+                <strong>Indentation is meaningful.</strong> In most languages
+                leading spaces are decoration. In Python they define which lines
+                belong to which block, as you will see in Chapter 5.
+              </li>
+            </ul>
+
+            <h3>Comments</h3>
+
+            <p>
+              A line starting with <code>#</code> is a
+              <strong>comment</strong>. Python ignores it completely. Comments
+              are notes to humans — usually to you, in three weeks, when you
+              have forgotten why you did something.
+            </p>
+
+            <pre class="code-block"><code># Greet the person using the program
+print("Hello, world!")   # this bit runs; the note after the hash does not</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Write comments about <em>why</em>, not <em>what</em>.
+                <code># add 1 to counter</code> tells a reader nothing they
+                could not see. <code># skip the header row</code> tells them
+                something real.
+              </p>
+            </div>
+
+            <h2>Running a program</h2>
+
+            <p>
+              Writing code and running code are two separate acts. You type
+              instructions into a file and save it — commonly with a
+              <code>.py</code> ending, such as <code>hello.py</code> — and then
+              you ask Python to execute that file.
+            </p>
+
+            <p>
+              Python reads your file from the top and performs each line in
+              turn. This program prints three lines, in this order and no other:
+            </p>
+
+            <pre class="code-block"><code>print("First")
+print("Second")
+print("Third")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>First
+Second
+Third</code></pre>
+
+            <p>
+              That top-to-bottom march is the single most important thing to
+              hold in your head. When a program misbehaves, tracing which line
+              ran when will find the fault more often than staring at it will.
+            </p>
+
+            <h2>Understanding errors</h2>
+
+            <p>
+              You are going to see a great many error messages. This is not a
+              sign that something has gone wrong with you; it is the normal
+              texture of the work. Professionals see errors constantly. The
+              difference is that they read them.
+            </p>
+
+            <p>Errors come in two broad families.</p>
+
+            <h3>1. Syntax errors — Python cannot read your code</h3>
+
+            <p>
+              The program does not start at all. Something is written in a way
+              Python cannot parse.
+            </p>
+
+            <pre class="code-block"><code>print("Hello, world!"</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>  File "hello.py", line 1
+    print("Hello, world!"
+         ^
+SyntaxError: '(' was never closed</code></pre>
+
+            <p>
+              Read it backwards, because the useful part is at the bottom.
+              <code>SyntaxError</code> tells you the family. The message names
+              the exact fault. The line number and the little
+              <code>^</code> marker tell you where. Every piece of that is a
+              gift; none of it is scolding you.
+            </p>
+
+            <h3>2. Runtime errors — Python understood, but could not do it</h3>
+
+            <p>
+              The program starts, runs for a while, and then hits something
+              impossible.
+            </p>
+
+            <pre class="code-block"><code>print("The answer is")
+print(10 / 0)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>The answer is
+Traceback (most recent call last):
+  File "maths.py", line 2, in &lt;module&gt;
+    print(10 / 0)
+ZeroDivisionError: division by zero</code></pre>
+
+            <p>
+              Notice that <code>The answer is</code> was printed before the
+              crash. That is the top-to-bottom march again, and it is a clue:
+              everything before the failing line did run.
+            </p>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                There is a third kind of problem that produces no error at all:
+                the program runs perfectly and gives the wrong answer. That is a
+                <strong>logic error</strong>, and it is the hardest sort to
+                find, because nothing tells you it happened. Chapter 9 is
+                largely about these.
+              </p>
+            </div>
+
+            <h2>Debugging basics</h2>
+
+            <p>
+              <strong>Debugging</strong> is finding and fixing the difference
+              between what your program does and what you intended. A method
+              that works from your first day:
+            </p>
+
+            <ol>
+              <li>
+                <strong>Read the whole message.</strong> Do not skim to the
+                colour red and panic. The last line names the problem.
+              </li>
+              <li>
+                <strong>Go to the line number.</strong> If nothing looks wrong
+                there, check the line above — an unclosed bracket is reported on
+                the line where Python gave up, not where you slipped.
+              </li>
+              <li>
+                <strong>Change one thing.</strong> Then run it again. Changing
+                five things at once means you will not know which fixed it.
+              </li>
+              <li>
+                <strong>Print what you are unsure about.</strong> If you do not
+                know what a value is at some point, print it and find out.
+              </li>
+            </ol>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                Each of these is broken in exactly one way. Name the fault in
+                each before checking the next chapter's material:
+              </p>
+              <pre class="code-block"><code>print("Line one)
+Print("Line two")
+print "Line three"</code></pre>
+              <p>
+                In order: an unclosed quote, a capital P where Python expects
+                lowercase, and missing brackets around the text.
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script type="module" src="../../../js/pages/lesson.js"></script>
+
+  </body>
+</html>

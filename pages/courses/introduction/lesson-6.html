@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 6 — Loops — Pung Academy</title>
+    <meta name="description" content="Chapter 6 of Introduction to Programming: why loops exist, for loops, while loops, break and continue." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/base/reset.css" />
+    <link rel="stylesheet" href="../../../css/base/variables.css" />
+    <link rel="stylesheet" href="../../../css/base/global.css" />
+    <link rel="stylesheet" href="../../../css/components/brand.css" />
+    <link rel="stylesheet" href="../../../css/components/navbar.css" />
+    <link rel="stylesheet" href="../../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../../css/components/footer.css" />
+    <link rel="stylesheet" href="../../../css/components/progress.css" />
+    <link rel="stylesheet" href="../../../css/components/video.css" />
+    <link rel="stylesheet" href="../../../css/components/code-block.css" />
+    <link rel="stylesheet" href="../../../css/components/callouts.css" />
+    <link rel="stylesheet" href="../../../css/components/code-editor.css" />
+    <link rel="stylesheet" href="../../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../../css/components/feedback.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="6">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 6</span
+            >
+            <h1 data-chapter-title>Loops</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Why loops?</h2>
+
+            <p>Suppose you want to count from 1 to 5. You could write:</p>
+
+            <pre class="code-block"><code>print(1)
+print(2)
+print(3)
+print(4)
+print(5)</code></pre>
+
+            <p>
+              Now count to a thousand. The approach collapses immediately, and
+              that is before anyone asks you to change the wording — five edits
+              becomes a thousand edits.
+            </p>
+
+            <p>
+              A <strong>loop</strong> runs the same block of code repeatedly.
+              Write the instruction once, and say how many times or under what
+              condition it should repeat. Loops are the first moment programming
+              starts feeling like leverage rather than typing.
+            </p>
+
+            <h2>The for loop</h2>
+
+            <p>
+              A <code>for</code> loop repeats once for each item in a sequence.
+              The most common way to produce that sequence is
+              <code>range()</code>.
+            </p>
+
+            <pre class="code-block"><code>for number in range(1, 6):
+    print(number)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>1
+2
+3
+4
+5</code></pre>
+
+            <p>Reading it aloud: "for each number in the range 1 up to 6, print it."</p>
+
+            <ul>
+              <li>
+                <code>number</code> is the <strong>loop variable</strong>. You
+                choose the name; it holds a different value each time round.
+              </li>
+              <li>
+                <code>range(1, 6)</code> produces 1, 2, 3, 4, 5.
+              </li>
+              <li>
+                The colon and the indented body work exactly as they did for
+                <code>if</code>.
+              </li>
+            </ul>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — the off-by-one trap</span>
+              <p>
+                <code>range(1, 6)</code> stops <em>before</em> 6. The second
+                number is where it stops, not the last value produced. To count
+                to 10 you need <code>range(1, 11)</code>. Nearly every
+                programmer has shipped a bug from this at some point.
+              </p>
+            </div>
+
+            <h3>The three forms of range()</h3>
+
+            <pre class="code-block"><code>range(5)          # 0, 1, 2, 3, 4       -- starts at 0
+range(2, 6)       # 2, 3, 4, 5          -- start and stop
+range(0, 10, 2)   # 0, 2, 4, 6, 8       -- start, stop, step</code></pre>
+
+            <h3>Accumulating a result</h3>
+
+            <p>
+              Loops become genuinely useful when they build something up. The
+              pattern: create a variable before the loop, change it inside.
+            </p>
+
+            <pre class="code-block"><code>total = 0
+
+for number in range(1, 11):
+    total += number
+
+print(f"The sum of 1 to 10 is {total}")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>The sum of 1 to 10 is 55</code></pre>
+
+            <p>
+              <code>total</code> must be created <em>before</em> the loop. Put
+              it inside and it resets to zero on every pass, and your answer is
+              always the last number.
+            </p>
+
+            <h2>The while loop</h2>
+
+            <p>
+              A <code>while</code> loop repeats for as long as a condition stays
+              True. Use it when you do not know in advance how many repetitions
+              you need.
+            </p>
+
+            <pre class="code-block"><code>count = 1
+
+while count &lt;= 5:
+    print(count)
+    count += 1</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>1
+2
+3
+4
+5</code></pre>
+
+            <p>Every while loop needs three things, and missing any one breaks it:</p>
+
+            <ol>
+              <li>Something set up before the loop (<code>count = 1</code>)</li>
+              <li>A condition that can become False (<code>count &lt;= 5</code>)</li>
+              <li>
+                Something inside the body that moves towards that
+                (<code>count += 1</code>)
+              </li>
+            </ol>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — infinite loops</span>
+              <p>
+                Delete <code>count += 1</code> and the condition never becomes
+                False. The program prints <code>1</code> forever. If that
+                happens, press <strong>Ctrl + C</strong> to stop it. Every
+                programmer writes one; the trick is recognising it fast.
+              </p>
+            </div>
+
+            <h3>Choosing between for and while</h3>
+
+            <ul>
+              <li>
+                <strong>Known number of repetitions</strong> — a
+                <code>for</code> loop. "Do this ten times", "go through this
+                list".
+              </li>
+              <li>
+                <strong>Unknown, condition-driven</strong> — a
+                <code>while</code> loop. "Keep asking until they type a valid
+                answer", "keep playing until the game is won".
+              </li>
+            </ul>
+
+            <p>The classic while-loop job is validating input:</p>
+
+            <pre class="code-block"><code>answer = ""
+
+while answer != "yes" and answer != "no":
+    answer = input("Please type yes or no: ")
+
+print(f"You said {answer}")</code></pre>
+
+            <h2>break and continue</h2>
+
+            <p>Two statements change the flow of a loop from inside it.</p>
+
+            <h3>break — leave the loop entirely</h3>
+
+            <pre class="code-block"><code>for number in range(1, 11):
+    if number == 4:
+        break
+    print(number)
+
+print("Done")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>1
+2
+3
+Done</code></pre>
+
+            <p>
+              When <code>number</code> reaches 4 the loop stops immediately.
+              Numbers 4 to 10 are never reached.
+            </p>
+
+            <h3>continue — skip to the next repetition</h3>
+
+            <pre class="code-block"><code>for number in range(1, 11):
+    if number % 2 != 0:
+        continue
+    print(number)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>2
+4
+6
+8
+10</code></pre>
+
+            <p>
+              Odd numbers hit <code>continue</code>, which abandons the rest of
+              the body and jumps to the next value. The loop itself carries on —
+              that is the difference from <code>break</code>.
+            </p>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                <code>break</code> is often paired with
+                <code>while True:</code> — a loop with a condition that is
+                always True, deliberately exited from inside. You will use
+                exactly that shape for the menu in the final project.
+              </p>
+            </div>
+
+            <h2>Worked example — the Number Guessing Game</h2>
+
+            <p>
+              This chapter's project. It uses a <code>while</code> loop because
+              nobody knows how many guesses it will take, and
+              <code>break</code> to end the moment the answer is right.
+            </p>
+
+            <pre class="code-block"><code># Number Guessing Game
+
+import random
+
+secret = random.randint(1, 20)
+guesses = 0
+
+print("I am thinking of a number between 1 and 20.")
+
+while True:
+    guess = int(input("Your guess: "))
+    guesses += 1
+
+    if guess &lt; secret:
+        print("Too low.")
+    elif guess &gt; secret:
+        print("Too high.")
+    else:
+        print(f"Correct! It took you {guesses} guesses.")
+        break</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>I am thinking of a number between 1 and 20.
+Your guess: 10
+Too low.
+Your guess: 15
+Too high.
+Your guess: 13
+Correct! It took you 3 guesses.</code></pre>
+
+            <p>
+              <code>import random</code> brings in a module of ready-made code —
+              here, <code>randint</code>, which picks a random whole number.
+              Python ships with a great deal of this, and using it is normal
+              rather than cheating.
+            </p>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                How many lines does each of these print, and why do they differ?
+              </p>
+              <pre class="code-block"><code>for i in range(3):
+    print("A")
+
+for i in range(1, 3):
+    print("B")</code></pre>
+              <p>
+                Three A's — <code>range(3)</code> gives 0, 1, 2. Two B's —
+                <code>range(1, 3)</code> gives 1, 2.
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script type="module" src="../../../js/pages/lesson.js"></script>
+
+  </body>
+</html>

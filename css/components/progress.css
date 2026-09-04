@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Progress bar
+   ========================================================================== */
+
+/* =======================================================================
+   Fork into the two future paths
+   ======================================================================= */
+.fork {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  height: 58px;
+  margin-inline: auto;
+}
+
+.fork__stem,
+.fork__drop {
+  position: absolute;
+  width: 3px;
+  background-color: var(--color-border-strong);
+}
+
+.fork__stem {
+  top: 0;
+  left: 50%;
+  height: 26px;
+  transform: translateX(-50%);
+}
+
+.fork__bar {
+  position: absolute;
+  top: 26px;
+  left: 25%;
+  right: 25%;
+  height: 3px;
+  background-color: var(--color-border-strong);
+}

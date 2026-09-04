@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 4 — Operators — Pung Academy</title>
+    <meta name="description" content="Chapter 4 of Introduction to Programming: arithmetic operators, comparison operators, boolean logic and logical operators." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/base/reset.css" />
+    <link rel="stylesheet" href="../../../css/base/variables.css" />
+    <link rel="stylesheet" href="../../../css/base/global.css" />
+    <link rel="stylesheet" href="../../../css/components/brand.css" />
+    <link rel="stylesheet" href="../../../css/components/navbar.css" />
+    <link rel="stylesheet" href="../../../css/components/buttons.css" />
+    <link rel="stylesheet" href="../../../css/components/footer.css" />
+    <link rel="stylesheet" href="../../../css/components/progress.css" />
+    <link rel="stylesheet" href="../../../css/components/video.css" />
+    <link rel="stylesheet" href="../../../css/components/code-block.css" />
+    <link rel="stylesheet" href="../../../css/components/callouts.css" />
+    <link rel="stylesheet" href="../../../css/components/code-editor.css" />
+    <link rel="stylesheet" href="../../../css/components/forms.css" />
+    <link rel="stylesheet" href="../../../css/components/feedback.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="4">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 4</span
+            >
+            <h1 data-chapter-title>Operators</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Arithmetic operators</h2>
+
+            <p>
+              An <strong>operator</strong> is a symbol that does something to
+              values. You already met one: <code>+</code>. Here is the full set
+              you need for arithmetic.
+            </p>
+
+            <pre class="code-block"><code>a = 17
+b = 5
+
+print(a + b)    # addition        22
+print(a - b)    # subtraction     12
+print(a * b)    # multiplication  85
+print(a / b)    # division        3.4
+print(a // b)   # floor division  3
+print(a % b)    # remainder       2
+print(a ** b)   # power           1419857</code></pre>
+
+            <p>The last three deserve a proper explanation.</p>
+
+            <h3>Division always gives a float</h3>
+
+            <p>
+              <code>/</code> gives a decimal answer even when the division is
+              exact. <code>10 / 2</code> is <code>5.0</code>, not
+              <code>5</code>. If you need a whole number, use
+              <code>//</code>, which divides and throws away anything after the
+              decimal point.
+            </p>
+
+            <pre class="code-block"><code>print(7 / 2)    # 3.5
+print(7 // 2)   # 3</code></pre>
+
+            <h3>The remainder operator</h3>
+
+            <p>
+              <code>%</code> — usually said "modulo" — gives what is left over
+              after a division. <code>17 % 5</code> is <code>2</code>, because 5
+              goes into 17 three times with 2 remaining.
+            </p>
+
+            <p>
+              This sounds like a mathematical curiosity and is in fact one of
+              the most useful operators you will ever meet, because
+              <code>x % 2</code> tells you instantly whether a number is even:
+            </p>
+
+            <pre class="code-block"><code>print(10 % 2)   # 0  -> even
+print(11 % 2)   # 1  -> odd</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Anything that repeats in a cycle can be done with
+                <code>%</code>: every third item, wrapping a clock at 12,
+                alternating row colours. Remember it exists.
+              </p>
+            </div>
+
+            <h3>Order of operations</h3>
+
+            <p>
+              Python follows normal mathematical precedence: powers first, then
+              multiplication and division, then addition and subtraction.
+              Brackets override everything.
+            </p>
+
+            <pre class="code-block"><code>print(2 + 3 * 4)      # 14  -- the multiplication happens first
+print((2 + 3) * 4)    # 20  -- brackets force the addition first</code></pre>
+
+            <p>
+              When in doubt, add brackets. Nobody has ever been confused by too
+              many; plenty of programs have been wrong because of too few.
+            </p>
+
+            <h3>Shorthand assignment</h3>
+
+            <p>
+              Updating a variable using its own current value is so common it
+              has a shorthand:
+            </p>
+
+            <pre class="code-block"><code>score = 10
+
+score = score + 5   # the long way
+score += 5          # exactly the same thing
+
+print(score)        # 20</code></pre>
+
+            <p>
+              <code>-=</code>, <code>*=</code> and <code>/=</code> work the same
+              way. You will use <code>+=</code> constantly once you reach loops.
+            </p>
+
+            <h2>Comparison operators</h2>
+
+            <p>
+              A <strong>comparison operator</strong> compares two values and
+              produces a boolean — <code>True</code> or <code>False</code>.
+              These are what decisions are built from.
+            </p>
+
+            <pre class="code-block"><code>a = 17
+b = 5
+
+print(a &gt; b)     # greater than              True
+print(a &lt; b)     # less than                 False
+print(a &gt;= b)    # greater than or equal to  True
+print(a &lt;= b)    # less than or equal to     False
+print(a == b)    # equal to                  False
+print(a != b)    # not equal to              True</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — one equals sign or two?</span>
+              <p>
+                <code>=</code> <em>assigns</em> a value.
+                <code>==</code> <em>asks whether</em> two values are the same.
+                <code>age = 18</code> sets the age to 18.
+                <code>age == 18</code> asks whether it already is. Mixing these
+                up is the single most common beginner error in every language
+                that uses both.
+              </p>
+            </div>
+
+            <p>Comparisons work on strings too, and they are case-sensitive:</p>
+
+            <pre class="code-block"><code>print("cat" == "cat")   # True
+print("Cat" == "cat")   # False</code></pre>
+
+            <h2>Boolean logic</h2>
+
+            <p>
+              Often a decision depends on more than one thing at once. "You may
+              enter if you are over 18 <em>and</em> you have a ticket" is two
+              conditions joined together. <strong>Logical operators</strong> do
+              that joining.
+            </p>
+
+            <ul>
+              <li>
+                <code>and</code> — True only when <em>both</em> sides are True
+              </li>
+              <li>
+                <code>or</code> — True when <em>at least one</em> side is True
+              </li>
+              <li><code>not</code> — flips True to False and back</li>
+            </ul>
+
+            <pre class="code-block"><code>age = 20
+has_ticket = True
+
+print(age &gt;= 18 and has_ticket)    # True
+print(age &gt;= 65 or has_ticket)     # True
+print(not has_ticket)              # False</code></pre>
+
+            <h3>Truth tables</h3>
+
+            <p>
+              If you are unsure what a combination produces, the complete
+              behaviour of each operator fits in a small table:
+            </p>
+
+            <pre class="code-block"><code>A       B       A and B    A or B
+True    True    True       True
+True    False   False      True
+False   True    False      True
+False   False   False      False</code></pre>
+
+            <p>
+              The pattern worth memorising: <code>and</code> is strict — one
+              False ruins it. <code>or</code> is generous — one True is enough.
+            </p>
+
+            <h3>Combining comparisons</h3>
+
+            <pre class="code-block"><code>temperature = 22
+
+is_comfortable = temperature &gt;= 18 and temperature &lt;= 25
+print(is_comfortable)   # True</code></pre>
+
+            <p>
+              Each comparison produces a boolean first, and then
+              <code>and</code> combines the two booleans. Python also allows the
+              shorter mathematical form for ranges:
+            </p>
+
+            <pre class="code-block"><code>print(18 &lt;= temperature &lt;= 25)   # True</code></pre>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                <code>and</code>, <code>or</code> and <code>not</code> are
+                English words in Python. Many other languages use symbols such
+                as <code>&amp;&amp;</code> and <code>||</code> for the same
+                thing. The idea is identical.
+              </p>
+            </div>
+
+            <h2>Worked example — the Simple Calculator</h2>
+
+            <p>
+              This chapter's project. It reads two numbers and reports every
+              operation on them.
+            </p>
+
+            <pre class="code-block"><code># Simple Calculator
+
+first = float(input("First number:  "))
+second = float(input("Second number: "))
+
+print()
+print(f"{first} + {second} = {first + second}")
+print(f"{first} - {second} = {first - second}")
+print(f"{first} * {second} = {first * second}")
+print(f"{first} / {second} = {first / second}")
+
+print()
+print(f"Is the first bigger?  {first &gt; second}")
+print(f"Are they equal?       {first == second}")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>First number:  12
+Second number: 4
+
+12.0 + 4.0 = 16.0
+12.0 - 4.0 = 8.0
+12.0 * 4.0 = 48.0
+12.0 / 4.0 = 3.0
+
+Is the first bigger?  True
+Are they equal?       False</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Run that with a second number of <code>0</code> and the division
+                line crashes with <code>ZeroDivisionError</code>. Real programs
+                have to check for that before dividing — which needs an
+                <code>if</code> statement, and that is exactly where the next
+                chapter starts.
+              </p>
+            </div>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                Work out what each of these prints before running it:
+              </p>
+              <pre class="code-block"><code>print(10 % 3 == 1)
+print(5 &gt; 3 and 2 &gt; 4)
+print(not (5 == 5))</code></pre>
+              <p>Answers: True, False, False.</p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script type="module" src="../../../js/pages/lesson.js"></script>
+
+  </body>
+</html>

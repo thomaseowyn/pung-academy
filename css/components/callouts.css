@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Notes, tips, warnings and try-it boxes
+   ========================================================================== */
+
+/* ---------------------------- Notes and tips ----------------------------- */
+.callout {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  background-color: var(--color-accent-soft);
+  font-size: 0.95rem;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.callout__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.callout--tip {
+  border-left-color: var(--color-done);
+  background-color: var(--color-done-bg);
+}
+
+.callout--tip .callout__label {
+  color: var(--color-done);
+}
+
+.callout--warning {
+  border-left-color: #b45309;
+  background-color: #fffbeb;
+}
+
+.callout--warning .callout__label {
+  color: #b45309;
+}
+
+/* Small in-lesson "try this" boxes. */
+.try-it {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+}
+
+.try-it__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.try-it p:last-child {
+  margin-bottom: 0;
+}
