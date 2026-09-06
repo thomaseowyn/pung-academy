@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Pung Academy — master stylesheet
+   --------------------------------------------------------------------------
+   The single entry point for the site's shared look and feel. Every page
+   links this file, then adds its own page stylesheet from css/pages/.
+
+       <link rel="stylesheet" href="css/main.css" />
+       <link rel="stylesheet" href="css/pages/landing.css" />
+
+   Order matters: the reset comes first, then the design tokens every other
+   file reads, then global layout, then the reusable components.
+
+   The four team profile pages deliberately do NOT use this file — each is a
+   standalone personal design with its own stylesheet.
+   ========================================================================== */
+
+/* ---- Base: reset, design tokens, shared layout ------------------------- */
+@import url("base/reset.css");
+@import url("base/variables.css");
+@import url("base/global.css");
+
+/* ---- Components: reusable across pages --------------------------------- */
+@import url("components/brand.css");
+@import url("components/navbar.css");
+@import url("components/footer.css");
+@import url("components/buttons.css");
+@import url("components/cards.css");
+@import url("components/cta.css");
+@import url("components/forms.css");
+@import url("components/feedback.css");
+@import url("components/progress.css");
+@import url("components/course-node.css");
+@import url("components/chapter-row.css");
+@import url("components/callouts.css");
+@import url("components/code-block.css");
+@import url("components/code-editor.css");
+@import url("components/video.css");

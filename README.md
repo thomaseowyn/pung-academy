@@ -22,6 +22,7 @@ pung-academy/
 │   └── team/kevin.html  bryan.html  elvin.html  thomas.html
 │
 ├── css/
+│   ├── main.css            Master stylesheet — every page links this
 │   ├── base/               reset · variables (tokens) · global
 │   ├── components/         brand, navbar, footer, buttons, cards, forms,
 │   │                       progress, course-node, chapter-row, callouts,
@@ -50,6 +51,11 @@ pung-academy/
 **One namespace, `Pung`.** Each file wraps itself in an IIFE and registers on
 `window.Pung`, e.g. `Pung.CourseProgressModel`. Nothing else is global, so no
 two files can collide.
+
+**One master stylesheet.** Every page links exactly two CSS files:
+`css/main.css` (which `@import`s base + all components) and its own
+`css/pages/*.css`. The four team profile pages are the deliberate exception —
+each is a standalone personal design with its own stylesheet only.
 
 **Plain `<script>` tags, in dependency order.** Not ES modules — those cannot
 load from `file://`, and this project has to work when someone double-clicks
