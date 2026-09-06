@@ -1,0 +1,133 @@
+Date : 2026-09-06 00:11:46
+Directory : c:\Users\Thomas\pung-academy
+Total : 80 files,  10680 codes, 534 comments, 1830 blanks, all 13044 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| HTML       |         21 |      5,378 |         94 |        857 |      6,329 |
+| PostCSS    |         29 |      3,235 |        203 |        585 |      4,023 |
+| JavaScript |         24 |      1,793 |        225 |        320 |      2,338 |
+| Markdown   |          1 |        172 |          0 |         46 |        218 |
+| Python     |          1 |         58 |         12 |         18 |         88 |
+| XML        |          4 |         44 |          0 |          4 |         48 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                        | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                           |         80 |     10,680 |        534 |      1,830 |     13,044 |
+| . (Files)                                                                   |          2 |        515 |          7 |         68 |        590 |
+| assets                                                                      |          4 |         44 |          0 |          4 |         48 |
+| assets\icons                                                                |          1 |          5 |          0 |          1 |          6 |
+| assets\images                                                               |          3 |         39 |          0 |          3 |         42 |
+| css                                                                         |         29 |      3,235 |        203 |        585 |      4,023 |
+| css\base                                                                    |          3 |        171 |         23 |         34 |        228 |
+| css\components                                                              |         15 |      1,200 |         83 |        219 |      1,502 |
+| css\pages                                                                   |         11 |      1,864 |         97 |        332 |      2,293 |
+| css\pages (Files)                                                           |          7 |        740 |         44 |        141 |        925 |
+| css\pages\team                                                              |          4 |      1,124 |         53 |        191 |      1,368 |
+| js                                                                          |         24 |      1,793 |        225 |        320 |      2,338 |
+| js\config                                                                   |          1 |        430 |         10 |         15 |        455 |
+| js\controllers                                                              |          3 |        245 |         33 |         55 |        333 |
+| js\models                                                                   |          2 |        198 |         45 |         53 |        296 |
+| js\pages                                                                    |         10 |         91 |         23 |         27 |        141 |
+| js\services                                                                 |          3 |         89 |         45 |         24 |        158 |
+| js\views                                                                    |          5 |        740 |         69 |        146 |        955 |
+| pages                                                                       |         20 |      5,035 |         87 |        835 |      5,957 |
+| pages (Files)                                                               |          5 |        793 |         15 |         63 |        871 |
+| pages\courses                                                               |         11 |      3,610 |         53 |        715 |      4,378 |
+| pages\courses (Files)                                                       |          1 |        120 |          3 |         10 |        133 |
+| pages\courses\introduction                                                  |         10 |      3,490 |         50 |        705 |      4,245 |
+| pages\team                                                                  |          4 |        632 |         19 |         57 |        708 |
+| tools                                                                       |          1 |         58 |         12 |         18 |         88 |
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                    | language   | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\Thomas\pung-academy\README.md                                      | Markdown   |        172 |          0 |         46 |        218 |
+| c:\Users\Thomas\pung-academy\assets\icons\logo.svg                          | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\Thomas\pung-academy\assets\images\bryan.svg                        | XML        |         13 |          0 |          1 |         14 |
+| c:\Users\Thomas\pung-academy\assets\images\elvin.svg                        | XML        |         13 |          0 |          1 |         14 |
+| c:\Users\Thomas\pung-academy\assets\images\kevin.svg                        | XML        |         13 |          0 |          1 |         14 |
+| c:\Users\Thomas\pung-academy\css\base\global.css                            | PostCSS    |         45 |          4 |          9 |         58 |
+| c:\Users\Thomas\pung-academy\css\base\reset.css                             | PostCSS    |         84 |          7 |         15 |        106 |
+| c:\Users\Thomas\pung-academy\css\base\variables.css                         | PostCSS    |         42 |         12 |         10 |         64 |
+| c:\Users\Thomas\pung-academy\css\components\brand.css                       | PostCSS    |         19 |          3 |          4 |         26 |
+| c:\Users\Thomas\pung-academy\css\components\buttons.css                     | PostCSS    |         67 |          4 |         15 |         86 |
+| c:\Users\Thomas\pung-academy\css\components\callouts.css                    | PostCSS    |         54 |          5 |         11 |         70 |
+| c:\Users\Thomas\pung-academy\css\components\cards.css                       | PostCSS    |        166 |          6 |         32 |        204 |
+| c:\Users\Thomas\pung-academy\css\components\chapter-row.css                 | PostCSS    |        135 |          9 |         23 |        167 |
+| c:\Users\Thomas\pung-academy\css\components\code-block.css                  | PostCSS    |         57 |          6 |          8 |         71 |
+| c:\Users\Thomas\pung-academy\css\components\code-editor.css                 | PostCSS    |         60 |          4 |          9 |         73 |
+| c:\Users\Thomas\pung-academy\css\components\course-node.css                 | PostCSS    |        241 |         14 |         39 |        294 |
+| c:\Users\Thomas\pung-academy\css\components\cta.css                         | PostCSS    |         21 |          3 |          5 |         29 |
+| c:\Users\Thomas\pung-academy\css\components\feedback.css                    | PostCSS    |         53 |          5 |         11 |         69 |
+| c:\Users\Thomas\pung-academy\css\components\footer.css                      | PostCSS    |         52 |          3 |         11 |         66 |
+| c:\Users\Thomas\pung-academy\css\components\forms.css                       | PostCSS    |        120 |          6 |         24 |        150 |
+| c:\Users\Thomas\pung-academy\css\components\navbar.css                      | PostCSS    |         78 |          5 |         14 |         97 |
+| c:\Users\Thomas\pung-academy\css\components\progress.css                    | PostCSS    |         27 |          6 |          5 |         38 |
+| c:\Users\Thomas\pung-academy\css\components\video.css                       | PostCSS    |         50 |          4 |          8 |         62 |
+| c:\Users\Thomas\pung-academy\css\pages\about.css                            | PostCSS    |        130 |          8 |         26 |        164 |
+| c:\Users\Thomas\pung-academy\css\pages\auth.css                             | PostCSS    |         98 |          5 |         18 |        121 |
+| c:\Users\Thomas\pung-academy\css\pages\coming-soon.css                      | PostCSS    |         19 |          4 |          5 |         28 |
+| c:\Users\Thomas\pung-academy\css\pages\course-overview.css                  | PostCSS    |         50 |          7 |         10 |         67 |
+| c:\Users\Thomas\pung-academy\css\pages\course-tree.css                      | PostCSS    |         16 |          4 |          5 |         25 |
+| c:\Users\Thomas\pung-academy\css\pages\landing.css                          | PostCSS    |        150 |          5 |         24 |        179 |
+| c:\Users\Thomas\pung-academy\css\pages\lesson.css                           | PostCSS    |        277 |         11 |         53 |        341 |
+| c:\Users\Thomas\pung-academy\css\pages\team\bryan.css                       | PostCSS    |        258 |         14 |         43 |        315 |
+| c:\Users\Thomas\pung-academy\css\pages\team\elvin.css                       | PostCSS    |        315 |         12 |         52 |        379 |
+| c:\Users\Thomas\pung-academy\css\pages\team\kevin.css                       | PostCSS    |        273 |         12 |         47 |        332 |
+| c:\Users\Thomas\pung-academy\css\pages\team\thomas.css                      | PostCSS    |        278 |         15 |         49 |        342 |
+| c:\Users\Thomas\pung-academy\index.html                                     | HTML       |        343 |          7 |         22 |        372 |
+| c:\Users\Thomas\pung-academy\js\config\courseData.js                        | JavaScript |        430 |         10 |         15 |        455 |
+| c:\Users\Thomas\pung-academy\js\controllers\AuthController.js               | JavaScript |         52 |          7 |         15 |         74 |
+| c:\Users\Thomas\pung-academy\js\controllers\CourseController.js             | JavaScript |         48 |          8 |         11 |         67 |
+| c:\Users\Thomas\pung-academy\js\controllers\LessonController.js             | JavaScript |        145 |         18 |         29 |        192 |
+| c:\Users\Thomas\pung-academy\js\models\CourseProgressModel.js               | JavaScript |        107 |         26 |         27 |        160 |
+| c:\Users\Thomas\pung-academy\js\models\UserModel.js                         | JavaScript |         91 |         19 |         26 |        136 |
+| c:\Users\Thomas\pung-academy\js\pages\_shared.js                            | JavaScript |         41 |         14 |          9 |         64 |
+| c:\Users\Thomas\pung-academy\js\pages\about-us.js                           | JavaScript |          4 |          1 |          2 |          7 |
+| c:\Users\Thomas\pung-academy\js\pages\coming-soon.js                        | JavaScript |          4 |          1 |          2 |          7 |
+| c:\Users\Thomas\pung-academy\js\pages\course-overview.js                    | JavaScript |          5 |          1 |          2 |          8 |
+| c:\Users\Thomas\pung-academy\js\pages\course-tree.js                        | JavaScript |          5 |          1 |          2 |          8 |
+| c:\Users\Thomas\pung-academy\js\pages\landing.js                            | JavaScript |          4 |          1 |          2 |          7 |
+| c:\Users\Thomas\pung-academy\js\pages\lesson.js                             | JavaScript |          5 |          1 |          2 |          8 |
+| c:\Users\Thomas\pung-academy\js\pages\login.js                              | JavaScript |          5 |          1 |          2 |          8 |
+| c:\Users\Thomas\pung-academy\js\pages\signup.js                             | JavaScript |          5 |          1 |          2 |          8 |
+| c:\Users\Thomas\pung-academy\js\pages\team.js                               | JavaScript |         13 |          1 |          2 |         16 |
+| c:\Users\Thomas\pung-academy\js\services\PathService.js                     | JavaScript |         27 |         16 |          7 |         50 |
+| c:\Users\Thomas\pung-academy\js\services\StorageService.js                  | JavaScript |         31 |         17 |          7 |         55 |
+| c:\Users\Thomas\pung-academy\js\services\ValidationService.js               | JavaScript |         31 |         12 |         10 |         53 |
+| c:\Users\Thomas\pung-academy\js\views\AuthView.js                           | JavaScript |         56 |          9 |         13 |         78 |
+| c:\Users\Thomas\pung-academy\js\views\CourseOverviewView.js                 | JavaScript |        111 |         11 |         25 |        147 |
+| c:\Users\Thomas\pung-academy\js\views\CourseTreeView.js                     | JavaScript |         74 |          7 |         18 |         99 |
+| c:\Users\Thomas\pung-academy\js\views\LessonView.js                         | JavaScript |        365 |         25 |         70 |        460 |
+| c:\Users\Thomas\pung-academy\js\views\SiteChromeView.js                     | JavaScript |        134 |         17 |         20 |        171 |
+| c:\Users\Thomas\pung-academy\pages\about-us.html                            | HTML       |        215 |          4 |         17 |        236 |
+| c:\Users\Thomas\pung-academy\pages\coming-soon.html                         | HTML       |         75 |          0 |          5 |         80 |
+| c:\Users\Thomas\pung-academy\pages\course-tree.html                         | HTML       |        172 |          7 |         17 |        196 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction-to-programming.html | HTML       |        120 |          3 |         10 |        133 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-1.html       | HTML       |        306 |          5 |         46 |        357 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-10.html      | HTML       |        363 |          5 |         74 |        442 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-2.html       | HTML       |        320 |          5 |         52 |        377 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-3.html       | HTML       |        398 |          5 |         84 |        487 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-4.html       | HTML       |        322 |          5 |         69 |        396 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-5.html       | HTML       |        337 |          5 |         68 |        410 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-6.html       | HTML       |        341 |          5 |         72 |        418 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-7.html       | HTML       |        354 |          5 |         91 |        450 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-8.html       | HTML       |        354 |          5 |         81 |        440 |
+| c:\Users\Thomas\pung-academy\pages\courses\introduction\lesson-9.html       | HTML       |        395 |          5 |         68 |        468 |
+| c:\Users\Thomas\pung-academy\pages\login.html                               | HTML       |        142 |          2 |         11 |        155 |
+| c:\Users\Thomas\pung-academy\pages\signup.html                              | HTML       |        189 |          2 |         13 |        204 |
+| c:\Users\Thomas\pung-academy\pages\team\bryan.html                          | HTML       |        150 |          4 |         15 |        169 |
+| c:\Users\Thomas\pung-academy\pages\team\elvin.html                          | HTML       |        186 |          5 |         15 |        206 |
+| c:\Users\Thomas\pung-academy\pages\team\kevin.html                          | HTML       |        147 |          5 |         11 |        163 |
+| c:\Users\Thomas\pung-academy\pages\team\thomas.html                         | HTML       |        149 |          5 |         16 |        170 |
+| c:\Users\Thomas\pung-academy\tools\check-paths.py                           | Python     |         58 |         12 |         18 |         88 |
+| Total                                                                       |            |     10,680 |        534 |      1,830 |     13,044 |
++-----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
