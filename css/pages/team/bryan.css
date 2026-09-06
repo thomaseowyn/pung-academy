@@ -1,7 +1,5 @@
 /* ==========================================================================
-   Bryan Vegard Suwarno — personal profile page
-   Standalone stylesheet. Warm editorial / magazine identity: serif type,
-   cream paper, generous measure. Intentionally unlike the other profiles.
+   Bryan Vegard Suwarno
    ========================================================================== */
 
 :root {
@@ -266,6 +264,48 @@ a {
   margin: 0;
 }
 
+/* -------------------------------- Page Load Hover Effects ------------------------------ */
+
+/* 1. Define the entrance movement recipe */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px); /* Start 24px lower and invisible */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);    /* Move to original position and fully visible */
+  }
+}
+
+/* 2. Apply it with staggered delays so elements enter one after another */
+.headline {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.figure {
+  animation: fadeInUp 0.8s ease-out 0.2s backwards; /* 0.2s delay */
+}
+
+.article {
+  animation: fadeInUp 0.8s ease-out 0.4s backwards; /* 0.4s delay */
+}
+
+/* -------------------------------- Photo Hover Effects ------------------------------ */
+
+.figure__image {
+  /* Enables smooth 0.4-second animation for transforms and shadows */
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border-radius: 8px;
+}
+
+.figure__image:hover {
+  /* Lift up by 6px and scale 2% larger */
+  transform: translateY(-6px) scale(1.02);
+  /* Add a soft elevation shadow */
+  box-shadow: 0 12px 28px rgba(43, 39, 36, 0.15);
+}
+
 /* -------------------------------- Footer ------------------------------ */
 .colophon {
   padding-block: 2.5rem 3.5rem;
@@ -312,3 +352,4 @@ a {
 .colophon p {
   margin: 0 0 0.5rem;
 }
+
