@@ -22,18 +22,22 @@ Pung.Shared = (function () {
   }
 
   /**
-   * If a photo is missing, swap to the bundled placeholder rather than showing
-   * a broken image. Usage: <img src="…/kevin.jpg" data-fallback="…/kevin.svg">
+   * If a photo is missing or fails to load, swap to the bundled fallback.
    */
   function setupImageFallbacks() {
     document.querySelectorAll("img[data-fallback]").forEach((image) => {
-      image.addEventListener(
-        "error",
-        () => {
-          image.src = image.getAttribute("data-fallback");
-        },
-        { once: true }
-      );
+      const handleFallback = () => {
+        const fallback = image.getAttribute("data-fallback");
+        if (fallback && image.src !== fallback) {
+          image.src = fallback;
+        }
+      };
+
+      if (image.complete && image.naturalWidth === 0) {
+        handleFallback();
+      } else {
+        image.addEventListener("error", handleFallback, { once: true });
+      }
     });
   }
 
@@ -43,7 +47,7 @@ Pung.Shared = (function () {
       link.addEventListener("click", (event) => {
         event.preventDefault();
         const label = link.getAttribute("data-coming-soon") || "This section";
-        window.alert(
+        window.alert( 
           `${label} is still being built. In the meantime, create an account to be ` +
             "ready when the first roadmaps open."
         );

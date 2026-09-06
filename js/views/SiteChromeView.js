@@ -127,11 +127,6 @@ Pung.SiteChromeView = (function () {
         <div class="site-footer__grid">
           <div class="site-footer__about">
             ${brandMarkup(routes.home(), routes.asset("icons/logo.svg"))}
-            <p>
-              A structured starting point for people learning to program. We put
-              the lessons in order so beginners can spend their energy on
-              learning rather than on planning.
-            </p>
           </div>
 
           <div>
@@ -139,7 +134,6 @@ Pung.SiteChromeView = (function () {
             <ul class="site-footer__list">
               <li><a href="${routes.courseTree()}">Lessons</a></li>
               <li><a href="${routes.home()}#resources" data-coming-soon="The resource library">Resources</a></li>
-              <li><a href="${routes.home()}#philosophy">Learning philosophy</a></li>
             </ul>
           </div>
 
@@ -147,8 +141,6 @@ Pung.SiteChromeView = (function () {
             <h2 class="site-footer__title">Academy</h2>
             <ul class="site-footer__list">
               <li><a href="${routes.about()}">About Us</a></li>
-              <li><a href="${routes.login()}">Login</a></li>
-              <li><a href="${routes.signup()}">Sign Up</a></li>
             </ul>
           </div>
         </div>`;

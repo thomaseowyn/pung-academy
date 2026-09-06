@@ -94,8 +94,8 @@ root-absolute paths.
 
 ## The course system
 
-**Roadmap** (`pages/course-tree.html`) — a vertical path: start node → Introduction to
-Programming → a locked gate → a fork into Web Development and Artificial
+**Roadmap** (`pages/course-tree.html`) — a vertical path: Fundamentals → Introduction to
+Programming → a locked gate → a fork into Software Engineer and Artificial
 Intelligence. Both branches stay locked until the first course is finished.
 
 **Progression** — Chapter 1 is open from the start; every other chapter needs
