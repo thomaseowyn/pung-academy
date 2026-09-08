@@ -18,7 +18,7 @@ pung-academy/
 │   ├── coming-soon.html
 │   ├── courses/
 │   │   ├── introduction-to-programming.html
-│   │   └── introduction/lesson-1.html … lesson-10.html
+│   │   └── introduction/lesson-1.html … lesson-12.html
 │   └── team/kevin.html  bryan.html  elvin.html  thomas.html
 │
 ├── css/
@@ -100,8 +100,8 @@ root-absolute paths.
 
 ## The course system
 
-**Roadmap** (`pages/course-tree.html`) — a vertical path: Fundamentals → Introduction to
-Programming → a locked gate → a fork into Software Engineer and Artificial
+**Roadmap** (`pages/course-tree.html`) — a vertical path: start node → Introduction to
+Programming → a locked gate → a fork into Software Engineering and Artificial
 Intelligence. Both branches stay locked until the first course is finished.
 
 **Progression** — Chapter 1 is open from the start; every other chapter needs
@@ -110,12 +110,14 @@ exercise is passed, never just by opening the page. The rule is enforced in
 JavaScript, so typing `pages/courses/introduction/lesson-8.html` directly shows
 a locked screen rather than the content.
 
-**Exercises** — chapters 1–2 use a concept-check question; chapters 3–10 use a
+**Exercises** — Chapter 1 uses a concept-check question; Chapters 2–12 use a
 built-in code editor (plain textarea plus a line-number gutter, no external
 library). Submissions are checked against patterns for the concepts each task
 requires. Nothing is executed — Python cannot run in a static page, and the
 editor says so rather than pretending otherwise. Checks tolerate extra spaces,
-tabs, curly quotes and either quote style.
+tabs, curly quotes and either quote style. Chapter 12 is the course's final
+project: an object-oriented rebuild of the task manager, which also triggers
+the course-complete screen and unlocks the two career branches.
 
 **Progress storage** — `pungAcademyProgress_<email>` for a signed-in user, or
 `pungAcademyProgress_guest` when nobody is signed in, so two local accounts do
@@ -131,10 +133,18 @@ not share a position:
 }
 ```
 
-**Adding chapter videos** — every chapter shows a marked placeholder instead of
-a player, because no YouTube ids have been verified. Put an id into
-`chapters[N].videoId` in `js/config/courseData.js` and that chapter's player
-appears; no other change is needed.
+**Adding chapter videos** — every chapter without a verified YouTube id shows a
+marked placeholder instead of a player. Only Chapter 12 currently has no id —
+by design, since the curriculum this course follows does not pair a video
+with the final project. Put an id into `chapters[N].videoId` in
+`js/config/courseData.js` and that chapter's player appears; no other change
+is needed.
+
+**The 12 chapters** follow a two-phase Python curriculum: Chapters 1–6 are
+foundational (variables through dictionaries and sets), Chapters 7–12 are
+intermediate (functions, error handling, files, modules, OOP, and Pythonic
+style). Eight chapters (5–12) carry a named worked-example project; Chapter 12
+is the final, object-oriented capstone.
 
 **Editing course content** — chapter titles, summaries, topics, projects and
 every exercise (prompt, starter code, checks, hint, solution) live in
@@ -205,8 +215,8 @@ a 1:1 frame.
 - **Passwords are stored as plain text** (see the warning above).
 - **Resources is not built.** The navigation item is signposted with a "Soon"
   badge and explains itself when clicked.
-- **Only Introduction to Programming exists.** Web Development and Artificial
-  Intelligence are shown on the roadmap and link to `coming-soon.html`.
+- **Only Introduction to Programming exists.** Software Engineering and
+  Artificial Intelligence are shown on the roadmap and link to `coming-soon.html`.
 - **Exercises are pattern-checked, not executed.** A submission that contains
   the right constructs passes even if the program would not actually run.
 - Google Fonts are loaded from a CDN, so the pages fall back to system fonts

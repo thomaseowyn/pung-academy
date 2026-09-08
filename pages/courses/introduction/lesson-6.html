@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 6 — Loops — Pung Academy</title>
-    <meta name="description" content="Chapter 6 of Introduction to Programming: why loops exist, for loops, while loops, break and continue." />
+    <title>Chapter 6 — Data Structures Part 2 (Key-Value &amp; Sets) — Pung Academy</title>
+    <meta name="description" content="Chapter 6 of Introduction to Programming: dictionaries, sets, nested data, dict methods, enumerate, zip, and mutability." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 6</span
             >
-            <h1 data-chapter-title>Loops</h1>
+            <h1 data-chapter-title>Data Structures Part 2 (Key-Value &amp; Sets)</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,280 +62,233 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Why loops?</h2>
-
-            <p>Suppose you want to count from 1 to 5. You could write:</p>
-
-            <pre class="code-block"><code>print(1)
-print(2)
-print(3)
-print(4)
-print(5)</code></pre>
+            <h2>Dictionaries: looking things up by name</h2>
 
             <p>
-              Now count to a thousand. The approach collapses immediately, and
-              that is before anyone asks you to change the wording — five edits
-              becomes a thousand edits.
+              A list is indexed by position, which is fine when order is what
+              matters. Often it is not — you want to look something up by
+              name. A <strong>dictionary</strong> stores
+              <strong>key-value pairs</strong>. Curly braces, each entry
+              <code>key: value</code>:
             </p>
 
-            <p>
-              A <strong>loop</strong> runs the same block of code repeatedly.
-              Write the instruction once, and say how many times or under what
-              condition it should repeat. Loops are the first moment programming
-              starts feeling like leverage rather than typing.
-            </p>
+            <pre class="code-block"><code>student = {
+    "name": "Alex",
+    "age": 20,
+    "grade": 78
+}</code></pre>
 
-            <h2>The for loop</h2>
+            <p>You look values up by key, not by position:</p>
 
-            <p>
-              A <code>for</code> loop repeats once for each item in a sequence.
-              The most common way to produce that sequence is
-              <code>range()</code>.
-            </p>
+            <pre class="code-block"><code>print(student["name"])    # Alex
+print(student["grade"])   # 78</code></pre>
 
-            <pre class="code-block"><code>for number in range(1, 6):
-    print(number)</code></pre>
+            <h3>Changing and adding</h3>
+
+            <pre class="code-block"><code>student["grade"] = 85          # change an existing value
+student["city"] = "Jakarta"    # a new key simply appears
+del student["age"]             # remove a pair
+
+print(student)</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>1
-2
-3
-4
-5</code></pre>
-
-            <p>Reading it aloud: "for each number in the range 1 up to 6, print it."</p>
-
-            <ul>
-              <li>
-                <code>number</code> is the <strong>loop variable</strong>. You
-                choose the name; it holds a different value each time round.
-              </li>
-              <li>
-                <code>range(1, 6)</code> produces 1, 2, 3, 4, 5.
-              </li>
-              <li>
-                The colon and the indented body work exactly as they did for
-                <code>if</code>.
-              </li>
-            </ul>
+            <pre class="output-block"><code>{'name': 'Alex', 'grade': 85, 'city': 'Jakarta'}</code></pre>
 
             <div class="callout callout--warning">
-              <span class="callout__label">Careful — the off-by-one trap</span>
+              <span class="callout__label">Careful</span>
               <p>
-                <code>range(1, 6)</code> stops <em>before</em> 6. The second
-                number is where it stops, not the last value produced. To count
-                to 10 you need <code>range(1, 11)</code>. Nearly every
-                programmer has shipped a bug from this at some point.
+                Asking for a key that does not exist raises
+                <code>KeyError</code>. Looking up safely is exactly what the
+                next section is for.
               </p>
             </div>
 
-            <h3>The three forms of range()</h3>
+            <h2>Dictionary methods: .get(), .keys(), .values(), .items()</h2>
 
-            <pre class="code-block"><code>range(5)          # 0, 1, 2, 3, 4       -- starts at 0
-range(2, 6)       # 2, 3, 4, 5          -- start and stop
-range(0, 10, 2)   # 0, 2, 4, 6, 8       -- start, stop, step</code></pre>
+            <pre class="code-block"><code>student = {"name": "Alex", "grade": 78}
 
-            <h3>Accumulating a result</h3>
+print(student.get("grade"))              # 78
+print(student.get("city", "Unknown"))    # Unknown -- the default, since "city" is missing
+
+print(list(student.keys()))     # ['name', 'grade']
+print(list(student.values()))   # ['Alex', 78]
+
+for key, value in student.items():
+    print(key, "->", value)</code></pre>
 
             <p>
-              Loops become genuinely useful when they build something up. The
-              pattern: create a variable before the loop, change it inside.
+              <code>.get(key, default)</code> never raises
+              <code>KeyError</code> — it hands back <code>default</code>
+              instead when the key is missing, which makes it the safe way to
+              read a dictionary you are not certain about.
+              <code>.items()</code> is what lets a loop unpack both the key
+              and the value at once.
             </p>
 
-            <pre class="code-block"><code>total = 0
+            <h2>Sets: uniqueness without order</h2>
 
-for number in range(1, 11):
-    total += number
+            <p>
+              A <strong>set</strong> holds values with no duplicates and no
+              guaranteed order. Curly braces, but no colons:
+            </p>
 
-print(f"The sum of 1 to 10 is {total}")</code></pre>
+            <pre class="code-block"><code>colours = {"red", "green", "blue", "red"}
+print(colours)          # {'red', 'green', 'blue'} -- the duplicate is gone
+
+a = {1, 2, 3}
+b = {2, 3, 4}
+print(a & b)   # {2, 3}         -- intersection: in both
+print(a | b)   # {1, 2, 3, 4}   -- union: in either</code></pre>
+
+            <p>
+              Turning a list into a set is the fastest way to remove
+              duplicates:
+            </p>
+
+            <pre class="code-block"><code>numbers = [1, 2, 2, 3, 3, 3]
+unique = set(numbers)
+print(unique)    # {1, 2, 3}</code></pre>
+
+            <h2>Nested data structures</h2>
+
+            <p>
+              Structures can hold other structures — a list of dictionaries,
+              or a dictionary whose values are themselves dictionaries. This
+              shape is everywhere once you start working with real data: API
+              responses, JSON files, database records.
+            </p>
+
+            <pre class="code-block"><code>students = [
+    {"name": "Alex", "grade": 78},
+    {"name": "Bo", "grade": 91}
+]
+
+for student in students:
+    print(f"{student['name']}: {student['grade']}")</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>The sum of 1 to 10 is 55</code></pre>
+            <pre class="output-block"><code>Alex: 78
+Bo: 91</code></pre>
+
+            <h2>enumerate() and zip()</h2>
 
             <p>
-              <code>total</code> must be created <em>before</em> the loop. Put
-              it inside and it resets to zero on every pass, and your answer is
-              always the last number.
+              <code>enumerate()</code> gives you the position and the value
+              together while looping:
             </p>
 
-            <h2>The while loop</h2>
+            <pre class="code-block"><code>names = ["Alex", "Bo", "Chris"]
 
-            <p>
-              A <code>while</code> loop repeats for as long as a condition stays
-              True. Use it when you do not know in advance how many repetitions
-              you need.
-            </p>
-
-            <pre class="code-block"><code>count = 1
-
-while count &lt;= 5:
-    print(count)
-    count += 1</code></pre>
+for position, name in enumerate(names, start=1):
+    print(f"{position}. {name}")</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>1
-2
-3
-4
-5</code></pre>
+            <pre class="output-block"><code>1. Alex
+2. Bo
+3. Chris</code></pre>
 
-            <p>Every while loop needs three things, and missing any one breaks it:</p>
+            <p>
+              <code>zip()</code> walks two sequences together, pairing them up
+              item by item:
+            </p>
 
-            <ol>
-              <li>Something set up before the loop (<code>count = 1</code>)</li>
-              <li>A condition that can become False (<code>count &lt;= 5</code>)</li>
-              <li>
-                Something inside the body that moves towards that
-                (<code>count += 1</code>)
-              </li>
-            </ol>
+            <pre class="code-block"><code>names = ["Alex", "Bo"]
+scores = [78, 91]
 
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful — infinite loops</span>
+for name, score in zip(names, scores):
+    print(name, score)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Alex 78
+Bo 91</code></pre>
+
+            <h2>Mutability and aliasing</h2>
+
+            <p>
+              This is worth taking slowly, because it causes real bugs.
+              Writing <code>a = b</code> for a list does not copy the list —
+              it makes <code>a</code> and <code>b</code> two names for the
+              exact same list.
+            </p>
+
+            <pre class="code-block"><code>original = [1, 2, 3]
+alias = original
+
+alias.append(4)
+print(original)   # [1, 2, 3, 4]  -- changed too, even though we edited "alias"</code></pre>
+
+            <p>To get an independent copy, say so explicitly:</p>
+
+            <pre class="code-block"><code>original = [1, 2, 3]
+copy = original.copy()
+
+copy.append(4)
+print(original)   # [1, 2, 3]  -- untouched
+print(copy)        # [1, 2, 3, 4]</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
               <p>
-                Delete <code>count += 1</code> and the condition never becomes
-                False. The program prints <code>1</code> forever. If that
-                happens, press <strong>Ctrl + C</strong> to stop it. Every
-                programmer writes one; the trick is recognising it fast.
+                This same aliasing happens when you pass a list into a
+                function — the function receives the same list, not a copy.
+                Keep it in mind once you reach functions in the next chapter.
               </p>
             </div>
 
-            <h3>Choosing between for and while</h3>
-
-            <ul>
-              <li>
-                <strong>Known number of repetitions</strong> — a
-                <code>for</code> loop. "Do this ten times", "go through this
-                list".
-              </li>
-              <li>
-                <strong>Unknown, condition-driven</strong> — a
-                <code>while</code> loop. "Keep asking until they type a valid
-                answer", "keep playing until the game is won".
-              </li>
-            </ul>
-
-            <p>The classic while-loop job is validating input:</p>
-
-            <pre class="code-block"><code>answer = ""
-
-while answer != "yes" and answer != "no":
-    answer = input("Please type yes or no: ")
-
-print(f"You said {answer}")</code></pre>
-
-            <h2>break and continue</h2>
-
-            <p>Two statements change the flow of a loop from inside it.</p>
-
-            <h3>break — leave the loop entirely</h3>
-
-            <pre class="code-block"><code>for number in range(1, 11):
-    if number == 4:
-        break
-    print(number)
-
-print("Done")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>1
-2
-3
-Done</code></pre>
+            <h2>Worked example — the Student Grade Analyzer</h2>
 
             <p>
-              When <code>number</code> reaches 4 the loop stops immediately.
-              Numbers 4 to 10 are never reached.
+              This chapter's project puts nested structures, aggregation and
+              <code>enumerate()</code> to work together.
             </p>
 
-            <h3>continue — skip to the next repetition</h3>
+            <pre class="code-block"><code># Student Grade & Class Performance Analyzer
 
-            <pre class="code-block"><code>for number in range(1, 11):
-    if number % 2 != 0:
-        continue
-    print(number)</code></pre>
+students = [
+    {"name": "Alex", "scores": [78, 82, 91]},
+    {"name": "Bo", "scores": [91, 95, 89]},
+    {"name": "Chris", "scores": [65, 70, 68]}
+]
+
+print("--- Class report ---")
+
+for number, student in enumerate(students, start=1):
+    average = sum(student["scores"]) / len(student["scores"])
+    print(f"{number}. {student['name']}: average {average:.1f}")</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>2
-4
-6
-8
-10</code></pre>
+            <pre class="output-block"><code>--- Class report ---
+1. Alex: average 83.7
+2. Bo: average 91.7
+3. Chris: average 67.7</code></pre>
 
             <p>
-              Odd numbers hit <code>continue</code>, which abandons the rest of
-              the body and jumps to the next value. The loop itself carries on —
-              that is the difference from <code>break</code>.
+              Each student is a dictionary holding a list of scores — the
+              exact "list inside a dictionary inside a list" shape this
+              chapter introduced — and <code>sum()</code> /
+              <code>len()</code> turn that inner list into an average.
             </p>
 
-            <div class="callout">
-              <span class="callout__label">Note</span>
+            <div class="callout callout--tip">
+              <span class="callout__label">More to build, if you want</span>
               <p>
-                <code>break</code> is often paired with
-                <code>while True:</code> — a loop with a condition that is
-                always True, deliberately exited from inside. You will use
-                exactly that shape for the menu in the final project.
+                By this chapter you have every tool needed for several other
+                small projects: a shopping cart and receipt generator, a
+                flashcard quiz with a nested dictionary of terms, a contact
+                book, a text-adventure game using dictionaries as rooms, an
+                expense tracker, and a two-player tic-tac-toe board. All of
+                them lean on the same combination this chapter taught — lists,
+                dictionaries, and looping through both.
               </p>
             </div>
-
-            <h2>Worked example — the Number Guessing Game</h2>
-
-            <p>
-              This chapter's project. It uses a <code>while</code> loop because
-              nobody knows how many guesses it will take, and
-              <code>break</code> to end the moment the answer is right.
-            </p>
-
-            <pre class="code-block"><code># Number Guessing Game
-
-import random
-
-secret = random.randint(1, 20)
-guesses = 0
-
-print("I am thinking of a number between 1 and 20.")
-
-while True:
-    guess = int(input("Your guess: "))
-    guesses += 1
-
-    if guess &lt; secret:
-        print("Too low.")
-    elif guess &gt; secret:
-        print("Too high.")
-    else:
-        print(f"Correct! It took you {guesses} guesses.")
-        break</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>I am thinking of a number between 1 and 20.
-Your guess: 10
-Too low.
-Your guess: 15
-Too high.
-Your guess: 13
-Correct! It took you 3 guesses.</code></pre>
-
-            <p>
-              <code>import random</code> brings in a module of ready-made code —
-              here, <code>randint</code>, which picks a random whole number.
-              Python ships with a great deal of this, and using it is normal
-              rather than cheating.
-            </p>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>
-                How many lines does each of these print, and why do they differ?
-              </p>
-              <pre class="code-block"><code>for i in range(3):
-    print("A")
-
-for i in range(1, 3):
-    print("B")</code></pre>
-              <p>
-                Three A's — <code>range(3)</code> gives 0, 1, 2. Two B's —
-                <code>range(1, 3)</code> gives 1, 2.
+                What does <code>student.get("email", "none")</code> return if
+                <code>student</code> has no <code>"email"</code> key? The
+                string <code>"none"</code> — the default you supplied, and no
+                error at all.
               </p>
             </div>
           </section>
@@ -399,6 +352,5 @@ for i in range(1, 3):
     <script src="../../../js/controllers/LessonController.js"></script>
     <script src="../../../js/pages/_shared.js"></script>
     <script src="../../../js/pages/lesson.js"></script>
-
   </body>
 </html>

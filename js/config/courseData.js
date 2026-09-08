@@ -5,7 +5,13 @@
    Introduction to Programming. Editing the course means editing this file
    and nothing else.
 
-   videoId is intentionally empty: each chapter shows a marked placeholder
+   The twelve chapters follow the two-phase curriculum: Chapters 1-6 are
+   foundational Python (variables through data structures), Chapters 7-12
+   are intermediate (functions through object-oriented programming), ending
+   in an OOP capstone project.
+
+   videoId is intentionally empty on any chapter without a verified id,
+   rather than a guessed one — that chapter shows a marked placeholder
    until a real 11-character YouTube id is dropped in here.
    ========================================================================== */
 
@@ -15,440 +21,557 @@ Pung.courseData = (function () {
   "use strict";
 
   const COURSE_ID = "introductionToProgramming";
-  const TOTAL_CHAPTERS = 10;
+  const TOTAL_CHAPTERS = 12;
 
   const chapters = {
-      1: {
-        title: "What is Programming?",
-        summary:
-          "Understand what a program actually is, how problems are broken into steps, and how to plan a solution before writing any code.",
-        topics: [
-          "What is Programming?",
-          "Algorithms & Problem Solving",
-          "Pseudocode",
-          "Flowcharts"
+    /* ==================================================================
+       Phase 1 — Foundational Programming
+       ================================================================== */
+    1: {
+      title: "First Steps & Computational Thinking",
+      summary:
+        "Set up a real coding environment, understand how a program actually runs, and write the first lines of Python you will ever type.",
+      topics: [
+        "Setting up your environment",
+        "Execution flow",
+        "print() and input()",
+        "Comments"
+      ],
+      videoId: "4iUJZEa2xP8",
+      videoTitle: "Environment setup and your first steps in Python",
+      exercise: {
+        kind: "choice",
+        heading: "Concept check",
+        prompt:
+          "You run a Python file and nothing happens on screen until you type something and press Enter. Which line is responsible for that pause?",
+        choices: [
+          'print("Hello")',
+          "# This line asks for your name",
+          'name = input("Your name: ")',
+          'name = "Alex"'
         ],
-        videoId: "",
-        videoTitle: "What is programming? — chapter 1 walkthrough",
-        exercise: {
-          kind: "choice",
-          heading: "Concept check",
-          prompt:
-            "A friend asks you what an algorithm is. Which answer is closest to correct?",
-          choices: [
-            "A programming language used to write instructions for computers.",
-            "A finite, ordered set of steps that solves a problem or completes a task.",
-            "A piece of hardware inside the computer that performs calculations.",
-            "A mistake in a program that makes it produce the wrong result."
-          ],
-          answer: 1,
-          hint:
-            "An algorithm is not a language and not hardware. Think about the recipe analogy from the chapter: what makes a recipe a recipe?",
-          explanation:
-            "An algorithm is the plan — an ordered list of steps that reliably gets you from a starting point to a result. The language you write it in comes afterwards."
-        }
-      },
-
-      2: {
-        title: "Your First Program",
-        summary:
-          "Write and run your first working program, learn how syntax rules work, and stop being afraid of error messages.",
-        topics: [
-          "Writing Your First Program",
-          "Programming Syntax",
-          "Running a Program",
-          "Understanding Errors",
-          "Debugging Basics"
-        ],
-        videoId: "",
-        videoTitle: "Your first program — chapter 2 walkthrough",
-        exercise: {
-          kind: "choice",
-          heading: "Concept check",
-          prompt:
-            "You run your program and Python reports: SyntaxError: '(' was never closed. What has gone wrong?",
-          choices: [
-            "The program ran, but produced the wrong answer.",
-            "Python could not understand the code, because a bracket was left open.",
-            "The computer has run out of memory.",
-            "The file was saved with the wrong name."
-          ],
-          answer: 1,
-          hint:
-            "A SyntaxError happens before the program runs at all. Reread the section on what the two broad families of error mean.",
-          explanation:
-            "A SyntaxError means Python could not even read your code as valid instructions, so nothing ran. These are the easiest errors to fix: go to the line named and look for the unclosed or mistyped character."
-        }
-      },
-
-      3: {
-        title: "Variables & Data",
-        summary:
-          "Store information in named boxes, learn the basic types of data, and read input from the person using your program.",
-        topics: [
-          "Variables",
-          "Data Types",
-          "Strings",
-          "Numbers",
-          "Boolean Values",
-          "User Input",
-          "Type Conversion"
-        ],
-        project: "Personal Information Program",
-        videoId: "",
-        videoTitle: "Variables and data types — chapter 3 walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Exercise — store and show information",
-          prompt:
-            "Create a variable for a person's name and one for their age, then print them both.",
-          starter: "# Create your two variables below, then print them.\n",
-          checks: [
-            {
-              test: /^[^\S\n]*[A-Za-z_]\w*\s*=\s*(['\"]).*?\1/m,
-              message: "Assign a text value to a variable, for example name = \"Alex\"."
-            },
-            {
-              test: /^[^\S\n]*[A-Za-z_]\w*\s*=\s*\d+/m,
-              message: "Assign a number to a variable, for example age = 20."
-            },
-            {
-              test: /print\s*\(/,
-              message: "Use print(...) to display your variables."
-            }
-          ],
-          hint:
-            "You need three lines. Two assignments using =, then a print() that mentions both variable names. Text needs quotes; whole numbers do not.",
-          solution:
-            'name = "Alex"\nage = 20\n\nprint(name, age)',
-          explanation:
-            "You stored two different types of data — a string and an integer — and then displayed both. That is the foundation of every program that works with information."
-        }
-      },
-
-      4: {
-        title: "Operators",
-        summary:
-          "Do arithmetic, compare values, and combine true/false conditions to make your programs calculate and reason.",
-        topics: [
-          "Arithmetic Operators",
-          "Comparison Operators",
-          "Boolean Logic",
-          "Logical Operators"
-        ],
-        project: "Simple Calculator",
-        videoId: "",
-        videoTitle: "Operators and boolean logic — chapter 4 walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Exercise — total up a shopping basket",
-          prompt:
-            "Write a program that stores the price of two items, adds them into a total, and prints the total.",
-          starter:
-            "# Store two prices, add them into a total, then print the total.\n",
-          checks: [
-            {
-              test: /^[^\S\n]*[A-Za-z_]\w*\s*=\s*\d+(\.\d+)?/m,
-              message: "Store your first price in a variable, for example item_one = 4.50."
-            },
-            {
-              test: /=\s*[A-Za-z_]\w*\s*\+\s*[A-Za-z_]\w*/,
-              message:
-                "Add your two variables together into a total, for example total = item_one + item_two."
-            },
-            {
-              test: /print\s*\(/,
-              message: "Print the total so the person running the program can see it."
-            }
-          ],
-          hint:
-            "Store each price in its own variable. Then make a third variable whose value is the first plus the second. Add the two variable names, not the numbers.",
-          solution:
-            "item_one = 4.50\nitem_two = 2.25\n\ntotal = item_one + item_two\nprint(\"Total:\", total)",
-          explanation:
-            "You used an arithmetic operator on two variables and stored the result in a third. Calculating from stored values, rather than from numbers typed inline, is what makes a program reusable."
-        }
-      },
-
-      5: {
-        title: "Making Decisions",
-        summary:
-          "Let your program choose between different paths using conditions, so it can react to whatever it is given.",
-        topics: ["if", "else", "elif", "Nested Conditions", "Combining Conditions"],
-        project: "Grade Calculator",
-        videoId: "",
-        videoTitle: "Conditions and branching — chapter 5 walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Exercise — adult or not",
-          prompt:
-            "Ask for the user's age, then print a different message depending on whether they are 18 or older.",
-          starter:
-            "# Ask for an age, then decide what to print.\n",
-          checks: [
-            {
-              test: /input\s*\(/,
-              message: "Use input(...) to ask the person for their age."
-            },
-            {
-              test: /int\s*\(|float\s*\(/,
-              message:
-                "input() gives you text. Convert it to a number with int(...) before comparing it."
-            },
-            {
-              test: /\bif\b[^\n]*(>=|>|<|<=)/,
-              message: "Use an if statement that compares the age against 18."
-            },
-            {
-              test: /\belse\b|\belif\b/,
-              message: "Handle the other case too, with else (or elif)."
-            }
-          ],
-          hint:
-            "Four ingredients: read with input(), wrap it in int(), compare with >= 18 inside an if, and give the alternative in an else. Remember the colon and the indented line underneath.",
-          solution:
-            'age = int(input("How old are you? "))\n\nif age >= 18:\n    print("You are an adult.")\nelse:\n    print("You are not an adult yet.")',
-          explanation:
-            "Your program now behaves differently depending on its input. Converting the text from input() into a number before comparing is the step beginners most often miss."
-        }
-      },
-
-      6: {
-        title: "Loops",
-        summary:
-          "Repeat work without repeating yourself, and learn how to stop or skip a repetition when you need to.",
-        topics: ["Why Loops?", "for Loops", "while Loops", "break", "continue"],
-        project: "Number Guessing Game",
-        videoId: "",
-        videoTitle: "Loops and repetition — chapter 6 walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Exercise — count to ten",
-          prompt: "Print the numbers 1 to 10, using a loop rather than ten print statements.",
-          starter: "# Print 1 through 10 using a loop.\n",
-          checks: [
-            {
-              test: /\bfor\b[\s\S]*\bin\b|\bwhile\b/,
-              message: "Use a for loop or a while loop — not ten separate print calls."
-            },
-            {
-              test: /print\s*\(/,
-              message: "Print each number inside the loop."
-            },
-            {
-              test: /range\s*\(\s*1\s*,\s*11\s*\)|<=\s*10|<\s*11/,
-              message:
-                "Make sure the loop actually reaches 10. range(1, 11) stops just before 11."
-            }
-          ],
-          hint:
-            "range(1, 11) produces 1 up to and including 10 — the second number is where it stops, not the last value. Put print() on an indented line inside the loop.",
-          solution: "for number in range(1, 11):\n    print(number)",
-          explanation:
-            "One loop replaced ten lines. The off-by-one trap in range() is worth remembering: the end value is exclusive."
-        }
-      },
-
-      7: {
-        title: "Collections",
-        summary:
-          "Hold many values in one place with lists and dictionaries, and work through them with loops.",
-        topics: [
-          "Lists",
-          "Accessing List Elements",
-          "Modifying Lists",
-          "Looping Through Lists",
-          "Dictionaries",
-          "Key-Value Pairs"
-        ],
-        project: "Student Grade Manager",
-        videoId: "",
-        videoTitle: "Lists and dictionaries — chapter 7 walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Exercise — find the largest number",
-          prompt:
-            "Given a list of numbers, work out the largest one and print it. Write the logic yourself with a loop rather than only calling max().",
-          starter: "numbers = [4, 19, 7, 2, 45, 13]\n\n# Find the largest value and print it.\n",
-          checks: [
-            {
-              test: /\[[^\]]*,[^\]]*\]/,
-              message: "Keep a list of several numbers to search through."
-            },
-            {
-              test: /\bfor\b[\s\S]*\bin\b|\bwhile\b/,
-              message: "Loop over the list to inspect each value."
-            },
-            {
-              test: /\bif\b[^\n]*(>|<|>=|<=)/,
-              message:
-                "Inside the loop, compare each value against the largest one found so far."
-            },
-            {
-              test: /print\s*\(/,
-              message: "Print the largest value at the end."
-            }
-          ],
-          hint:
-            "Start by assuming the first item is the largest. Then loop through the list and, whenever you meet a bigger value, replace your stored largest with it. Print after the loop, not inside it.",
-          solution:
-            "numbers = [4, 19, 7, 2, 45, 13]\n\nlargest = numbers[0]\nfor number in numbers:\n    if number > largest:\n        largest = number\n\nprint(\"Largest:\", largest)",
-          explanation:
-            "This is the running-best pattern, and it appears constantly: keep a variable holding the best answer so far, and update it as you go."
-        }
-      },
-
-      8: {
-        title: "Functions",
-        summary:
-          "Give a name to a piece of work, hand it values, get an answer back, and split a big problem into small ones.",
-        topics: [
-          "Why Functions?",
-          "Creating Functions",
-          "Parameters",
-          "Arguments",
-          "Return Values",
-          "Breaking Problems Into Functions"
-        ],
-        project: "Quiz Game",
-        videoId: "",
-        videoTitle: "Functions and decomposition — chapter 8 walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Exercise — a function that adds",
-          prompt:
-            "Create a function that takes two numbers, returns their sum, and then call it and print the result.",
-          starter: "# Define your function, then call it and print what comes back.\n",
-          checks: [
-            {
-              test: /\bdef\s+[A-Za-z_]\w*\s*\(\s*[A-Za-z_]\w*\s*,\s*[A-Za-z_]\w*\s*\)\s*:/,
-              message:
-                "Define a function with def that accepts two parameters, for example def add(a, b):"
-            },
-            {
-              test: /\breturn\b/,
-              message:
-                "Use return to send the answer back — printing inside the function is not the same thing."
-            },
-            {
-              test: /print\s*\(/,
-              message: "Call your function and print the value it returns."
-            }
-          ],
-          hint:
-            "def add(a, b): on the first line, an indented return a + b underneath, then outside the function call it — print(add(2, 3)).",
-          solution:
-            "def add(a, b):\n    return a + b\n\nresult = add(2, 3)\nprint(result)",
-          explanation:
-            "return hands a value back to whoever called the function, so the result can be stored, printed or fed into more work. A function that only prints is a dead end."
-        }
-      },
-
-      9: {
-        title: "Debugging & Problem Solving",
-        summary:
-          "Read errors calmly, hunt down bugs methodically, test your work, and break hard problems into pieces you can actually solve.",
-        topics: [
-          "Reading Error Messages",
-          "Finding Bugs",
-          "Debugging Strategies",
-          "Testing Programs",
-          "Breaking Problems Into Smaller Pieces",
-          "Thinking Like a Programmer"
-        ],
-        videoId: "",
-        videoTitle: "Debugging and problem solving — chapter 9 walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Exercise — fix the broken program",
-          prompt:
-            "This program should add up every number in the list and print the total, but it is broken in more than one way. Fix it so it prints 60.",
-          starter:
-            "numbers = [10, 20, 30]\ntotal = 0\n\nfor number in numbers\n    total = number\n\nprint(\"Total: \" + total)\n",
-          checks: [
-            {
-              test: /\bfor\b[^\n]*\bin\b[^\n]*:/,
-              message: "The for line is missing its colon."
-            },
-            {
-              test: /total\s*(\+=|=\s*total\s*\+)/,
-              message:
-                "total = number overwrites the running total each time. It should add to it."
-            },
-            {
-              test: /print\s*\([^)]*(,|str\s*\(|f['\"])/,
-              message:
-                "You cannot join a string to a number with +. Use a comma, str(), or an f-string."
-            }
-          ],
-          hint:
-            "There are three separate faults: a missing colon on the for line, an assignment that should be an addition, and a string being added to a number in the print. Fix them one at a time and rerun after each.",
-          solution:
-            'numbers = [10, 20, 30]\ntotal = 0\n\nfor number in numbers:\n    total += number\n\nprint("Total:", total)',
-          explanation:
-            "One syntax error, one logic error and one type error — the three families you met in this chapter. Fixing them one at a time, rather than rewriting everything, is the habit to keep."
-        }
-      },
-
-      10: {
-        title: "Final Project — Task Manager",
-        summary:
-          "Bring everything together and build a working command-line Personal Task Manager.",
-        topics: [
-          "Planning the program",
-          "The menu loop",
-          "Add, view, complete, delete",
-          "Search and counting",
-          "Exiting cleanly"
-        ],
-        project: "Personal Task Manager",
-        isFinalProject: true,
-        videoId: "",
-        videoTitle: "Building the task manager — final project walkthrough",
-        exercise: {
-          kind: "code",
-          heading: "Final project — Personal Task Manager",
-          prompt:
-            "Build the task manager. It needs a menu that repeats until the user exits, and it must be able to add, view, complete, delete, search and count tasks. Use functions to keep the parts separate.",
-          starter:
-            "# Personal Task Manager\n# Store your tasks, then loop over a menu until the user chooses to exit.\n\ntasks = []\n\n",
-          checks: [
-            {
-              test: /\bdef\s+[A-Za-z_]\w*\s*\(/,
-              message:
-                "Use at least one function (def ...) so the program is not one long block."
-            },
-            {
-              test: /\bwhile\b/,
-              message: "Use a while loop so the menu keeps reappearing until the user exits."
-            },
-            {
-              test: /input\s*\(/,
-              message: "Read the user's menu choice with input(...)."
-            },
-            {
-              test: /\bif\b[\s\S]*(\belif\b|\belse\b)/,
-              message: "Branch on the menu choice with if / elif / else."
-            },
-            {
-              test: /\[\s*\]|\.append\s*\(|\{\s*\}/,
-              message:
-                "Store the tasks in a collection — a list of tasks, or a list of dictionaries."
-            },
-            {
-              test: /\bbreak\b|\bexit\b|running\s*=\s*False/,
-              message: "Give the loop a way to stop when the user chooses Exit."
-            }
-          ],
-          hint:
-            "Sketch the shape first: a list to hold tasks, a function per menu action, then while True: print the menu, read a choice, and call the matching function. Choice 7 should break out of the loop.",
-          solution:
-            'tasks = []\n\n\ndef add_task():\n    title = input("Task: ")\n    tasks.append({"title": title, "done": False})\n    print("Added.")\n\n\ndef view_tasks():\n    if not tasks:\n        print("No tasks yet.")\n        return\n    for index, task in enumerate(tasks, start=1):\n        mark = "x" if task["done"] else " "\n        print(index, "[" + mark + "]", task["title"])\n\n\ndef complete_task():\n    view_tasks()\n    number = int(input("Which number is done? "))\n    tasks[number - 1]["done"] = True\n\n\ndef delete_task():\n    view_tasks()\n    number = int(input("Delete which number? "))\n    del tasks[number - 1]\n\n\ndef search_tasks():\n    term = input("Search for: ").lower()\n    for task in tasks:\n        if term in task["title"].lower():\n            print(task["title"])\n\n\ndef count_completed():\n    done = 0\n    for task in tasks:\n        if task["done"]:\n            done += 1\n    print(done, "of", len(tasks), "completed")\n\n\nwhile True:\n    print("\\n1 Add  2 View  3 Complete  4 Delete  5 Search  6 Count  7 Exit")\n    choice = input("Choose: ")\n\n    if choice == "1":\n        add_task()\n    elif choice == "2":\n        view_tasks()\n    elif choice == "3":\n        complete_task()\n    elif choice == "4":\n        delete_task()\n    elif choice == "5":\n        search_tasks()\n    elif choice == "6":\n        count_completed()\n    elif choice == "7":\n        print("Goodbye.")\n        break\n    else:\n        print("Unknown choice.")',
-          explanation:
-            "Variables, operators, conditions, loops, collections and functions — all six working together in one program. That is the whole course in a single file."
-        }
+        answer: 2,
+        hint:
+          "Three of these four lines run instantly and produce no pause at all. Which one is the only one that has to wait on a person?",
+        explanation:
+          "input() is the only line that pauses the program and waits for someone to type something. print() only displays text, a comment does nothing at all, and a plain assignment does not ask anyone for anything."
       }
-    };
+    },
+
+    2: {
+      title: "Data Types & Variable Manipulation",
+      summary:
+        "Store information in variables, learn Python's basic data types, and convert between them without losing track of what you have.",
+      topics: [
+        "Numbers (int, float)",
+        "Strings",
+        "Booleans",
+        "Type casting",
+        "f-strings"
+      ],
+      videoId: "LKFrQXaoSMQ",
+      videoTitle: "Variables and data types in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — store and show information",
+        prompt:
+          "Create a variable for a person's name (text) and one for their age (a whole number), then print both together using an f-string.",
+        starter:
+          "# Create your two variables below, then print them with an f-string.\n",
+        checks: [
+          {
+            test: /^[^\S\n]*[A-Za-z_]\w*\s*=\s*(['"]).*?\1/m,
+            message: 'Assign a text value to a variable, for example name = "Alex".'
+          },
+          {
+            test: /^[^\S\n]*[A-Za-z_]\w*\s*=\s*\d+/m,
+            message: "Assign a whole number to a variable, for example age = 20."
+          },
+          {
+            test: /f["']/,
+            message: 'Use an f-string, written f"..." with the variables inside curly braces.'
+          },
+          {
+            test: /print\s*\(/,
+            message: "Call print(...) to display the f-string."
+          }
+        ],
+        hint:
+          "Two assignments — one text, one number — then a single print() using f\"{name} is {age} years old\".",
+        solution: 'name = "Alex"\nage = 20\n\nprint(f"{name} is {age} years old")',
+        explanation:
+          "You stored two different types and combined them into one readable line with an f-string, which is the normal way Python programs build text out of variables."
+      }
+    },
+
+    3: {
+      title: "Control Flow & Logic",
+      summary:
+        "Let a program choose between paths using conditions, comparisons and logical operators, so it can react to whatever it is given.",
+      topics: [
+        "if / elif / else",
+        "Comparison operators",
+        "Logical operators (and, or, not)"
+      ],
+      videoId: "9XbeXpKMR_E",
+      videoTitle: "Conditional logic in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — is the temperature comfortable?",
+        prompt:
+          "Ask the user for a temperature, then print \"Comfortable\" if it is between 18 and 25 degrees inclusive, using a single condition joined with and. Otherwise print \"Not comfortable\".",
+        starter: "# Ask for a temperature, then decide what to print.\n",
+        checks: [
+          {
+            test: /input\s*\(/,
+            message: "Use input(...) to ask for the temperature."
+          },
+          {
+            test: /int\s*\(|float\s*\(/,
+            message: "Convert the text from input() into a number with int(...) or float(...)."
+          },
+          {
+            test: /\band\b/,
+            message: "Combine two comparisons with and, for example temp >= 18 and temp <= 25."
+          },
+          {
+            test: /\bif\b[^\n]*(>=|<=)/,
+            message: "Use an if statement with >= or <= to check the range."
+          },
+          {
+            test: /\belse\b/,
+            message: "Handle the other case with else."
+          }
+        ],
+        hint:
+          "Convert the input to a number first. Then: if temp >= 18 and temp <= 25: print the comfortable message, else: print the other one.",
+        solution:
+          'temperature = float(input("Temperature: "))\n\nif temperature >= 18 and temperature <= 25:\n    print("Comfortable")\nelse:\n    print("Not comfortable")',
+        explanation:
+          "Two comparisons combined with and only pass when both sides are true, which is exactly what checking a range needs — this is the pattern behind every range check you will write."
+      }
+    },
+
+    4: {
+      title: "Iteration & Loops",
+      summary:
+        "Repeat work without repeating code, and learn to stop or skip a repetition exactly when you need to.",
+      topics: ["for loops", "while loops", "range()", "break and continue", "Nested loops"],
+      videoId: "KWgYha0clzw",
+      videoTitle: "Loops and repetition in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — print the even numbers",
+        prompt:
+          "Print every even number from 1 to 20 using a single loop, skipping the odd numbers with continue rather than writing a separate check for what to print.",
+        starter: "# Print the even numbers from 1 to 20.\n",
+        checks: [
+          {
+            test: /\bfor\b[\s\S]*\bin\b[\s\S]*range\s*\(/,
+            message: "Use a for loop over range(...) to visit every number from 1 to 20."
+          },
+          {
+            test: /%\s*2/,
+            message: "Use % 2 to test whether a number is odd or even."
+          },
+          {
+            test: /\bcontinue\b/,
+            message: "Use continue to skip the odd numbers rather than printing them."
+          },
+          {
+            test: /print\s*\(/,
+            message: "Print each even number."
+          }
+        ],
+        hint:
+          "range(1, 21) covers 1 to 20. Inside the loop: if number % 2 != 0: continue — then the print() below only ever runs for even numbers.",
+        solution:
+          "for number in range(1, 21):\n    if number % 2 != 0:\n        continue\n    print(number)",
+        explanation:
+          "continue abandons the rest of that pass and jumps straight to the next number, so the print() beneath it only ever runs when the odd check did not trigger."
+      }
+    },
+
+    5: {
+      title: "Data Structures Part 1 (Sequences)",
+      summary:
+        "Store many values in order with lists and tuples, and learn to slice out exactly the piece you need instead of picking items one at a time.",
+      topics: [
+        "Lists and tuples",
+        "Indexing and slicing",
+        "List methods (append, pop, sort)"
+      ],
+      project: "Caesar Cipher / Text Encryptor",
+      videoId: "gOMW_n2-2Mw",
+      videoTitle: "Lists, tuples and slicing in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — slice out the middle",
+        prompt:
+          "Create a list of five numbers, then use slicing (not individual indexes) to print only the middle three.",
+        starter: "numbers = [10, 20, 30, 40, 50]\n\n# Print the middle three using a slice.\n",
+        checks: [
+          {
+            test: /\[[^\]]*,[^\]]*,[^\]]*,[^\]]*,[^\]]*\]/,
+            message: "Keep a list of exactly five numbers."
+          },
+          {
+            test: /\[\s*1\s*:\s*(-1|4)\s*\]/,
+            message: "Use a slice such as numbers[1:-1] or numbers[1:4] to get the middle three."
+          },
+          {
+            test: /print\s*\(/,
+            message: "Print the sliced result."
+          }
+        ],
+        hint:
+          "A slice numbers[1:-1] means \"from index 1 up to, but not including, the last item\" — for a list of five that is exactly the middle three.",
+        solution: "numbers = [10, 20, 30, 40, 50]\n\nprint(numbers[1:-1])",
+        explanation:
+          "Slicing takes a whole chunk of a sequence in one expression. The negative index -1 means \"the last item\", so [1:-1] reads naturally as \"everything except the first and last\"."
+      }
+    },
+
+    6: {
+      title: "Data Structures Part 2 (Key-Value & Sets)",
+      summary:
+        "Look things up by name instead of position with dictionaries, filter duplicates with sets, and handle data nested inside data.",
+      topics: [
+        "Dictionaries",
+        "Sets",
+        "Nested data structures",
+        ".get(), .keys(), .values(), .items()",
+        "enumerate() and zip()",
+        "Mutability and aliasing"
+      ],
+      project: "Student Grade & Class Performance Analyzer",
+      videoId: "MZZSMaEAC2g",
+      videoTitle: "Dictionaries and sets in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — report every student's score",
+        prompt:
+          "Given a dictionary mapping student names to scores, loop through it with .items() and print each name and score. Then use .get() to safely look up a name that might not be in the dictionary, with a default of \"Not found\".",
+        starter:
+          'scores = {"Alex": 88, "Bo": 91, "Chris": 76}\n\n# Loop through scores with .items(), then look up "Dev" safely with .get().\n',
+        checks: [
+          {
+            test: /\.items\s*\(\s*\)/,
+            message: "Loop through the dictionary with .items() so you get both the name and the score."
+          },
+          {
+            test: /\bfor\b[\s\S]*\bin\b/,
+            message: "Use a for loop to go through the dictionary."
+          },
+          {
+            test: /\.get\s*\(\s*["'][^"']*["']\s*,/,
+            message: 'Use .get("Dev", "Not found") to look up a name safely, with a default value.'
+          },
+          {
+            test: /print\s*\(/,
+            message: "Print the results."
+          }
+        ],
+        hint:
+          'for name, score in scores.items(): print(name, score) — then print(scores.get("Dev", "Not found")) on its own line.',
+        solution:
+          'scores = {"Alex": 88, "Bo": 91, "Chris": 76}\n\nfor name, score in scores.items():\n    print(name, score)\n\nprint(scores.get("Dev", "Not found"))',
+        explanation:
+          ".items() hands you both halves of each pair at once, which is why the loop can unpack them into name and score directly. .get() with a default is what keeps a missing key from crashing your program with a KeyError."
+      }
+    },
+
+    /* ==================================================================
+       Phase 2 — Structural & Intermediate Concepts
+       ================================================================== */
+    7: {
+      title: "Functions & Scope Mechanics",
+      summary:
+        "Give a name to a piece of work, hand it values, and get an answer back — the single habit that keeps programs from turning into one long block.",
+      topics: [
+        "Parameters and arguments",
+        "*args and **kwargs",
+        "return vs. print",
+        "Local vs. global scope",
+        "Default arguments"
+      ],
+      project: "Quiz Game",
+      videoId: "4jBJhCaNrWU",
+      videoTitle: "Functions and scope in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — a function that adds",
+        prompt:
+          "Create a function that takes two numbers, returns their sum, and then call it and print the result.",
+        starter: "# Define your function, then call it and print what comes back.\n",
+        checks: [
+          {
+            test: /\bdef\s+[A-Za-z_]\w*\s*\(\s*[A-Za-z_]\w*\s*,\s*[A-Za-z_]\w*\s*\)\s*:/,
+            message: "Define a function with def that takes two parameters, for example def add(a, b):"
+          },
+          {
+            test: /\breturn\b/,
+            message: "Use return to hand the answer back — printing inside the function is not the same thing."
+          },
+          {
+            test: /print\s*\(/,
+            message: "Call your function and print the value it returns."
+          }
+        ],
+        hint:
+          "def add(a, b): on the first line, an indented return a + b underneath, then outside the function: print(add(2, 3)).",
+        solution: "def add(a, b):\n    return a + b\n\nprint(add(2, 3))",
+        explanation:
+          "return hands a value back to whoever called the function, so the result can be stored, printed or passed into more work — a function that only prints is a dead end for anything built on top of it."
+      }
+    },
+
+    8: {
+      title: "Error Handling & Debugging",
+      summary:
+        "Catch the errors you can predict, so your program fails gracefully instead of crashing the moment someone types something unexpected.",
+      topics: [
+        "try / except / else / finally",
+        "Raising exceptions",
+        "Reading stack traces"
+      ],
+      project: "Safe Calculator",
+      videoId: "V_NXT2-QIlE",
+      videoTitle: "Error handling with try and except",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — divide without crashing",
+        prompt:
+          "Ask the user for two numbers and divide the first by the second, but wrap the risky part in try/except so that dividing by zero or typing something that is not a number does not crash the program.",
+        starter: "# Ask for two numbers and divide them safely.\n",
+        checks: [
+          {
+            test: /\btry\s*:/,
+            message: "Start a try block around the code that might fail."
+          },
+          {
+            test: /\bexcept\b/,
+            message: "Add at least one except block to catch the error."
+          },
+          {
+            test: /input\s*\(/,
+            message: "Read the two numbers with input(...)."
+          },
+          {
+            test: /\/(?!\/)/,
+            message: "Actually divide the two numbers with /."
+          }
+        ],
+        hint:
+          "Put the int(input(...)) conversions and the division inside try:. Catch ValueError for bad text and ZeroDivisionError for dividing by zero — you can catch both in one line as except (ValueError, ZeroDivisionError):",
+        solution:
+          'try:\n    first = float(input("First number: "))\n    second = float(input("Second number: "))\n    print(first / second)\nexcept (ValueError, ZeroDivisionError):\n    print("That was not a valid division. Try again.")',
+        explanation:
+          "Wrapping the risky lines in try lets Python attempt them and hand control to except the moment something goes wrong, instead of stopping the whole program on the spot."
+      }
+    },
+
+    9: {
+      title: "File I/O & Data Persistence",
+      summary:
+        "Save information that survives after your program closes, by reading and writing files instead of keeping everything only in memory.",
+      topics: [
+        "Reading and writing files (open(), with)",
+        "Working with CSV",
+        "Working with JSON"
+      ],
+      project: "Persistent Notes App",
+      videoId: "LpZmZs2_BC4",
+      videoTitle: "File input and output in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — write a note to a file",
+        prompt:
+          'Open a file called "notes.txt" in write mode using a with statement, and write one line of text to it.',
+        starter: "# Open notes.txt for writing and write a line to it.\n",
+        checks: [
+          {
+            test: /\bwith\s+open\s*\(/,
+            message: 'Use a with statement: with open("notes.txt", "w") as file:'
+          },
+          {
+            test: /["']w["']/,
+            message: 'Open the file in write mode — the "w" mode.'
+          },
+          {
+            test: /\.write\s*\(/,
+            message: "Call .write(...) on the file to save your text."
+          }
+        ],
+        hint:
+          'with open("notes.txt", "w") as file:\n    file.write("Remember to practise loops.\\n")',
+        solution:
+          'with open("notes.txt", "w") as file:\n    file.write("Remember to practise loops.\\n")',
+        explanation:
+          "The with statement opens the file, hands it to you as file, and closes it automatically once the indented block finishes — even if something goes wrong inside it. That is why with is the standard way to work with files rather than open() and close() by hand."
+      }
+    },
+
+    10: {
+      title: "Modules, Libraries & Virtual Environments",
+      summary:
+        "Bring in code other people have already written, from Python's own toolkit and from packages you install yourself.",
+      topics: [
+        "Importing built-in modules (math, random, datetime)",
+        "Installing packages with pip",
+        "Virtual environments (venv)"
+      ],
+      project: "Daily Dice Roller",
+      videoId: "XcfxkHrHTVE",
+      videoTitle: "Modules, pip and virtual environments",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — roll a die",
+        prompt:
+          "Import the random module and use random.randint() to simulate rolling a six-sided die, then print the result.",
+        starter: "# Import random, roll a die, and print the result.\n",
+        checks: [
+          {
+            test: /^\s*import\s+random/m,
+            message: "Import the module first: import random."
+          },
+          {
+            test: /random\.randint\s*\(/,
+            message: "Use random.randint(1, 6) to pick a number between 1 and 6."
+          },
+          {
+            test: /print\s*\(/,
+            message: "Print the result of the roll."
+          }
+        ],
+        hint:
+          "import random goes at the very top. Then roll = random.randint(1, 6), and print(roll).",
+        solution: "import random\n\nroll = random.randint(1, 6)\nprint(roll)",
+        explanation:
+          "import random gives your file access to everything in Python's random module, and randint(1, 6) picks a whole number from 1 to 6 inclusive — this is the same module you already used back in the loops chapter."
+      }
+    },
+
+    11: {
+      title: "Object-Oriented Programming (OOP)",
+      summary:
+        "Model a real thing as a class — data and the actions that belong to it, bundled together instead of scattered across separate variables.",
+      topics: [
+        "Classes and objects",
+        "__init__ and attributes",
+        "Methods and self",
+        "Inheritance basics",
+        "Encapsulation"
+      ],
+      project: "BankAccount Class",
+      videoId: "q2SGW2VgwAM",
+      videoTitle: "Object-oriented programming in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — your first class",
+        prompt:
+          'Create a class called Dog with an __init__ method that stores a name. Give it a method called bark that prints "<name> says Woof!". Then create one Dog and call bark on it.',
+        starter: "# Define the Dog class, then create one and call bark().\n",
+        checks: [
+          {
+            test: /\bclass\s+Dog\s*[:(]/,
+            message: "Define a class called Dog."
+          },
+          {
+            test: /def\s+__init__\s*\(\s*self/,
+            message: "Give the class an __init__ method that takes self."
+          },
+          {
+            test: /self\.\w+\s*=/,
+            message: "Store the name on self inside __init__, for example self.name = name."
+          },
+          {
+            test: /def\s+bark\s*\(\s*self/,
+            message: "Define a bark method that takes self."
+          },
+          {
+            test: /Dog\s*\(/,
+            message: "Create an actual Dog object by calling Dog(...)."
+          }
+        ],
+        hint:
+          "class Dog: then def __init__(self, name): self.name = name. Then def bark(self): print(f\"{self.name} says Woof!\"). Finally: rex = Dog(\"Rex\") and rex.bark().",
+        solution:
+          'class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        print(f"{self.name} says Woof!")\n\n\nrex = Dog("Rex")\nrex.bark()',
+        explanation:
+          "__init__ runs the moment you create a Dog and sets up its attributes. self inside bark refers to that particular dog, which is how rex.bark() knows to use Rex's name rather than anyone else's."
+      }
+    },
+
+    12: {
+      title: "Intermediate Python Features (Pythonic Code)",
+      summary:
+        "Write shorter, clearer Python with comprehensions and lambdas — then bring the whole course together in one final, object-oriented project.",
+      topics: [
+        "List comprehensions",
+        "Lambda functions",
+        "map() and filter()",
+        "Generators (introduction)",
+        "@staticmethod (introduction)"
+      ],
+      project: "Personal Task Manager (Object-Oriented)",
+      isFinalProject: true,
+      videoId: "",
+      videoTitle: "Pythonic code and the final project",
+      exercise: {
+        kind: "code",
+        heading: "Final project — Object-Oriented Task Manager",
+        prompt:
+          "Rebuild the task manager using a Task class instead of plain dictionaries. Give Task an __init__ that stores a title and a completed flag, and a method to mark it complete. Then build a menu loop that repeats until the user exits, and can add a task, view all tasks, and complete one.",
+        starter:
+          "# Personal Task Manager — object-oriented version\n# Define your Task class, then build the menu loop below it.\n\ntasks = []\n\n",
+        checks: [
+          {
+            test: /\bclass\s+Task\s*[:(]/,
+            message: "Define a class called Task."
+          },
+          {
+            test: /def\s+__init__\s*\(\s*self/,
+            message: "Give Task an __init__ method that takes self."
+          },
+          {
+            test: /self\.\w+\s*=/,
+            message: "Store at least the title on self inside __init__."
+          },
+          {
+            test: /def\s+\w+\s*\(\s*self\s*\)\s*:/,
+            message: "Give Task a method (other than __init__) for marking a task complete."
+          },
+          {
+            test: /\[\s*\]|\.append\s*\(/,
+            message: "Keep the tasks in a list, and add new Task objects to it."
+          },
+          {
+            test: /\bwhile\b/,
+            message: "Use a while loop so the menu keeps reappearing until the user exits."
+          },
+          {
+            test: /input\s*\(/,
+            message: "Read the user's menu choice with input(...)."
+          },
+          {
+            test: /\bif\b[\s\S]*(\belif\b|\belse\b)/,
+            message: "Branch on the menu choice with if / elif / else."
+          },
+          {
+            test: /\bbreak\b/,
+            message: "Give the loop a way to stop when the user chooses to exit."
+          }
+        ],
+        hint:
+          "Sketch it in two parts. First the class: class Task: with __init__(self, title) storing self.title and self.done = False, plus a complete(self) method setting self.done = True. Then the program: an empty list, and while True: showing a menu, reading a choice, and calling the right behaviour for add / view / complete / exit, with break on exit.",
+        solution:
+          'class Task:\n    def __init__(self, title):\n        self.title = title\n        self.done = False\n\n    def complete(self):\n        self.done = True\n\n    def __str__(self):\n        mark = "x" if self.done else " "\n        return f"[{mark}] {self.title}"\n\n\ntasks = []\n\nwhile True:\n    print("\\n1 Add  2 View  3 Complete  4 Exit")\n    choice = input("Choose: ")\n\n    if choice == "1":\n        title = input("Task: ")\n        tasks.append(Task(title))\n        print("Added.")\n    elif choice == "2":\n        for index, task in enumerate(tasks, start=1):\n            print(index, task)\n    elif choice == "3":\n        for index, task in enumerate(tasks, start=1):\n            print(index, task)\n        number = int(input("Which number is done? "))\n        tasks[number - 1].complete()\n    elif choice == "4":\n        print("Goodbye.")\n        break\n    else:\n        print("Unknown choice.")',
+        explanation:
+          "Every phase of this course is in that program: a class with __init__ and a method (Chapter 11), a list of objects (Chapter 5), a menu loop with input and branching (Chapters 3, 4 and 7), and __str__ giving Python a way to turn a Task into readable text automatically whenever you print one."
+      }
+    }
+  };
 
   return { COURSE_ID, TOTAL_CHAPTERS, chapters };
 })();

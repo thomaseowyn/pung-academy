@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 10 — Final Project — Task Manager — Pung Academy</title>
-    <meta name="description" content="Chapter 10 of Introduction to Programming: build a complete command-line Personal Task Manager using everything from the course." />
+    <title>Chapter 10 — Modules, Libraries &amp; Virtual Environments — Pung Academy</title>
+    <meta name="description" content="Chapter 10 of Introduction to Programming: importing built-in modules, installing packages with pip, and virtual environments." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 10</span
             >
-            <h1 data-chapter-title>Final Project — Task Manager</h1>
+            <h1 data-chapter-title>Modules, Libraries &amp; Virtual Environments</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,304 +62,158 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>The final project</h2>
+            <h2>You do not have to write everything yourself</h2>
 
             <p>
-              Nine chapters of pieces. Now you build something whole: a
-              <strong>Personal Task Manager</strong> that runs at the command
-              line and keeps track of things you have to do.
+              Python ships with a large standard library of ready-made code,
+              and beyond that, an enormous ecosystem of packages other people
+              have published. Using them is normal practice, not cheating —
+              this chapter is about how to bring that code into your own
+              program.
             </p>
+
+            <h2>Importing built-in modules</h2>
+
+            <pre class="code-block"><code>import random
+
+roll = random.randint(1, 6)
+print(roll)</code></pre>
 
             <p>
-              There is no new syntax in this chapter. Everything you need you
-              already have. What is new is the size — this is the first program
-              where you have to hold several parts in your head at once, and
-              that is exactly the skill being practised.
+              <code>import random</code> gives your file access to everything
+              inside the <code>random</code> module. You already used this
+              back in the loops chapter's worked example — a die roll picks a
+              whole number in a range, which is exactly what
+              <code>random.randint(1, 6)</code> does.
             </p>
 
-            <h2>What it must do</h2>
+            <p>Two more modules you will meet constantly:</p>
 
-            <p>The program shows a menu, and keeps showing it until the user exits:</p>
+            <pre class="code-block"><code>import math
+print(math.sqrt(16))     # 4.0
+print(math.pi)            # 3.141592653589793
 
-            <ol>
-              <li><strong>Add task</strong> — ask for a description and store it</li>
-              <li><strong>View tasks</strong> — list them all, numbered, showing which are done</li>
-              <li><strong>Complete task</strong> — mark one as finished</li>
-              <li><strong>Delete task</strong> — remove one entirely</li>
-              <li><strong>Search task</strong> — find tasks whose text contains a word</li>
-              <li><strong>Count completed</strong> — report how many are done</li>
-              <li><strong>Exit</strong> — stop the program</li>
-            </ol>
+import datetime
+today = datetime.date.today()
+print(today)               # e.g. 2026-09-08</code></pre>
 
-            <h2>Planning before coding</h2>
+            <h3>Importing just one piece</h3>
 
             <p>
-              Chapter 1 said to plan before typing, and this is where that pays
-              off. Two decisions come first.
+              You can import a single name from a module instead of the whole
+              thing, which saves you writing the module name every time:
             </p>
 
-            <h3>How will you store a task?</h3>
+            <pre class="code-block"><code>from random import randint
 
-            <p>
-              A task has a description <em>and</em> a done/not-done state. A
-              plain string cannot carry both, so use a dictionary per task, and
-              a list to hold them all:
-            </p>
-
-            <pre class="code-block"><code>tasks = [
-    {"title": "Buy milk", "done": False},
-    {"title": "Email tutor", "done": True}
-]</code></pre>
-
-            <h3>What is the shape of the program?</h3>
-
-            <pre class="code-block"><code>CREATE an empty list of tasks
-
-REPEAT forever
-    SHOW the menu
-    ASK for a choice
-
-    IF choice is 1, add a task
-    IF choice is 2, view tasks
-    ...
-    IF choice is 7, STOP repeating
-    OTHERWISE say the choice was not understood</code></pre>
-
-            <p>
-              That is a <code>while True:</code> loop with an
-              <code>if</code>/<code>elif</code> chain inside and a
-              <code>break</code> on exit — Chapters 5 and 6 together.
-            </p>
-
-            <h2>Building it piece by piece</h2>
-
-            <h3>The menu loop</h3>
-
-            <p>Start with the skeleton and check it runs before adding anything:</p>
-
-            <pre class="code-block"><code>tasks = []
-
-while True:
-    print()
-    print("--- Task Manager ---")
-    print("1. Add task")
-    print("2. View tasks")
-    print("3. Complete task")
-    print("4. Delete task")
-    print("5. Search tasks")
-    print("6. Count completed")
-    print("7. Exit")
-
-    choice = input("Choose an option: ")
-
-    if choice == "7":
-        print("Goodbye.")
-        break
-    else:
-        print("Not implemented yet.")</code></pre>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip</span>
-              <p>
-                Compare with <code>"7"</code> in quotes.
-                <code>input()</code> gives text, so comparing against the number
-                <code>7</code> would never match — the bug from Chapter 3,
-                waiting patiently.
-              </p>
-            </div>
-
-            <h3>Adding a task</h3>
-
-            <pre class="code-block"><code>def add_task():
-    title = input("What needs doing? ")
-    tasks.append({"title": title, "done": False})
-    print(f"Added: {title}")</code></pre>
-
-            <h3>Viewing tasks</h3>
-
-            <pre class="code-block"><code>def view_tasks():
-    if len(tasks) == 0:
-        print("You have no tasks.")
-        return
-
-    for number, task in enumerate(tasks, start=1):
-        mark = "x" if task["done"] else " "
-        print(f"{number}. [{mark}] {task['title']}")</code></pre>
-
-            <p>
-              The early <code>return</code> handles the empty case first, so the
-              rest of the function can assume there is something to show.
-            </p>
-
-            <h3>Completing and deleting</h3>
-
-            <p>
-              Both ask which task, and both must cope with a number that does
-              not exist:
-            </p>
-
-            <pre class="code-block"><code>def complete_task():
-    view_tasks()
-    if len(tasks) == 0:
-        return
-
-    number = int(input("Which number is done? "))
-    if 1 &lt;= number &lt;= len(tasks):
-        tasks[number - 1]["done"] = True
-        print("Marked as complete.")
-    else:
-        print("There is no task with that number.")</code></pre>
+roll = randint(1, 6)   # no "random." needed now</code></pre>
 
             <div class="callout callout--warning">
-              <span class="callout__label">Careful — the off-by-one</span>
+              <span class="callout__label">Careful — namespace collisions</span>
               <p>
-                You show tasks numbered from 1 because that is what humans
-                expect, but the list is indexed from 0. Hence
-                <code>tasks[number - 1]</code>. Forget the
-                <code>- 1</code> and you will complete the wrong task every
-                time.
+                If you write <code>from random import *</code> to import
+                everything at once, and one of those names happens to match a
+                variable or function you already defined, yours gets silently
+                overwritten. Import only what you need, by name, and prefer
+                <code>import module_name</code> when in doubt — it is clearer
+                where each piece came from.
               </p>
             </div>
 
-            <h3>Searching and counting</h3>
-
-            <pre class="code-block"><code>def search_tasks():
-    term = input("Search for: ").lower()
-    found = 0
-
-    for task in tasks:
-        if term in task["title"].lower():
-            print("-", task["title"])
-            found += 1
-
-    if found == 0:
-        print("Nothing matched.")
-
-
-def count_completed():
-    done = 0
-    for task in tasks:
-        if task["done"]:
-            done += 1
-
-    print(f"{done} of {len(tasks)} tasks completed.")</code></pre>
+            <h2>Third-party packages and pip</h2>
 
             <p>
-              <code>in</code> checks whether one string appears inside another,
-              and <code>.lower()</code> on both sides makes the search ignore
-              capitals — the same kindness as the quiz in Chapter 8.
+              The standard library covers a lot, but not everything.
+              <strong>pip</strong> is Python's package installer, and it
+              downloads code other people have published so you can
+              <code>import</code> it just like a built-in module.
             </p>
 
-            <h3>Wiring it together</h3>
-
-            <pre class="code-block"><code>    if choice == "1":
-        add_task()
-    elif choice == "2":
-        view_tasks()
-    elif choice == "3":
-        complete_task()
-    elif choice == "4":
-        delete_task()
-    elif choice == "5":
-        search_tasks()
-    elif choice == "6":
-        count_completed()
-    elif choice == "7":
-        print("Goodbye.")
-        break
-    else:
-        print("Please choose a number from 1 to 7.")</code></pre>
+            <pre class="code-block"><code>pip install requests</code></pre>
 
             <p>
-              Each branch is one line calling one function. That readability is
-              the whole argument for decomposition.
+              That command is typed into your terminal, not into a Python
+              file. Once installed, a package behaves exactly like a built-in
+              module — <code>import requests</code> and you can use it.
             </p>
 
-            <h2>What it looks like running</h2>
-
-            <pre class="output-block"><code>--- Task Manager ---
-1. Add task
-2. View tasks
-...
-Choose an option: 1
-What needs doing? Finish chapter 10
-Added: Finish chapter 10
-
-Choose an option: 2
-1. [ ] Finish chapter 10
-
-Choose an option: 3
-1. [ ] Finish chapter 10
-Which number is done? 1
-Marked as complete.
-
-Choose an option: 6
-1 of 1 tasks completed.
-
-Choose an option: 7
-Goodbye.</code></pre>
-
-            <h2>Testing your project</h2>
-
-            <p>Before calling it finished, deliberately try to break it:</p>
-
-            <ul>
-              <li>View tasks when there are none.</li>
-              <li>Complete task number 99.</li>
-              <li>Delete the only task, then view.</li>
-              <li>Search for something that does not exist.</li>
-              <li>Choose option 9, or type a letter.</li>
-              <li>Add a task with an empty description.</li>
-            </ul>
+            <h2>Virtual environments (venv)</h2>
 
             <p>
-              Every one of those is a real thing a user will do within a minute
-              of opening your program.
+              Different projects on your computer can need different
+              versions of the same package. A
+              <strong>virtual environment</strong> is an isolated Python
+              installation for a single project, so installing something for
+              one project can never break another.
             </p>
 
-            <h2>Optional challenges</h2>
+            <pre class="code-block"><code>python -m venv env
+# then activate it — the exact command differs by operating system
+# Windows:      env\Scripts\activate
+# macOS/Linux:  source env/bin/activate</code></pre>
 
             <p>
-              Finish the core seven options first. Then, if you want to push
-              further:
+              Once activated, anything you <code>pip install</code> is
+              contained inside that project's own <code>env</code> folder,
+              completely separate from every other project on your machine.
+              This is standard practice the moment a project depends on
+              anything beyond the standard library.
             </p>
-
-            <ul>
-              <li>
-                <strong>Priority</strong> — add a <code>"priority"</code> key of
-                high, medium or low, and show it in the list.
-              </li>
-              <li>
-                <strong>Categories</strong> — tag tasks as work, study or
-                personal, and let the user view one category.
-              </li>
-              <li>
-                <strong>Due dates</strong> — store a date string and mark
-                anything overdue.
-              </li>
-              <li>
-                <strong>Sorting</strong> — show unfinished tasks before finished
-                ones.
-              </li>
-            </ul>
-
-            <div class="callout">
-              <span class="callout__label">Note</span>
-              <p>
-                Your tasks disappear when the program stops, because they only
-                live in memory. Saving them to a file is the natural next thing
-                to learn — and it is where the courses after this one pick up.
-              </p>
-            </div>
 
             <div class="callout callout--tip">
-              <span class="callout__label">Before you submit</span>
+              <span class="callout__label">Tip — import path resolution</span>
               <p>
-                The check below looks for the structural pieces the project
-                needs: at least one function, a repeating menu loop, input, a
-                branch on the choice, a collection holding the tasks, and a way
-                out of the loop. Write the real thing — you are the person who
-                loses if you write only enough to pass a pattern check.
+                Python looks for a module first among the files in your own
+                project, then in the active virtual environment, then in the
+                standard library. If <code>import</code> ever picks up the
+                wrong version of something, checking which environment is
+                active is usually the fastest way to find out why.
+              </p>
+            </div>
+
+            <h2>Worked example — the Daily Dice Roller</h2>
+
+            <p>
+              This chapter's project combines two built-in modules — one to
+              generate something random, one to timestamp it.
+            </p>
+
+            <pre class="code-block"><code># Daily Dice Roller
+
+import random
+import datetime
+
+facts = [
+    "Python was named after Monty Python, not the snake.",
+    "The zen of Python can be read by typing: import this",
+    "f-strings were added in Python 3.6."
+]
+
+roll = random.randint(1, 6)
+fact = random.choice(facts)
+today = datetime.date.today()
+
+print(f"[{today}] You rolled a {roll}.")
+print(f"Fact of the day: {fact}")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>[2026-09-08] You rolled a 4.
+Fact of the day: f-strings were added in Python 3.6.</code></pre>
+
+            <p>
+              <code>random.choice()</code> picks one item at random from a
+              list — useful the moment you have several options and want one
+              of them, rather than a number.
+            </p>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                What is the difference between <code>import random</code> and
+                <code>from random import randint</code>? The first requires
+                writing <code>random.randint(...)</code> every time; the
+                second lets you write <code>randint(...)</code> directly,
+                because only that one name was brought in.
               </p>
             </div>
           </section>
@@ -423,6 +277,5 @@ Goodbye.</code></pre>
     <script src="../../../js/controllers/LessonController.js"></script>
     <script src="../../../js/pages/_shared.js"></script>
     <script src="../../../js/pages/lesson.js"></script>
-
   </body>
 </html>
