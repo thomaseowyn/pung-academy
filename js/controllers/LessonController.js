@@ -6,6 +6,10 @@
 
    The lock is enforced here, not just shown. Opening a locked chapter by
    typing its URL hides the content and renders the locked screen instead.
+
+   A signed-in session is enforced first, before the chapter-lock check —
+   an unauthenticated visitor is sent to log in rather than shown either
+   the lesson or the "chapter locked" screen.
    ========================================================================== */
 
 window.Pung = window.Pung || {};
@@ -15,9 +19,14 @@ Pung.LessonController = (function () {
 
   const { TOTAL_CHAPTERS, getChapter, isChapterUnlocked, isChapterCompleted, isExerciseCompleted, markExerciseCompleted, completeChapter, completedCount, progressPercent, isCourseComplete } = Pung.CourseProgressModel;
   const { normaliseCode, meaningfulCode } = Pung.ValidationService;
+  const { requireLogin } = Pung.AuthController;
   const View = Pung.LessonView;
 
   function initLessonPage() {
+    if (!requireLogin()) {
+      return;
+    }
+
     const chapterNumber = Number(document.body.getAttribute("data-chapter"));
     const chapter = getChapter(chapterNumber);
     if (!chapterNumber || !chapter) {
