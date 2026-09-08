@@ -43,6 +43,51 @@
   color: var(--color-text-muted);
 }
 
+/* ==========================================================================
+   Site-wide animations — professional, subtle, clean
+   ========================================================================== */
+
+/* 1. The animation recipe: slide up 20px and fade in simultaneously. */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. Apply to key content areas on every page.
+      "backwards" means the element starts invisible even before the delay. */
+.hero,
+.section,
+.auth,
+.courses-hero,
+.lesson-header,
+.path-section {
+  animation: fadeInUp 0.65s ease-out backwards;
+}
+
+/* 3. Stagger the second and third sections so they arrive slightly after
+      the first one — creates a natural, cascading feel. */
+.section:nth-of-type(2) { animation-delay: 0.1s; }
+.section:nth-of-type(3) { animation-delay: 0.2s; }
+
+/* 4. Smooth animated underline for body-text links only
+      (nav and button links have their own styles already). */
+main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link) {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+
+main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link):hover {
+  color: var(--color-primary-dark);
+  text-decoration-color: var(--color-primary-dark);
+}
+
 /* Respect reduced-motion preferences. */
 @media (prefers-reduced-motion: reduce) {
   html {
