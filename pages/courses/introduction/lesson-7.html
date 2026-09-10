@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 7 — Functions &amp; Scope Mechanics — Pung Academy</title>
-    <meta name="description" content="Chapter 7 of Introduction to Programming: parameters, arguments, *args and **kwargs, return vs print, and local vs global scope." />
+    <title>Chapter 7 — Data Structures Part 2 (Key-Value &amp; Sets) — Pung Academy</title>
+    <meta name="description" content="Chapter 7 of Introduction to Programming: dictionaries, sets, nested data, dict methods, enumerate, zip, and mutability." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 7</span
             >
-            <h1 data-chapter-title>Functions &amp; Scope Mechanics</h1>
+            <h1 data-chapter-title>Data Structures Part 2 (Key-Value &amp; Sets)</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,259 +62,233 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Why functions?</h2>
+            <h2>Dictionaries: looking things up by name</h2>
 
             <p>
-              Look at a program that greets three people:
+              A list is indexed by position, which is fine when order is what
+              matters. Often it is not — you want to look something up by
+              name. A <strong>dictionary</strong> stores
+              <strong>key-value pairs</strong>. Curly braces, each entry
+              <code>key: value</code>:
             </p>
 
-            <pre class="code-block"><code>print("Hello, Alex!")
-print("Welcome to Pung Academy.")
+            <pre class="code-block"><code>student = {
+    "name": "Alex",
+    "age": 20,
+    "grade": 78
+}</code></pre>
 
-print("Hello, Bo!")
-print("Welcome to Pung Academy.")</code></pre>
+            <p>You look values up by key, not by position:</p>
 
-            <p>
-              The same idea, written twice already, and it will only get
-              worse. A <strong>function</strong> is a named piece of work you
-              define once and use as often as you like. You have already been
-              calling functions: <code>print()</code>, <code>input()</code>,
-              <code>len()</code>. Now you write your own.
-            </p>
+            <pre class="code-block"><code>print(student["name"])    # Alex
+print(student["grade"])   # 78</code></pre>
 
-            <h2>Defining and calling a function</h2>
+            <h3>Changing and adding</h3>
 
-            <pre class="code-block"><code>def greet():
-    print("Hello!")
-    print("Welcome to Pung Academy.")
+            <pre class="code-block"><code>student["grade"] = 85          # change an existing value
+student["city"] = "Jakarta"    # a new key simply appears
+del student["age"]             # remove a pair
 
-greet()
-greet()</code></pre>
+print(student)</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>Hello!
-Welcome to Pung Academy.
-Hello!
-Welcome to Pung Academy.</code></pre>
+            <pre class="output-block"><code>{'name': 'Alex', 'grade': 85, 'city': 'Jakarta'}</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Asking for a key that does not exist raises
+                <code>KeyError</code>. Looking up safely is exactly what the
+                next section is for.
+              </p>
+            </div>
+
+            <h2>Dictionary methods: .get(), .keys(), .values(), .items()</h2>
+
+            <pre class="code-block"><code>student = {"name": "Alex", "grade": 78}
+
+print(student.get("grade"))              # 78
+print(student.get("city", "Unknown"))    # Unknown -- the default, since "city" is missing
+
+print(list(student.keys()))     # ['name', 'grade']
+print(list(student.values()))   # ['Alex', 78]
+
+for key, value in student.items():
+    print(key, "->", value)</code></pre>
 
             <p>
-              Defining a function does not run it — it only teaches Python
-              what the name means. Writing <code>greet()</code> with brackets
-              is what actually runs it.
+              <code>.get(key, default)</code> never raises
+              <code>KeyError</code> — it hands back <code>default</code>
+              instead when the key is missing, which makes it the safe way to
+              read a dictionary you are not certain about.
+              <code>.items()</code> is what lets a loop unpack both the key
+              and the value at once.
             </p>
 
-            <h2>Parameters and arguments</h2>
+            <h2>Sets: uniqueness without order</h2>
 
             <p>
-              A <strong>parameter</strong> is a placeholder name in the
-              definition; an <strong>argument</strong> is the actual value you
-              pass in when calling.
+              A <strong>set</strong> holds values with no duplicates and no
+              guaranteed order. Curly braces, but no colons:
             </p>
 
-            <pre class="code-block"><code>def greet(name):
-    print(f"Hello, {name}!")
+            <pre class="code-block"><code>colours = {"red", "green", "blue", "red"}
+print(colours)          # {'red', 'green', 'blue'} -- the duplicate is gone
 
-greet("Alex")
-greet("Bo")</code></pre>
+a = {1, 2, 3}
+b = {2, 3, 4}
+print(a & b)   # {2, 3}         -- intersection: in both
+print(a | b)   # {1, 2, 3, 4}   -- union: in either</code></pre>
+
+            <p>
+              Turning a list into a set is the fastest way to remove
+              duplicates:
+            </p>
+
+            <pre class="code-block"><code>numbers = [1, 2, 2, 3, 3, 3]
+unique = set(numbers)
+print(unique)    # {1, 2, 3}</code></pre>
+
+            <h2>Nested data structures</h2>
+
+            <p>
+              Structures can hold other structures — a list of dictionaries,
+              or a dictionary whose values are themselves dictionaries. This
+              shape is everywhere once you start working with real data: API
+              responses, JSON files, database records.
+            </p>
+
+            <pre class="code-block"><code>students = [
+    {"name": "Alex", "grade": 78},
+    {"name": "Bo", "grade": 91}
+]
+
+for student in students:
+    print(f"{student['name']}: {student['grade']}")</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>Hello, Alex!
-Hello, Bo!</code></pre>
+            <pre class="output-block"><code>Alex: 78
+Bo: 91</code></pre>
 
-            <h3>Default arguments</h3>
-
-            <pre class="code-block"><code>def greet(name, greeting="Hello"):
-    print(f"{greeting}, {name}!")
-
-greet("Alex")                      # Hello, Alex!
-greet("Bo", "Good morning")        # Good morning, Bo!</code></pre>
-
-            <h2>*args and **kwargs</h2>
+            <h2>enumerate() and zip()</h2>
 
             <p>
-              Sometimes you do not know in advance how many arguments a
-              function should accept. <code>*args</code> collects any number
-              of extra positional arguments into a tuple:
+              <code>enumerate()</code> gives you the position and the value
+              together while looping:
             </p>
 
-            <pre class="code-block"><code>def total(*args):
-    return sum(args)
+            <pre class="code-block"><code>names = ["Alex", "Bo", "Chris"]
 
-print(total(1, 2, 3))       # 6
-print(total(10, 20))        # 30</code></pre>
-
-            <p>
-              <code>**kwargs</code> does the same for named arguments,
-              collecting them into a dictionary:
-            </p>
-
-            <pre class="code-block"><code>def describe(**kwargs):
-    for key, value in kwargs.items():
-        print(f"{key}: {value}")
-
-describe(name="Alex", age=20)</code></pre>
+for position, name in enumerate(names, start=1):
+    print(f"{position}. {name}")</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>name: Alex
-age: 20</code></pre>
+            <pre class="output-block"><code>1. Alex
+2. Bo
+3. Chris</code></pre>
 
             <p>
-              You will not need these two constantly as a beginner, but
-              recognising them is important — they appear throughout Python's
-              own libraries.
+              <code>zip()</code> walks two sequences together, pairing them up
+              item by item:
             </p>
 
-            <h2>return vs. print</h2>
+            <pre class="code-block"><code>names = ["Alex", "Bo"]
+scores = [78, 91]
+
+for name, score in zip(names, scores):
+    print(name, score)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Alex 78
+Bo 91</code></pre>
+
+            <h2>Mutability and aliasing</h2>
 
             <p>
-              This is the idea that makes functions powerful, and the one
-              beginners most often miss. <code>print()</code> shows a human
-              some text — it does not give a value back to the rest of the
-              program. <code>return</code> does.
+              This is worth taking slowly, because it causes real bugs.
+              Writing <code>a = b</code> for a list does not copy the list —
+              it makes <code>a</code> and <code>b</code> two names for the
+              exact same list.
             </p>
 
-            <pre class="code-block"><code>def add_and_print(a, b):
-    print(a + b)          # shows the answer, gives back nothing
+            <pre class="code-block"><code>original = [1, 2, 3]
+alias = original
 
-def add_and_return(a, b):
-    return a + b          # hands the answer back
+alias.append(4)
+print(original)   # [1, 2, 3, 4]  -- changed too, even though we edited "alias"</code></pre>
 
-x = add_and_print(2, 3)   # prints 5, but x is None
-y = add_and_return(2, 3)  # prints nothing, but y is 5</code></pre>
+            <p>To get an independent copy, say so explicitly:</p>
+
+            <pre class="code-block"><code>original = [1, 2, 3]
+copy = original.copy()
+
+copy.append(4)
+print(original)   # [1, 2, 3]  -- untouched
+print(copy)        # [1, 2, 3, 4]</code></pre>
 
             <div class="callout callout--tip">
               <span class="callout__label">Tip</span>
               <p>
-                A function that calculates something should almost always
-                <code>return</code> the result rather than print it — printing
-                is a decision about presentation, and it is not the
-                function's job to make that call for whoever uses it.
+                This same aliasing happens when you pass a list into a
+                function — the function receives the same list, not a copy.
+                Keep it in mind once you reach functions in the next chapter.
               </p>
             </div>
 
-            <h3>return ends the function immediately</h3>
-
-            <pre class="code-block"><code>def check_age(age):
-    if age &lt; 0:
-        return "That is not a valid age."
-    if age &gt;= 18:
-        return "Adult"
-    return "Minor"
-
-print(check_age(20))    # Adult
-print(check_age(-5))    # That is not a valid age.</code></pre>
+            <h2>Worked example — the Student Grade Analyzer</h2>
 
             <p>
-              Nothing after a <code>return</code> that runs will execute,
-              which makes it useful for handling bad input first and getting
-              out early.
+              This chapter's project puts nested structures, aggregation and
+              <code>enumerate()</code> to work together.
             </p>
 
-            <h2>Local vs. global scope</h2>
+            <pre class="code-block"><code># Student Grade & Class Performance Analyzer
 
-            <p>
-              A variable created inside a function only exists inside that
-              function — its <strong>local scope</strong>. It disappears the
-              moment the function finishes.
-            </p>
-
-            <pre class="code-block"><code>def set_score():
-    score = 100
-    print(score)
-
-set_score()
-print(score)   # NameError: score is not defined</code></pre>
-
-            <p>
-              A variable created outside any function lives in the
-              <strong>global scope</strong> and can be read from inside a
-              function:
-            </p>
-
-            <pre class="code-block"><code>message = "Hello"
-
-def show_message():
-    print(message)   # reading a global works fine
-
-show_message()</code></pre>
-
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful — scope leakage</span>
-              <p>
-                A function cannot <em>change</em> a global variable just by
-                assigning to a name with the same one inside it — that
-                creates a new local variable instead, and the global is left
-                untouched. Return the new value and reassign it outside the
-                function rather than fighting scope rules.
-              </p>
-            </div>
-
-            <h2>Worked example — refactoring into functions</h2>
-
-            <p>
-              This chapter's project turns a quiz into a set of small
-              functions, each doing exactly one job.
-            </p>
-
-            <pre class="code-block"><code># Quiz Game
-
-def ask_question(question, correct_answer):
-    given = input(question + " ")
-    return given.strip().lower() == correct_answer.lower()
-
-
-def report(score, total):
-    print(f"\nYou scored {score} out of {total}.")
-    if score == total:
-        print("Perfect.")
-    elif score &gt;= total / 2:
-        print("A decent effort.")
-    else:
-        print("Worth another go.")
-
-
-questions = [
-    {"q": "What symbol starts a comment in Python?", "a": "#"},
-    {"q": "What is 7 * 6?", "a": "42"}
+students = [
+    {"name": "Alex", "scores": [78, 82, 91]},
+    {"name": "Bo", "scores": [91, 95, 89]},
+    {"name": "Chris", "scores": [65, 70, 68]}
 ]
 
-score = 0
+print("--- Class report ---")
 
-for item in questions:
-    if ask_question(item["q"], item["a"]):
-        print("Correct.")
-        score += 1
-    else:
-        print(f"No — the answer was {item['a']}.")
-
-report(score, len(questions))</code></pre>
+for number, student in enumerate(students, start=1):
+    average = sum(student["scores"]) / len(student["scores"])
+    print(f"{number}. {student['name']}: average {average:.1f}")</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>What symbol starts a comment in Python? #
-Correct.
-What is 7 * 6? 42
-Correct.
-
-You scored 2 out of 2.
-Perfect.</code></pre>
+            <pre class="output-block"><code>--- Class report ---
+1. Alex: average 83.7
+2. Bo: average 91.7
+3. Chris: average 67.7</code></pre>
 
             <p>
-              <code>ask_question</code> returns a boolean rather than
-              printing anything, so the loop that calls it decides what to do
-              with the result — exactly the return-over-print habit this
-              chapter argued for.
+              Each student is a dictionary holding a list of scores — the
+              exact "list inside a dictionary inside a list" shape this
+              chapter introduced — and <code>sum()</code> /
+              <code>len()</code> turn that inner list into an average.
             </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">More to build, if you want</span>
+              <p>
+                By this chapter you have every tool needed for several other
+                small projects: a shopping cart and receipt generator, a
+                flashcard quiz with a nested dictionary of terms, a contact
+                book, a text-adventure game using dictionaries as rooms, an
+                expense tracker, and a two-player tic-tac-toe board. All of
+                them lean on the same combination this chapter taught — lists,
+                dictionaries, and looping through both.
+              </p>
+            </div>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
-              <p>What does this print, and why is it not 8?</p>
-              <pre class="code-block"><code>def double(number):
-    number * 2
-
-print(double(4))</code></pre>
               <p>
-                It prints <code>None</code>. The function calculates the
-                double and throws it away — there is no <code>return</code>.
+                What does <code>student.get("email", "none")</code> return if
+                <code>student</code> has no <code>"email"</code> key? The
+                string <code>"none"</code> — the default you supplied, and no
+                error at all.
               </p>
             </div>
           </section>

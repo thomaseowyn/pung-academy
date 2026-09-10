@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 11 — Object-Oriented Programming (OOP) — Pung Academy</title>
-    <meta name="description" content="Chapter 11 of Introduction to Programming: classes, objects, __init__, attributes, methods, self, inheritance and encapsulation." />
+    <title>Chapter 11 — Modules, Libraries &amp; Virtual Environments — Pung Academy</title>
+    <meta name="description" content="Chapter 11 of Introduction to Programming: importing built-in modules, installing packages with pip, and virtual environments." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 11</span
             >
-            <h1 data-chapter-title>Object-Oriented Programming (OOP)</h1>
+            <h1 data-chapter-title>Modules, Libraries &amp; Virtual Environments</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,212 +62,158 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Modelling a real thing</h2>
+            <h2>You do not have to write everything yourself</h2>
 
             <p>
-              So far, related information has lived in separate variables or a
-              dictionary — a student's name here, their grade there. A
-              <strong>class</strong> bundles data and the actions that belong
-              to it into one definition, and lets you create as many
-              independent copies, or <strong>objects</strong>, as you need.
+              Python ships with a large standard library of ready-made code,
+              and beyond that, an enormous ecosystem of packages other people
+              have published. Using them is normal practice, not cheating —
+              this chapter is about how to bring that code into your own
+              program.
             </p>
 
-            <h2>Defining a class</h2>
+            <h2>Importing built-in modules</h2>
 
-            <pre class="code-block"><code>class Dog:
-    def __init__(self, name):
-        self.name = name
+            <pre class="code-block"><code>import random
 
-    def bark(self):
-        print(f"{self.name} says Woof!")</code></pre>
-
-            <p>Take it apart:</p>
-
-            <ul>
-              <li>
-                <code>class Dog:</code> — starts the definition. By
-                convention, class names start with a capital letter.
-              </li>
-              <li>
-                <code>__init__</code> — a special method that runs
-                automatically the moment a new <code>Dog</code> is created. It
-                sets up the object's starting state.
-              </li>
-              <li>
-                <code>self</code> — refers to <em>this particular</em> object.
-                Every method needs it as its first parameter.
-              </li>
-              <li>
-                <code>self.name = name</code> — stores the value as an
-                <strong>attribute</strong>, so every method on this object can
-                read it later.
-              </li>
-            </ul>
-
-            <h2>Creating and using objects</h2>
-
-            <pre class="code-block"><code>rex = Dog("Rex")
-milo = Dog("Milo")
-
-rex.bark()    # Rex says Woof!
-milo.bark()   # Milo says Woof!</code></pre>
+roll = random.randint(1, 6)
+print(roll)</code></pre>
 
             <p>
-              <code>rex</code> and <code>milo</code> are two separate
-              <strong>instances</strong> of the same class, each with its own
-              independent <code>name</code>. Calling <code>rex.bark()</code>
-              automatically passes <code>rex</code> as <code>self</code> —
-              that is how the method knows to print "Rex" and not "Milo".
+              <code>import random</code> gives your file access to everything
+              inside the <code>random</code> module. You already used this
+              back in the loops chapter's worked example — a die roll picks a
+              whole number in a range, which is exactly what
+              <code>random.randint(1, 6)</code> does.
             </p>
 
-            <h2>Methods with more than self</h2>
+            <p>Two more modules you will meet constantly:</p>
 
-            <p>A method can take extra parameters just like a normal function:</p>
+            <pre class="code-block"><code>import math
+print(math.sqrt(16))     # 4.0
+print(math.pi)            # 3.141592653589793
 
-            <pre class="code-block"><code>class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
+import datetime
+today = datetime.date.today()
+print(today)               # e.g. 2026-09-08</code></pre>
 
-    def deposit(self, amount):
-        self.balance += amount
-
-    def withdraw(self, amount):
-        if amount &gt; self.balance:
-            print("Insufficient funds.")
-        else:
-            self.balance -= amount
-
-
-account = BankAccount("Alex")
-account.deposit(100)
-account.withdraw(30)
-print(account.balance)   # 70</code></pre>
-
-            <h2>Class attributes vs. instance attributes</h2>
+            <h3>Importing just one piece</h3>
 
             <p>
-              An attribute set inside <code>__init__</code> with
-              <code>self.</code> belongs to one specific object. An attribute
-              written directly under the class, outside any method, is shared
-              by every object of that class.
+              You can import a single name from a module instead of the whole
+              thing, which saves you writing the module name every time:
             </p>
 
-            <pre class="code-block"><code>class Dog:
-    species = "Canis familiaris"   # class attribute -- shared by every Dog
+            <pre class="code-block"><code>from random import randint
 
-    def __init__(self, name):
-        self.name = name           # instance attribute -- unique per Dog
-
-rex = Dog("Rex")
-milo = Dog("Milo")
-
-print(rex.species, milo.species)   # both print the same shared value
-print(rex.name, milo.name)         # each prints its own</code></pre>
+roll = randint(1, 6)   # no "random." needed now</code></pre>
 
             <div class="callout callout--warning">
-              <span class="callout__label">Careful</span>
+              <span class="callout__label">Careful — namespace collisions</span>
               <p>
-                Assigning to <code>self.species = "..."</code> on one
-                instance creates a new instance attribute that only shadows
-                the class attribute for that one object — it does not change
-                the shared value for every <code>Dog</code>.
+                If you write <code>from random import *</code> to import
+                everything at once, and one of those names happens to match a
+                variable or function you already defined, yours gets silently
+                overwritten. Import only what you need, by name, and prefer
+                <code>import module_name</code> when in doubt — it is clearer
+                where each piece came from.
               </p>
             </div>
 
-            <h2>Inheritance</h2>
+            <h2>Third-party packages and pip</h2>
 
             <p>
-              A class can be built on top of another one, inheriting its
-              attributes and methods and adding or overriding what it needs.
+              The standard library covers a lot, but not everything.
+              <strong>pip</strong> is Python's package installer, and it
+              downloads code other people have published so you can
+              <code>import</code> it just like a built-in module.
             </p>
 
-            <pre class="code-block"><code>class Animal:
-    def __init__(self, name):
-        self.name = name
-
-    def speak(self):
-        print(f"{self.name} makes a sound.")
-
-
-class Cat(Animal):
-    def speak(self):
-        print(f"{self.name} says Meow!")
-
-
-generic = Animal("Some animal")
-whiskers = Cat("Whiskers")
-
-generic.speak()    # Some animal makes a sound.
-whiskers.speak()   # Whiskers says Meow!</code></pre>
+            <pre class="code-block"><code>pip install requests</code></pre>
 
             <p>
-              <code>Cat(Animal)</code> means "a <code>Cat</code> is an
-              <code>Animal</code>, plus whatever is different." Because
-              <code>Cat</code> defines its own <code>speak</code>, calling it
-              on a <code>Cat</code> uses that version rather than the parent's
-              — Python looks for the method on the object's own class first,
-              and only checks the parent if it does not find one there.
+              That command is typed into your terminal, not into a Python
+              file. Once installed, a package behaves exactly like a built-in
+              module — <code>import requests</code> and you can use it.
             </p>
 
-            <h2>Encapsulation</h2>
+            <h2>Virtual environments (venv)</h2>
 
             <p>
-              <strong>Encapsulation</strong> means keeping an object's internal
-              details bundled inside it, and interacting with the object
-              through its methods rather than reaching directly into its
-              attributes from outside. Python does not enforce this strictly,
-              but a leading underscore is the conventional signal that an
-              attribute is meant to stay internal:
+              Different projects on your computer can need different
+              versions of the same package. A
+              <strong>virtual environment</strong> is an isolated Python
+              installation for a single project, so installing something for
+              one project can never break another.
             </p>
 
-            <pre class="code-block"><code>class BankAccount:
-    def __init__(self, balance):
-        self._balance = balance   # the underscore says "internal - use the methods"
+            <pre class="code-block"><code>python -m venv env
+# then activate it — the exact command differs by operating system
+# Windows:      env\Scripts\activate
+# macOS/Linux:  source env/bin/activate</code></pre>
 
-    def get_balance(self):
-        return self._balance</code></pre>
+            <p>
+              Once activated, anything you <code>pip install</code> is
+              contained inside that project's own <code>env</code> folder,
+              completely separate from every other project on your machine.
+              This is standard practice the moment a project depends on
+              anything beyond the standard library.
+            </p>
 
-            <h2>Worked example — the BankAccount class</h2>
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip — import path resolution</span>
+              <p>
+                Python looks for a module first among the files in your own
+                project, then in the active virtual environment, then in the
+                standard library. If <code>import</code> ever picks up the
+                wrong version of something, checking which environment is
+                active is usually the fastest way to find out why.
+              </p>
+            </div>
 
-            <pre class="code-block"><code># BankAccount
+            <h2>Worked example — the Daily Dice Roller</h2>
 
-class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
+            <p>
+              This chapter's project combines two built-in modules — one to
+              generate something random, one to timestamp it.
+            </p>
 
-    def deposit(self, amount):
-        self.balance += amount
-        print(f"Deposited {amount}. New balance: {self.balance}")
+            <pre class="code-block"><code># Daily Dice Roller
 
-    def withdraw(self, amount):
-        if amount &gt; self.balance:
-            print("Insufficient funds.")
-        else:
-            self.balance -= amount
-            print(f"Withdrew {amount}. New balance: {self.balance}")
+import random
+import datetime
 
+facts = [
+    "Python was named after Monty Python, not the snake.",
+    "The zen of Python can be read by typing: import this",
+    "f-strings were added in Python 3.6."
+]
 
-account = BankAccount("Alex", 50)
-account.deposit(20)
-account.withdraw(100)
-account.withdraw(30)</code></pre>
+roll = random.randint(1, 6)
+fact = random.choice(facts)
+today = datetime.date.today()
+
+print(f"[{today}] You rolled a {roll}.")
+print(f"Fact of the day: {fact}")</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>Deposited 20. New balance: 70
-Insufficient funds.
-Withdrew 30. New balance: 40</code></pre>
+            <pre class="output-block"><code>[2026-09-08] You rolled a 4.
+Fact of the day: f-strings were added in Python 3.6.</code></pre>
+
+            <p>
+              <code>random.choice()</code> picks one item at random from a
+              list — useful the moment you have several options and want one
+              of them, rather than a number.
+            </p>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>
-                Given the <code>Cat(Animal)</code> example above, if
-                <code>Cat</code> did <em>not</em> define its own
-                <code>speak</code> method, what would
-                <code>whiskers.speak()</code> print? "Whiskers makes a
-                sound." — with no override, Python falls back to the parent
-                class's version.
+                What is the difference between <code>import random</code> and
+                <code>from random import randint</code>? The first requires
+                writing <code>random.randint(...)</code> every time; the
+                second lets you write <code>randint(...)</code> directly,
+                because only that one name was brought in.
               </p>
             </div>
           </section>

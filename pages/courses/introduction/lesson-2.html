@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 2 — Data Types &amp; Variable Manipulation — Pung Academy</title>
-    <meta name="description" content="Chapter 2 of Introduction to Programming: variables, numbers, strings, booleans, type casting and f-strings." />
+    <title>Chapter 2 — First Steps &amp; Computational Thinking — Pung Academy</title>
+    <meta name="description" content="Chapter 2 of Introduction to Programming: setting up your environment, how a program actually runs, print and input, and comments." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 2</span
             >
-            <h1 data-chapter-title>Data Types &amp; Variable Manipulation</h1>
+            <h1 data-chapter-title>First Steps &amp; Computational Thinking</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,239 +62,257 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Variables: giving a value a name</h2>
+            <h2>What programming actually is</h2>
 
             <p>
-              So far your programs have had no memory — they print something
-              and immediately forget it. A <strong>variable</strong> is a name
-              attached to a value, so a program can keep hold of information
-              and use it again later.
+              A computer is astonishingly fast and completely unimaginative. It
+              will do exactly what you tell it, in exactly the order you tell
+              it, several billion times a second — and it will never once work
+              out what you <em>meant</em>. Programming is the craft of writing
+              instructions precise enough for something that literal.
             </p>
 
-            <pre class="code-block"><code>name = "Alex"
-age = 20</code></pre>
-
             <p>
-              Read the <code>=</code> as "is set to", not as "equals". It is an
-              instruction: <em>take the value on the right, and attach the name
-              on the left to it.</em> From that point on, writing
-              <code>name</code> anywhere in the program means
-              <code>"Alex"</code>.
+              That is the whole job. Not memorising syntax, not knowing every
+              function by heart. Taking a task you understand, breaking it into
+              steps small enough that nothing is left to interpretation, and
+              writing those steps down in a language the machine can read. This
+              course uses <strong>Python</strong>, because it reads closer to
+              English than most languages and gets out of your way while you
+              are learning the ideas underneath.
             </p>
 
-            <pre class="code-block"><code>name = "Alex"
-print("Hello,", name)</code></pre>
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                People often compare programming to giving directions. The
+                better comparison is giving directions to someone who has never
+                been outside, cannot see, and will walk into a wall rather than
+                assume you meant "turn before the wall".
+              </p>
+            </div>
 
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Hello, Alex</code></pre>
+            <h2>Setting up your environment</h2>
 
             <p>
-              Variables exist because information used more than once should
-              be written once. If a value appears in six places and it needs
-              to change, six edits is six chances to miss one — stored in a
-              variable, it changes in a single place and every use follows.
+              Before you can write a program, you need somewhere to write it
+              and something to run it. Two tools cover almost every beginner's
+              needs:
+            </p>
+
+            <ul>
+              <li>
+                <strong>VS Code</strong> — a free code editor. It highlights
+                syntax, shows errors as you type, and has a built-in terminal
+                for running your files.
+              </li>
+              <li>
+                <strong>Jupyter</strong> — a notebook environment that runs code
+                in small chunks and shows the result immediately underneath.
+                Popular for experimenting and for data work later on.
+              </li>
+            </ul>
+
+            <p>
+              Either is fine to start with. The video above walks through
+              installing Python itself and getting one of these editors
+              running — do that before continuing, because every example from
+              here on assumes you have somewhere to type and run code.
             </p>
 
             <div class="callout callout--tip">
-              <span class="callout__label">Tip — naming</span>
+              <span class="callout__label">Tip</span>
               <p>
-                Use lowercase words joined by underscores:
-                <code>first_name</code>, <code>total_price</code>. Names cannot
-                contain spaces or start with a digit, and should say what the
-                thing <em>is</em> — <code>x</code> will cost you time later.
+                Save your files with a <code>.py</code> ending, for example
+                <code>hello.py</code>. That extension is what tells your
+                editor, and Python itself, that the file contains Python code.
               </p>
             </div>
 
-            <h2>Data types</h2>
+            <h2>Execution flow: how a program actually runs</h2>
 
             <p>
-              Every value has a <strong>type</strong>, and the type decides
-              what you can do with it. Adding two numbers gives you their sum;
-              adding two pieces of text glues them together. Python tracks the
-              type of everything so it knows which behaviour you meant.
+              When you run a Python file, Python reads it from the very top
+              line and works downward, one instruction at a time, in order.
+              This sounds obvious written down, but it is the single most
+              important fact to hold in your head for the rest of this course.
             </p>
 
-            <p>The types you need for this chapter:</p>
+            <pre class="code-block"><code>print("First")
+print("Second")
+print("Third")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>First
+Second
+Third</code></pre>
+
+            <p>
+              Three lines, run top to bottom, in exactly that order — never
+              bottom to top, never out of sequence. When a program misbehaves
+              later in this course, tracing which line ran when will find the
+              fault more often than staring at the whole file will.
+            </p>
+
+            <h2>print(): showing something on screen</h2>
+
+            <p>
+              <code>print()</code> is a built-in <strong>function</strong> — a
+              piece of work Python already knows how to do. This one displays
+              whatever you give it.
+            </p>
+
+            <pre class="code-block"><code>print("Hello, world!")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello, world!</code></pre>
+
+            <p>Take that line apart, because every piece matters:</p>
 
             <ul>
               <li>
-                <strong>int</strong> — a whole number: <code>20</code>,
-                <code>0</code>, <code>-7</code>
+                <code>print</code> is the function's name.
               </li>
               <li>
-                <strong>float</strong> — a number with a decimal point:
-                <code>4.50</code>, <code>-0.5</code>
+                The <strong>brackets</strong> <code>( )</code> are how you call
+                a function — they hold whatever you are handing it.
               </li>
               <li>
-                <strong>str</strong> (string) — text, always in quotes:
-                <code>"Alex"</code>, <code>"20"</code>
-              </li>
-              <li>
-                <strong>bool</strong> (boolean) — exactly two possible values:
-                <code>True</code> or <code>False</code>
+                The <strong>quotation marks</strong> mark the start and end of
+                a piece of text. Without them, Python would think
+                <code>Hello</code> was the name of something you had already
+                defined, and it isn't.
               </li>
             </ul>
 
-            <p>You can ask Python what type something is with <code>type()</code>:</p>
+            <p>
+              You can print more than one thing at once by separating them
+              with commas — Python adds a space between each one automatically:
+            </p>
 
-            <pre class="code-block"><code>print(type(20))
-print(type(4.50))
-print(type("Alex"))
-print(type(True))</code></pre>
+            <pre class="code-block"><code>print("The answer is", 42)</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>&lt;class 'int'&gt;
-&lt;class 'float'&gt;
-&lt;class 'str'&gt;
-&lt;class 'bool'&gt;</code></pre>
+            <pre class="output-block"><code>The answer is 42</code></pre>
 
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful</span>
-              <p>
-                <code>20</code> and <code>"20"</code> are not the same value.
-                One is a number you can do arithmetic with; the other is two
-                characters of text that happen to look like a number. This
-                single distinction causes more beginner confusion than any
-                other idea in this course.
-              </p>
-            </div>
-
-            <h2>Strings</h2>
+            <h2>input(): asking the person using your program</h2>
 
             <p>
-              A <strong>string</strong> is a sequence of characters. Single and
-              double quotes both work — handy when the text itself contains a
-              quote:
+              A program that only ever works with text you typed into the file
+              is not very useful. <code>input()</code> pauses the program,
+              waits for the person to type something and press Enter, and hands
+              back whatever they typed.
             </p>
 
-            <pre class="code-block"><code>greeting = "Hello"
-message = "It's a nice day"</code></pre>
+            <pre class="code-block"><code>name = input("What is your name? ")
+print("Hello,", name)</code></pre>
+
+            <span class="output-label">Output (with "Alex" typed)</span>
+            <pre class="output-block"><code>What is your name? Alex
+Hello, Alex</code></pre>
 
             <p>
-              Joining strings together is <strong>concatenation</strong>, done
-              with <code>+</code>:
-            </p>
-
-            <pre class="code-block"><code>first = "Ada"
-last = "Lovelace"
-print(first + " " + last)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Ada Lovelace</code></pre>
-
-            <p>
-              Notice the <code>" "</code> in the middle — without it you would
-              get <code>AdaLovelace</code>. Python only adds exactly what you
-              tell it to.
-            </p>
-
-            <h2>f-strings: building text the tidy way</h2>
-
-            <p>
-              Gluing strings together with <code>+</code> gets ugly fast, and
-              it fails outright the moment you try to include a number. An
-              <strong>f-string</strong> lets you drop variables straight into
-              text: put an <code>f</code> before the opening quote and wrap
-              each variable in curly braces.
-            </p>
-
-            <pre class="code-block"><code>name = "Alex"
-age = 20
-print(f"{name} is {age} years old")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Alex is 20 years old</code></pre>
-
-            <p>
-              This works for any type — numbers, text, even the result of a
-              calculation — and it is the standard way Python programs build
-              sentences out of data. You will use f-strings constantly from
-              here on.
-            </p>
-
-            <h2>Booleans</h2>
-
-            <p>
-              A <strong>boolean</strong> is either <code>True</code> or
-              <code>False</code> — capitalised exactly like that, no quotes.
-              Booleans record whether something is the case, which is what
-              lets a program make decisions in the next chapter.
-            </p>
-
-            <pre class="code-block"><code>is_logged_in = True
-has_paid = False</code></pre>
-
-            <p>
-              Comparisons already produce booleans, even without a full
-              conditional statement:
-            </p>
-
-            <pre class="code-block"><code>age = 20
-print(age &gt;= 18)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>True</code></pre>
-
-            <h2>Type conversion (casting)</h2>
-
-            <p>
-              <strong>Type casting</strong> turns a value of one type into
-              another. Three functions cover almost everything you need:
-            </p>
-
-            <ul>
-              <li><code>int(x)</code> — make a whole number</li>
-              <li><code>float(x)</code> — make a decimal number</li>
-              <li><code>str(x)</code> — make text</li>
-            </ul>
-
-            <p>
-              This matters immediately, because <code>input()</code> — from
-              Chapter 1 — always gives you text, even when someone types a
-              number:
-            </p>
-
-            <pre class="code-block"><code>age = input("Your age: ")
-print(age + 1)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>TypeError: can only concatenate str (not "int") to str</code></pre>
-
-            <p>The fix is to convert the text before using it as a number:</p>
-
-            <pre class="code-block"><code>age = int(input("Your age: "))
-print(f"Next year you will be {age + 1}")</code></pre>
-
-            <span class="output-label">Output (with "20" typed)</span>
-            <pre class="output-block"><code>Your age: 20
-Next year you will be 21</code></pre>
-
-            <p>
-              Read <code>int(input("Your age: "))</code> from the inside out:
-              <code>input</code> collects text, and <code>int</code> converts
-              that text into a number. Wrapping one call around another like
-              this is extremely common in Python.
+              The text inside the brackets is the <strong>prompt</strong> — it
+              is shown before the program waits. You will meet
+              <code>input()</code> again in almost every chapter from here on,
+              because it is how a program stops only doing what you already
+              knew and starts reacting to something new.
             </p>
 
             <div class="callout callout--warning">
               <span class="callout__label">Careful</span>
               <p>
-                <code>int("hello")</code> fails with a
-                <code>ValueError</code> — there is no sensible number hiding in
-                "hello". Casting only works when the text genuinely looks like
-                the type you are converting to.
+                Whatever someone types into <code>input()</code> comes back as
+                text, even if they type a number. You will learn how to convert
+                that text into an actual number in the next chapter — for now,
+                just notice that <code>input()</code> always waits, and always
+                hands back text.
               </p>
             </div>
+
+            <h2>Comments: notes to humans</h2>
+
+            <p>
+              A line starting with <code>#</code> is a
+              <strong>comment</strong>. Python ignores it completely when the
+              program runs — it exists purely for whoever reads the file
+              afterwards, which is usually you, in three weeks, having
+              forgotten why you did something.
+            </p>
+
+            <pre class="code-block"><code># Greet the person using the program
+print("Hello, world!")   # this part runs; the note after the hash does not</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Write comments about <em>why</em>, not <em>what</em>.
+                <code># print the total</code> tells a reader nothing they
+                could not already see. <code># totals must exclude tax here</code>
+                tells them something real.
+              </p>
+            </div>
+
+            <h2>Reading errors without panicking</h2>
+
+            <p>
+              You are about to see a great many error messages over this
+              course, starting today. That is not a sign anything has gone
+              wrong with you — it is the normal texture of the work.
+            </p>
+
+            <pre class="code-block"><code>print("Hello, world!"</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>  File "hello.py", line 1
+    print("Hello, world!"
+         ^
+SyntaxError: '(' was never closed</code></pre>
+
+            <p>
+              Read the last line first — it names the exact fault. Then the
+              line number tells you where. Every piece of that message is a
+              gift, not a scolding, and this specific error means one thing
+              only: a bracket that opened was never closed.
+            </p>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>
-                What type is the result of <code>10 / 2</code>? Try
-                <code>print(type(10 / 2))</code> and see if it matches what you
-                expected — division in Python always produces a float, even
-                when the division is exact.
+                Before continuing, run this in your editor and read the actual
+                error Python gives you:
+              </p>
+              <pre class="code-block"><code>Print("Hello")</code></pre>
+              <p>
+                It fails because <code>Print</code> is capitalised and Python's
+                real function is lowercase — <code>print</code>. Spelling and
+                case always matter.
               </p>
             </div>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              Everything in this chapter is small on its own, but together it
+              is enough to write a real, working program:
+            </p>
+
+            <pre class="code-block"><code># Ask for a name and greet them
+name = input("What is your name? ")
+
+# Show the greeting
+print("Welcome to Pung Academy,", name)</code></pre>
+
+            <span class="output-label">Output (with "Alex" typed)</span>
+            <pre class="output-block"><code>What is your name? Alex
+Welcome to Pung Academy, Alex</code></pre>
+
+            <p>
+              Four lines, read top to bottom, using a function that shows
+              things, a function that asks for things, and two comments
+              explaining why. Everything else in this course is this same
+              idea, with more tools added one chapter at a time.
+            </p>
           </section>
 
           <!-- ========================= Exercise ========================= -->

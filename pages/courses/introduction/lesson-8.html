@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 8 — Error Handling &amp; Debugging — Pung Academy</title>
-    <meta name="description" content="Chapter 8 of Introduction to Programming: try, except, else, finally, raising exceptions, and reading stack traces." />
+    <title>Chapter 8 — Functions &amp; Scope Mechanics — Pung Academy</title>
+    <meta name="description" content="Chapter 8 of Introduction to Programming: parameters, arguments, *args and **kwargs, return vs print, and local vs global scope." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 8</span
             >
-            <h1 data-chapter-title>Error Handling &amp; Debugging</h1>
+            <h1 data-chapter-title>Functions &amp; Scope Mechanics</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,197 +62,259 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Programs fail. Plan for it.</h2>
+            <h2>Why functions?</h2>
 
             <p>
-              Every program you have written so far breaks the instant
-              something unexpected happens — a letter typed where a number was
-              expected, a file that is not there, a list that turns out to be
-              empty. <strong>Error handling</strong> is how you let a program
-              expect that, and keep running anyway.
+              Look at a program that greets three people:
             </p>
 
-            <h2>try and except</h2>
+            <pre class="code-block"><code>print("Hello, Alex!")
+print("Welcome to Pung Academy.")
 
-            <pre class="code-block"><code>try:
-    number = int(input("Enter a number: "))
-    print(f"You entered {number}")
-except ValueError:
-    print("That was not a valid number.")</code></pre>
-
-            <span class="output-label">Output (typing "abc")</span>
-            <pre class="output-block"><code>Enter a number: abc
-That was not a valid number.</code></pre>
+print("Hello, Bo!")
+print("Welcome to Pung Academy.")</code></pre>
 
             <p>
-              Python attempts everything inside <code>try</code>. The moment a
-              line raises an error matching the type named after
-              <code>except</code>, it jumps straight there instead of crashing
-              the whole program.
+              The same idea, written twice already, and it will only get
+              worse. A <strong>function</strong> is a named piece of work you
+              define once and use as often as you like. You have already been
+              calling functions: <code>print()</code>, <code>input()</code>,
+              <code>len()</code>. Now you write your own.
             </p>
 
-            <h3>Catching more than one kind of error</h3>
+            <h2>Defining and calling a function</h2>
 
-            <pre class="code-block"><code>try:
-    first = int(input("First number: "))
-    second = int(input("Second number: "))
-    print(first / second)
-except ValueError:
-    print("Please type actual numbers.")
-except ZeroDivisionError:
-    print("You cannot divide by zero.")</code></pre>
+            <pre class="code-block"><code>def greet():
+    print("Hello!")
+    print("Welcome to Pung Academy.")
+
+greet()
+greet()</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello!
+Welcome to Pung Academy.
+Hello!
+Welcome to Pung Academy.</code></pre>
 
             <p>
-              Two separate <code>except</code> blocks, each matching a
-              different failure — Python checks them in order and runs
-              whichever one matches. You can also catch several types in one
-              block with a tuple: <code>except (ValueError, ZeroDivisionError):</code>.
+              Defining a function does not run it — it only teaches Python
+              what the name means. Writing <code>greet()</code> with brackets
+              is what actually runs it.
             </p>
 
-            <h2>else and finally</h2>
-
-            <pre class="code-block"><code>try:
-    number = int(input("Enter a number: "))
-except ValueError:
-    print("That was not valid.")
-else:
-    print(f"Got it: {number}")
-finally:
-    print("Done trying.")</code></pre>
-
-            <ul>
-              <li>
-                <code>else</code> runs only if <code>try</code> succeeded with
-                no error at all.
-              </li>
-              <li>
-                <code>finally</code> always runs, whether there was an error
-                or not — useful for cleanup that must happen either way.
-              </li>
-            </ul>
-
-            <h2>Raising your own exceptions</h2>
+            <h2>Parameters and arguments</h2>
 
             <p>
-              Sometimes the input is technically valid Python but wrong for
-              what your program needs — a negative age, for instance. You can
-              raise an error on purpose:
+              A <strong>parameter</strong> is a placeholder name in the
+              definition; an <strong>argument</strong> is the actual value you
+              pass in when calling.
             </p>
 
-            <pre class="code-block"><code>age = int(input("Age: "))
+            <pre class="code-block"><code>def greet(name):
+    print(f"Hello, {name}!")
 
-if age &lt; 0:
-    raise ValueError("Age cannot be negative")
+greet("Alex")
+greet("Bo")</code></pre>
 
-print(f"Age accepted: {age}")</code></pre>
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello, Alex!
+Hello, Bo!</code></pre>
+
+            <h3>Default arguments</h3>
+
+            <pre class="code-block"><code>def greet(name, greeting="Hello"):
+    print(f"{greeting}, {name}!")
+
+greet("Alex")                      # Hello, Alex!
+greet("Bo", "Good morning")        # Good morning, Bo!</code></pre>
+
+            <h2>*args and **kwargs</h2>
 
             <p>
-              <code>raise</code> stops the program immediately with your
-              chosen error — unless something further up the call chain
-              catches it with its own <code>try</code>/<code>except</code>.
+              Sometimes you do not know in advance how many arguments a
+              function should accept. <code>*args</code> collects any number
+              of extra positional arguments into a tuple:
             </p>
 
-            <h2>Reading a stack trace</h2>
+            <pre class="code-block"><code>def total(*args):
+    return sum(args)
+
+print(total(1, 2, 3))       # 6
+print(total(10, 20))        # 30</code></pre>
 
             <p>
-              When an error is not caught, Python prints a
-              <strong>stack trace</strong> — read the bottom line first.
+              <code>**kwargs</code> does the same for named arguments,
+              collecting them into a dictionary:
             </p>
 
-            <pre class="code-block"><code>Traceback (most recent call last):
-  File "shopping.py", line 7, in &lt;module&gt;
-    total = price * quantity
-TypeError: can't multiply sequence by non-int of type 'str'</code></pre>
+            <pre class="code-block"><code>def describe(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
 
-            <p>Working from the bottom up:</p>
+describe(name="Alex", age=20)</code></pre>
 
-            <ul>
-              <li>
-                <strong>Last line</strong> — the error family
-                (<code>TypeError</code>) and the exact complaint.
-              </li>
-              <li>
-                <strong>File and line number</strong> — where to look.
-              </li>
-              <li>
-                <strong>The quoted code</strong> — the exact line that failed.
-              </li>
-            </ul>
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>name: Alex
+age: 20</code></pre>
 
             <p>
-              Translated: something tried to multiply a piece of text by a
-              value that was not a plain integer. Almost certainly
-              <code>quantity</code> came from <code>input()</code> and was
-              never converted with <code>int()</code>.
+              You will not need these two constantly as a beginner, but
+              recognising them is important — they appear throughout Python's
+              own libraries.
             </p>
+
+            <h2>return vs. print</h2>
+
+            <p>
+              This is the idea that makes functions powerful, and the one
+              beginners most often miss. <code>print()</code> shows a human
+              some text — it does not give a value back to the rest of the
+              program. <code>return</code> does.
+            </p>
+
+            <pre class="code-block"><code>def add_and_print(a, b):
+    print(a + b)          # shows the answer, gives back nothing
+
+def add_and_return(a, b):
+    return a + b          # hands the answer back
+
+x = add_and_print(2, 3)   # prints 5, but x is None
+y = add_and_return(2, 3)  # prints nothing, but y is 5</code></pre>
 
             <div class="callout callout--tip">
-              <span class="callout__label">Tip — exception matching</span>
+              <span class="callout__label">Tip</span>
               <p>
-                When you have several <code>except</code> blocks, Python
-                checks them top to bottom and stops at the first type that
-                matches. Order the specific ones before any general
-                catch-all, or the specific ones will never be reached.
+                A function that calculates something should almost always
+                <code>return</code> the result rather than print it — printing
+                is a decision about presentation, and it is not the
+                function's job to make that call for whoever uses it.
               </p>
             </div>
 
-            <h2>Worked example — the Safe Calculator</h2>
+            <h3>return ends the function immediately</h3>
+
+            <pre class="code-block"><code>def check_age(age):
+    if age &lt; 0:
+        return "That is not a valid age."
+    if age &gt;= 18:
+        return "Adult"
+    return "Minor"
+
+print(check_age(20))    # Adult
+print(check_age(-5))    # That is not a valid age.</code></pre>
 
             <p>
-              This chapter's project takes the division calculator from
-              earlier and makes it resilient — no input can crash it.
+              Nothing after a <code>return</code> that runs will execute,
+              which makes it useful for handling bad input first and getting
+              out early.
             </p>
 
-            <pre class="code-block"><code># Safe Calculator
-
-while True:
-    try:
-        first = float(input("First number (or 'q' to quit): "))
-        second = float(input("Second number: "))
-    except ValueError:
-        print("Please enter valid numbers.\n")
-        continue
-
-    try:
-        result = first / second
-    except ZeroDivisionError:
-        print("Cannot divide by zero.\n")
-        continue
-
-    print(f"Result: {result}\n")
-    break</code></pre>
-
-            <span class="output-label">Output (dividing by zero, then succeeding)</span>
-            <pre class="output-block"><code>First number (or 'q' to quit): 10
-Second number: 0
-Cannot divide by zero.
-
-First number (or 'q' to quit): 10
-Second number: 2
-Result: 5.0</code></pre>
+            <h2>Local vs. global scope</h2>
 
             <p>
-              Two separate <code>try</code> blocks handle two separate
-              failures, and <code>continue</code> sends the loop straight back
-              to asking again rather than letting a bad attempt end the
-              program.
+              A variable created inside a function only exists inside that
+              function — its <strong>local scope</strong>. It disappears the
+              moment the function finishes.
+            </p>
+
+            <pre class="code-block"><code>def set_score():
+    score = 100
+    print(score)
+
+set_score()
+print(score)   # NameError: score is not defined</code></pre>
+
+            <p>
+              A variable created outside any function lives in the
+              <strong>global scope</strong> and can be read from inside a
+              function:
+            </p>
+
+            <pre class="code-block"><code>message = "Hello"
+
+def show_message():
+    print(message)   # reading a global works fine
+
+show_message()</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — scope leakage</span>
+              <p>
+                A function cannot <em>change</em> a global variable just by
+                assigning to a name with the same one inside it — that
+                creates a new local variable instead, and the global is left
+                untouched. Return the new value and reassign it outside the
+                function rather than fighting scope rules.
+              </p>
+            </div>
+
+            <h2>Worked example — refactoring into functions</h2>
+
+            <p>
+              This chapter's project turns a quiz into a set of small
+              functions, each doing exactly one job.
+            </p>
+
+            <pre class="code-block"><code># Quiz Game
+
+def ask_question(question, correct_answer):
+    given = input(question + " ")
+    return given.strip().lower() == correct_answer.lower()
+
+
+def report(score, total):
+    print(f"\nYou scored {score} out of {total}.")
+    if score == total:
+        print("Perfect.")
+    elif score &gt;= total / 2:
+        print("A decent effort.")
+    else:
+        print("Worth another go.")
+
+
+questions = [
+    {"q": "What symbol starts a comment in Python?", "a": "#"},
+    {"q": "What is 7 * 6?", "a": "42"}
+]
+
+score = 0
+
+for item in questions:
+    if ask_question(item["q"], item["a"]):
+        print("Correct.")
+        score += 1
+    else:
+        print(f"No — the answer was {item['a']}.")
+
+report(score, len(questions))</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>What symbol starts a comment in Python? #
+Correct.
+What is 7 * 6? 42
+Correct.
+
+You scored 2 out of 2.
+Perfect.</code></pre>
+
+            <p>
+              <code>ask_question</code> returns a boolean rather than
+              printing anything, so the loop that calls it decides what to do
+              with the result — exactly the return-over-print habit this
+              chapter argued for.
             </p>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
+              <p>What does this print, and why is it not 8?</p>
+              <pre class="code-block"><code>def double(number):
+    number * 2
+
+print(double(4))</code></pre>
               <p>
-                Which <code>except</code> block catches this error, and why?
-              </p>
-              <pre class="code-block"><code>try:
-    numbers = [1, 2, 3]
-    print(numbers[10])
-except ValueError:
-    print("A")
-except IndexError:
-    print("B")</code></pre>
-              <p>
-                "B" — asking a list for an index that does not exist raises
-                <code>IndexError</code>, not <code>ValueError</code>.
+                It prints <code>None</code>. The function calculates the
+                double and throws it away — there is no <code>return</code>.
               </p>
             </div>
           </section>

@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 1 — First Steps &amp; Computational Thinking — Pung Academy</title>
-    <meta name="description" content="Chapter 1 of Introduction to Programming: setting up your environment, how a program actually runs, print and input, and comments." />
+    <title>Chapter 1 — Computer Basics &amp; What a Programming Language Is — Pung Academy</title>
+    <meta name="description" content="Chapter 1 of Introduction to Programming: what a computer is, how it stores and processes information, and what a programming language actually does." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 1</span
             >
-            <h1 data-chapter-title>First Steps &amp; Computational Thinking</h1>
+            <h1 data-chapter-title>Computer Basics &amp; What a Programming Language Is</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -54,264 +54,179 @@
             <p>
               The video covers the same ground as the written lesson below. Watch
               it if you prefer being talked through an idea, then read on — the
-              text goes into more detail and has the examples you can copy.
+              text goes into more detail and has the examples you can come back to.
             </p>
             <div data-video-slot></div>
           </section>
 
-
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>What programming actually is</h2>
+            <h2>What a computer actually is</h2>
 
             <p>
-              A computer is astonishingly fast and completely unimaginative. It
-              will do exactly what you tell it, in exactly the order you tell
-              it, several billion times a second — and it will never once work
-              out what you <em>meant</em>. Programming is the craft of writing
-              instructions precise enough for something that literal.
+              Strip away the screen, the apps and the icons, and a computer is a
+              machine built from four parts working together. Every device you
+              own — a laptop, a phone, a games console — is some arrangement of
+              these same four things:
             </p>
 
-            <p>
-              That is the whole job. Not memorising syntax, not knowing every
-              function by heart. Taking a task you understand, breaking it into
-              steps small enough that nothing is left to interpretation, and
-              writing those steps down in a language the machine can read. This
-              course uses <strong>Python</strong>, because it reads closer to
-              English than most languages and gets out of your way while you
-              are learning the ideas underneath.
-            </p>
+            <ul>
+              <li>
+                <strong>CPU (Central Processing Unit)</strong> — the part that
+                actually does the work. It carries out instructions one at a
+                time, extremely fast: modern CPUs run billions of instructions
+                every second.
+              </li>
+              <li>
+                <strong>Memory (RAM)</strong> — a fast, temporary workspace.
+                Whatever the CPU is working with right now lives here. It is
+                wiped clean the moment the power goes off.
+              </li>
+              <li>
+                <strong>Storage</strong> — a hard drive or SSD. Slower than
+                memory, but it keeps its contents with the power off, which is
+                why your files are still there tomorrow.
+              </li>
+              <li>
+                <strong>Input and output</strong> — how the computer talks to
+                the outside world. A keyboard and mouse are input; a screen and
+                speakers are output.
+              </li>
+            </ul>
 
             <div class="callout">
               <span class="callout__label">Note</span>
               <p>
-                People often compare programming to giving directions. The
-                better comparison is giving directions to someone who has never
-                been outside, cannot see, and will walk into a wall rather than
-                assume you meant "turn before the wall".
+                A useful way to hold these four in your head: storage is a
+                filing cabinet, memory is the desk you are working at, and the
+                CPU is you, doing the work. You can only act on what is on the
+                desk, and the desk is cleared at the end of the day.
               </p>
             </div>
 
-            <h2>Setting up your environment</h2>
+            <p>
+              Every single thing your computer ever does — playing a video,
+              opening this page, running a program you write in a few chapters
+              from now — is these four parts moving data between each other,
+              at a scale too fast to see.
+            </p>
+
+            <h2>The one thing a CPU understands</h2>
 
             <p>
-              Before you can write a program, you need somewhere to write it
-              and something to run it. Two tools cover almost every beginner's
-              needs:
+              A CPU cannot read English, and it cannot read Python. The only
+              thing it can carry out is <strong>machine code</strong> — long
+              streams of binary, just <code>0</code>s and <code>1</code>s, wired
+              directly into how that specific processor was built.
+            </p>
+
+            <pre class="code-block"><code>01001000 01100101 01101100 01101100 01101111</code></pre>
+
+            <p>
+              Nobody writes programs like that by hand any more. It is unreadable,
+              painfully slow to produce, and tied to one exact type of processor.
+              Everything since has been an effort to let humans write something
+              closer to how they actually think, and have the machine translate
+              it down to this.
+            </p>
+
+            <h2>What a programming language is</h2>
+
+            <p>
+              A <strong>programming language</strong> is a fixed, precise set of
+              words and symbols for describing instructions — precise enough
+              that a translator program can turn it into machine code without
+              ever having to guess what you meant. That is the entire purpose
+              of a language like Python: it lets you write
+              <code>print("Hello")</code> instead of the binary above, while
+              something else handles the translation.
+            </p>
+
+            <p>
+              The text you type into a file — readable, with words like
+              <code>if</code> and <code>print</code> — is called
+              <strong>source code</strong>. It means nothing to the CPU on its
+              own. Something has to turn it into machine code first, and there
+              are two different ways that happens.
+            </p>
+
+            <h2>Compilers and interpreters</h2>
+
+            <p>
+              Both take source code and produce something the CPU can run —
+              they just do it at a different time, and in a different way.
             </p>
 
             <ul>
               <li>
-                <strong>VS Code</strong> — a free code editor. It highlights
-                syntax, shows errors as you type, and has a built-in terminal
-                for running your files.
+                <strong>A compiler</strong> reads the entire program up front
+                and translates all of it into machine code in one pass, before
+                the program ever runs. The result is a standalone file the CPU
+                can execute directly, every time, with no translation step left
+                to do. C and C++ work this way.
               </li>
               <li>
-                <strong>Jupyter</strong> — a notebook environment that runs code
-                in small chunks and shows the result immediately underneath.
-                Popular for experimenting and for data work later on.
+                <strong>An interpreter</strong> reads and translates the
+                program one instruction at a time, running each one immediately
+                before moving to the next. There is no separate finished file —
+                the interpreter has to be present every time the program runs.
+                Python works this way.
               </li>
             </ul>
-
-            <p>
-              Either is fine to start with. The video above walks through
-              installing Python itself and getting one of these editors
-              running — do that before continuing, because every example from
-              here on assumes you have somewhere to type and run code.
-            </p>
 
             <div class="callout callout--tip">
               <span class="callout__label">Tip</span>
               <p>
-                Save your files with a <code>.py</code> ending, for example
-                <code>hello.py</code>. That extension is what tells your
-                editor, and Python itself, that the file contains Python code.
+                This is why the video in Chapter 2 has you install
+                <strong>Python</strong> itself before you can run anything: the
+                file you write is only source code. Python, the interpreter, is
+                the program that actually reads it and carries it out, line by
+                line.
               </p>
             </div>
 
-            <h2>Execution flow: how a program actually runs</h2>
+            <h2>Why this course uses Python</h2>
 
             <p>
-              When you run a Python file, Python reads it from the very top
-              line and works downward, one instruction at a time, in order.
-              This sounds obvious written down, but it is the single most
-              important fact to hold in your head for the rest of this course.
-            </p>
-
-            <pre class="code-block"><code>print("First")
-print("Second")
-print("Third")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>First
-Second
-Third</code></pre>
-
-            <p>
-              Three lines, run top to bottom, in exactly that order — never
-              bottom to top, never out of sequence. When a program misbehaves
-              later in this course, tracing which line ran when will find the
-              fault more often than staring at the whole file will.
-            </p>
-
-            <h2>print(): showing something on screen</h2>
-
-            <p>
-              <code>print()</code> is a built-in <strong>function</strong> — a
-              piece of work Python already knows how to do. This one displays
-              whatever you give it.
-            </p>
-
-            <pre class="code-block"><code>print("Hello, world!")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Hello, world!</code></pre>
-
-            <p>Take that line apart, because every piece matters:</p>
-
-            <ul>
-              <li>
-                <code>print</code> is the function's name.
-              </li>
-              <li>
-                The <strong>brackets</strong> <code>( )</code> are how you call
-                a function — they hold whatever you are handing it.
-              </li>
-              <li>
-                The <strong>quotation marks</strong> mark the start and end of
-                a piece of text. Without them, Python would think
-                <code>Hello</code> was the name of something you had already
-                defined, and it isn't.
-              </li>
-            </ul>
-
-            <p>
-              You can print more than one thing at once by separating them
-              with commas — Python adds a space between each one automatically:
-            </p>
-
-            <pre class="code-block"><code>print("The answer is", 42)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>The answer is 42</code></pre>
-
-            <h2>input(): asking the person using your program</h2>
-
-            <p>
-              A program that only ever works with text you typed into the file
-              is not very useful. <code>input()</code> pauses the program,
-              waits for the person to type something and press Enter, and hands
-              back whatever they typed.
+              Every language makes the same trade-off differently: how close to
+              English should it read, versus how much control and speed does it
+              give up to get there. Python leans hard toward readability.
             </p>
 
             <pre class="code-block"><code>name = input("What is your name? ")
 print("Hello,", name)</code></pre>
 
-            <span class="output-label">Output (with "Alex" typed)</span>
-            <pre class="output-block"><code>What is your name? Alex
-Hello, Alex</code></pre>
-
             <p>
-              The text inside the brackets is the <strong>prompt</strong> — it
-              is shown before the program waits. You will meet
-              <code>input()</code> again in almost every chapter from here on,
-              because it is how a program stops only doing what you already
-              knew and starts reacting to something new.
+              Read that and you can already guess what it does, even before
+              Chapter 2 explains <code>input()</code> and <code>print()</code>
+              properly. That readability is not an accident — it is Python's
+              entire design philosophy, and it is why it is usually recommended
+              as a first language: the ideas underneath programming are hard
+              enough to learn without also fighting unfamiliar punctuation.
             </p>
 
             <div class="callout callout--warning">
               <span class="callout__label">Careful</span>
               <p>
-                Whatever someone types into <code>input()</code> comes back as
-                text, even if they type a number. You will learn how to convert
-                that text into an actual number in the next chapter — for now,
-                just notice that <code>input()</code> always waits, and always
-                hands back text.
-              </p>
-            </div>
-
-            <h2>Comments: notes to humans</h2>
-
-            <p>
-              A line starting with <code>#</code> is a
-              <strong>comment</strong>. Python ignores it completely when the
-              program runs — it exists purely for whoever reads the file
-              afterwards, which is usually you, in three weeks, having
-              forgotten why you did something.
-            </p>
-
-            <pre class="code-block"><code># Greet the person using the program
-print("Hello, world!")   # this part runs; the note after the hash does not</code></pre>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip</span>
-              <p>
-                Write comments about <em>why</em>, not <em>what</em>.
-                <code># print the total</code> tells a reader nothing they
-                could not already see. <code># totals must exclude tax here</code>
-                tells them something real.
-              </p>
-            </div>
-
-            <h2>Reading errors without panicking</h2>
-
-            <p>
-              You are about to see a great many error messages over this
-              course, starting today. That is not a sign anything has gone
-              wrong with you — it is the normal texture of the work.
-            </p>
-
-            <pre class="code-block"><code>print("Hello, world!"</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>  File "hello.py", line 1
-    print("Hello, world!"
-         ^
-SyntaxError: '(' was never closed</code></pre>
-
-            <p>
-              Read the last line first — it names the exact fault. Then the
-              line number tells you where. Every piece of that message is a
-              gift, not a scolding, and this specific error means one thing
-              only: a bracket that opened was never closed.
-            </p>
-
-            <div class="try-it">
-              <span class="try-it__label">Small exercise</span>
-              <p>
-                Before continuing, run this in your editor and read the actual
-                error Python gives you:
-              </p>
-              <pre class="code-block"><code>Print("Hello")</code></pre>
-              <p>
-                It fails because <code>Print</code> is capitalised and Python's
-                real function is lowercase — <code>print</code>. Spelling and
-                case always matter.
+                Readable does not mean simple. Python runs the software behind
+                major websites, scientific research and machine learning
+                systems. What you are about to learn is the same language used
+                for all of that — you are just starting, deliberately, at the
+                very beginning of it.
               </p>
             </div>
 
             <h2>Putting it together</h2>
 
             <p>
-              Everything in this chapter is small on its own, but together it
-              is enough to write a real, working program:
-            </p>
-
-            <pre class="code-block"><code># Ask for a name and greet them
-name = input("What is your name? ")
-
-# Show the greeting
-print("Welcome to Pung Academy,", name)</code></pre>
-
-            <span class="output-label">Output (with "Alex" typed)</span>
-            <pre class="output-block"><code>What is your name? Alex
-Welcome to Pung Academy, Alex</code></pre>
-
-            <p>
-              Four lines, read top to bottom, using a function that shows
-              things, a function that asks for things, and two comments
-              explaining why. Everything else in this course is this same
-              idea, with more tools added one chapter at a time.
+              Hold onto this one chain of ideas, because the rest of the course
+              builds directly on top of it: you write <strong>source code</strong>
+              in a language like Python, an <strong>interpreter</strong>
+              translates it into <strong>machine code</strong> the CPU can
+              actually run, and the <strong>CPU, memory, storage, and
+              input/output</strong> are the physical machine that carries it
+              out. From the next chapter on, you will be the one writing that
+              source code.
             </p>
           </section>
 

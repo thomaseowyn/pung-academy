@@ -5,10 +5,11 @@
    Introduction to Programming. Editing the course means editing this file
    and nothing else.
 
-   The twelve chapters follow the two-phase curriculum: Chapters 1-6 are
-   foundational Python (variables through data structures), Chapters 7-12
-   are intermediate (functions through object-oriented programming), ending
-   in an OOP capstone project.
+   The thirteen chapters open with a conceptual primer (Chapter 1: what a
+   computer and a programming language actually are), then follow the
+   two-phase curriculum: Chapters 2-7 are foundational Python (variables
+   through data structures), Chapters 8-13 are intermediate (functions
+   through object-oriented programming), ending in an OOP capstone project.
 
    videoId is intentionally empty on any chapter without a verified id,
    rather than a guessed one — that chapter shows a marked placeholder
@@ -21,13 +22,49 @@ Pung.courseData = (function () {
   "use strict";
 
   const COURSE_ID = "introductionToProgramming";
-  const TOTAL_CHAPTERS = 12;
+  const TOTAL_CHAPTERS = 13;
 
   const chapters = {
     /* ==================================================================
-       Phase 1 — Foundational Programming
+       Orientation
        ================================================================== */
     1: {
+      title: "Computer Basics & What a Programming Language Is",
+      summary:
+        "Before writing a line of code, understand what a computer actually is, how it stores and processes information, and what a programming language does for you.",
+      topics: [
+        "What a computer is (CPU, memory, storage)",
+        "Input, output and how they connect",
+        "What a programming language is",
+        "Source code vs. machine code",
+        "Compilers and interpreters",
+        "Why this course uses Python"
+      ],
+      videoId: "",
+      videoTitle: "Computer basics and what a programming language is",
+      exercise: {
+        kind: "choice",
+        heading: "Concept check",
+        prompt:
+          "A CPU can only ever execute instructions written in one form. Which of these is it?",
+        choices: [
+          "Python source code, exactly as you type it",
+          "Machine code — binary instructions specific to that processor",
+          "English sentences describing what the program should do",
+          "A diagram of the program's logic"
+        ],
+        answer: 1,
+        hint:
+          "Three of these four are meant for a human reader, not a processor. Only one is in a form the hardware itself can directly carry out.",
+        explanation:
+          "A CPU only understands machine code — streams of binary instructions built into its own design. Everything else, including the Python you will start writing in the next chapter, has to be translated into machine code before the processor can run it. A compiler translates the whole program up front; an interpreter translates and runs it line by line, which is what Python does."
+      }
+    },
+
+    /* ==================================================================
+       Phase 1 — Foundational Programming
+       ================================================================== */
+    2: {
       title: "First Steps & Computational Thinking",
       summary:
         "Set up a real coding environment, understand how a program actually runs, and write the first lines of Python you will ever type.",
@@ -58,7 +95,7 @@ Pung.courseData = (function () {
       }
     },
 
-    2: {
+    3: {
       title: "Data Types & Variable Manipulation",
       summary:
         "Store information in variables, learn Python's basic data types, and convert between them without losing track of what you have.",
@@ -104,7 +141,7 @@ Pung.courseData = (function () {
       }
     },
 
-    3: {
+    4: {
       title: "Control Flow & Logic",
       summary:
         "Let a program choose between paths using conditions, comparisons and logical operators, so it can react to whatever it is given.",
@@ -152,7 +189,7 @@ Pung.courseData = (function () {
       }
     },
 
-    4: {
+    5: {
       title: "Iteration & Loops",
       summary:
         "Repeat work without repeating code, and learn to stop or skip a repetition exactly when you need to.",
@@ -192,7 +229,7 @@ Pung.courseData = (function () {
       }
     },
 
-    5: {
+    6: {
       title: "Data Structures Part 1 (Sequences)",
       summary:
         "Store many values in order with lists and tuples, and learn to slice out exactly the piece you need instead of picking items one at a time.",
@@ -232,7 +269,7 @@ Pung.courseData = (function () {
       }
     },
 
-    6: {
+    7: {
       title: "Data Structures Part 2 (Key-Value & Sets)",
       summary:
         "Look things up by name instead of position with dictionaries, filter duplicates with sets, and handle data nested inside data.",
@@ -284,7 +321,7 @@ Pung.courseData = (function () {
     /* ==================================================================
        Phase 2 — Structural & Intermediate Concepts
        ================================================================== */
-    7: {
+    8: {
       title: "Functions & Scope Mechanics",
       summary:
         "Give a name to a piece of work, hand it values, and get an answer back — the single habit that keeps programs from turning into one long block.",
@@ -326,7 +363,7 @@ Pung.courseData = (function () {
       }
     },
 
-    8: {
+    9: {
       title: "Error Handling & Debugging",
       summary:
         "Catch the errors you can predict, so your program fails gracefully instead of crashing the moment someone types something unexpected.",
@@ -371,7 +408,7 @@ Pung.courseData = (function () {
       }
     },
 
-    9: {
+    10: {
       title: "File I/O & Data Persistence",
       summary:
         "Save information that survives after your program closes, by reading and writing files instead of keeping everything only in memory.",
@@ -412,7 +449,7 @@ Pung.courseData = (function () {
       }
     },
 
-    10: {
+    11: {
       title: "Modules, Libraries & Virtual Environments",
       summary:
         "Bring in code other people have already written, from Python's own toolkit and from packages you install yourself.",
@@ -452,7 +489,7 @@ Pung.courseData = (function () {
       }
     },
 
-    11: {
+    12: {
       title: "Object-Oriented Programming (OOP)",
       summary:
         "Model a real thing as a class — data and the actions that belong to it, bundled together instead of scattered across separate variables.",
@@ -503,7 +540,7 @@ Pung.courseData = (function () {
       }
     },
 
-    12: {
+    13: {
       title: "Intermediate Python Features (Pythonic Code)",
       summary:
         "Write shorter, clearer Python with comprehensions and lambdas — then bring the whole course together in one final, object-oriented project.",

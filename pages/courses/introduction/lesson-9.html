@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 9 — File I/O &amp; Data Persistence — Pung Academy</title>
-    <meta name="description" content="Chapter 9 of Introduction to Programming: reading and writing files, the with statement, and working with CSV and JSON." />
+    <title>Chapter 9 — Error Handling &amp; Debugging — Pung Academy</title>
+    <meta name="description" content="Chapter 9 of Introduction to Programming: try, except, else, finally, raising exceptions, and reading stack traces." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 9</span
             >
-            <h1 data-chapter-title>File I/O &amp; Data Persistence</h1>
+            <h1 data-chapter-title>Error Handling &amp; Debugging</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,173 +62,197 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Programs that remember</h2>
+            <h2>Programs fail. Plan for it.</h2>
 
             <p>
-              Every program you have written so far forgets everything the
-              moment it closes. The task list from an earlier chapter's
-              exercise vanished the instant the program ended. To keep data
-              between runs, a program has to save it somewhere outside its own
-              memory — usually a <strong>file</strong>.
+              Every program you have written so far breaks the instant
+              something unexpected happens — a letter typed where a number was
+              expected, a file that is not there, a list that turns out to be
+              empty. <strong>Error handling</strong> is how you let a program
+              expect that, and keep running anyway.
             </p>
 
-            <h2>Opening a file with with</h2>
+            <h2>try and except</h2>
 
-            <pre class="code-block"><code>with open("notes.txt", "w") as file:
-    file.write("Remember to practise loops.\n")</code></pre>
+            <pre class="code-block"><code>try:
+    number = int(input("Enter a number: "))
+    print(f"You entered {number}")
+except ValueError:
+    print("That was not a valid number.")</code></pre>
+
+            <span class="output-label">Output (typing "abc")</span>
+            <pre class="output-block"><code>Enter a number: abc
+That was not a valid number.</code></pre>
 
             <p>
-              <code>open()</code> takes a filename and a
-              <strong>mode</strong>. <code>with</code> hands you the open file
-              as <code>file</code>, and — this is the important part — closes
-              it automatically once the indented block finishes, even if
-              something inside it goes wrong. That is why <code>with</code> is
-              the standard way to work with files rather than calling
-              <code>open()</code> and <code>close()</code> separately.
+              Python attempts everything inside <code>try</code>. The moment a
+              line raises an error matching the type named after
+              <code>except</code>, it jumps straight there instead of crashing
+              the whole program.
             </p>
 
-            <h3>File modes</h3>
+            <h3>Catching more than one kind of error</h3>
+
+            <pre class="code-block"><code>try:
+    first = int(input("First number: "))
+    second = int(input("Second number: "))
+    print(first / second)
+except ValueError:
+    print("Please type actual numbers.")
+except ZeroDivisionError:
+    print("You cannot divide by zero.")</code></pre>
+
+            <p>
+              Two separate <code>except</code> blocks, each matching a
+              different failure — Python checks them in order and runs
+              whichever one matches. You can also catch several types in one
+              block with a tuple: <code>except (ValueError, ZeroDivisionError):</code>.
+            </p>
+
+            <h2>else and finally</h2>
+
+            <pre class="code-block"><code>try:
+    number = int(input("Enter a number: "))
+except ValueError:
+    print("That was not valid.")
+else:
+    print(f"Got it: {number}")
+finally:
+    print("Done trying.")</code></pre>
 
             <ul>
-              <li><code>"w"</code> — write. Creates the file if needed, and <strong>erases</strong> whatever was already in it.</li>
-              <li><code>"a"</code> — append. Adds to the end without erasing what is already there.</li>
-              <li><code>"r"</code> — read. Opens an existing file to look at its contents.</li>
+              <li>
+                <code>else</code> runs only if <code>try</code> succeeded with
+                no error at all.
+              </li>
+              <li>
+                <code>finally</code> always runs, whether there was an error
+                or not — useful for cleanup that must happen either way.
+              </li>
             </ul>
 
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful — the mode trap</span>
-              <p>
-                Opening a file you meant to add to with <code>"w"</code> wipes
-                it silently, with no warning. If you are not sure whether a
-                file should be replaced or added to, that is the question to
-                ask before you open it.
-              </p>
-            </div>
-
-            <h2>Reading a file back</h2>
-
-            <pre class="code-block"><code>with open("notes.txt", "r") as file:
-    contents = file.read()
-
-print(contents)</code></pre>
+            <h2>Raising your own exceptions</h2>
 
             <p>
-              You can also read a file one line at a time, which is usually
-              more useful once a file has more than a few lines:
+              Sometimes the input is technically valid Python but wrong for
+              what your program needs — a negative age, for instance. You can
+              raise an error on purpose:
             </p>
 
-            <pre class="code-block"><code>with open("notes.txt", "r") as file:
-    for line in file:
-        print(line.strip())</code></pre>
+            <pre class="code-block"><code>age = int(input("Age: "))
+
+if age &lt; 0:
+    raise ValueError("Age cannot be negative")
+
+print(f"Age accepted: {age}")</code></pre>
 
             <p>
-              <code>.strip()</code> removes the newline character that comes
-              along with each line — without it, every printed line would
-              have an extra blank line after it.
+              <code>raise</code> stops the program immediately with your
+              chosen error — unless something further up the call chain
+              catches it with its own <code>try</code>/<code>except</code>.
             </p>
 
-            <h2>Working with CSV</h2>
+            <h2>Reading a stack trace</h2>
 
             <p>
-              CSV — comma-separated values — is a plain text format for
-              tabular data, one row per line, values separated by commas. You
-              can read a CSV file as plain text and split each line yourself:
+              When an error is not caught, Python prints a
+              <strong>stack trace</strong> — read the bottom line first.
             </p>
 
-            <pre class="code-block"><code>with open("scores.csv", "r") as file:
-    for line in file:
-        name, score = line.strip().split(",")
-        print(f"{name}: {score}")</code></pre>
+            <pre class="code-block"><code>Traceback (most recent call last):
+  File "shopping.py", line 7, in &lt;module&gt;
+    total = price * quantity
+TypeError: can't multiply sequence by non-int of type 'str'</code></pre>
+
+            <p>Working from the bottom up:</p>
+
+            <ul>
+              <li>
+                <strong>Last line</strong> — the error family
+                (<code>TypeError</code>) and the exact complaint.
+              </li>
+              <li>
+                <strong>File and line number</strong> — where to look.
+              </li>
+              <li>
+                <strong>The quoted code</strong> — the exact line that failed.
+              </li>
+            </ul>
 
             <p>
-              <code>.split(",")</code> breaks a line into a list wherever a
-              comma appears — one string in, several strings out.
+              Translated: something tried to multiply a piece of text by a
+              value that was not a plain integer. Almost certainly
+              <code>quantity</code> came from <code>input()</code> and was
+              never converted with <code>int()</code>.
             </p>
-
-            <h2>Working with JSON</h2>
-
-            <p>
-              JSON stores structured data — dictionaries and lists — as text,
-              and it is the format you will see most often once you start
-              working with real APIs. Python's built-in <code>json</code>
-              module converts between the two directly:
-            </p>
-
-            <pre class="code-block"><code>import json
-
-data = {"name": "Alex", "scores": [78, 91, 65]}
-
-text = json.dumps(data)
-print(text)          # '{"name": "Alex", "scores": [78, 91, 65]}'
-
-parsed = json.loads(text)
-print(parsed["name"])   # Alex</code></pre>
-
-            <p>
-              <code>json.dumps()</code> turns a Python dictionary into a JSON
-              string. <code>json.loads()</code> does the reverse, and
-              <code>json.dump()</code> / <code>json.load()</code> (without the
-              <code>s</code>) do the same thing directly to and from an open
-              file.
-            </p>
-
-            <pre class="code-block"><code>import json
-
-with open("student.json", "w") as file:
-    json.dump({"name": "Alex", "grade": 78}, file)</code></pre>
 
             <div class="callout callout--tip">
-              <span class="callout__label">Tip — tracing a JSON parse</span>
+              <span class="callout__label">Tip — exception matching</span>
               <p>
-                If <code>json.loads()</code> fails, the error usually names
-                the exact character position where the text stopped looking
-                like valid JSON — a missing comma or an unclosed brace is the
-                most common cause.
+                When you have several <code>except</code> blocks, Python
+                checks them top to bottom and stops at the first type that
+                matches. Order the specific ones before any general
+                catch-all, or the specific ones will never be reached.
               </p>
             </div>
 
-            <h2>Worked example — a Persistent Notes App</h2>
+            <h2>Worked example — the Safe Calculator</h2>
 
             <p>
-              This chapter's project saves notes to a file so they survive
-              between runs of the program — the first project in this course
-              that actually remembers anything after it closes.
+              This chapter's project takes the division calculator from
+              earlier and makes it resilient — no input can crash it.
             </p>
 
-            <pre class="code-block"><code># Persistent Notes App
+            <pre class="code-block"><code># Safe Calculator
 
-print("--- Your saved notes ---")
+while True:
+    try:
+        first = float(input("First number (or 'q' to quit): "))
+        second = float(input("Second number: "))
+    except ValueError:
+        print("Please enter valid numbers.\n")
+        continue
 
-try:
-    with open("my_notes.txt", "r") as file:
-        for line in file:
-            print("-", line.strip())
-except FileNotFoundError:
-    print("(no notes saved yet)")
+    try:
+        result = first / second
+    except ZeroDivisionError:
+        print("Cannot divide by zero.\n")
+        continue
 
-new_note = input("\nAdd a note (or press Enter to skip): ")
+    print(f"Result: {result}\n")
+    break</code></pre>
 
-if new_note:
-    with open("my_notes.txt", "a") as file:
-        file.write(new_note + "\n")
-    print("Saved.")</code></pre>
+            <span class="output-label">Output (dividing by zero, then succeeding)</span>
+            <pre class="output-block"><code>First number (or 'q' to quit): 10
+Second number: 0
+Cannot divide by zero.
+
+First number (or 'q' to quit): 10
+Second number: 2
+Result: 5.0</code></pre>
 
             <p>
-              Reading happens first, wrapped in a
-              <code>try</code>/<code>except FileNotFoundError</code> so the
-              very first run — before the file exists at all — does not
-              crash. Writing uses <code>"a"</code> rather than
-              <code>"w"</code> deliberately, so each new note is added rather
-              than erasing everything saved before it.
+              Two separate <code>try</code> blocks handle two separate
+              failures, and <code>continue</code> sends the loop straight back
+              to asking again rather than letting a bad attempt end the
+              program.
             </p>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>
-                If you open a file twice in a row with mode <code>"w"</code>
-                and write different text each time, what ends up in the file?
-                Only the second write — <code>"w"</code> erases the file's
-                previous contents every single time it is opened.
+                Which <code>except</code> block catches this error, and why?
+              </p>
+              <pre class="code-block"><code>try:
+    numbers = [1, 2, 3]
+    print(numbers[10])
+except ValueError:
+    print("A")
+except IndexError:
+    print("B")</code></pre>
+              <p>
+                "B" — asking a list for an index that does not exist raises
+                <code>IndexError</code>, not <code>ValueError</code>.
               </p>
             </div>
           </section>

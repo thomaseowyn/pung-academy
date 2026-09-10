@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 12 — Intermediate Python Features (Pythonic Code) — Pung Academy</title>
-    <meta name="description" content="Chapter 12 of Introduction to Programming: list comprehensions, lambda functions, map and filter, and the final object-oriented project." />
+    <title>Chapter 12 — Object-Oriented Programming (OOP) — Pung Academy</title>
+    <meta name="description" content="Chapter 12 of Introduction to Programming: classes, objects, __init__, attributes, methods, self, inheritance and encapsulation." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 12</span
             >
-            <h1 data-chapter-title>Intermediate Python Features (Pythonic Code)</h1>
+            <h1 data-chapter-title>Object-Oriented Programming (OOP)</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,186 +62,212 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Writing it the Python way</h2>
+            <h2>Modelling a real thing</h2>
 
             <p>
-              Everything in this chapter does something you can already do
-              with a loop and an <code>if</code> statement. What is new is
-              writing it in the shorter, more direct style experienced Python
-              programmers reach for by default — usually called
-              <strong>Pythonic</strong> code.
+              So far, related information has lived in separate variables or a
+              dictionary — a student's name here, their grade there. A
+              <strong>class</strong> bundles data and the actions that belong
+              to it into one definition, and lets you create as many
+              independent copies, or <strong>objects</strong>, as you need.
             </p>
 
-            <h2>List comprehensions</h2>
+            <h2>Defining a class</h2>
 
-            <p>Compare these two, which do exactly the same thing:</p>
+            <pre class="code-block"><code>class Dog:
+    def __init__(self, name):
+        self.name = name
 
-            <pre class="code-block"><code># The loop version
-squares = []
-for number in range(1, 6):
-    squares.append(number ** 2)
+    def bark(self):
+        print(f"{self.name} says Woof!")</code></pre>
 
-# The comprehension version
-squares = [number ** 2 for number in range(1, 6)]
+            <p>Take it apart:</p>
 
-print(squares)   # [1, 4, 9, 16, 25]</code></pre>
+            <ul>
+              <li>
+                <code>class Dog:</code> — starts the definition. By
+                convention, class names start with a capital letter.
+              </li>
+              <li>
+                <code>__init__</code> — a special method that runs
+                automatically the moment a new <code>Dog</code> is created. It
+                sets up the object's starting state.
+              </li>
+              <li>
+                <code>self</code> — refers to <em>this particular</em> object.
+                Every method needs it as its first parameter.
+              </li>
+              <li>
+                <code>self.name = name</code> — stores the value as an
+                <strong>attribute</strong>, so every method on this object can
+                read it later.
+              </li>
+            </ul>
+
+            <h2>Creating and using objects</h2>
+
+            <pre class="code-block"><code>rex = Dog("Rex")
+milo = Dog("Milo")
+
+rex.bark()    # Rex says Woof!
+milo.bark()   # Milo says Woof!</code></pre>
 
             <p>
-              A <strong>list comprehension</strong> builds a new list in one
-              expression: <code>[expression for item in sequence]</code>. You
-              can add a filter with <code>if</code> at the end:
+              <code>rex</code> and <code>milo</code> are two separate
+              <strong>instances</strong> of the same class, each with its own
+              independent <code>name</code>. Calling <code>rex.bark()</code>
+              automatically passes <code>rex</code> as <code>self</code> —
+              that is how the method knows to print "Rex" and not "Milo".
             </p>
 
-            <pre class="code-block"><code>numbers = [1, 2, 3, 4, 5, 6, 7, 8]
-evens = [number for number in numbers if number % 2 == 0]
-print(evens)   # [2, 4, 6, 8]</code></pre>
+            <h2>Methods with more than self</h2>
 
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip — translating a comprehension</span>
+            <p>A method can take extra parameters just like a normal function:</p>
+
+            <pre class="code-block"><code>class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            print("Insufficient funds.")
+        else:
+            self.balance -= amount
+
+
+account = BankAccount("Alex")
+account.deposit(100)
+account.withdraw(30)
+print(account.balance)   # 70</code></pre>
+
+            <h2>Class attributes vs. instance attributes</h2>
+
+            <p>
+              An attribute set inside <code>__init__</code> with
+              <code>self.</code> belongs to one specific object. An attribute
+              written directly under the class, outside any method, is shared
+              by every object of that class.
+            </p>
+
+            <pre class="code-block"><code>class Dog:
+    species = "Canis familiaris"   # class attribute -- shared by every Dog
+
+    def __init__(self, name):
+        self.name = name           # instance attribute -- unique per Dog
+
+rex = Dog("Rex")
+milo = Dog("Milo")
+
+print(rex.species, milo.species)   # both print the same shared value
+print(rex.name, milo.name)         # each prints its own</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
               <p>
-                Read <code>[x for x in numbers if x % 2 == 0]</code> aloud as
-                "x, for every x in numbers, but only where x is even" — reading
-                it in that order, left to right, is what makes comprehensions
-                click.
+                Assigning to <code>self.species = "..."</code> on one
+                instance creates a new instance attribute that only shadows
+                the class attribute for that one object — it does not change
+                the shared value for every <code>Dog</code>.
               </p>
             </div>
 
-            <h2>Lambda functions</h2>
+            <h2>Inheritance</h2>
 
             <p>
-              A <strong>lambda</strong> is a small, unnamed function written in
-              a single line — useful when you need a tiny function just once,
-              somewhere a full <code>def</code> would feel heavy.
+              A class can be built on top of another one, inheriting its
+              attributes and methods and adding or overriding what it needs.
             </p>
 
-            <pre class="code-block"><code>square = lambda x: x ** 2
-print(square(5))   # 25
+            <pre class="code-block"><code>class Animal:
+    def __init__(self, name):
+        self.name = name
 
-# equivalent to:
-def square(x):
-    return x ** 2</code></pre>
+    def speak(self):
+        print(f"{self.name} makes a sound.")
+
+
+class Cat(Animal):
+    def speak(self):
+        print(f"{self.name} says Meow!")
+
+
+generic = Animal("Some animal")
+whiskers = Cat("Whiskers")
+
+generic.speak()    # Some animal makes a sound.
+whiskers.speak()   # Whiskers says Meow!</code></pre>
 
             <p>
-              A lambda can only contain one expression, and it always returns
-              that expression's value — there is no <code>return</code>
-              keyword because none is needed.
+              <code>Cat(Animal)</code> means "a <code>Cat</code> is an
+              <code>Animal</code>, plus whatever is different." Because
+              <code>Cat</code> defines its own <code>speak</code>, calling it
+              on a <code>Cat</code> uses that version rather than the parent's
+              — Python looks for the method on the object's own class first,
+              and only checks the parent if it does not find one there.
             </p>
 
-            <h2>map() and filter()</h2>
+            <h2>Encapsulation</h2>
 
             <p>
-              <code>map()</code> applies a function to every item in a
-              sequence; <code>filter()</code> keeps only the items a function
-              says yes to. Both are often paired with a lambda:
+              <strong>Encapsulation</strong> means keeping an object's internal
+              details bundled inside it, and interacting with the object
+              through its methods rather than reaching directly into its
+              attributes from outside. Python does not enforce this strictly,
+              but a leading underscore is the conventional signal that an
+              attribute is meant to stay internal:
             </p>
 
-            <pre class="code-block"><code>numbers = [1, 2, 3, 4, 5]
+            <pre class="code-block"><code>class BankAccount:
+    def __init__(self, balance):
+        self._balance = balance   # the underscore says "internal - use the methods"
 
-doubled = list(map(lambda x: x * 2, numbers))
-print(doubled)   # [2, 4, 6, 8, 10]
+    def get_balance(self):
+        return self._balance</code></pre>
 
-evens = list(filter(lambda x: x % 2 == 0, numbers))
-print(evens)     # [2, 4]</code></pre>
+            <h2>Worked example — the BankAccount class</h2>
 
-            <p>
-              Both return a special lazy object rather than a list directly,
-              which is why they are wrapped in <code>list(...)</code> to see
-              the result. A list comprehension does the same job and most
-              Python programmers reach for it first — <code>map</code> and
-              <code>filter</code> are worth recognising when you meet them in
-              other people's code.
-            </p>
+            <pre class="code-block"><code># BankAccount
 
-            <h2>Generators, briefly</h2>
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
 
-            <p>
-              A <strong>generator</strong> produces values one at a time,
-              on demand, instead of building a whole list in memory at once.
-              The simplest way to make one looks almost like a list
-              comprehension, but with round brackets:
-            </p>
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"Deposited {amount}. New balance: {self.balance}")
 
-            <pre class="code-block"><code>squares = (number ** 2 for number in range(1, 1000000))</code></pre>
-
-            <p>
-              That line runs instantly, because no squares have actually been
-              calculated yet — they are produced one at a time only as
-              something asks for the next one. This matters once you are
-              working with data too large to hold in memory all at once; for
-              now, just recognise the shape when you see it.
-            </p>
-
-            <h2>@staticmethod, briefly</h2>
-
-            <p>
-              A <strong>static method</strong> lives inside a class but does
-              not need <code>self</code>, because it does not touch any
-              particular object's data — it is just related, logically, to
-              the class.
-            </p>
-
-            <pre class="code-block"><code>class MathHelper:
-    @staticmethod
-    def add(a, b):
-        return a + b
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            print("Insufficient funds.")
+        else:
+            self.balance -= amount
+            print(f"Withdrew {amount}. New balance: {self.balance}")
 
 
-print(MathHelper.add(2, 3))   # 5 -- called on the class, no object needed</code></pre>
+account = BankAccount("Alex", 50)
+account.deposit(20)
+account.withdraw(100)
+account.withdraw(30)</code></pre>
 
-            <h2>The final project</h2>
-
-            <p>
-              This is where every chapter of this course meets in one place.
-              You are going to rebuild the classic task manager idea, but
-              properly this time — as a class, the way Chapter 11 taught,
-              instead of loose dictionaries.
-            </p>
-
-            <p>The shape you are building towards:</p>
-
-            <pre class="code-block"><code>Plan a Task class
-├── __init__(self, title)   -> store the title, start as not done
-├── complete(self)          -> mark it done
-└── __str__(self)           -> a readable "[x] Buy milk" line
-
-Then the program
-├── an empty list to hold Task objects
-├── a while loop that shows a menu and reads a choice
-├── add    -> create a Task and append it
-├── view   -> loop through the list and print each one
-├── complete -> show the list, ask which number, call .complete()
-└── exit   -> break out of the loop</code></pre>
-
-            <p>
-              Nothing in that tree is new. It is every earlier chapter,
-              assembled: a class (11), a list of objects (5), a menu loop
-              with <code>input()</code> and branching (3, 4, 7), and
-              <code>enumerate()</code> for numbering the list on screen (6).
-            </p>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Optional challenge — go further</span>
-              <p>
-                Once your task manager works, try extending it with what the
-                rest of this course gave you: save the tasks to a file with
-                <code>json.dump()</code> when the program exits and load them
-                back with <code>json.load()</code> when it starts (Chapter 9),
-                and use a list comprehension to filter and count how many
-                tasks are complete —
-                <code>completed = [t for t in tasks if t.done]</code>
-                (this chapter). Neither is required to finish the course, but
-                both are exactly what a real version of this program would
-                need.
-              </p>
-            </div>
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Deposited 20. New balance: 70
+Insufficient funds.
+Withdrew 30. New balance: 40</code></pre>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>
-                Rewrite <code>[n * n for n in range(5)]</code> as an ordinary
-                loop that builds the same list, before you start the final
-                project below — if you can translate a comprehension back
-                into a loop confidently, you understand what it is doing.
+                Given the <code>Cat(Animal)</code> example above, if
+                <code>Cat</code> did <em>not</em> define its own
+                <code>speak</code> method, what would
+                <code>whiskers.speak()</code> print? "Whiskers makes a
+                sound." — with no override, Python falls back to the parent
+                class's version.
               </p>
             </div>
           </section>
