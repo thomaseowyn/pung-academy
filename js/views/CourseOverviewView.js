@@ -1,8 +1,9 @@
 /* ==========================================================================
    CourseOverviewView
    --------------------------------------------------------------------------
-   Draws the course header (progress, Begin/Continue button) and the list of
-   ten chapters with their completed / current / locked state. DOM only.
+   Draws the course header (progress, Begin/Continue button) and the chapter
+   list, grouped into an orientation slot plus units, each row carrying its
+   completed / current / locked state. DOM only.
    ========================================================================== */
 
 window.Pung = window.Pung || {};
@@ -52,20 +53,88 @@ Pung.CourseOverviewView = (function () {
   }
 
   /**
-   * @param {Array} rows  [{ number, data, state }]
+   * @param {Array} rows   [{ number, data, state }], one per chapter
+   * @param {Array} units  unit metadata from courseData, each with a
+   *                       [start, end] chapter range
    * @param {Function} onLockedClick  called with the row element
    */
-  function renderChapterList(rows, onLockedClick) {
+  function renderChapterList(rows, units, onLockedClick) {
     const list = document.querySelector("[data-chapter-list]");
     if (!list) {
       return;
     }
     list.innerHTML = "";
-    rows.forEach((row) => list.appendChild(buildRow(row, onLockedClick)));
+
+    const byNumber = new Map(rows.map((row) => [row.number, row]));
+    const grouped = new Set();
+
+    const orientation = byNumber.get(1);
+    if (orientation) {
+      list.appendChild(buildOrientation(orientation, onLockedClick));
+      grouped.add(1);
+    }
+
+    units.forEach((unit) => {
+      const [start, end] = unit.range;
+      const unitRows = rows.filter((row) => row.number >= start && row.number <= end);
+      unitRows.forEach((row) => grouped.add(row.number));
+      list.appendChild(buildUnit(unit, unitRows, onLockedClick));
+    });
+
+    // Any chapter not covered by the orientation slot or a unit range still
+    // needs to render, so the list never silently drops a chapter.
+    rows
+      .filter((row) => !grouped.has(row.number))
+      .forEach((row) => list.appendChild(buildRow(row, onLockedClick)));
+  }
+
+  function buildOrientation({ number, data, state }, onLockedClick) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "chapter-list__orientation";
+
+    const label = document.createElement("span");
+    label.className = "chapter-list__orientation-label";
+    label.textContent = "Orientation";
+    wrapper.appendChild(label);
+
+    wrapper.appendChild(buildRow({ number, data, state }, onLockedClick));
+    return wrapper;
+  }
+
+  function buildUnit(unit, unitRows, onLockedClick) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "unit";
+
+    const completed = unitRows.filter((row) => row.state === "completed").length;
+
+    const head = document.createElement("div");
+    head.className = "unit__head";
+    head.innerHTML = `
+      <div>
+        <span class="unit__label">${escapeHtml(unit.label)}</span>
+        <p class="unit__title">${escapeHtml(unit.title)}</p>
+        <p class="unit__desc">${escapeHtml(unit.description)}</p>
+      </div>
+      <span class="unit__progress">${completed} / ${unitRows.length}</span>`;
+    wrapper.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "unit__body";
+    unitRows.forEach((row) => body.appendChild(buildRow(row, onLockedClick)));
+    wrapper.appendChild(body);
+
+    if (unit.bridge) {
+      const bridge = document.createElement("p");
+      bridge.className = "unit__bridge";
+      bridge.textContent = `→ ${unit.bridge}`;
+      wrapper.appendChild(bridge);
+    }
+
+    return wrapper;
   }
 
   function buildRow({ number, data, state }, onLockedClick) {
-    const row = document.createElement("li");
+    const row = document.createElement("article");
     row.className = `chapter chapter--${state}`;
     if (data.isFinalProject) {
       row.classList.add("chapter--final");

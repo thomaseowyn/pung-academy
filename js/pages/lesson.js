@@ -4,4 +4,5 @@
 
   Pung.Shared.initPage();
   Pung.LessonController.initLessonPage();
+  Pung.LessonView.bindPredictWidgets();
 })();

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 16 — Intermediate Python Features (Pythonic Code) — Pung Academy</title>
+    <meta name="description" content="Chapter 16 of Introduction to Programming: list comprehensions, lambda functions, map and filter, and the final object-oriented project." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="16">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 16</span
+            >
+            <h1 data-chapter-title>Intermediate Python Features (Pythonic Code)</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Writing it the Python way</h2>
+
+            <p>
+              Everything in this chapter does something you can already do
+              with a loop and an <code>if</code> statement. What is new is
+              writing it in the shorter, more direct style experienced Python
+              programmers reach for by default — usually called
+              <strong>Pythonic</strong> code.
+            </p>
+
+            <h2>List comprehensions</h2>
+
+            <p>Compare these two, which do exactly the same thing:</p>
+
+            <pre class="code-block"><code># The loop version
+squares = []
+for number in range(1, 6):
+    squares.append(number ** 2)
+
+# The comprehension version
+squares = [number ** 2 for number in range(1, 6)]
+
+print(squares)   # [1, 4, 9, 16, 25]</code></pre>
+
+            <p>
+              A <strong>list comprehension</strong> builds a new list in one
+              expression: <code>[expression for item in sequence]</code>. You
+              can add a filter with <code>if</code> at the end:
+            </p>
+
+            <pre class="code-block"><code>numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+evens = [number for number in numbers if number % 2 == 0]
+print(evens)   # [2, 4, 6, 8]</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip — translating a comprehension</span>
+              <p>
+                Read <code>[x for x in numbers if x % 2 == 0]</code> aloud as
+                "x, for every x in numbers, but only where x is even" — reading
+                it in that order, left to right, is what makes comprehensions
+                click.
+              </p>
+            </div>
+
+            <h2>Lambda functions</h2>
+
+            <p>
+              A <strong>lambda</strong> is a small, unnamed function written in
+              a single line — useful when you need a tiny function just once,
+              somewhere a full <code>def</code> would feel heavy.
+            </p>
+
+            <pre class="code-block"><code>square = lambda x: x ** 2
+print(square(5))   # 25
+
+# equivalent to:
+def square(x):
+    return x ** 2</code></pre>
+
+            <p>
+              A lambda can only contain one expression, and it always returns
+              that expression's value — there is no <code>return</code>
+              keyword because none is needed.
+            </p>
+
+            <h2>map() and filter()</h2>
+
+            <p>
+              <code>map()</code> applies a function to every item in a
+              sequence; <code>filter()</code> keeps only the items a function
+              says yes to. Both are often paired with a lambda:
+            </p>
+
+            <pre class="code-block"><code>numbers = [1, 2, 3, 4, 5]
+
+doubled = list(map(lambda x: x * 2, numbers))
+print(doubled)   # [2, 4, 6, 8, 10]
+
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+print(evens)     # [2, 4]</code></pre>
+
+            <p>
+              Both return a special lazy object rather than a list directly,
+              which is why they are wrapped in <code>list(...)</code> to see
+              the result. A list comprehension does the same job and most
+              Python programmers reach for it first — <code>map</code> and
+              <code>filter</code> are worth recognising when you meet them in
+              other people's code.
+            </p>
+
+            <h2>Generators, briefly</h2>
+
+            <p>
+              A <strong>generator</strong> produces values one at a time,
+              on demand, instead of building a whole list in memory at once.
+              The simplest way to make one looks almost like a list
+              comprehension, but with round brackets:
+            </p>
+
+            <pre class="code-block"><code>squares = (number ** 2 for number in range(1, 1000000))</code></pre>
+
+            <p>
+              That line runs instantly, because no squares have actually been
+              calculated yet — they are produced one at a time only as
+              something asks for the next one. This matters once you are
+              working with data too large to hold in memory all at once; for
+              now, just recognise the shape when you see it.
+            </p>
+
+            <h2>@staticmethod, briefly</h2>
+
+            <p>
+              A <strong>static method</strong> lives inside a class but does
+              not need <code>self</code>, because it does not touch any
+              particular object's data — it is just related, logically, to
+              the class.
+            </p>
+
+            <pre class="code-block"><code>class MathHelper:
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+
+print(MathHelper.add(2, 3))   # 5 -- called on the class, no object needed</code></pre>
+
+            <h2>The final project</h2>
+
+            <p>
+              This is where every chapter of this course meets in one place.
+              You are going to rebuild the classic task manager idea, but
+              properly this time — as a class, the way Chapter 15 taught,
+              instead of loose dictionaries.
+            </p>
+
+            <p>The shape you are building towards:</p>
+
+            <pre class="code-block"><code>Plan a Task class
+├── __init__(self, title)   -> store the title, start as not done
+├── complete(self)          -> mark it done
+└── __str__(self)           -> a readable "[x] Buy milk" line
+
+Then the program
+├── an empty list to hold Task objects
+├── a while loop that shows a menu and reads a choice
+├── add    -> create a Task and append it
+├── view   -> loop through the list and print each one
+├── complete -> show the list, ask which number, call .complete()
+└── exit   -> break out of the loop</code></pre>
+
+            <p>
+              Nothing in that tree is new. It is every earlier chapter,
+              assembled: a class (11), a list of objects (5), a menu loop
+              with <code>input()</code> and branching (3, 4, 7), and
+              <code>enumerate()</code> for numbering the list on screen (6).
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Optional challenge — go further</span>
+              <p>
+                Once your task manager works, try extending it with what the
+                rest of this course gave you: save the tasks to a file with
+                <code>json.dump()</code> when the program exits and load them
+                back with <code>json.load()</code> when it starts (Chapter 13),
+                and use a list comprehension to filter and count how many
+                tasks are complete —
+                <code>completed = [t for t in tasks if t.done]</code>
+                (this chapter). Neither is required to finish the course, but
+                both are exactly what a real version of this program would
+                need.
+              </p>
+            </div>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                Rewrite <code>[n * n for n in range(5)]</code> as an ordinary
+                loop that builds the same list, before you start the final
+                project below — if you can translate a comprehension back
+                into a loop confidently, you understand what it is doing.
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

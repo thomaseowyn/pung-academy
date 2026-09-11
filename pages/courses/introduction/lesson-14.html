@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 14 — Modules, Libraries &amp; Virtual Environments — Pung Academy</title>
+    <meta name="description" content="Chapter 14 of Introduction to Programming: importing built-in modules, installing packages with pip, and virtual environments." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="14">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 14</span
+            >
+            <h1 data-chapter-title>Modules, Libraries &amp; Virtual Environments</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>You do not have to write everything yourself</h2>
+
+            <p>
+              Python ships with a large standard library of ready-made code,
+              and beyond that, an enormous ecosystem of packages other people
+              have published. Using them is normal practice, not cheating —
+              this chapter is about how to bring that code into your own
+              program.
+            </p>
+
+            <h2>Importing built-in modules</h2>
+
+            <pre class="code-block"><code>import random
+
+roll = random.randint(1, 6)
+print(roll)</code></pre>
+
+            <p>
+              <code>import random</code> gives your file access to everything
+              inside the <code>random</code> module. You already used this
+              back in the loops chapter's worked example — a die roll picks a
+              whole number in a range, which is exactly what
+              <code>random.randint(1, 6)</code> does.
+            </p>
+
+            <p>Two more modules you will meet constantly:</p>
+
+            <pre class="code-block"><code>import math
+print(math.sqrt(16))     # 4.0
+print(math.pi)            # 3.141592653589793
+
+import datetime
+today = datetime.date.today()
+print(today)               # e.g. 2026-09-08</code></pre>
+
+            <h3>Importing just one piece</h3>
+
+            <p>
+              You can import a single name from a module instead of the whole
+              thing, which saves you writing the module name every time:
+            </p>
+
+            <pre class="code-block"><code>from random import randint
+
+roll = randint(1, 6)   # no "random." needed now</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — namespace collisions</span>
+              <p>
+                If you write <code>from random import *</code> to import
+                everything at once, and one of those names happens to match a
+                variable or function you already defined, yours gets silently
+                overwritten. Import only what you need, by name, and prefer
+                <code>import module_name</code> when in doubt — it is clearer
+                where each piece came from.
+              </p>
+            </div>
+
+            <h2>Third-party packages and pip</h2>
+
+            <p>
+              The standard library covers a lot, but not everything.
+              <strong>pip</strong> is Python's package installer, and it
+              downloads code other people have published so you can
+              <code>import</code> it just like a built-in module.
+            </p>
+
+            <pre class="code-block"><code>pip install requests</code></pre>
+
+            <p>
+              That command is typed into your terminal, not into a Python
+              file. Once installed, a package behaves exactly like a built-in
+              module — <code>import requests</code> and you can use it.
+            </p>
+
+            <h2>Virtual environments (venv)</h2>
+
+            <p>
+              Different projects on your computer can need different
+              versions of the same package. A
+              <strong>virtual environment</strong> is an isolated Python
+              installation for a single project, so installing something for
+              one project can never break another.
+            </p>
+
+            <pre class="code-block"><code>python -m venv env
+# then activate it — the exact command differs by operating system
+# Windows:      env\Scripts\activate
+# macOS/Linux:  source env/bin/activate</code></pre>
+
+            <p>
+              Once activated, anything you <code>pip install</code> is
+              contained inside that project's own <code>env</code> folder,
+              completely separate from every other project on your machine.
+              This is standard practice the moment a project depends on
+              anything beyond the standard library.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip — import path resolution</span>
+              <p>
+                Python looks for a module first among the files in your own
+                project, then in the active virtual environment, then in the
+                standard library. If <code>import</code> ever picks up the
+                wrong version of something, checking which environment is
+                active is usually the fastest way to find out why.
+              </p>
+            </div>
+
+            <h2>Worked example — the Daily Dice Roller</h2>
+
+            <p>
+              This chapter's project combines two built-in modules — one to
+              generate something random, one to timestamp it.
+            </p>
+
+            <pre class="code-block"><code># Daily Dice Roller
+
+import random
+import datetime
+
+facts = [
+    "Python was named after Monty Python, not the snake.",
+    "The zen of Python can be read by typing: import this",
+    "f-strings were added in Python 3.6."
+]
+
+roll = random.randint(1, 6)
+fact = random.choice(facts)
+today = datetime.date.today()
+
+print(f"[{today}] You rolled a {roll}.")
+print(f"Fact of the day: {fact}")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>[2026-09-08] You rolled a 4.
+Fact of the day: f-strings were added in Python 3.6.</code></pre>
+
+            <p>
+              <code>random.choice()</code> picks one item at random from a
+              list — useful the moment you have several options and want one
+              of them, rather than a number.
+            </p>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                What is the difference between <code>import random</code> and
+                <code>from random import randint</code>? The first requires
+                writing <code>random.randint(...)</code> every time; the
+                second lets you write <code>randint(...)</code> directly,
+                because only that one name was brought in.
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 11 — Modules, Libraries &amp; Virtual Environments — Pung Academy</title>
-    <meta name="description" content="Chapter 11 of Introduction to Programming: importing built-in modules, installing packages with pip, and virtual environments." />
+    <title>Chapter 11 — Functions &amp; Scope Mechanics — Pung Academy</title>
+    <meta name="description" content="Chapter 11 of Introduction to Programming: parameters, arguments, *args and **kwargs, return vs print, and local vs global scope." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 11</span
             >
-            <h1 data-chapter-title>Modules, Libraries &amp; Virtual Environments</h1>
+            <h1 data-chapter-title>Functions &amp; Scope Mechanics</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,158 +62,259 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>You do not have to write everything yourself</h2>
+            <h2>Why functions?</h2>
 
             <p>
-              Python ships with a large standard library of ready-made code,
-              and beyond that, an enormous ecosystem of packages other people
-              have published. Using them is normal practice, not cheating —
-              this chapter is about how to bring that code into your own
-              program.
+              Look at a program that greets three people:
             </p>
 
-            <h2>Importing built-in modules</h2>
+            <pre class="code-block"><code>print("Hello, Alex!")
+print("Welcome to Pung Academy.")
 
-            <pre class="code-block"><code>import random
-
-roll = random.randint(1, 6)
-print(roll)</code></pre>
+print("Hello, Bo!")
+print("Welcome to Pung Academy.")</code></pre>
 
             <p>
-              <code>import random</code> gives your file access to everything
-              inside the <code>random</code> module. You already used this
-              back in the loops chapter's worked example — a die roll picks a
-              whole number in a range, which is exactly what
-              <code>random.randint(1, 6)</code> does.
+              The same idea, written twice already, and it will only get
+              worse. A <strong>function</strong> is a named piece of work you
+              define once and use as often as you like. You have already been
+              calling functions: <code>print()</code>, <code>input()</code>,
+              <code>len()</code>. Now you write your own.
             </p>
 
-            <p>Two more modules you will meet constantly:</p>
+            <h2>Defining and calling a function</h2>
 
-            <pre class="code-block"><code>import math
-print(math.sqrt(16))     # 4.0
-print(math.pi)            # 3.141592653589793
+            <pre class="code-block"><code>def greet():
+    print("Hello!")
+    print("Welcome to Pung Academy.")
 
-import datetime
-today = datetime.date.today()
-print(today)               # e.g. 2026-09-08</code></pre>
-
-            <h3>Importing just one piece</h3>
-
-            <p>
-              You can import a single name from a module instead of the whole
-              thing, which saves you writing the module name every time:
-            </p>
-
-            <pre class="code-block"><code>from random import randint
-
-roll = randint(1, 6)   # no "random." needed now</code></pre>
-
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful — namespace collisions</span>
-              <p>
-                If you write <code>from random import *</code> to import
-                everything at once, and one of those names happens to match a
-                variable or function you already defined, yours gets silently
-                overwritten. Import only what you need, by name, and prefer
-                <code>import module_name</code> when in doubt — it is clearer
-                where each piece came from.
-              </p>
-            </div>
-
-            <h2>Third-party packages and pip</h2>
-
-            <p>
-              The standard library covers a lot, but not everything.
-              <strong>pip</strong> is Python's package installer, and it
-              downloads code other people have published so you can
-              <code>import</code> it just like a built-in module.
-            </p>
-
-            <pre class="code-block"><code>pip install requests</code></pre>
-
-            <p>
-              That command is typed into your terminal, not into a Python
-              file. Once installed, a package behaves exactly like a built-in
-              module — <code>import requests</code> and you can use it.
-            </p>
-
-            <h2>Virtual environments (venv)</h2>
-
-            <p>
-              Different projects on your computer can need different
-              versions of the same package. A
-              <strong>virtual environment</strong> is an isolated Python
-              installation for a single project, so installing something for
-              one project can never break another.
-            </p>
-
-            <pre class="code-block"><code>python -m venv env
-# then activate it — the exact command differs by operating system
-# Windows:      env\Scripts\activate
-# macOS/Linux:  source env/bin/activate</code></pre>
-
-            <p>
-              Once activated, anything you <code>pip install</code> is
-              contained inside that project's own <code>env</code> folder,
-              completely separate from every other project on your machine.
-              This is standard practice the moment a project depends on
-              anything beyond the standard library.
-            </p>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip — import path resolution</span>
-              <p>
-                Python looks for a module first among the files in your own
-                project, then in the active virtual environment, then in the
-                standard library. If <code>import</code> ever picks up the
-                wrong version of something, checking which environment is
-                active is usually the fastest way to find out why.
-              </p>
-            </div>
-
-            <h2>Worked example — the Daily Dice Roller</h2>
-
-            <p>
-              This chapter's project combines two built-in modules — one to
-              generate something random, one to timestamp it.
-            </p>
-
-            <pre class="code-block"><code># Daily Dice Roller
-
-import random
-import datetime
-
-facts = [
-    "Python was named after Monty Python, not the snake.",
-    "The zen of Python can be read by typing: import this",
-    "f-strings were added in Python 3.6."
-]
-
-roll = random.randint(1, 6)
-fact = random.choice(facts)
-today = datetime.date.today()
-
-print(f"[{today}] You rolled a {roll}.")
-print(f"Fact of the day: {fact}")</code></pre>
+greet()
+greet()</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>[2026-09-08] You rolled a 4.
-Fact of the day: f-strings were added in Python 3.6.</code></pre>
+            <pre class="output-block"><code>Hello!
+Welcome to Pung Academy.
+Hello!
+Welcome to Pung Academy.</code></pre>
 
             <p>
-              <code>random.choice()</code> picks one item at random from a
-              list — useful the moment you have several options and want one
-              of them, rather than a number.
+              Defining a function does not run it — it only teaches Python
+              what the name means. Writing <code>greet()</code> with brackets
+              is what actually runs it.
+            </p>
+
+            <h2>Parameters and arguments</h2>
+
+            <p>
+              A <strong>parameter</strong> is a placeholder name in the
+              definition; an <strong>argument</strong> is the actual value you
+              pass in when calling.
+            </p>
+
+            <pre class="code-block"><code>def greet(name):
+    print(f"Hello, {name}!")
+
+greet("Alex")
+greet("Bo")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello, Alex!
+Hello, Bo!</code></pre>
+
+            <h3>Default arguments</h3>
+
+            <pre class="code-block"><code>def greet(name, greeting="Hello"):
+    print(f"{greeting}, {name}!")
+
+greet("Alex")                      # Hello, Alex!
+greet("Bo", "Good morning")        # Good morning, Bo!</code></pre>
+
+            <h2>*args and **kwargs</h2>
+
+            <p>
+              Sometimes you do not know in advance how many arguments a
+              function should accept. <code>*args</code> collects any number
+              of extra positional arguments into a tuple:
+            </p>
+
+            <pre class="code-block"><code>def total(*args):
+    return sum(args)
+
+print(total(1, 2, 3))       # 6
+print(total(10, 20))        # 30</code></pre>
+
+            <p>
+              <code>**kwargs</code> does the same for named arguments,
+              collecting them into a dictionary:
+            </p>
+
+            <pre class="code-block"><code>def describe(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+describe(name="Alex", age=20)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>name: Alex
+age: 20</code></pre>
+
+            <p>
+              You will not need these two constantly as a beginner, but
+              recognising them is important — they appear throughout Python's
+              own libraries.
+            </p>
+
+            <h2>return vs. print</h2>
+
+            <p>
+              This is the idea that makes functions powerful, and the one
+              beginners most often miss. <code>print()</code> shows a human
+              some text — it does not give a value back to the rest of the
+              program. <code>return</code> does.
+            </p>
+
+            <pre class="code-block"><code>def add_and_print(a, b):
+    print(a + b)          # shows the answer, gives back nothing
+
+def add_and_return(a, b):
+    return a + b          # hands the answer back
+
+x = add_and_print(2, 3)   # prints 5, but x is None
+y = add_and_return(2, 3)  # prints nothing, but y is 5</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                A function that calculates something should almost always
+                <code>return</code> the result rather than print it — printing
+                is a decision about presentation, and it is not the
+                function's job to make that call for whoever uses it.
+              </p>
+            </div>
+
+            <h3>return ends the function immediately</h3>
+
+            <pre class="code-block"><code>def check_age(age):
+    if age &lt; 0:
+        return "That is not a valid age."
+    if age &gt;= 18:
+        return "Adult"
+    return "Minor"
+
+print(check_age(20))    # Adult
+print(check_age(-5))    # That is not a valid age.</code></pre>
+
+            <p>
+              Nothing after a <code>return</code> that runs will execute,
+              which makes it useful for handling bad input first and getting
+              out early.
+            </p>
+
+            <h2>Local vs. global scope</h2>
+
+            <p>
+              A variable created inside a function only exists inside that
+              function — its <strong>local scope</strong>. It disappears the
+              moment the function finishes.
+            </p>
+
+            <pre class="code-block"><code>def set_score():
+    score = 100
+    print(score)
+
+set_score()
+print(score)   # NameError: score is not defined</code></pre>
+
+            <p>
+              A variable created outside any function lives in the
+              <strong>global scope</strong> and can be read from inside a
+              function:
+            </p>
+
+            <pre class="code-block"><code>message = "Hello"
+
+def show_message():
+    print(message)   # reading a global works fine
+
+show_message()</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — scope leakage</span>
+              <p>
+                A function cannot <em>change</em> a global variable just by
+                assigning to a name with the same one inside it — that
+                creates a new local variable instead, and the global is left
+                untouched. Return the new value and reassign it outside the
+                function rather than fighting scope rules.
+              </p>
+            </div>
+
+            <h2>Worked example — refactoring into functions</h2>
+
+            <p>
+              This chapter's project turns a quiz into a set of small
+              functions, each doing exactly one job.
+            </p>
+
+            <pre class="code-block"><code># Quiz Game
+
+def ask_question(question, correct_answer):
+    given = input(question + " ")
+    return given.strip().lower() == correct_answer.lower()
+
+
+def report(score, total):
+    print(f"\nYou scored {score} out of {total}.")
+    if score == total:
+        print("Perfect.")
+    elif score &gt;= total / 2:
+        print("A decent effort.")
+    else:
+        print("Worth another go.")
+
+
+questions = [
+    {"q": "What symbol starts a comment in Python?", "a": "#"},
+    {"q": "What is 7 * 6?", "a": "42"}
+]
+
+score = 0
+
+for item in questions:
+    if ask_question(item["q"], item["a"]):
+        print("Correct.")
+        score += 1
+    else:
+        print(f"No — the answer was {item['a']}.")
+
+report(score, len(questions))</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>What symbol starts a comment in Python? #
+Correct.
+What is 7 * 6? 42
+Correct.
+
+You scored 2 out of 2.
+Perfect.</code></pre>
+
+            <p>
+              <code>ask_question</code> returns a boolean rather than
+              printing anything, so the loop that calls it decides what to do
+              with the result — exactly the return-over-print habit this
+              chapter argued for.
             </p>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
+              <p>What does this print, and why is it not 8?</p>
+              <pre class="code-block"><code>def double(number):
+    number * 2
+
+print(double(4))</code></pre>
               <p>
-                What is the difference between <code>import random</code> and
-                <code>from random import randint</code>? The first requires
-                writing <code>random.randint(...)</code> every time; the
-                second lets you write <code>randint(...)</code> directly,
-                because only that one name was brought in.
+                It prints <code>None</code>. The function calculates the
+                double and throws it away — there is no <code>return</code>.
               </p>
             </div>
           </section>

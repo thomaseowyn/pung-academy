@@ -15,6 +15,7 @@ Pung.CourseController = (function () {
   "use strict";
 
   const { TOTAL_CHAPTERS, allChapters, chapterState, completedCount, progressPercent, isCourseComplete, nextChapter, resetProgress } = Pung.CourseProgressModel;
+  const { units } = Pung.courseData;
   const { requireLogin } = Pung.AuthController;
   const TreeView = Pung.CourseTreeView;
   const OverviewView = Pung.CourseOverviewView;
@@ -53,7 +54,7 @@ Pung.CourseController = (function () {
       state: chapterState(number),
     }));
 
-    OverviewView.renderChapterList(rows, OverviewView.showLockedMessage);
+    OverviewView.renderChapterList(rows, units, OverviewView.showLockedMessage);
 
     wireResetButton();
   }

@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 7 — Data Structures Part 2 (Key-Value &amp; Sets) — Pung Academy</title>
-    <meta name="description" content="Chapter 7 of Introduction to Programming: dictionaries, sets, nested data, dict methods, enumerate, zip, and mutability." />
+    <title>Chapter 7 — Lists &amp; Tuples — Pung Academy</title>
+    <meta name="description" content="Chapter 7 of Introduction to Programming: lists, tuples, indexing and looping through a sequence." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 7</span
             >
-            <h1 data-chapter-title>Data Structures Part 2 (Key-Value &amp; Sets)</h1>
+            <h1 data-chapter-title>Lists &amp; Tuples</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,233 +62,133 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Dictionaries: looking things up by name</h2>
+            <h2>Why sequences exist</h2>
 
             <p>
-              A list is indexed by position, which is fine when order is what
-              matters. Often it is not — you want to look something up by
-              name. A <strong>dictionary</strong> stores
-              <strong>key-value pairs</strong>. Curly braces, each entry
-              <code>key: value</code>:
+              Storing one number is easy. Storing thirty is not — not with the
+              tools you have so far. You cannot loop over thirty separate
+              variables, and adding a thirty-first means editing the program.
+              A <strong>sequence</strong> holds many values, in order, under
+              one name.
             </p>
 
-            <pre class="code-block"><code>student = {
-    "name": "Alex",
-    "age": 20,
-    "grade": 78
-}</code></pre>
-
-            <p>You look values up by key, not by position:</p>
-
-            <pre class="code-block"><code>print(student["name"])    # Alex
-print(student["grade"])   # 78</code></pre>
-
-            <h3>Changing and adding</h3>
-
-            <pre class="code-block"><code>student["grade"] = 85          # change an existing value
-student["city"] = "Jakarta"    # a new key simply appears
-del student["age"]             # remove a pair
-
-print(student)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>{'name': 'Alex', 'grade': 85, 'city': 'Jakarta'}</code></pre>
-
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful</span>
-              <p>
-                Asking for a key that does not exist raises
-                <code>KeyError</code>. Looking up safely is exactly what the
-                next section is for.
-              </p>
-            </div>
-
-            <h2>Dictionary methods: .get(), .keys(), .values(), .items()</h2>
-
-            <pre class="code-block"><code>student = {"name": "Alex", "grade": 78}
-
-print(student.get("grade"))              # 78
-print(student.get("city", "Unknown"))    # Unknown -- the default, since "city" is missing
-
-print(list(student.keys()))     # ['name', 'grade']
-print(list(student.values()))   # ['Alex', 78]
-
-for key, value in student.items():
-    print(key, "->", value)</code></pre>
+            <h2>Lists</h2>
 
             <p>
-              <code>.get(key, default)</code> never raises
-              <code>KeyError</code> — it hands back <code>default</code>
-              instead when the key is missing, which makes it the safe way to
-              read a dictionary you are not certain about.
-              <code>.items()</code> is what lets a loop unpack both the key
-              and the value at once.
+              A <strong>list</strong> is an ordered, changeable collection.
+              Square brackets, commas between items:
             </p>
 
-            <h2>Sets: uniqueness without order</h2>
+            <pre class="code-block"><code>grades = [78, 91, 65, 84, 72]
+names = ["Alex", "Bo", "Chris"]</code></pre>
+
+            <p><code>len()</code> tells you how many items a list holds:</p>
+
+            <pre class="code-block"><code>print(len(grades))    # 5</code></pre>
+
+            <h2>Tuples</h2>
 
             <p>
-              A <strong>set</strong> holds values with no duplicates and no
-              guaranteed order. Curly braces, but no colons:
+              A <strong>tuple</strong> looks almost identical to a list but
+              uses round brackets, and — unlike a list — it cannot be changed
+              after it is created.
             </p>
 
-            <pre class="code-block"><code>colours = {"red", "green", "blue", "red"}
-print(colours)          # {'red', 'green', 'blue'} -- the duplicate is gone
-
-a = {1, 2, 3}
-b = {2, 3, 4}
-print(a & b)   # {2, 3}         -- intersection: in both
-print(a | b)   # {1, 2, 3, 4}   -- union: in either</code></pre>
+            <pre class="code-block"><code>point = (3, 7)
+print(point[0])   # 3</code></pre>
 
             <p>
-              Turning a list into a set is the fastest way to remove
-              duplicates:
+              Use a tuple when a value should never change once it exists —
+              coordinates, a fixed pair of settings. Use a list for anything
+              you expect to grow, shrink or reorder.
             </p>
 
-            <pre class="code-block"><code>numbers = [1, 2, 2, 3, 3, 3]
-unique = set(numbers)
-print(unique)    # {1, 2, 3}</code></pre>
-
-            <h2>Nested data structures</h2>
+            <h2>Indexing: reaching one item</h2>
 
             <p>
-              Structures can hold other structures — a list of dictionaries,
-              or a dictionary whose values are themselves dictionaries. This
-              shape is everywhere once you start working with real data: API
-              responses, JSON files, database records.
-            </p>
-
-            <pre class="code-block"><code>students = [
-    {"name": "Alex", "grade": 78},
-    {"name": "Bo", "grade": 91}
-]
-
-for student in students:
-    print(f"{student['name']}: {student['grade']}")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Alex: 78
-Bo: 91</code></pre>
-
-            <h2>enumerate() and zip()</h2>
-
-            <p>
-              <code>enumerate()</code> gives you the position and the value
-              together while looping:
+              Each item has a position, called its <strong>index</strong>.
+              Indexes start at <strong>0</strong>, not 1.
             </p>
 
             <pre class="code-block"><code>names = ["Alex", "Bo", "Chris"]
 
-for position, name in enumerate(names, start=1):
-    print(f"{position}. {name}")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>1. Alex
-2. Bo
-3. Chris</code></pre>
+print(names[0])    # Alex
+print(names[1])    # Bo
+print(names[2])    # Chris</code></pre>
 
             <p>
-              <code>zip()</code> walks two sequences together, pairing them up
-              item by item:
+              Counting from zero feels wrong for about a week and then becomes
+              invisible. The consequence worth memorising: the last item of a
+              list of length 5 sits at index 4.
             </p>
 
-            <pre class="code-block"><code>names = ["Alex", "Bo"]
-scores = [78, 91]
-
-for name, score in zip(names, scores):
-    print(name, score)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Alex 78
-Bo 91</code></pre>
-
-            <h2>Mutability and aliasing</h2>
-
-            <p>
-              This is worth taking slowly, because it causes real bugs.
-              Writing <code>a = b</code> for a list does not copy the list —
-              it makes <code>a</code> and <code>b</code> two names for the
-              exact same list.
-            </p>
-
-            <pre class="code-block"><code>original = [1, 2, 3]
-alias = original
-
-alias.append(4)
-print(original)   # [1, 2, 3, 4]  -- changed too, even though we edited "alias"</code></pre>
-
-            <p>To get an independent copy, say so explicitly:</p>
-
-            <pre class="code-block"><code>original = [1, 2, 3]
-copy = original.copy()
-
-copy.append(4)
-print(original)   # [1, 2, 3]  -- untouched
-print(copy)        # [1, 2, 3, 4]</code></pre>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip</span>
+            <div class="predict">
+              <span class="predict__label">Predict the output</span>
               <p>
-                This same aliasing happens when you pass a list into a
-                function — the function receives the same list, not a copy.
-                Keep it in mind once you reach functions in the next chapter.
+                Given
+                <code>names = ["Alex", "Bo", "Chris"]</code>, what does
+                negative indexing count from?
+              </p>
+              <pre class="code-block"><code>print(names[-1])
+print(names[-2])</code></pre>
+              <button class="btn btn--secondary" type="button" data-predict-reveal>Reveal output</button>
+              <pre class="output-block" data-predict-answer hidden><code>Chris
+Bo</code></pre>
+              <p>
+                A negative index counts backward from the end —
+                <code>-1</code> is always the last item, <code>-2</code> the
+                one before it.
               </p>
             </div>
 
-            <h2>Worked example — the Student Grade Analyzer</h2>
-
-            <p>
-              This chapter's project puts nested structures, aggregation and
-              <code>enumerate()</code> to work together.
-            </p>
-
-            <pre class="code-block"><code># Student Grade & Class Performance Analyzer
-
-students = [
-    {"name": "Alex", "scores": [78, 82, 91]},
-    {"name": "Bo", "scores": [91, 95, 89]},
-    {"name": "Chris", "scores": [65, 70, 68]}
-]
-
-print("--- Class report ---")
-
-for number, student in enumerate(students, start=1):
-    average = sum(student["scores"]) / len(student["scores"])
-    print(f"{number}. {student['name']}: average {average:.1f}")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>--- Class report ---
-1. Alex: average 83.7
-2. Bo: average 91.7
-3. Chris: average 67.7</code></pre>
-
-            <p>
-              Each student is a dictionary holding a list of scores — the
-              exact "list inside a dictionary inside a list" shape this
-              chapter introduced — and <code>sum()</code> /
-              <code>len()</code> turn that inner list into an average.
-            </p>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">More to build, if you want</span>
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
               <p>
-                By this chapter you have every tool needed for several other
-                small projects: a shopping cart and receipt generator, a
-                flashcard quiz with a nested dictionary of terms, a contact
-                book, a text-adventure game using dictionaries as rooms, an
-                expense tracker, and a two-player tic-tac-toe board. All of
-                them lean on the same combination this chapter taught — lists,
-                dictionaries, and looping through both.
+                Asking for an index that does not exist crashes with
+                <code>IndexError: list index out of range</code>. With three
+                items, <code>names[3]</code> is already past the end.
               </p>
             </div>
 
-            <div class="try-it">
-              <span class="try-it__label">Small exercise</span>
+            <h2>Looping through a sequence</h2>
+
+            <pre class="code-block"><code>grades = [78, 91, 65, 84, 72]
+total = 0
+
+for grade in grades:
+    total += grade
+
+print(f"Average: {total / len(grades)}")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Average: 78.0</code></pre>
+
+            <p>No indexes needed — the loop variable takes each value in turn.</p>
+
+            <h3>Finding the largest value by hand</h3>
+
+            <pre class="code-block"><code>grades = [78, 91, 65, 84, 72]
+highest = grades[0]
+
+for grade in grades:
+    if grade &gt; highest:
+        highest = grade
+
+print(f"Highest: {highest}")     # 91</code></pre>
+
+            <p>
+              Start by assuming the first item wins, then replace it whenever
+              something better appears. This "running best" pattern appears
+              everywhere once you notice it.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Coming up</span>
               <p>
-                What does <code>student.get("email", "none")</code> return if
-                <code>student</code> has no <code>"email"</code> key? The
-                string <code>"none"</code> — the default you supplied, and no
-                error at all.
+                Everything so far reaches items one at a time or all at once.
+                The next chapter adds a way to reach a whole <em>chunk</em>
+                of a list in one go — slicing — plus the methods that let you
+                add to, remove from and sort a list after it exists.
               </p>
             </div>
           </section>

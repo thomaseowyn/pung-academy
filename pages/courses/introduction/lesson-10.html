@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 10 — File I/O &amp; Data Persistence — Pung Academy</title>
-    <meta name="description" content="Chapter 10 of Introduction to Programming: reading and writing files, the with statement, and working with CSV and JSON." />
+    <title>Chapter 10 — Nested Data &amp; Mutability — Pung Academy</title>
+    <meta name="description" content="Chapter 10 of Introduction to Programming: nested data structures, enumerate, zip, mutability and aliasing." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 10</span
             >
-            <h1 data-chapter-title>File I/O &amp; Data Persistence</h1>
+            <h1 data-chapter-title>Nested Data &amp; Mutability</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,173 +62,149 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Programs that remember</h2>
+            <h2>Picking up from dictionaries and sets</h2>
 
             <p>
-              Every program you have written so far forgets everything the
-              moment it closes. The task list from an earlier chapter's
-              exercise vanished the instant the program ended. To keep data
-              between runs, a program has to save it somewhere outside its own
-              memory — usually a <strong>file</strong>.
+              Last chapter gave you two new ways to store values: a
+              dictionary for looking things up by name, and a set for
+              uniqueness. This chapter puts them to work inside each other,
+              adds two small looping tools, and covers a subtlety about lists
+              that causes real, confusing bugs if you do not know it is
+              coming.
             </p>
 
-            <h2>Opening a file with with</h2>
-
-            <pre class="code-block"><code>with open("notes.txt", "w") as file:
-    file.write("Remember to practise loops.\n")</code></pre>
+            <h2>Nested data structures</h2>
 
             <p>
-              <code>open()</code> takes a filename and a
-              <strong>mode</strong>. <code>with</code> hands you the open file
-              as <code>file</code>, and — this is the important part — closes
-              it automatically once the indented block finishes, even if
-              something inside it goes wrong. That is why <code>with</code> is
-              the standard way to work with files rather than calling
-              <code>open()</code> and <code>close()</code> separately.
+              Structures can hold other structures — a list of dictionaries,
+              or a dictionary whose values are themselves dictionaries. This
+              shape is everywhere once you start working with real data: API
+              responses, JSON files, database records.
             </p>
 
-            <h3>File modes</h3>
+            <pre class="code-block"><code>students = [
+    {"name": "Alex", "grade": 78},
+    {"name": "Bo", "grade": 91}
+]
 
-            <ul>
-              <li><code>"w"</code> — write. Creates the file if needed, and <strong>erases</strong> whatever was already in it.</li>
-              <li><code>"a"</code> — append. Adds to the end without erasing what is already there.</li>
-              <li><code>"r"</code> — read. Opens an existing file to look at its contents.</li>
-            </ul>
+for student in students:
+    print(f"{student['name']}: {student['grade']}")</code></pre>
 
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful — the mode trap</span>
-              <p>
-                Opening a file you meant to add to with <code>"w"</code> wipes
-                it silently, with no warning. If you are not sure whether a
-                file should be replaced or added to, that is the question to
-                ask before you open it.
-              </p>
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Alex: 78
+Bo: 91</code></pre>
+
+            <h2>enumerate() and zip()</h2>
+
+            <p>
+              <code>enumerate()</code> gives you the position and the value
+              together while looping:
+            </p>
+
+            <pre class="code-block"><code>names = ["Alex", "Bo", "Chris"]
+
+for position, name in enumerate(names, start=1):
+    print(f"{position}. {name}")</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>1. Alex
+2. Bo
+3. Chris</code></pre>
+
+            <p>
+              <code>zip()</code> walks two sequences together, pairing them up
+              item by item:
+            </p>
+
+            <div class="predict">
+              <span class="predict__label">Predict the output</span>
+              <pre class="code-block"><code>names = ["Alex", "Bo"]
+scores = [78, 91]
+
+for name, score in zip(names, scores):
+    print(name, score)</code></pre>
+              <button class="btn btn--secondary" type="button" data-predict-reveal>Reveal output</button>
+              <pre class="output-block" data-predict-answer hidden><code>Alex 78
+Bo 91</code></pre>
             </div>
 
-            <h2>Reading a file back</h2>
-
-            <pre class="code-block"><code>with open("notes.txt", "r") as file:
-    contents = file.read()
-
-print(contents)</code></pre>
+            <h2>Mutability and aliasing</h2>
 
             <p>
-              You can also read a file one line at a time, which is usually
-              more useful once a file has more than a few lines:
+              This is worth taking slowly, because it causes real bugs.
+              Writing <code>a = b</code> for a list does not copy the list —
+              it makes <code>a</code> and <code>b</code> two names for the
+              exact same list.
             </p>
 
-            <pre class="code-block"><code>with open("notes.txt", "r") as file:
-    for line in file:
-        print(line.strip())</code></pre>
+            <pre class="code-block"><code>original = [1, 2, 3]
+alias = original
 
-            <p>
-              <code>.strip()</code> removes the newline character that comes
-              along with each line — without it, every printed line would
-              have an extra blank line after it.
-            </p>
+alias.append(4)
+print(original)   # [1, 2, 3, 4]  -- changed too, even though we edited "alias"</code></pre>
 
-            <h2>Working with CSV</h2>
+            <p>To get an independent copy, say so explicitly:</p>
 
-            <p>
-              CSV — comma-separated values — is a plain text format for
-              tabular data, one row per line, values separated by commas. You
-              can read a CSV file as plain text and split each line yourself:
-            </p>
+            <pre class="code-block"><code>original = [1, 2, 3]
+copy = original.copy()
 
-            <pre class="code-block"><code>with open("scores.csv", "r") as file:
-    for line in file:
-        name, score = line.strip().split(",")
-        print(f"{name}: {score}")</code></pre>
-
-            <p>
-              <code>.split(",")</code> breaks a line into a list wherever a
-              comma appears — one string in, several strings out.
-            </p>
-
-            <h2>Working with JSON</h2>
-
-            <p>
-              JSON stores structured data — dictionaries and lists — as text,
-              and it is the format you will see most often once you start
-              working with real APIs. Python's built-in <code>json</code>
-              module converts between the two directly:
-            </p>
-
-            <pre class="code-block"><code>import json
-
-data = {"name": "Alex", "scores": [78, 91, 65]}
-
-text = json.dumps(data)
-print(text)          # '{"name": "Alex", "scores": [78, 91, 65]}'
-
-parsed = json.loads(text)
-print(parsed["name"])   # Alex</code></pre>
-
-            <p>
-              <code>json.dumps()</code> turns a Python dictionary into a JSON
-              string. <code>json.loads()</code> does the reverse, and
-              <code>json.dump()</code> / <code>json.load()</code> (without the
-              <code>s</code>) do the same thing directly to and from an open
-              file.
-            </p>
-
-            <pre class="code-block"><code>import json
-
-with open("student.json", "w") as file:
-    json.dump({"name": "Alex", "grade": 78}, file)</code></pre>
+copy.append(4)
+print(original)   # [1, 2, 3]  -- untouched
+print(copy)        # [1, 2, 3, 4]</code></pre>
 
             <div class="callout callout--tip">
-              <span class="callout__label">Tip — tracing a JSON parse</span>
+              <span class="callout__label">Tip</span>
               <p>
-                If <code>json.loads()</code> fails, the error usually names
-                the exact character position where the text stopped looking
-                like valid JSON — a missing comma or an unclosed brace is the
-                most common cause.
+                This same aliasing happens when you pass a list into a
+                function — the function receives the same list, not a copy.
+                Keep it in mind once you reach functions in the next chapter.
               </p>
             </div>
 
-            <h2>Worked example — a Persistent Notes App</h2>
+            <h2>Worked example — the Student Grade Analyzer</h2>
 
             <p>
-              This chapter's project saves notes to a file so they survive
-              between runs of the program — the first project in this course
-              that actually remembers anything after it closes.
+              This chapter's project puts nested structures, aggregation and
+              <code>enumerate()</code> to work together.
             </p>
 
-            <pre class="code-block"><code># Persistent Notes App
+            <pre class="code-block"><code># Student Grade &amp; Class Performance Analyzer
 
-print("--- Your saved notes ---")
+students = [
+    {"name": "Alex", "scores": [78, 82, 91]},
+    {"name": "Bo", "scores": [91, 95, 89]},
+    {"name": "Chris", "scores": [65, 70, 68]}
+]
 
-try:
-    with open("my_notes.txt", "r") as file:
-        for line in file:
-            print("-", line.strip())
-except FileNotFoundError:
-    print("(no notes saved yet)")
+print("--- Class report ---")
 
-new_note = input("\nAdd a note (or press Enter to skip): ")
+for number, student in enumerate(students, start=1):
+    average = sum(student["scores"]) / len(student["scores"])
+    print(f"{number}. {student['name']}: average {average:.1f}")</code></pre>
 
-if new_note:
-    with open("my_notes.txt", "a") as file:
-        file.write(new_note + "\n")
-    print("Saved.")</code></pre>
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>--- Class report ---
+1. Alex: average 83.7
+2. Bo: average 91.7
+3. Chris: average 67.7</code></pre>
 
             <p>
-              Reading happens first, wrapped in a
-              <code>try</code>/<code>except FileNotFoundError</code> so the
-              very first run — before the file exists at all — does not
-              crash. Writing uses <code>"a"</code> rather than
-              <code>"w"</code> deliberately, so each new note is added rather
-              than erasing everything saved before it.
+              Each student is a dictionary holding a list of scores — the
+              exact "list inside a dictionary inside a list" shape this
+              chapter introduced — and <code>sum()</code> /
+              <code>len()</code> turn that inner list into an average.
             </p>
 
-            <div class="try-it">
-              <span class="try-it__label">Small exercise</span>
+            <div class="callout callout--tip">
+              <span class="callout__label">More to build, if you want</span>
               <p>
-                If you open a file twice in a row with mode <code>"w"</code>
-                and write different text each time, what ends up in the file?
-                Only the second write — <code>"w"</code> erases the file's
-                previous contents every single time it is opened.
+                By this chapter you have every tool needed for several other
+                small projects: a shopping cart and receipt generator, a
+                flashcard quiz with a nested dictionary of terms, a contact
+                book, a text-adventure game using dictionaries as rooms, an
+                expense tracker, and a two-player tic-tac-toe board. All of
+                them lean on the same combination this chapter taught — lists,
+                dictionaries, and looping through both.
               </p>
             </div>
           </section>

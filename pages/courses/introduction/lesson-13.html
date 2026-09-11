@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 13 — Intermediate Python Features (Pythonic Code) — Pung Academy</title>
-    <meta name="description" content="Chapter 13 of Introduction to Programming: list comprehensions, lambda functions, map and filter, and the final object-oriented project." />
+    <title>Chapter 13 — File I/O &amp; Data Persistence — Pung Academy</title>
+    <meta name="description" content="Chapter 13 of Introduction to Programming: reading and writing files, the with statement, and working with CSV and JSON." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 13</span
             >
-            <h1 data-chapter-title>Intermediate Python Features (Pythonic Code)</h1>
+            <h1 data-chapter-title>File I/O &amp; Data Persistence</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,186 +62,173 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Writing it the Python way</h2>
+            <h2>Programs that remember</h2>
 
             <p>
-              Everything in this chapter does something you can already do
-              with a loop and an <code>if</code> statement. What is new is
-              writing it in the shorter, more direct style experienced Python
-              programmers reach for by default — usually called
-              <strong>Pythonic</strong> code.
+              Every program you have written so far forgets everything the
+              moment it closes. The task list from an earlier chapter's
+              exercise vanished the instant the program ended. To keep data
+              between runs, a program has to save it somewhere outside its own
+              memory — usually a <strong>file</strong>.
             </p>
 
-            <h2>List comprehensions</h2>
+            <h2>Opening a file with with</h2>
 
-            <p>Compare these two, which do exactly the same thing:</p>
-
-            <pre class="code-block"><code># The loop version
-squares = []
-for number in range(1, 6):
-    squares.append(number ** 2)
-
-# The comprehension version
-squares = [number ** 2 for number in range(1, 6)]
-
-print(squares)   # [1, 4, 9, 16, 25]</code></pre>
+            <pre class="code-block"><code>with open("notes.txt", "w") as file:
+    file.write("Remember to practise loops.\n")</code></pre>
 
             <p>
-              A <strong>list comprehension</strong> builds a new list in one
-              expression: <code>[expression for item in sequence]</code>. You
-              can add a filter with <code>if</code> at the end:
+              <code>open()</code> takes a filename and a
+              <strong>mode</strong>. <code>with</code> hands you the open file
+              as <code>file</code>, and — this is the important part — closes
+              it automatically once the indented block finishes, even if
+              something inside it goes wrong. That is why <code>with</code> is
+              the standard way to work with files rather than calling
+              <code>open()</code> and <code>close()</code> separately.
             </p>
 
-            <pre class="code-block"><code>numbers = [1, 2, 3, 4, 5, 6, 7, 8]
-evens = [number for number in numbers if number % 2 == 0]
-print(evens)   # [2, 4, 6, 8]</code></pre>
+            <h3>File modes</h3>
 
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip — translating a comprehension</span>
+            <ul>
+              <li><code>"w"</code> — write. Creates the file if needed, and <strong>erases</strong> whatever was already in it.</li>
+              <li><code>"a"</code> — append. Adds to the end without erasing what is already there.</li>
+              <li><code>"r"</code> — read. Opens an existing file to look at its contents.</li>
+            </ul>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful — the mode trap</span>
               <p>
-                Read <code>[x for x in numbers if x % 2 == 0]</code> aloud as
-                "x, for every x in numbers, but only where x is even" — reading
-                it in that order, left to right, is what makes comprehensions
-                click.
+                Opening a file you meant to add to with <code>"w"</code> wipes
+                it silently, with no warning. If you are not sure whether a
+                file should be replaced or added to, that is the question to
+                ask before you open it.
               </p>
             </div>
 
-            <h2>Lambda functions</h2>
+            <h2>Reading a file back</h2>
+
+            <pre class="code-block"><code>with open("notes.txt", "r") as file:
+    contents = file.read()
+
+print(contents)</code></pre>
 
             <p>
-              A <strong>lambda</strong> is a small, unnamed function written in
-              a single line — useful when you need a tiny function just once,
-              somewhere a full <code>def</code> would feel heavy.
+              You can also read a file one line at a time, which is usually
+              more useful once a file has more than a few lines:
             </p>
 
-            <pre class="code-block"><code>square = lambda x: x ** 2
-print(square(5))   # 25
-
-# equivalent to:
-def square(x):
-    return x ** 2</code></pre>
+            <pre class="code-block"><code>with open("notes.txt", "r") as file:
+    for line in file:
+        print(line.strip())</code></pre>
 
             <p>
-              A lambda can only contain one expression, and it always returns
-              that expression's value — there is no <code>return</code>
-              keyword because none is needed.
+              <code>.strip()</code> removes the newline character that comes
+              along with each line — without it, every printed line would
+              have an extra blank line after it.
             </p>
 
-            <h2>map() and filter()</h2>
+            <h2>Working with CSV</h2>
 
             <p>
-              <code>map()</code> applies a function to every item in a
-              sequence; <code>filter()</code> keeps only the items a function
-              says yes to. Both are often paired with a lambda:
+              CSV — comma-separated values — is a plain text format for
+              tabular data, one row per line, values separated by commas. You
+              can read a CSV file as plain text and split each line yourself:
             </p>
 
-            <pre class="code-block"><code>numbers = [1, 2, 3, 4, 5]
-
-doubled = list(map(lambda x: x * 2, numbers))
-print(doubled)   # [2, 4, 6, 8, 10]
-
-evens = list(filter(lambda x: x % 2 == 0, numbers))
-print(evens)     # [2, 4]</code></pre>
+            <pre class="code-block"><code>with open("scores.csv", "r") as file:
+    for line in file:
+        name, score = line.strip().split(",")
+        print(f"{name}: {score}")</code></pre>
 
             <p>
-              Both return a special lazy object rather than a list directly,
-              which is why they are wrapped in <code>list(...)</code> to see
-              the result. A list comprehension does the same job and most
-              Python programmers reach for it first — <code>map</code> and
-              <code>filter</code> are worth recognising when you meet them in
-              other people's code.
+              <code>.split(",")</code> breaks a line into a list wherever a
+              comma appears — one string in, several strings out.
             </p>
 
-            <h2>Generators, briefly</h2>
+            <h2>Working with JSON</h2>
 
             <p>
-              A <strong>generator</strong> produces values one at a time,
-              on demand, instead of building a whole list in memory at once.
-              The simplest way to make one looks almost like a list
-              comprehension, but with round brackets:
+              JSON stores structured data — dictionaries and lists — as text,
+              and it is the format you will see most often once you start
+              working with real APIs. Python's built-in <code>json</code>
+              module converts between the two directly:
             </p>
 
-            <pre class="code-block"><code>squares = (number ** 2 for number in range(1, 1000000))</code></pre>
+            <pre class="code-block"><code>import json
+
+data = {"name": "Alex", "scores": [78, 91, 65]}
+
+text = json.dumps(data)
+print(text)          # '{"name": "Alex", "scores": [78, 91, 65]}'
+
+parsed = json.loads(text)
+print(parsed["name"])   # Alex</code></pre>
 
             <p>
-              That line runs instantly, because no squares have actually been
-              calculated yet — they are produced one at a time only as
-              something asks for the next one. This matters once you are
-              working with data too large to hold in memory all at once; for
-              now, just recognise the shape when you see it.
+              <code>json.dumps()</code> turns a Python dictionary into a JSON
+              string. <code>json.loads()</code> does the reverse, and
+              <code>json.dump()</code> / <code>json.load()</code> (without the
+              <code>s</code>) do the same thing directly to and from an open
+              file.
             </p>
 
-            <h2>@staticmethod, briefly</h2>
+            <pre class="code-block"><code>import json
 
-            <p>
-              A <strong>static method</strong> lives inside a class but does
-              not need <code>self</code>, because it does not touch any
-              particular object's data — it is just related, logically, to
-              the class.
-            </p>
-
-            <pre class="code-block"><code>class MathHelper:
-    @staticmethod
-    def add(a, b):
-        return a + b
-
-
-print(MathHelper.add(2, 3))   # 5 -- called on the class, no object needed</code></pre>
-
-            <h2>The final project</h2>
-
-            <p>
-              This is where every chapter of this course meets in one place.
-              You are going to rebuild the classic task manager idea, but
-              properly this time — as a class, the way Chapter 12 taught,
-              instead of loose dictionaries.
-            </p>
-
-            <p>The shape you are building towards:</p>
-
-            <pre class="code-block"><code>Plan a Task class
-├── __init__(self, title)   -> store the title, start as not done
-├── complete(self)          -> mark it done
-└── __str__(self)           -> a readable "[x] Buy milk" line
-
-Then the program
-├── an empty list to hold Task objects
-├── a while loop that shows a menu and reads a choice
-├── add    -> create a Task and append it
-├── view   -> loop through the list and print each one
-├── complete -> show the list, ask which number, call .complete()
-└── exit   -> break out of the loop</code></pre>
-
-            <p>
-              Nothing in that tree is new. It is every earlier chapter,
-              assembled: a class (11), a list of objects (5), a menu loop
-              with <code>input()</code> and branching (3, 4, 7), and
-              <code>enumerate()</code> for numbering the list on screen (6).
-            </p>
+with open("student.json", "w") as file:
+    json.dump({"name": "Alex", "grade": 78}, file)</code></pre>
 
             <div class="callout callout--tip">
-              <span class="callout__label">Optional challenge — go further</span>
+              <span class="callout__label">Tip — tracing a JSON parse</span>
               <p>
-                Once your task manager works, try extending it with what the
-                rest of this course gave you: save the tasks to a file with
-                <code>json.dump()</code> when the program exits and load them
-                back with <code>json.load()</code> when it starts (Chapter 10),
-                and use a list comprehension to filter and count how many
-                tasks are complete —
-                <code>completed = [t for t in tasks if t.done]</code>
-                (this chapter). Neither is required to finish the course, but
-                both are exactly what a real version of this program would
-                need.
+                If <code>json.loads()</code> fails, the error usually names
+                the exact character position where the text stopped looking
+                like valid JSON — a missing comma or an unclosed brace is the
+                most common cause.
               </p>
             </div>
+
+            <h2>Worked example — a Persistent Notes App</h2>
+
+            <p>
+              This chapter's project saves notes to a file so they survive
+              between runs of the program — the first project in this course
+              that actually remembers anything after it closes.
+            </p>
+
+            <pre class="code-block"><code># Persistent Notes App
+
+print("--- Your saved notes ---")
+
+try:
+    with open("my_notes.txt", "r") as file:
+        for line in file:
+            print("-", line.strip())
+except FileNotFoundError:
+    print("(no notes saved yet)")
+
+new_note = input("\nAdd a note (or press Enter to skip): ")
+
+if new_note:
+    with open("my_notes.txt", "a") as file:
+        file.write(new_note + "\n")
+    print("Saved.")</code></pre>
+
+            <p>
+              Reading happens first, wrapped in a
+              <code>try</code>/<code>except FileNotFoundError</code> so the
+              very first run — before the file exists at all — does not
+              crash. Writing uses <code>"a"</code> rather than
+              <code>"w"</code> deliberately, so each new note is added rather
+              than erasing everything saved before it.
+            </p>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>
-                Rewrite <code>[n * n for n in range(5)]</code> as an ordinary
-                loop that builds the same list, before you start the final
-                project below — if you can translate a comprehension back
-                into a loop confidently, you understand what it is doing.
+                If you open a file twice in a row with mode <code>"w"</code>
+                and write different text each time, what ends up in the file?
+                Only the second write — <code>"w"</code> erases the file's
+                previous contents every single time it is opened.
               </p>
             </div>
           </section>

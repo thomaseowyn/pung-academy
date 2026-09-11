@@ -95,30 +95,118 @@
             <h2>Setting up your environment</h2>
 
             <p>
-              Before you can write a program, you need somewhere to write it
-              and something to run it. Two tools cover almost every beginner's
-              needs:
+              Before you can write a program, you need Python itself
+              installed, and somewhere to write your code. The steps below
+              get you there without needing anything else — the video above
+              covers the same ground if you would rather be talked through
+              it, but it is optional. Follow whichever one matches your
+              computer.
             </p>
 
-            <ul>
+            <h3>Installing Python on Windows</h3>
+
+            <ol>
               <li>
-                <strong>VS Code</strong> — a free code editor. It highlights
-                syntax, shows errors as you type, and has a built-in terminal
-                for running your files.
+                Go to <code>python.org/downloads</code> and click the yellow
+                "Download Python" button — it detects Windows automatically.
               </li>
               <li>
-                <strong>Jupyter</strong> — a notebook environment that runs code
-                in small chunks and shows the result immediately underneath.
-                Popular for experimenting and for data work later on.
+                Run the installer. On the very first screen, before clicking
+                Install, tick <strong>"Add python.exe to PATH"</strong> at the
+                bottom of the window.
               </li>
-            </ul>
+              <li>Click "Install Now" and let it finish.</li>
+            </ol>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                That PATH checkbox is the single most common reason a
+                beginner's install "doesn't work." If you miss it, Windows
+                will not know what to do when you type <code>python</code> in
+                a terminal. If that happens, re-run the installer and choose
+                "Modify" — the checkbox is there too.
+              </p>
+            </div>
+
+            <h3>Installing Python on macOS</h3>
+
+            <ol>
+              <li>
+                Go to <code>python.org/downloads</code> and download the
+                macOS installer (a <code>.pkg</code> file).
+              </li>
+              <li>Open it and click through the installer with the defaults.</li>
+            </ol>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                On macOS the command is usually <code>python3</code>, not
+                <code>python</code> — the older name is reserved by a
+                different, ancient version of Python that ships with the
+                system. If <code>python</code> does not work below, try
+                <code>python3</code> instead.
+              </p>
+            </div>
+
+            <h3>Getting an editor: VS Code</h3>
 
             <p>
-              Either is fine to start with. The video above walks through
-              installing Python itself and getting one of these editors
-              running — do that before continuing, because every example from
-              here on assumes you have somewhere to type and run code.
+              A code editor is where you actually type your programs. This
+              course uses <strong>VS Code</strong> — free, and the most
+              widely used editor for Python beginners.
             </p>
+
+            <ol>
+              <li>Download it from <code>code.visualstudio.com</code> and install it.</li>
+              <li>
+                Open VS Code, click the Extensions icon on the left sidebar
+                (four squares), search for <strong>"Python"</strong> (the
+                official one, published by Microsoft), and click Install.
+              </li>
+            </ol>
+
+            <h3>Checking it worked</h3>
+
+            <p>
+              Open a terminal — <strong>Terminal</strong> in VS Code's menu
+              (<code>View → Terminal</code>), or your system's own terminal
+              app — and type:
+            </p>
+
+            <pre class="code-block"><code>python --version</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Python 3.12.4</code></pre>
+
+            <p>
+              Any version number appearing means the install worked and PATH
+              is set up correctly. If instead you see something like
+              <code>'python' is not recognized</code> or
+              <code>command not found</code>, the install did not finish
+              correctly — go back and check the PATH checkbox (Windows) or
+              try <code>python3 --version</code> (macOS).
+            </p>
+
+            <h3>Running your first file</h3>
+
+            <p>
+              Create a new file in VS Code, save it as <code>hello.py</code>,
+              and type one line into it:
+            </p>
+
+            <pre class="code-block"><code>print("Hello, world!")</code></pre>
+
+            <p>
+              Then, in the terminal, make sure you are in the same folder as
+              the file and run:
+            </p>
+
+            <pre class="code-block"><code>python hello.py</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Hello, world!</code></pre>
 
             <div class="callout callout--tip">
               <span class="callout__label">Tip</span>
@@ -128,6 +216,11 @@
                 editor, and Python itself, that the file contains Python code.
               </p>
             </div>
+
+            <p>
+              If that printed <code>Hello, world!</code>, everything is
+              working — do the rest of this course from that same setup.
+            </p>
 
             <h2>Execution flow: how a program actually runs</h2>
 
@@ -187,13 +280,21 @@ Third</code></pre>
 
             <p>
               You can print more than one thing at once by separating them
-              with commas — Python adds a space between each one automatically:
+              with commas. Before running it, guess what shows up between
+              "is" and "42":
             </p>
 
-            <pre class="code-block"><code>print("The answer is", 42)</code></pre>
+            <div class="predict">
+              <span class="predict__label">Predict the output</span>
+              <pre class="code-block"><code>print("The answer is", 42)</code></pre>
+              <button class="btn btn--secondary" type="button" data-predict-reveal>Reveal output</button>
+              <pre class="output-block" data-predict-answer hidden><code>The answer is 42</code></pre>
+            </div>
 
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>The answer is 42</code></pre>
+            <p>
+              Python adds a single space between each comma-separated item
+              automatically — you never have to type it yourself.
+            </p>
 
             <h2>input(): asking the person using your program</h2>
 

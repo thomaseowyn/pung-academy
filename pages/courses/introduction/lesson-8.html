@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 8 — Functions &amp; Scope Mechanics — Pung Academy</title>
-    <meta name="description" content="Chapter 8 of Introduction to Programming: parameters, arguments, *args and **kwargs, return vs print, and local vs global scope." />
+    <title>Chapter 8 — Slicing &amp; List Methods — Pung Academy</title>
+    <meta name="description" content="Chapter 8 of Introduction to Programming: slicing, list methods, and the Caesar Cipher project." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 8</span
             >
-            <h1 data-chapter-title>Functions &amp; Scope Mechanics</h1>
+            <h1 data-chapter-title>Slicing &amp; List Methods</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,261 +62,117 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Why functions?</h2>
+            <h2>Picking up from lists and tuples</h2>
 
             <p>
-              Look at a program that greets three people:
+              Last chapter you could reach one item at a time with an index.
+              This chapter adds a way to reach a whole chunk at once, the
+              methods that let you change a list after it exists, and a real
+              project that leans on both.
             </p>
 
-            <pre class="code-block"><code>print("Hello, Alex!")
-print("Welcome to Pung Academy.")
-
-print("Hello, Bo!")
-print("Welcome to Pung Academy.")</code></pre>
+            <h2>Slicing: reaching a whole chunk</h2>
 
             <p>
-              The same idea, written twice already, and it will only get
-              worse. A <strong>function</strong> is a named piece of work you
-              define once and use as often as you like. You have already been
-              calling functions: <code>print()</code>, <code>input()</code>,
-              <code>len()</code>. Now you write your own.
+              A <strong>slice</strong> takes several items at once, written
+              <code>list[start:stop]</code>. The item at <code>start</code> is
+              included; the item at <code>stop</code> is not.
             </p>
 
-            <h2>Defining and calling a function</h2>
+            <pre class="code-block"><code>letters = ["a", "b", "c", "d", "e"]
 
-            <pre class="code-block"><code>def greet():
-    print("Hello!")
-    print("Welcome to Pung Academy.")
-
-greet()
-greet()</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Hello!
-Welcome to Pung Academy.
-Hello!
-Welcome to Pung Academy.</code></pre>
+print(letters[1:4])    # ['b', 'c', 'd']
+print(letters[:2])     # ['a', 'b']       -- start defaults to 0
+print(letters[3:])     # ['d', 'e']       -- stop defaults to the end
+print(letters[1:-1])   # ['b', 'c', 'd']  -- everything except first and last</code></pre>
 
             <p>
-              Defining a function does not run it — it only teaches Python
-              what the name means. Writing <code>greet()</code> with brackets
-              is what actually runs it.
+              <code>[1:-1]</code> reads naturally once you know
+              <code>-1</code> means "the last item" — it is "from index 1 up
+              to, but not including, the last one."
             </p>
 
-            <h2>Parameters and arguments</h2>
-
-            <p>
-              A <strong>parameter</strong> is a placeholder name in the
-              definition; an <strong>argument</strong> is the actual value you
-              pass in when calling.
-            </p>
-
-            <pre class="code-block"><code>def greet(name):
-    print(f"Hello, {name}!")
-
-greet("Alex")
-greet("Bo")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Hello, Alex!
-Hello, Bo!</code></pre>
-
-            <h3>Default arguments</h3>
-
-            <pre class="code-block"><code>def greet(name, greeting="Hello"):
-    print(f"{greeting}, {name}!")
-
-greet("Alex")                      # Hello, Alex!
-greet("Bo", "Good morning")        # Good morning, Bo!</code></pre>
-
-            <h2>*args and **kwargs</h2>
-
-            <p>
-              Sometimes you do not know in advance how many arguments a
-              function should accept. <code>*args</code> collects any number
-              of extra positional arguments into a tuple:
-            </p>
-
-            <pre class="code-block"><code>def total(*args):
-    return sum(args)
-
-print(total(1, 2, 3))       # 6
-print(total(10, 20))        # 30</code></pre>
-
-            <p>
-              <code>**kwargs</code> does the same for named arguments,
-              collecting them into a dictionary:
-            </p>
-
-            <pre class="code-block"><code>def describe(**kwargs):
-    for key, value in kwargs.items():
-        print(f"{key}: {value}")
-
-describe(name="Alex", age=20)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>name: Alex
-age: 20</code></pre>
-
-            <p>
-              You will not need these two constantly as a beginner, but
-              recognising them is important — they appear throughout Python's
-              own libraries.
-            </p>
-
-            <h2>return vs. print</h2>
-
-            <p>
-              This is the idea that makes functions powerful, and the one
-              beginners most often miss. <code>print()</code> shows a human
-              some text — it does not give a value back to the rest of the
-              program. <code>return</code> does.
-            </p>
-
-            <pre class="code-block"><code>def add_and_print(a, b):
-    print(a + b)          # shows the answer, gives back nothing
-
-def add_and_return(a, b):
-    return a + b          # hands the answer back
-
-x = add_and_print(2, 3)   # prints 5, but x is None
-y = add_and_return(2, 3)  # prints nothing, but y is 5</code></pre>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip</span>
+            <div class="predict">
+              <span class="predict__label">Predict the output</span>
               <p>
-                A function that calculates something should almost always
-                <code>return</code> the result rather than print it — printing
-                is a decision about presentation, and it is not the
-                function's job to make that call for whoever uses it.
+                Given <code>letters = ["a", "b", "c", "d"]</code>, what does a
+                slice print when it starts and stops at the same index?
+              </p>
+              <pre class="code-block"><code>print(letters[2:2])</code></pre>
+              <button class="btn btn--secondary" type="button" data-predict-reveal>Reveal output</button>
+              <pre class="output-block" data-predict-answer hidden><code>[]</code></pre>
+              <p>
+                An empty list — with the same start and stop, there is no
+                room for anything to be included.
               </p>
             </div>
 
-            <h3>return ends the function immediately</h3>
+            <h2>List methods</h2>
 
-            <pre class="code-block"><code>def check_age(age):
-    if age &lt; 0:
-        return "That is not a valid age."
-    if age &gt;= 18:
-        return "Adult"
-    return "Minor"
+            <p>Lists can be changed after they are created.</p>
 
-print(check_age(20))    # Adult
-print(check_age(-5))    # That is not a valid age.</code></pre>
+            <pre class="code-block"><code>tasks = ["Wash up", "Email tutor"]
 
-            <p>
-              Nothing after a <code>return</code> that runs will execute,
-              which makes it useful for handling bad input first and getting
-              out early.
-            </p>
+tasks.append("Buy milk")        # add to the end
+print(tasks)                    # ['Wash up', 'Email tutor', 'Buy milk']
 
-            <h2>Local vs. global scope</h2>
+tasks.pop()                     # remove and return the last item
+print(tasks)                    # ['Wash up', 'Email tutor']
 
-            <p>
-              A variable created inside a function only exists inside that
-              function — its <strong>local scope</strong>. It disappears the
-              moment the function finishes.
-            </p>
-
-            <pre class="code-block"><code>def set_score():
-    score = 100
-    print(score)
-
-set_score()
-print(score)   # NameError: score is not defined</code></pre>
-
-            <p>
-              A variable created outside any function lives in the
-              <strong>global scope</strong> and can be read from inside a
-              function:
-            </p>
-
-            <pre class="code-block"><code>message = "Hello"
-
-def show_message():
-    print(message)   # reading a global works fine
-
-show_message()</code></pre>
+tasks.sort()
+print(tasks)                    # ['Email tutor', 'Wash up']</code></pre>
 
             <div class="callout callout--warning">
-              <span class="callout__label">Careful — scope leakage</span>
+              <span class="callout__label">Careful — mutability</span>
               <p>
-                A function cannot <em>change</em> a global variable just by
-                assigning to a name with the same one inside it — that
-                creates a new local variable instead, and the global is left
-                untouched. Return the new value and reassign it outside the
-                function rather than fighting scope rules.
+                Because lists can change, be careful with
+                <code>a = b</code> where <code>b</code> is a list —
+                <code>a</code> and <code>b</code> then both point at the same
+                list, so changing one changes the other. You will meet this
+                properly, with the fix, in Chapter 10.
               </p>
             </div>
 
-            <h2>Worked example — refactoring into functions</h2>
+            <h2>Worked example — the Caesar Cipher</h2>
 
             <p>
-              This chapter's project turns a quiz into a set of small
-              functions, each doing exactly one job.
+              This chapter's project encrypts a message by shifting every
+              letter forward in the alphabet by a fixed amount, using string
+              indexing, list building and the modulo operator to wrap around
+              from <code>z</code> back to <code>a</code>.
             </p>
 
-            <pre class="code-block"><code># Quiz Game
+            <pre class="code-block"><code># Caesar Cipher
 
-def ask_question(question, correct_answer):
-    given = input(question + " ")
-    return given.strip().lower() == correct_answer.lower()
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+message = input("Message to encrypt: ").lower()
+shift = int(input("Shift amount: "))
 
+encrypted = []
 
-def report(score, total):
-    print(f"\nYou scored {score} out of {total}.")
-    if score == total:
-        print("Perfect.")
-    elif score &gt;= total / 2:
-        print("A decent effort.")
+for letter in message:
+    if letter in alphabet:
+        position = alphabet.index(letter)
+        new_position = (position + shift) % 26
+        encrypted.append(alphabet[new_position])
     else:
-        print("Worth another go.")
+        encrypted.append(letter)
 
-
-questions = [
-    {"q": "What symbol starts a comment in Python?", "a": "#"},
-    {"q": "What is 7 * 6?", "a": "42"}
-]
-
-score = 0
-
-for item in questions:
-    if ask_question(item["q"], item["a"]):
-        print("Correct.")
-        score += 1
-    else:
-        print(f"No — the answer was {item['a']}.")
-
-report(score, len(questions))</code></pre>
+print("Encrypted:", "".join(encrypted))</code></pre>
 
             <span class="output-label">Output</span>
-            <pre class="output-block"><code>What symbol starts a comment in Python? #
-Correct.
-What is 7 * 6? 42
-Correct.
-
-You scored 2 out of 2.
-Perfect.</code></pre>
+            <pre class="output-block"><code>Message to encrypt: hello world
+Shift amount: 3
+Encrypted: khoor zruog</code></pre>
 
             <p>
-              <code>ask_question</code> returns a boolean rather than
-              printing anything, so the loop that calls it decides what to do
-              with the result — exactly the return-over-print habit this
-              chapter argued for.
+              <code>alphabet.index(letter)</code> finds a letter's position
+              using a list method you have not met yet — it works the same way
+              on strings. <code>% 26</code> is what wraps the shift back to
+              the start of the alphabet once it runs past <code>z</code>, and
+              <code>"".join(encrypted)</code> turns the list of letters back
+              into one string.
             </p>
-
-            <div class="try-it">
-              <span class="try-it__label">Small exercise</span>
-              <p>What does this print, and why is it not 8?</p>
-              <pre class="code-block"><code>def double(number):
-    number * 2
-
-print(double(4))</code></pre>
-              <p>
-                It prints <code>None</code>. The function calculates the
-                double and throws it away — there is no <code>return</code>.
-              </p>
-            </div>
           </section>
 
           <!-- ========================= Exercise ========================= -->

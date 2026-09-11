@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 4 — Control Flow &amp; Logic — Pung Academy</title>
-    <meta name="description" content="Chapter 4 of Introduction to Programming: if, elif, else, comparison operators and logical operators." />
+    <title>Chapter 4 — Conditionals — Pung Academy</title>
+    <meta name="description" content="Chapter 4 of Introduction to Programming: comparison operators and if, elif, else." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 4</span
             >
-            <h1 data-chapter-title>Control Flow &amp; Logic</h1>
+            <h1 data-chapter-title>Conditionals</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -192,76 +192,6 @@ print(f"Your grade is {grade}")</code></pre>
               </p>
             </div>
 
-            <h2>Logical operators: combining conditions</h2>
-
-            <p>
-              Often a decision depends on more than one thing at once.
-              <strong>Logical operators</strong> join conditions together.
-            </p>
-
-            <ul>
-              <li>
-                <code>and</code> — True only when <em>both</em> sides are True
-              </li>
-              <li>
-                <code>or</code> — True when <em>at least one</em> side is True
-              </li>
-              <li><code>not</code> — flips True to False and back</li>
-            </ul>
-
-            <pre class="code-block"><code>age = 20
-has_ticket = True
-
-print(age &gt;= 18 and has_ticket)    # True
-print(age &gt;= 65 or has_ticket)     # True
-print(not has_ticket)              # False</code></pre>
-
-            <p>
-              <code>and</code> is strict — one False ruins it.
-              <code>or</code> is generous — one True is enough. Ranges are the
-              classic use for <code>and</code>:
-            </p>
-
-            <pre class="code-block"><code>temperature = 22
-is_comfortable = temperature &gt;= 18 and temperature &lt;= 25
-print(is_comfortable)   # True</code></pre>
-
-            <p>Python also allows the shorter mathematical form for ranges:</p>
-
-            <pre class="code-block"><code>print(18 &lt;= temperature &lt;= 25)   # True</code></pre>
-
-            <h2>Nesting conditions</h2>
-
-            <p>
-              An <code>if</code> can live inside another <code>if</code>. The
-              inner one is only reached once the outer condition has passed.
-            </p>
-
-            <pre class="code-block"><code>logged_in = True
-is_admin = False
-
-if logged_in:
-    print("Welcome back!")
-    if is_admin:
-        print("You have admin access.")
-    else:
-        print("You have standard access.")
-else:
-    print("Please log in.")</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Welcome back!
-You have standard access.</code></pre>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip</span>
-              <p>
-                Deep nesting gets unreadable fast. If you find yourself four
-                levels in, it is usually a sign the conditions should be
-                combined with <code>and</code> instead.
-              </p>
-            </div>
-
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>What does this print, and why is it probably a bug?</p>
@@ -275,6 +205,16 @@ elif temperature &gt; 30:
                 It only prints "Above freezing" — the first condition is true,
                 so Python never tests the second. The branches are in the
                 wrong order.
+              </p>
+            </div>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Coming up</span>
+              <p>
+                Every condition so far has tested one thing at a time. Real
+                decisions are often built from several conditions at once —
+                the next chapter covers combining them, and what happens when
+                one <code>if</code> lives inside another.
               </p>
             </div>
           </section>

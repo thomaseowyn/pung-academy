@@ -286,13 +286,16 @@ Next year you will be 21</code></pre>
               </p>
             </div>
 
-            <div class="try-it">
-              <span class="try-it__label">Small exercise</span>
+            <div class="predict">
+              <span class="predict__label">Predict the output</span>
+              <p>What type is the result of dividing two whole numbers?</p>
+              <pre class="code-block"><code>print(type(10 / 2))</code></pre>
+              <button class="btn btn--secondary" type="button" data-predict-reveal>Reveal output</button>
+              <pre class="output-block" data-predict-answer hidden><code>&lt;class 'float'&gt;</code></pre>
               <p>
-                What type is the result of <code>10 / 2</code>? Try
-                <code>print(type(10 / 2))</code> and see if it matches what you
-                expected — division in Python always produces a float, even
-                when the division is exact.
+                Division in Python always produces a float, even when the
+                division is exact — <code>10 / 2</code> is <code>5.0</code>,
+                not <code>5</code>.
               </p>
             </div>
           </section>

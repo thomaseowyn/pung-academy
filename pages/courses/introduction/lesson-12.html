@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 12 — Object-Oriented Programming (OOP) — Pung Academy</title>
-    <meta name="description" content="Chapter 12 of Introduction to Programming: classes, objects, __init__, attributes, methods, self, inheritance and encapsulation." />
+    <title>Chapter 12 — Error Handling &amp; Debugging — Pung Academy</title>
+    <meta name="description" content="Chapter 12 of Introduction to Programming: try, except, else, finally, raising exceptions, and reading stack traces." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 12</span
             >
-            <h1 data-chapter-title>Object-Oriented Programming (OOP)</h1>
+            <h1 data-chapter-title>Error Handling &amp; Debugging</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,212 +62,197 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Modelling a real thing</h2>
+            <h2>Programs fail. Plan for it.</h2>
 
             <p>
-              So far, related information has lived in separate variables or a
-              dictionary — a student's name here, their grade there. A
-              <strong>class</strong> bundles data and the actions that belong
-              to it into one definition, and lets you create as many
-              independent copies, or <strong>objects</strong>, as you need.
+              Every program you have written so far breaks the instant
+              something unexpected happens — a letter typed where a number was
+              expected, a file that is not there, a list that turns out to be
+              empty. <strong>Error handling</strong> is how you let a program
+              expect that, and keep running anyway.
             </p>
 
-            <h2>Defining a class</h2>
+            <h2>try and except</h2>
 
-            <pre class="code-block"><code>class Dog:
-    def __init__(self, name):
-        self.name = name
+            <pre class="code-block"><code>try:
+    number = int(input("Enter a number: "))
+    print(f"You entered {number}")
+except ValueError:
+    print("That was not a valid number.")</code></pre>
 
-    def bark(self):
-        print(f"{self.name} says Woof!")</code></pre>
+            <span class="output-label">Output (typing "abc")</span>
+            <pre class="output-block"><code>Enter a number: abc
+That was not a valid number.</code></pre>
 
-            <p>Take it apart:</p>
+            <p>
+              Python attempts everything inside <code>try</code>. The moment a
+              line raises an error matching the type named after
+              <code>except</code>, it jumps straight there instead of crashing
+              the whole program.
+            </p>
+
+            <h3>Catching more than one kind of error</h3>
+
+            <pre class="code-block"><code>try:
+    first = int(input("First number: "))
+    second = int(input("Second number: "))
+    print(first / second)
+except ValueError:
+    print("Please type actual numbers.")
+except ZeroDivisionError:
+    print("You cannot divide by zero.")</code></pre>
+
+            <p>
+              Two separate <code>except</code> blocks, each matching a
+              different failure — Python checks them in order and runs
+              whichever one matches. You can also catch several types in one
+              block with a tuple: <code>except (ValueError, ZeroDivisionError):</code>.
+            </p>
+
+            <h2>else and finally</h2>
+
+            <pre class="code-block"><code>try:
+    number = int(input("Enter a number: "))
+except ValueError:
+    print("That was not valid.")
+else:
+    print(f"Got it: {number}")
+finally:
+    print("Done trying.")</code></pre>
 
             <ul>
               <li>
-                <code>class Dog:</code> — starts the definition. By
-                convention, class names start with a capital letter.
+                <code>else</code> runs only if <code>try</code> succeeded with
+                no error at all.
               </li>
               <li>
-                <code>__init__</code> — a special method that runs
-                automatically the moment a new <code>Dog</code> is created. It
-                sets up the object's starting state.
-              </li>
-              <li>
-                <code>self</code> — refers to <em>this particular</em> object.
-                Every method needs it as its first parameter.
-              </li>
-              <li>
-                <code>self.name = name</code> — stores the value as an
-                <strong>attribute</strong>, so every method on this object can
-                read it later.
+                <code>finally</code> always runs, whether there was an error
+                or not — useful for cleanup that must happen either way.
               </li>
             </ul>
 
-            <h2>Creating and using objects</h2>
-
-            <pre class="code-block"><code>rex = Dog("Rex")
-milo = Dog("Milo")
-
-rex.bark()    # Rex says Woof!
-milo.bark()   # Milo says Woof!</code></pre>
+            <h2>Raising your own exceptions</h2>
 
             <p>
-              <code>rex</code> and <code>milo</code> are two separate
-              <strong>instances</strong> of the same class, each with its own
-              independent <code>name</code>. Calling <code>rex.bark()</code>
-              automatically passes <code>rex</code> as <code>self</code> —
-              that is how the method knows to print "Rex" and not "Milo".
+              Sometimes the input is technically valid Python but wrong for
+              what your program needs — a negative age, for instance. You can
+              raise an error on purpose:
             </p>
 
-            <h2>Methods with more than self</h2>
+            <pre class="code-block"><code>age = int(input("Age: "))
 
-            <p>A method can take extra parameters just like a normal function:</p>
+if age &lt; 0:
+    raise ValueError("Age cannot be negative")
 
-            <pre class="code-block"><code>class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
-
-    def deposit(self, amount):
-        self.balance += amount
-
-    def withdraw(self, amount):
-        if amount &gt; self.balance:
-            print("Insufficient funds.")
-        else:
-            self.balance -= amount
-
-
-account = BankAccount("Alex")
-account.deposit(100)
-account.withdraw(30)
-print(account.balance)   # 70</code></pre>
-
-            <h2>Class attributes vs. instance attributes</h2>
+print(f"Age accepted: {age}")</code></pre>
 
             <p>
-              An attribute set inside <code>__init__</code> with
-              <code>self.</code> belongs to one specific object. An attribute
-              written directly under the class, outside any method, is shared
-              by every object of that class.
+              <code>raise</code> stops the program immediately with your
+              chosen error — unless something further up the call chain
+              catches it with its own <code>try</code>/<code>except</code>.
             </p>
 
-            <pre class="code-block"><code>class Dog:
-    species = "Canis familiaris"   # class attribute -- shared by every Dog
+            <h2>Reading a stack trace</h2>
 
-    def __init__(self, name):
-        self.name = name           # instance attribute -- unique per Dog
+            <p>
+              When an error is not caught, Python prints a
+              <strong>stack trace</strong> — read the bottom line first.
+            </p>
 
-rex = Dog("Rex")
-milo = Dog("Milo")
+            <pre class="code-block"><code>Traceback (most recent call last):
+  File "shopping.py", line 7, in &lt;module&gt;
+    total = price * quantity
+TypeError: can't multiply sequence by non-int of type 'str'</code></pre>
 
-print(rex.species, milo.species)   # both print the same shared value
-print(rex.name, milo.name)         # each prints its own</code></pre>
+            <p>Working from the bottom up:</p>
 
-            <div class="callout callout--warning">
-              <span class="callout__label">Careful</span>
+            <ul>
+              <li>
+                <strong>Last line</strong> — the error family
+                (<code>TypeError</code>) and the exact complaint.
+              </li>
+              <li>
+                <strong>File and line number</strong> — where to look.
+              </li>
+              <li>
+                <strong>The quoted code</strong> — the exact line that failed.
+              </li>
+            </ul>
+
+            <p>
+              Translated: something tried to multiply a piece of text by a
+              value that was not a plain integer. Almost certainly
+              <code>quantity</code> came from <code>input()</code> and was
+              never converted with <code>int()</code>.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip — exception matching</span>
               <p>
-                Assigning to <code>self.species = "..."</code> on one
-                instance creates a new instance attribute that only shadows
-                the class attribute for that one object — it does not change
-                the shared value for every <code>Dog</code>.
+                When you have several <code>except</code> blocks, Python
+                checks them top to bottom and stops at the first type that
+                matches. Order the specific ones before any general
+                catch-all, or the specific ones will never be reached.
               </p>
             </div>
 
-            <h2>Inheritance</h2>
+            <h2>Worked example — the Safe Calculator</h2>
 
             <p>
-              A class can be built on top of another one, inheriting its
-              attributes and methods and adding or overriding what it needs.
+              This chapter's project takes the division calculator from
+              earlier and makes it resilient — no input can crash it.
             </p>
 
-            <pre class="code-block"><code>class Animal:
-    def __init__(self, name):
-        self.name = name
+            <pre class="code-block"><code># Safe Calculator
 
-    def speak(self):
-        print(f"{self.name} makes a sound.")
+while True:
+    try:
+        first = float(input("First number (or 'q' to quit): "))
+        second = float(input("Second number: "))
+    except ValueError:
+        print("Please enter valid numbers.\n")
+        continue
 
+    try:
+        result = first / second
+    except ZeroDivisionError:
+        print("Cannot divide by zero.\n")
+        continue
 
-class Cat(Animal):
-    def speak(self):
-        print(f"{self.name} says Meow!")
+    print(f"Result: {result}\n")
+    break</code></pre>
 
+            <span class="output-label">Output (dividing by zero, then succeeding)</span>
+            <pre class="output-block"><code>First number (or 'q' to quit): 10
+Second number: 0
+Cannot divide by zero.
 
-generic = Animal("Some animal")
-whiskers = Cat("Whiskers")
-
-generic.speak()    # Some animal makes a sound.
-whiskers.speak()   # Whiskers says Meow!</code></pre>
+First number (or 'q' to quit): 10
+Second number: 2
+Result: 5.0</code></pre>
 
             <p>
-              <code>Cat(Animal)</code> means "a <code>Cat</code> is an
-              <code>Animal</code>, plus whatever is different." Because
-              <code>Cat</code> defines its own <code>speak</code>, calling it
-              on a <code>Cat</code> uses that version rather than the parent's
-              — Python looks for the method on the object's own class first,
-              and only checks the parent if it does not find one there.
+              Two separate <code>try</code> blocks handle two separate
+              failures, and <code>continue</code> sends the loop straight back
+              to asking again rather than letting a bad attempt end the
+              program.
             </p>
-
-            <h2>Encapsulation</h2>
-
-            <p>
-              <strong>Encapsulation</strong> means keeping an object's internal
-              details bundled inside it, and interacting with the object
-              through its methods rather than reaching directly into its
-              attributes from outside. Python does not enforce this strictly,
-              but a leading underscore is the conventional signal that an
-              attribute is meant to stay internal:
-            </p>
-
-            <pre class="code-block"><code>class BankAccount:
-    def __init__(self, balance):
-        self._balance = balance   # the underscore says "internal - use the methods"
-
-    def get_balance(self):
-        return self._balance</code></pre>
-
-            <h2>Worked example — the BankAccount class</h2>
-
-            <pre class="code-block"><code># BankAccount
-
-class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
-
-    def deposit(self, amount):
-        self.balance += amount
-        print(f"Deposited {amount}. New balance: {self.balance}")
-
-    def withdraw(self, amount):
-        if amount &gt; self.balance:
-            print("Insufficient funds.")
-        else:
-            self.balance -= amount
-            print(f"Withdrew {amount}. New balance: {self.balance}")
-
-
-account = BankAccount("Alex", 50)
-account.deposit(20)
-account.withdraw(100)
-account.withdraw(30)</code></pre>
-
-            <span class="output-label">Output</span>
-            <pre class="output-block"><code>Deposited 20. New balance: 70
-Insufficient funds.
-Withdrew 30. New balance: 40</code></pre>
 
             <div class="try-it">
               <span class="try-it__label">Small exercise</span>
               <p>
-                Given the <code>Cat(Animal)</code> example above, if
-                <code>Cat</code> did <em>not</em> define its own
-                <code>speak</code> method, what would
-                <code>whiskers.speak()</code> print? "Whiskers makes a
-                sound." — with no override, Python falls back to the parent
-                class's version.
+                Which <code>except</code> block catches this error, and why?
+              </p>
+              <pre class="code-block"><code>try:
+    numbers = [1, 2, 3]
+    print(numbers[10])
+except ValueError:
+    print("A")
+except IndexError:
+    print("B")</code></pre>
+              <p>
+                "B" — asking a list for an index that does not exist raises
+                <code>IndexError</code>, not <code>ValueError</code>.
               </p>
             </div>
           </section>

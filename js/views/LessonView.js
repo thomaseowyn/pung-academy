@@ -455,5 +455,22 @@ Pung.LessonView = (function () {
     }
   }
 
-  return { renderChapterNav, renderCompletion, renderCourseProgress, renderExercise, renderHeader, renderLockedScreen, renderNextStep, renderVideo, showCourseComplete, showFeedback, showIncorrect, showSolved };
+  /**
+   * Wire up every "predict the output" box in the lesson body: clicking
+   * reveal shows the paired answer and disables the button.
+   */
+  function bindPredictWidgets() {
+    document.querySelectorAll("[data-predict-reveal]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const box = button.closest(".predict");
+        const answer = box && box.querySelector("[data-predict-answer]");
+        if (!answer) return;
+        answer.hidden = false;
+        button.disabled = true;
+        button.textContent = "Revealed";
+      });
+    });
+  }
+
+  return { bindPredictWidgets, renderChapterNav, renderCompletion, renderCourseProgress, renderExercise, renderHeader, renderLockedScreen, renderNextStep, renderVideo, showCourseComplete, showFeedback, showIncorrect, showSolved };
 })();

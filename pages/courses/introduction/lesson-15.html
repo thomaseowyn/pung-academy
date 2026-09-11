@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 15 — Object-Oriented Programming (OOP) — Pung Academy</title>
+    <meta name="description" content="Chapter 15 of Introduction to Programming: classes, objects, __init__, attributes, methods, self, inheritance and encapsulation." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-chapter="15">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <!-- Shown by js/lessons.js when this chapter is not unlocked yet. -->
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <!-- ========================= Chapter head ========================= -->
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 15</span
+            >
+            <h1 data-chapter-title>Object-Oriented Programming (OOP)</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================== Video ========================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Video lesson</span>
+            <h2>Watch first, then read</h2>
+            <p>
+              The video covers the same ground as the written lesson below. Watch
+              it if you prefer being talked through an idea, then read on — the
+              text goes into more detail and has the examples you can copy.
+            </p>
+            <div data-video-slot></div>
+          </section>
+
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Modelling a real thing</h2>
+
+            <p>
+              So far, related information has lived in separate variables or a
+              dictionary — a student's name here, their grade there. A
+              <strong>class</strong> bundles data and the actions that belong
+              to it into one definition, and lets you create as many
+              independent copies, or <strong>objects</strong>, as you need.
+            </p>
+
+            <h2>Defining a class</h2>
+
+            <pre class="code-block"><code>class Dog:
+    def __init__(self, name):
+        self.name = name
+
+    def bark(self):
+        print(f"{self.name} says Woof!")</code></pre>
+
+            <p>Take it apart:</p>
+
+            <ul>
+              <li>
+                <code>class Dog:</code> — starts the definition. By
+                convention, class names start with a capital letter.
+              </li>
+              <li>
+                <code>__init__</code> — a special method that runs
+                automatically the moment a new <code>Dog</code> is created. It
+                sets up the object's starting state.
+              </li>
+              <li>
+                <code>self</code> — refers to <em>this particular</em> object.
+                Every method needs it as its first parameter.
+              </li>
+              <li>
+                <code>self.name = name</code> — stores the value as an
+                <strong>attribute</strong>, so every method on this object can
+                read it later.
+              </li>
+            </ul>
+
+            <h2>Creating and using objects</h2>
+
+            <pre class="code-block"><code>rex = Dog("Rex")
+milo = Dog("Milo")
+
+rex.bark()    # Rex says Woof!
+milo.bark()   # Milo says Woof!</code></pre>
+
+            <p>
+              <code>rex</code> and <code>milo</code> are two separate
+              <strong>instances</strong> of the same class, each with its own
+              independent <code>name</code>. Calling <code>rex.bark()</code>
+              automatically passes <code>rex</code> as <code>self</code> —
+              that is how the method knows to print "Rex" and not "Milo".
+            </p>
+
+            <h2>Methods with more than self</h2>
+
+            <p>A method can take extra parameters just like a normal function:</p>
+
+            <pre class="code-block"><code>class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            print("Insufficient funds.")
+        else:
+            self.balance -= amount
+
+
+account = BankAccount("Alex")
+account.deposit(100)
+account.withdraw(30)
+print(account.balance)   # 70</code></pre>
+
+            <h2>Class attributes vs. instance attributes</h2>
+
+            <p>
+              An attribute set inside <code>__init__</code> with
+              <code>self.</code> belongs to one specific object. An attribute
+              written directly under the class, outside any method, is shared
+              by every object of that class.
+            </p>
+
+            <pre class="code-block"><code>class Dog:
+    species = "Canis familiaris"   # class attribute -- shared by every Dog
+
+    def __init__(self, name):
+        self.name = name           # instance attribute -- unique per Dog
+
+rex = Dog("Rex")
+milo = Dog("Milo")
+
+print(rex.species, milo.species)   # both print the same shared value
+print(rex.name, milo.name)         # each prints its own</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Assigning to <code>self.species = "..."</code> on one
+                instance creates a new instance attribute that only shadows
+                the class attribute for that one object — it does not change
+                the shared value for every <code>Dog</code>.
+              </p>
+            </div>
+
+            <h2>Inheritance</h2>
+
+            <p>
+              A class can be built on top of another one, inheriting its
+              attributes and methods and adding or overriding what it needs.
+            </p>
+
+            <pre class="code-block"><code>class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print(f"{self.name} makes a sound.")
+
+
+class Cat(Animal):
+    def speak(self):
+        print(f"{self.name} says Meow!")
+
+
+generic = Animal("Some animal")
+whiskers = Cat("Whiskers")
+
+generic.speak()    # Some animal makes a sound.
+whiskers.speak()   # Whiskers says Meow!</code></pre>
+
+            <p>
+              <code>Cat(Animal)</code> means "a <code>Cat</code> is an
+              <code>Animal</code>, plus whatever is different." Because
+              <code>Cat</code> defines its own <code>speak</code>, calling it
+              on a <code>Cat</code> uses that version rather than the parent's
+              — Python looks for the method on the object's own class first,
+              and only checks the parent if it does not find one there.
+            </p>
+
+            <h2>Encapsulation</h2>
+
+            <p>
+              <strong>Encapsulation</strong> means keeping an object's internal
+              details bundled inside it, and interacting with the object
+              through its methods rather than reaching directly into its
+              attributes from outside. Python does not enforce this strictly,
+              but a leading underscore is the conventional signal that an
+              attribute is meant to stay internal:
+            </p>
+
+            <pre class="code-block"><code>class BankAccount:
+    def __init__(self, balance):
+        self._balance = balance   # the underscore says "internal - use the methods"
+
+    def get_balance(self):
+        return self._balance</code></pre>
+
+            <h2>Worked example — the BankAccount class</h2>
+
+            <pre class="code-block"><code># BankAccount
+
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"Deposited {amount}. New balance: {self.balance}")
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            print("Insufficient funds.")
+        else:
+            self.balance -= amount
+            print(f"Withdrew {amount}. New balance: {self.balance}")
+
+
+account = BankAccount("Alex", 50)
+account.deposit(20)
+account.withdraw(100)
+account.withdraw(30)</code></pre>
+
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>Deposited 20. New balance: 70
+Insufficient funds.
+Withdrew 30. New balance: 40</code></pre>
+
+            <div class="try-it">
+              <span class="try-it__label">Small exercise</span>
+              <p>
+                Given the <code>Cat(Animal)</code> example above, if
+                <code>Cat</code> did <em>not</em> define its own
+                <code>speak</code> method, what would
+                <code>whiskers.speak()</code> print? "Whiskers makes a
+                sound." — with no override, Python falls back to the parent
+                class's version.
+              </p>
+            </div>
+          </section>
+
+          <!-- ========================= Exercise ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Both boxes have to be ticked before this chapter counts as done.
+                Completing it unlocks the next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercise completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercise to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

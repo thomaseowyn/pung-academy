@@ -5,11 +5,13 @@
    Introduction to Programming. Editing the course means editing this file
    and nothing else.
 
-   The thirteen chapters open with a conceptual primer (Chapter 1: what a
+   The sixteen chapters open with a conceptual primer (Chapter 1: what a
    computer and a programming language actually are), then follow the
-   two-phase curriculum: Chapters 2-7 are foundational Python (variables
-   through data structures), Chapters 8-13 are intermediate (functions
-   through object-oriented programming), ending in an OOP capstone project.
+   two-phase curriculum: Chapters 2-10 are foundational Python (variables
+   through data structures, split into smaller chapters so no single
+   sitting stacks more than a couple of new ideas), Chapters 11-16 are
+   intermediate (functions through object-oriented programming), ending in
+   an OOP capstone project.
 
    videoId is intentionally empty on any chapter without a verified id,
    rather than a guessed one — that chapter shows a marked placeholder
@@ -22,7 +24,44 @@ Pung.courseData = (function () {
   "use strict";
 
   const COURSE_ID = "introductionToProgramming";
-  const TOTAL_CHAPTERS = 13;
+  const TOTAL_CHAPTERS = 16;
+
+  /**
+   * Groups the chapter list on the overview page so a beginner sees the
+   * shape of the course, not a flat wall of sixteen identical rows.
+   * Chapter 1 (orientation) is rendered on its own, outside every unit.
+   */
+  const units = [
+    {
+      id: "foundations",
+      label: "Unit 1 · Foundations",
+      title: "Writing and controlling a program",
+      description:
+        "Get Python running, store information, make decisions, repeat work, and organise data — the toolkit every later chapter assumes you have.",
+      range: [2, 10],
+      bridge:
+        "With these, you can already build real (if simple) programs. Unit 2 is about writing them well."
+    },
+    {
+      id: "building",
+      label: "Unit 2 · Building Real Programs",
+      title: "Structure, safety, and working with the outside world",
+      description:
+        "Break code into reusable pieces, handle things going wrong, save data between runs, and use code other people wrote.",
+      range: [11, 14],
+      bridge:
+        "You can now build tools that persist data and don't crash. Unit 3 changes how you model the data itself."
+    },
+    {
+      id: "objects",
+      label: "Unit 3 · Thinking in Objects",
+      title: "Modelling real things, and writing it cleanly",
+      description:
+        "Bundle data and behaviour into classes, then tighten your code with Python's shorthand tools — ending in the final project.",
+      range: [15, 16],
+      bridge: null
+    }
+  ];
 
   const chapters = {
     /* ==================================================================
@@ -142,16 +181,62 @@ Pung.courseData = (function () {
     },
 
     4: {
-      title: "Control Flow & Logic",
+      title: "Conditionals",
       summary:
-        "Let a program choose between paths using conditions, comparisons and logical operators, so it can react to whatever it is given.",
+        "Let a program choose between paths using comparisons and if / elif / else, so it can react to whatever it is given.",
       topics: [
-        "if / elif / else",
         "Comparison operators",
-        "Logical operators (and, or, not)"
+        "if / elif / else"
       ],
       videoId: "9XbeXpKMR_E",
       videoTitle: "Conditional logic in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — pass or fail",
+        prompt:
+          "Ask the user for a score, then print \"Pass\" if it is 60 or above, otherwise print \"Fail\".",
+        starter: "# Ask for a score, then decide what to print.\n",
+        checks: [
+          {
+            test: /input\s*\(/,
+            message: "Use input(...) to ask for the score."
+          },
+          {
+            test: /int\s*\(|float\s*\(/,
+            message: "Convert the text from input() into a number with int(...) or float(...)."
+          },
+          {
+            test: /\bif\b[^\n]*>=/,
+            message: "Use an if statement with >= to check the score."
+          },
+          {
+            test: /\belse\b/,
+            message: "Handle the other case with else."
+          },
+          {
+            test: /print\s*\(/,
+            message: "Print the result."
+          }
+        ],
+        hint:
+          "score = int(input(\"Score: \")); then if score >= 60: print the pass message, else: print the fail message.",
+        solution:
+          'score = int(input("Score: "))\n\nif score >= 60:\n    print("Pass")\nelse:\n    print("Fail")',
+        explanation:
+          "A single comparison feeding a single if/else is the smallest complete decision a program can make — everything in the next chapter builds on this same shape."
+      }
+    },
+
+    5: {
+      title: "Combining Conditions",
+      summary:
+        "Join multiple conditions together with and, or and not, and nest decisions inside each other for genuinely complex logic.",
+      topics: [
+        "Logical operators (and, or, not)",
+        "Nested conditionals"
+      ],
+      videoId: "",
+      videoTitle: "Combining conditions with logical operators",
       exercise: {
         kind: "code",
         heading: "Exercise — is the temperature comfortable?",
@@ -189,7 +274,7 @@ Pung.courseData = (function () {
       }
     },
 
-    5: {
+    6: {
       title: "Iteration & Loops",
       summary:
         "Repeat work without repeating code, and learn to stop or skip a repetition exactly when you need to.",
@@ -229,18 +314,60 @@ Pung.courseData = (function () {
       }
     },
 
-    6: {
-      title: "Data Structures Part 1 (Sequences)",
+    7: {
+      title: "Lists & Tuples",
       summary:
-        "Store many values in order with lists and tuples, and learn to slice out exactly the piece you need instead of picking items one at a time.",
+        "Store many values in order under one name, and reach any single item by its position.",
       topics: [
         "Lists and tuples",
-        "Indexing and slicing",
+        "Indexing",
+        "Looping through a sequence"
+      ],
+      videoId: "gOMW_n2-2Mw",
+      videoTitle: "Lists, tuples and indexing in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — index into a list",
+        prompt:
+          "Create a list of three favourite foods, then print the first item and the last item using indexing (not slicing).",
+        starter: "# Create a list of three items, then print the first and last using indexing.\n",
+        checks: [
+          {
+            test: /\[[^\]]*,[^\]]*,[^\]]*\]/,
+            message: "Keep a list of exactly three items."
+          },
+          {
+            test: /\[\s*0\s*\]/,
+            message: "Print the first item using index 0, for example foods[0]."
+          },
+          {
+            test: /\[\s*-1\s*\]/,
+            message: "Print the last item using index -1, for example foods[-1]."
+          },
+          {
+            test: /print\s*\(/,
+            message: "Print both items."
+          }
+        ],
+        hint:
+          'foods = ["Pizza", "Sushi", "Tacos"] then print(foods[0]) and print(foods[-1]).',
+        solution: 'foods = ["Pizza", "Sushi", "Tacos"]\n\nprint(foods[0])\nprint(foods[-1])',
+        explanation:
+          "Index 0 always reaches the first item and index -1 always reaches the last, regardless of how long the list is — that is what makes negative indexing worth using instead of counting the list's length yourself."
+      }
+    },
+
+    8: {
+      title: "Slicing & List Methods",
+      summary:
+        "Reach a whole chunk of a list in one go, change a list after it exists, and put both to work in a real encryption project.",
+      topics: [
+        "Slicing",
         "List methods (append, pop, sort)"
       ],
       project: "Caesar Cipher / Text Encryptor",
-      videoId: "gOMW_n2-2Mw",
-      videoTitle: "Lists, tuples and slicing in Python",
+      videoId: "",
+      videoTitle: "Slicing and list methods in Python",
       exercise: {
         kind: "code",
         heading: "Exercise — slice out the middle",
@@ -269,19 +396,15 @@ Pung.courseData = (function () {
       }
     },
 
-    7: {
-      title: "Data Structures Part 2 (Key-Value & Sets)",
+    9: {
+      title: "Dictionaries & Sets",
       summary:
-        "Look things up by name instead of position with dictionaries, filter duplicates with sets, and handle data nested inside data.",
+        "Look things up by name instead of position with dictionaries, and filter duplicates with sets.",
       topics: [
         "Dictionaries",
-        "Sets",
-        "Nested data structures",
         ".get(), .keys(), .values(), .items()",
-        "enumerate() and zip()",
-        "Mutability and aliasing"
+        "Sets"
       ],
-      project: "Student Grade & Class Performance Analyzer",
       videoId: "MZZSMaEAC2g",
       videoTitle: "Dictionaries and sets in Python",
       exercise: {
@@ -318,10 +441,55 @@ Pung.courseData = (function () {
       }
     },
 
+    10: {
+      title: "Nested Data & Mutability",
+      summary:
+        "Work with data nested inside data, loop with enumerate() and zip(), and learn the aliasing trap that catches almost every beginner once.",
+      topics: [
+        "Nested data structures",
+        "enumerate() and zip()",
+        "Mutability and aliasing"
+      ],
+      project: "Student Grade & Class Performance Analyzer",
+      videoId: "",
+      videoTitle: "Nested data, enumerate, zip and mutability in Python",
+      exercise: {
+        kind: "code",
+        heading: "Exercise — number a list with enumerate()",
+        prompt:
+          "Given a list of three names, loop with enumerate(names, start=1) and print each one numbered, like \"1. Alex\".",
+        starter: 'names = ["Alex", "Bo", "Chris"]\n\n# Loop with enumerate(names, start=1) and print each numbered.\n',
+        checks: [
+          {
+            test: /enumerate\s*\(/,
+            message: "Use enumerate(names, start=1) to get a position alongside each name."
+          },
+          {
+            test: /start\s*=\s*1/,
+            message: "Pass start=1 so the numbering begins at 1, not 0."
+          },
+          {
+            test: /\bfor\b[\s\S]*\bin\b/,
+            message: "Use a for loop to unpack the position and name together."
+          },
+          {
+            test: /print\s*\(/,
+            message: "Print each numbered name."
+          }
+        ],
+        hint:
+          'for position, name in enumerate(names, start=1): print(f"{position}. {name}")',
+        solution:
+          'names = ["Alex", "Bo", "Chris"]\n\nfor position, name in enumerate(names, start=1):\n    print(f"{position}. {name}")',
+        explanation:
+          "enumerate() hands you the position and the value together on every pass, which is why the loop can unpack them straight into position and name — start=1 is just a convenience so the numbering matches how a person would count, instead of starting at 0."
+      }
+    },
+
     /* ==================================================================
        Phase 2 — Structural & Intermediate Concepts
        ================================================================== */
-    8: {
+    11: {
       title: "Functions & Scope Mechanics",
       summary:
         "Give a name to a piece of work, hand it values, and get an answer back — the single habit that keeps programs from turning into one long block.",
@@ -363,7 +531,7 @@ Pung.courseData = (function () {
       }
     },
 
-    9: {
+    12: {
       title: "Error Handling & Debugging",
       summary:
         "Catch the errors you can predict, so your program fails gracefully instead of crashing the moment someone types something unexpected.",
@@ -408,7 +576,7 @@ Pung.courseData = (function () {
       }
     },
 
-    10: {
+    13: {
       title: "File I/O & Data Persistence",
       summary:
         "Save information that survives after your program closes, by reading and writing files instead of keeping everything only in memory.",
@@ -449,7 +617,7 @@ Pung.courseData = (function () {
       }
     },
 
-    11: {
+    14: {
       title: "Modules, Libraries & Virtual Environments",
       summary:
         "Bring in code other people have already written, from Python's own toolkit and from packages you install yourself.",
@@ -489,7 +657,7 @@ Pung.courseData = (function () {
       }
     },
 
-    12: {
+    15: {
       title: "Object-Oriented Programming (OOP)",
       summary:
         "Model a real thing as a class — data and the actions that belong to it, bundled together instead of scattered across separate variables.",
@@ -540,7 +708,7 @@ Pung.courseData = (function () {
       }
     },
 
-    13: {
+    16: {
       title: "Intermediate Python Features (Pythonic Code)",
       summary:
         "Write shorter, clearer Python with comprehensions and lambdas — then bring the whole course together in one final, object-oriented project.",
@@ -605,10 +773,10 @@ Pung.courseData = (function () {
         solution:
           'class Task:\n    def __init__(self, title):\n        self.title = title\n        self.done = False\n\n    def complete(self):\n        self.done = True\n\n    def __str__(self):\n        mark = "x" if self.done else " "\n        return f"[{mark}] {self.title}"\n\n\ntasks = []\n\nwhile True:\n    print("\\n1 Add  2 View  3 Complete  4 Exit")\n    choice = input("Choose: ")\n\n    if choice == "1":\n        title = input("Task: ")\n        tasks.append(Task(title))\n        print("Added.")\n    elif choice == "2":\n        for index, task in enumerate(tasks, start=1):\n            print(index, task)\n    elif choice == "3":\n        for index, task in enumerate(tasks, start=1):\n            print(index, task)\n        number = int(input("Which number is done? "))\n        tasks[number - 1].complete()\n    elif choice == "4":\n        print("Goodbye.")\n        break\n    else:\n        print("Unknown choice.")',
         explanation:
-          "Every phase of this course is in that program: a class with __init__ and a method (Chapter 11), a list of objects (Chapter 5), a menu loop with input and branching (Chapters 3, 4 and 7), and __str__ giving Python a way to turn a Task into readable text automatically whenever you print one."
+          "Every phase of this course is in that program: a class with __init__ and a method (Chapter 15), a list of objects (Chapter 7), a menu loop with input and branching (Chapters 2, 4 and 6), and __str__ giving Python a way to turn a Task into readable text automatically whenever you print one."
       }
     }
   };
 
-  return { COURSE_ID, TOTAL_CHAPTERS, chapters };
+  return { COURSE_ID, TOTAL_CHAPTERS, chapters, units };
 })();

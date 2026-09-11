@@ -67,3 +67,30 @@
 .try-it p:last-child {
   margin-bottom: 0;
 }
+
+/* Predict-the-output: code shown, output hidden behind a reveal button. */
+.predict {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-alt);
+}
+
+.predict__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.predict [data-predict-reveal] {
+  margin-bottom: var(--space-3);
+}
+
+.predict [data-predict-answer] {
+  margin-bottom: 0;
+}

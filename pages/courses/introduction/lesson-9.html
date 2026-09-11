@@ -2,8 +2,8 @@
 <html lang="en" data-root="../../..">
   <head>
     <meta charset="UTF-8" />
-    <title>Chapter 9 — Error Handling &amp; Debugging — Pung Academy</title>
-    <meta name="description" content="Chapter 9 of Introduction to Programming: try, except, else, finally, raising exceptions, and reading stack traces." />
+    <title>Chapter 9 — Dictionaries &amp; Sets — Pung Academy</title>
+    <meta name="description" content="Chapter 9 of Introduction to Programming: dictionaries, key-value pairs, dictionary methods, and sets." />
     <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
             <span class="lesson-header__eyebrow" data-chapter-number
               >Chapter 9</span
             >
-            <h1 data-chapter-title>Error Handling &amp; Debugging</h1>
+            <h1 data-chapter-title>Dictionaries &amp; Sets</h1>
             <p class="lesson-header__summary" data-chapter-summary></p>
 
             <div class="lesson-header__progress">
@@ -62,197 +62,116 @@
 
           <section class="lesson-section">
             <span class="lesson-section__label">Learning material</span>
-            <h2>Programs fail. Plan for it.</h2>
+            <h2>Dictionaries: looking things up by name</h2>
 
             <p>
-              Every program you have written so far breaks the instant
-              something unexpected happens — a letter typed where a number was
-              expected, a file that is not there, a list that turns out to be
-              empty. <strong>Error handling</strong> is how you let a program
-              expect that, and keep running anyway.
+              A list is indexed by position, which is fine when order is what
+              matters. Often it is not — you want to look something up by
+              name. A <strong>dictionary</strong> stores
+              <strong>key-value pairs</strong>. Curly braces, each entry
+              <code>key: value</code>:
             </p>
 
-            <h2>try and except</h2>
+            <pre class="code-block"><code>student = {
+    "name": "Alex",
+    "age": 20,
+    "grade": 78
+}</code></pre>
 
-            <pre class="code-block"><code>try:
-    number = int(input("Enter a number: "))
-    print(f"You entered {number}")
-except ValueError:
-    print("That was not a valid number.")</code></pre>
+            <p>You look values up by key, not by position:</p>
 
-            <span class="output-label">Output (typing "abc")</span>
-            <pre class="output-block"><code>Enter a number: abc
-That was not a valid number.</code></pre>
+            <pre class="code-block"><code>print(student["name"])    # Alex
+print(student["grade"])   # 78</code></pre>
 
-            <p>
-              Python attempts everything inside <code>try</code>. The moment a
-              line raises an error matching the type named after
-              <code>except</code>, it jumps straight there instead of crashing
-              the whole program.
-            </p>
+            <h3>Changing and adding</h3>
 
-            <h3>Catching more than one kind of error</h3>
+            <pre class="code-block"><code>student["grade"] = 85          # change an existing value
+student["city"] = "Jakarta"    # a new key simply appears
+del student["age"]             # remove a pair
 
-            <pre class="code-block"><code>try:
-    first = int(input("First number: "))
-    second = int(input("Second number: "))
-    print(first / second)
-except ValueError:
-    print("Please type actual numbers.")
-except ZeroDivisionError:
-    print("You cannot divide by zero.")</code></pre>
+print(student)</code></pre>
 
-            <p>
-              Two separate <code>except</code> blocks, each matching a
-              different failure — Python checks them in order and runs
-              whichever one matches. You can also catch several types in one
-              block with a tuple: <code>except (ValueError, ZeroDivisionError):</code>.
-            </p>
+            <span class="output-label">Output</span>
+            <pre class="output-block"><code>{'name': 'Alex', 'grade': 85, 'city': 'Jakarta'}</code></pre>
 
-            <h2>else and finally</h2>
-
-            <pre class="code-block"><code>try:
-    number = int(input("Enter a number: "))
-except ValueError:
-    print("That was not valid.")
-else:
-    print(f"Got it: {number}")
-finally:
-    print("Done trying.")</code></pre>
-
-            <ul>
-              <li>
-                <code>else</code> runs only if <code>try</code> succeeded with
-                no error at all.
-              </li>
-              <li>
-                <code>finally</code> always runs, whether there was an error
-                or not — useful for cleanup that must happen either way.
-              </li>
-            </ul>
-
-            <h2>Raising your own exceptions</h2>
-
-            <p>
-              Sometimes the input is technically valid Python but wrong for
-              what your program needs — a negative age, for instance. You can
-              raise an error on purpose:
-            </p>
-
-            <pre class="code-block"><code>age = int(input("Age: "))
-
-if age &lt; 0:
-    raise ValueError("Age cannot be negative")
-
-print(f"Age accepted: {age}")</code></pre>
-
-            <p>
-              <code>raise</code> stops the program immediately with your
-              chosen error — unless something further up the call chain
-              catches it with its own <code>try</code>/<code>except</code>.
-            </p>
-
-            <h2>Reading a stack trace</h2>
-
-            <p>
-              When an error is not caught, Python prints a
-              <strong>stack trace</strong> — read the bottom line first.
-            </p>
-
-            <pre class="code-block"><code>Traceback (most recent call last):
-  File "shopping.py", line 7, in &lt;module&gt;
-    total = price * quantity
-TypeError: can't multiply sequence by non-int of type 'str'</code></pre>
-
-            <p>Working from the bottom up:</p>
-
-            <ul>
-              <li>
-                <strong>Last line</strong> — the error family
-                (<code>TypeError</code>) and the exact complaint.
-              </li>
-              <li>
-                <strong>File and line number</strong> — where to look.
-              </li>
-              <li>
-                <strong>The quoted code</strong> — the exact line that failed.
-              </li>
-            </ul>
-
-            <p>
-              Translated: something tried to multiply a piece of text by a
-              value that was not a plain integer. Almost certainly
-              <code>quantity</code> came from <code>input()</code> and was
-              never converted with <code>int()</code>.
-            </p>
-
-            <div class="callout callout--tip">
-              <span class="callout__label">Tip — exception matching</span>
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
               <p>
-                When you have several <code>except</code> blocks, Python
-                checks them top to bottom and stops at the first type that
-                matches. Order the specific ones before any general
-                catch-all, or the specific ones will never be reached.
+                Asking for a key that does not exist raises
+                <code>KeyError</code>. Looking up safely is exactly what the
+                next section is for.
               </p>
             </div>
 
-            <h2>Worked example — the Safe Calculator</h2>
+            <h2>Dictionary methods: .get(), .keys(), .values(), .items()</h2>
+
+            <pre class="code-block"><code>student = {"name": "Alex", "grade": 78}
+
+print(student.get("grade"))              # 78
+print(student.get("city", "Unknown"))    # Unknown -- the default, since "city" is missing
+
+print(list(student.keys()))     # ['name', 'grade']
+print(list(student.values()))   # ['Alex', 78]
+
+for key, value in student.items():
+    print(key, "->", value)</code></pre>
 
             <p>
-              This chapter's project takes the division calculator from
-              earlier and makes it resilient — no input can crash it.
+              <code>.get(key, default)</code> never raises
+              <code>KeyError</code> — it hands back <code>default</code>
+              instead when the key is missing, which makes it the safe way to
+              read a dictionary you are not certain about.
+              <code>.items()</code> is what lets a loop unpack both the key
+              and the value at once.
             </p>
 
-            <pre class="code-block"><code># Safe Calculator
-
-while True:
-    try:
-        first = float(input("First number (or 'q' to quit): "))
-        second = float(input("Second number: "))
-    except ValueError:
-        print("Please enter valid numbers.\n")
-        continue
-
-    try:
-        result = first / second
-    except ZeroDivisionError:
-        print("Cannot divide by zero.\n")
-        continue
-
-    print(f"Result: {result}\n")
-    break</code></pre>
-
-            <span class="output-label">Output (dividing by zero, then succeeding)</span>
-            <pre class="output-block"><code>First number (or 'q' to quit): 10
-Second number: 0
-Cannot divide by zero.
-
-First number (or 'q' to quit): 10
-Second number: 2
-Result: 5.0</code></pre>
-
-            <p>
-              Two separate <code>try</code> blocks handle two separate
-              failures, and <code>continue</code> sends the loop straight back
-              to asking again rather than letting a bad attempt end the
-              program.
-            </p>
-
-            <div class="try-it">
-              <span class="try-it__label">Small exercise</span>
+            <div class="predict">
+              <span class="predict__label">Predict the output</span>
               <p>
-                Which <code>except</code> block catches this error, and why?
+                What does this print, given
+                <code>student = {"name": "Alex", "grade": 78}</code>?
               </p>
-              <pre class="code-block"><code>try:
-    numbers = [1, 2, 3]
-    print(numbers[10])
-except ValueError:
-    print("A")
-except IndexError:
-    print("B")</code></pre>
+              <pre class="code-block"><code>print(student.get("email", "none"))</code></pre>
+              <button class="btn btn--secondary" type="button" data-predict-reveal>Reveal output</button>
+              <pre class="output-block" data-predict-answer hidden><code>none</code></pre>
               <p>
-                "B" — asking a list for an index that does not exist raises
-                <code>IndexError</code>, not <code>ValueError</code>.
+                <code>"email"</code> is not a key in <code>student</code>, so
+                <code>.get()</code> hands back the default you supplied
+                instead of raising an error.
+              </p>
+            </div>
+
+            <h2>Sets: uniqueness without order</h2>
+
+            <p>
+              A <strong>set</strong> holds values with no duplicates and no
+              guaranteed order. Curly braces, but no colons:
+            </p>
+
+            <pre class="code-block"><code>colours = {"red", "green", "blue", "red"}
+print(colours)          # {'red', 'green', 'blue'} -- the duplicate is gone
+
+a = {1, 2, 3}
+b = {2, 3, 4}
+print(a & b)   # {2, 3}         -- intersection: in both
+print(a | b)   # {1, 2, 3, 4}   -- union: in either</code></pre>
+
+            <p>
+              Turning a list into a set is the fastest way to remove
+              duplicates:
+            </p>
+
+            <pre class="code-block"><code>numbers = [1, 2, 2, 3, 3, 3]
+unique = set(numbers)
+print(unique)    # {1, 2, 3}</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Coming up</span>
+              <p>
+                Dictionaries and lists can hold other dictionaries and lists
+                inside them — the next chapter puts that "nested" shape to
+                work, along with two more looping tools and a subtlety about
+                lists you will want to know before it bites you.
               </p>
             </div>
           </section>
