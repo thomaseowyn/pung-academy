@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 12 — Software Architecture — Pung Academy</title>
+    <meta name="description" content="Module 12 of Software Engineering: monolith vs distributed systems, layered architecture, MVC, and architecture trade-offs." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="12">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 12</span>
+            <h1 data-chapter-title>Software Architecture</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              Every module so far worked at the level of one function, one
+              endpoint, one test. This module zooms out to how a whole
+              system is organised — monoliths vs. distributed systems,
+              layered architecture and MVC, and the trade-offs behind each
+              choice.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>What software architecture means</h2>
+
+            <p>
+              <strong>Architecture</strong> is the set of high-level
+              decisions about how a system's major pieces are organised and
+              how they communicate — decisions that are expensive to change
+              later, unlike most day-to-day code changes.
+            </p>
+
+            <h2>Monolith vs. distributed systems</h2>
+
+            <p>
+              A <strong>monolith</strong> is one deployable unit — simpler to
+              build, test, and deploy, especially early on, but it scales
+              and can fail as a whole. A <strong>distributed system</strong>
+              (microservices) splits functionality into independently
+              deployable services — better independent scaling and team
+              autonomy, at the cost of real operational complexity: network
+              calls between services, and debugging across all of them.
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box diagram__box--accent">Monolith<br />(one deployable unit)</span>
+              <span class="diagram__arrow" aria-hidden="true">vs.</span>
+              <span class="diagram__box">Service A</span>
+              <span class="diagram__box">Service B</span>
+              <span class="diagram__box">Service C</span>
+              <p class="diagram__caption">Microservices trade simplicity for independent scaling and deployment of each piece.</p>
+            </div>
+
+            <h2>Layered architecture and MVC</h2>
+
+            <p>
+              A <strong>layered architecture</strong> separates presentation,
+              business logic, and data access — the same idea Module 8
+              applied to a backend. <strong>MVC</strong> (Model-View-Controller)
+              names this pattern explicitly: the <strong>Model</strong> holds
+              data and business rules, the <strong>View</strong> renders what
+              the user sees, and the <strong>Controller</strong> handles
+              input and coordinates between them.
+            </p>
+
+            <div class="diagram diagram--column">
+              <span class="diagram__box">Presentation (View)</span>
+              <span class="diagram__box diagram__box--accent">Business logic (Controller / Model)</span>
+              <span class="diagram__box">Data access (Database)</span>
+            </div>
+
+            <h2>Service-oriented and modular architecture</h2>
+
+            <p>
+              Even inside a monolith, code can be organised into independent
+              modules with clear boundaries (Module 3's modular programming,
+              at the scale of a whole application) — getting some of
+              microservices' organisational clarity without the full
+              operational cost of splitting into separate deployed services.
+            </p>
+
+            <h2>Scalability, maintainability, and reliability</h2>
+
+            <ul>
+              <li><strong>Scalability</strong> — handling growing load by adding resources.</li>
+              <li><strong>Maintainability</strong> — how easily the system can be understood and safely changed.</li>
+              <li><strong>Reliability</strong> — how consistently the system behaves correctly, including when parts of it fail.</li>
+            </ul>
+
+            <h2>Architecture trade-offs</h2>
+
+            <p>
+              Every architectural choice trades one of these against
+              another. A single database is simple and maintainable but
+              limits independent scaling. Splitting into services scales
+              independently but costs reliability guarantees (more moving
+              parts, more ways for one piece to fail) and maintainability
+              (more places to understand). There is no universally "correct"
+              architecture — only one that fits the actual requirements
+              (Module 1) and constraints in front of you.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Choosing microservices for a small, early-stage project because it seems more "serious," rather than because a real scaling need exists (Module 5's YAGNI, applied to architecture).</li>
+              <li>Letting layers blur together — business logic leaking into the presentation layer, or the data layer knowing about HTTP.</li>
+              <li>Treating an architecture decision as permanent and never revisiting it as real requirements and scale change.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Start with the simplest architecture that satisfies today's actual requirements, and revisit it as real bottlenecks appear.</li>
+              <li>Keep layer boundaries clean — presentation, business logic, and data access shouldn't know unnecessary details about each other.</li>
+              <li>When splitting out a service, do it for a measured reason (an independent scaling need, a team boundary), not by default.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A monolith is simpler early on; distributed systems scale and deploy independently at the cost of operational complexity.</li>
+              <li>Layered architecture (and MVC specifically) separates presentation, logic, and data.</li>
+              <li>Scalability, maintainability, and reliability are constantly traded off against each other.</li>
+              <li>Choose architecture based on actual, current requirements — not out of habit or hypothetical future scale.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

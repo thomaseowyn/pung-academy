@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 7 — Deploying the AI Backend (FastAPI) — Pung Academy</title>
+    <meta name="description" content="Chapter 7 of Artificial Intelligence: FastAPI fundamentals, AI endpoints with Pydantic validation, SSE streaming, and full-stack integration." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="ai" data-chapter="7">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 7</span
+            >
+            <h1 data-chapter-title>Deploying the AI Backend (FastAPI)</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+
+            <p>
+              Chapter 6 left you with a genuinely capable agent — grounded,
+              structured, remembered, self-correcting. This final chapter
+              answers the one remaining question: how does anyone outside
+              your terminal actually use it?
+            </p>
+
+            <h2>FastAPI fundamentals</h2>
+
+            <p>
+              Everything so far has run as a script. A real product needs a
+              <strong>web server</strong> a frontend can talk to. FastAPI is
+              the standard choice for this in Python: fast, built on the same
+              async foundations from Chapter 1, and designed around type
+              hints and dependency injection rather than manual boilerplate.
+            </p>
+
+            <pre class="code-block"><code>from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+# uv run fastapi dev main.py</code></pre>
+
+            <p>
+              A health check proves the server runs. The next step is an
+              endpoint that actually does something — and does it safely.
+            </p>
+
+            <h2>AI endpoints with Pydantic validation</h2>
+
+            <p>
+              A request body is just another place Pydantic validates data —
+              define the shape of what the frontend sends, and FastAPI
+              rejects anything malformed before your endpoint code even runs.
+            </p>
+
+            <pre class="code-block"><code>from pydantic import BaseModel
+
+class ChatRequest(BaseModel):
+    message: str
+    conversation_id: str
+
+class ChatResponse(BaseModel):
+    reply: str
+
+@app.post("/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest):
+    reply = await fetch_completion(request.message)   # Chapter 1's async call
+    return ChatResponse(reply=reply)</code></pre>
+
+            <p>
+              The <code>response_model</code> works the same way in reverse —
+              FastAPI validates what your endpoint returns, so a bug that
+              produces the wrong shape of response is caught immediately
+              instead of silently reaching the frontend.
+            </p>
+
+            <p>
+              That endpoint works, but it makes the browser wait in silence
+              for the entire reply. Chapter 2 solved this exact problem for a
+              server-side script — the same idea now needs to reach the
+              browser itself.
+            </p>
+
+            <h2>Server-Sent Events (SSE)</h2>
+
+            <p>
+              A normal response only reaches the browser once the whole body
+              is ready. To get the same live "typing" effect you streamed
+              server-side in Chapter 2, the endpoint itself needs to stream —
+              keeping the connection open and pushing each chunk to the
+              client the moment it's generated.
+            </p>
+
+            <pre class="code-block"><code>from fastapi.responses import StreamingResponse
+
+@app.post("/chat/stream")
+async def chat_stream(request: ChatRequest):
+    async def token_generator():
+        stream = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": request.message}],
+            stream=True,
+        )
+        for chunk in stream:
+            delta = chunk.choices[0].delta.content
+            if delta:
+                yield f"data: {delta}\n\n"
+
+    return StreamingResponse(token_generator(), media_type="text/event-stream")</code></pre>
+
+            <p>
+              A streaming endpoint is only half a product without something
+              on the other end actually consuming it. That's the last piece.
+            </p>
+
+            <h2>Full-stack integration</h2>
+
+            <p>
+              The final piece is a frontend simple enough to prove the whole
+              chain works: a page that sends a message to <code>/chat</code>
+              (or reads the <code>/chat/stream</code> event source) and
+              displays the reply.
+            </p>
+
+            <pre class="code-block"><code>&lt;script&gt;
+async function sendMessage() {
+  const response = await fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: input.value, conversation_id: "demo" }),
+  });
+  const data = await response.json();
+  output.textContent = data.reply;
+}
+&lt;/script&gt;</code></pre>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                This is the same request/response shape you've used from
+                Python throughout the course — a browser's <code>fetch</code>
+                is just another HTTP client talking to your FastAPI endpoint,
+                the same way <code>httpx</code> talked to OpenAI's API back in
+                Chapter 1.
+              </p>
+            </div>
+
+            <h2>Putting the whole course together</h2>
+
+            <p>
+              A request now travels the full path this course built, chapter
+              by chapter: a browser sends it to a FastAPI endpoint (Ch. 7),
+              validated by Pydantic (Ch. 4), assembled into a structured,
+              defensively-written prompt (Ch. 3) grounded in retrieved
+              documents (Ch. 5), routed to the right agent with memory of the
+              conversation so far (Ch. 6), calling the LLM API directly (Ch.
+              2) from an environment you set up properly from day one (Ch.
+              1) — with the reply streamed back to the browser live.
+            </p>
+
+            <div class="diagram diagram--column">
+              <span class="diagram__box">Browser (fetch/EventSource)</span>
+              <span class="diagram__box diagram__box--accent">FastAPI endpoint + Pydantic validation (Ch. 7, 4)</span>
+              <span class="diagram__box diagram__box--accent">Structured, defended prompt + retrieved context (Ch. 3, 5)</span>
+              <span class="diagram__box diagram__box--accent">Routed agent with memory (Ch. 6)</span>
+              <span class="diagram__box">LLM API call (Ch. 2), on the environment from Ch. 1</span>
+              <p class="diagram__caption">Every chapter in this course is one stage a single chat request actually passes through.</p>
+            </div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Putting business logic directly in a route handler instead of a separate, testable function underneath it.</li>
+              <li>Skipping response_model validation, so a bug that changes the response shape only gets caught by the frontend failing to parse it.</li>
+              <li>Building a chat endpoint without streaming, forcing the frontend to wait for the entire reply before showing anything.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Validate both requests and responses with Pydantic models, not just one side.</li>
+              <li>Stream any AI-generated reply a user is actively waiting on, using StreamingResponse and SSE.</li>
+              <li>Keep the same async patterns from Chapter 1 all the way through the backend — a synchronous call anywhere in the chain can block the whole event loop.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>FastAPI routes requests to Python functions, validating both requests and responses with Pydantic.</li>
+              <li>StreamingResponse and Server-Sent Events bring the same chunk-by-chunk delivery from Chapter 2's API calls to a real frontend.</li>
+              <li>A browser's fetch is just another HTTP client talking to your API, the same way httpx talked to the LLM provider.</li>
+              <li>Every chapter in this course is one stage a real chat request actually passes through, end to end.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Practical</span>
+            <h2>Practical things you can apply right now</h2>
+            <ul>
+              <li>Stand up a minimal FastAPI app with one <code>/health</code> route and run it locally with <code>fastapi dev</code>.</li>
+              <li>Add a <code>/chat</code> POST endpoint that takes a Pydantic request body and calls an LLM using your Chapter 1/2 code.</li>
+              <li>Upgrade that endpoint to a <code>/chat/stream</code> route using <code>StreamingResponse</code> and confirm chunks arrive incrementally, not all at once.</li>
+              <li>Build one plain HTML page with a text input and a button that calls your endpoint and displays the reply — your first real full-stack AI feature.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Every exercise and the final challenge have to be passed to
+                finish the course.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish the course
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

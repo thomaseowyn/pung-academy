@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 14 — Professional Software Development — Pung Academy</title>
+    <meta name="description" content="Module 14 of Software Engineering: code reviews, Agile workflow, documentation, estimation, and working with existing codebases." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="14">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 14</span>
+            <h1 data-chapter-title>Professional Software Development</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              Everything so far has been technical. This module covers what
+              turns technical skill into professional practice: working
+              inside a team, reviewing and being reviewed, documenting
+              decisions, estimating honestly, and navigating a codebase you
+              didn't write — the last module before applying everything in
+              a final project.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Working in a development team</h2>
+
+            <p>
+              Professional software is almost never built alone. Module 2's
+              Git workflow (branches, pull requests) and Module 1's Agile
+              process exist specifically to let a team work on the same
+              codebase without constantly colliding with each other.
+            </p>
+
+            <h2>Code reviews and pull requests</h2>
+
+            <p>
+              A <strong>code review</strong> is a second set of eyes before
+              a change merges — catching bugs, design issues, and unclear
+              code the author is too close to see, and spreading knowledge
+              of the change across the team. A good pull request description
+              explains <em>why</em>, not just what — the same principle
+              Module 2 applied to individual commit messages.
+            </p>
+
+            <h2>Issue tracking and Agile workflow</h2>
+
+            <p>
+              Work is usually tracked as discrete <strong>issues</strong> —
+              a bug report, a feature request — organised into sprints
+              (Module 1), so a team always has a shared, visible picture of
+              what's being worked on and what's next.
+            </p>
+
+            <h2>Writing technical and API documentation</h2>
+
+            <p>
+              Documentation is a message to a future reader — often a future
+              version of yourself — who won't have the context you have
+              right now. <strong>API documentation</strong> specifically
+              describes each endpoint (Module 7): its method, URL,
+              parameters, and what it returns, so someone can use it without
+              reading the implementation.
+            </p>
+
+            <pre class="code-block"><code>## POST /tasks
+Creates a new task.
+
+**Body:** { "title": string }
+**Returns:** 201 Created, the new task object
+**Errors:** 400 if title is missing</code></pre>
+
+            <h2>Project estimation</h2>
+
+            <p>
+              Estimating how long work will take is genuinely hard and
+              often wrong — the honest professional habit is breaking large,
+              vague work into smaller, concrete pieces (closer to Module 1's
+              requirements gathering) before estimating, and revisiting
+              estimates as real information arrives, rather than treating an
+              early guess as a fixed promise.
+            </p>
+
+            <h2>Debugging production issues</h2>
+
+            <p>
+              A production bug should be reproduced first (locally, or with
+              logs from Module 11), then traced backward from there — not
+              guessed at. This is slower than it feels like it should be,
+              but a fix you can't verify is just a hope.
+            </p>
+
+            <h2>Working with existing codebases</h2>
+
+            <p>
+              Most professional work happens inside code you didn't write.
+              Read before you change: understand the existing patterns
+              (Module 5's principles are often already in use, even if
+              nobody wrote them down), and prefer small, well-understood
+              changes over large unfamiliar rewrites.
+            </p>
+
+            <h2>Building a professional GitHub portfolio</h2>
+
+            <p>
+              A public GitHub profile with a few genuinely finished,
+              well-documented projects — clear READMEs, sensible commit
+              history (Module 2), maybe a small test suite (Module 11) —
+              says more to someone hiring than a large number of abandoned,
+              undocumented repositories.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Treating code review feedback as personal criticism rather than a normal, expected part of shipping quality code.</li>
+              <li>Rewriting a large chunk of an unfamiliar codebase before actually understanding why it was built that way.</li>
+              <li>Estimating a vague task without breaking it down first, then treating that rough guess as a hard deadline.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Write pull request descriptions that explain the reasoning, not just a summary of the diff.</li>
+              <li>Break vague work into concrete pieces before estimating it.</li>
+              <li>Reproduce a bug reliably before attempting to fix it — a fix you can't verify isn't a fix yet.</li>
+              <li>Read and understand existing code's patterns before changing them.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Code review catches what the author can't see and spreads knowledge across the team — not a gate to resent.</li>
+              <li>Good documentation and PR descriptions explain why, not just what.</li>
+              <li>Estimate concrete, broken-down work — and revisit estimates as real information arrives.</li>
+              <li>Reproduce, then trace, then fix — in that order, for any real bug.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

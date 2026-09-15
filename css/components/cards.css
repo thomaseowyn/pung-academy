@@ -7,6 +7,9 @@
   gap: var(--space-5);
 }
 
+/* Panels in this design are flat: a hairline border and generous padding do
+   the separating, not a drop shadow. */
+
 .grid--2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -20,33 +23,34 @@
 }
 
 .card {
-  padding: var(--space-5);
+  padding: var(--space-6);
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-xl);
 }
 
 .card__title {
-  font-size: 1.05rem;
-  margin-bottom: var(--space-2);
+  font-size: 1.0625rem;
+  margin-bottom: var(--space-3);
 }
 
 .card__text {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.905rem;
+  line-height: 1.6;
   color: var(--color-text-muted);
 }
 
 .card__icon {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   margin-bottom: var(--space-4);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background-color: var(--color-accent-soft);
-  color: var(--color-primary);
+  font-size: 1rem;
+  color: var(--color-accent);
 }
 
 /* Problem / solution split used in "Why Pung Academy" */
@@ -57,16 +61,22 @@
 }
 
 .compare__panel {
-  padding: var(--space-6);
+  padding: var(--space-6) 1.875rem;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xl);
   background-color: var(--color-bg);
+}
+
+.compare__panel h3 {
+  margin-bottom: var(--space-5);
+  font-size: 1.0625rem;
+  font-weight: 700;
 }
 
 .compare__panel--solution {
   background-color: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
-  color: #dbe6f3;
+  color: var(--color-text-on-dark);
 }
 
 .compare__panel--solution h3 {
@@ -81,9 +91,15 @@
 
 .compare__list li {
   position: relative;
-  padding-left: 1.75rem;
-  margin-bottom: var(--space-3);
-  font-size: 0.95rem;
+  padding-left: 1.5rem;
+  margin-bottom: var(--space-4);
+  font-size: 0.905rem;
+  line-height: 1.55;
+  color: #334155;
+}
+
+.compare__panel--solution .compare__list li {
+  color: var(--color-text-on-dark);
 }
 
 .compare__list li:last-child {
@@ -94,7 +110,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .compare__panel--problem .compare__list li::before {
@@ -104,7 +120,7 @@
 
 .compare__panel--solution .compare__list li::before {
   content: "✓";
-  color: #7fb3e8;
+  color: var(--color-accent-light);
 }
 
 /* "How it works" numbered steps */
@@ -119,20 +135,20 @@
 }
 
 .step {
-  padding: var(--space-5);
-  border-top: 3px solid var(--color-accent);
+  padding: var(--space-6) 1.875rem;
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
   background-color: var(--color-bg);
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
 }
 
 .step__num {
   counter-increment: step;
   display: block;
   margin-bottom: var(--space-3);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   color: var(--color-accent);
 }
 
@@ -200,4 +216,26 @@
   margin: 0;
   font-size: 0.95rem;
   color: var(--color-text-muted);
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 900px) {
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compare,
+  .steps,
+  .philosophy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

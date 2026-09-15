@@ -20,7 +20,7 @@
 
 .feedback--error {
   background-color: var(--color-danger-bg);
-  border-color: #f3c9c4;
+  border-color: #fecaca;
   color: var(--color-danger);
 }
 
@@ -39,16 +39,14 @@
 .hint {
   margin: var(--space-4) 0 0;
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-left: 4px solid #b45309;
   border-radius: var(--radius-sm);
-  background-color: #fffbeb;
+  background-color: var(--color-gold-bg);
   font-size: 0.93rem;
-  color: #7c4a06;
+  color: var(--color-gold);
 }
 
 .hint strong {
-  color: #b45309;
+  color: var(--color-gold);
 }
 
 /* Shown once the exercise is passed. */

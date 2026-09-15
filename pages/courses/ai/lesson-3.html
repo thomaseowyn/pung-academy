@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 3 — Advanced Prompt Engineering &amp; Architecture — Pung Academy</title>
+    <meta name="description" content="Chapter 3 of Artificial Intelligence: production prompt architecture, structural prompting, reasoning frameworks, dynamic templates, and prompt security." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="ai" data-chapter="3">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 3</span
+            >
+            <h1 data-chapter-title>Advanced Prompt Engineering &amp; Architecture</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Architecture of a production prompt</h2>
+
+            <p>
+              Chapter 2 introduced system/user/assistant roles as an API
+              detail. In production, the <strong>system</strong> (or, on some
+              providers, a separate "developer") role carries the actual
+              architecture of your application: rules, tone, output format,
+              and constraints, kept deliberately separate from whatever the
+              user types.
+            </p>
+
+            <p>
+              A subtler issue shows up as prompts get longer: models don't
+              attend equally to every part of a long context. This is the
+              <strong>"lost in the middle"</strong> phenomenon — instructions
+              and facts near the very start or very end of a long prompt tend
+              to be followed far more reliably than ones buried in the
+              middle of a long block of injected text.
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box diagram__box--accent">Start of prompt<br />(strong attention)</span>
+              <span class="diagram__box">Middle of prompt<br />(weakest attention)</span>
+              <span class="diagram__box diagram__box--accent">End of prompt<br />(strong attention)</span>
+              <p class="diagram__caption">Put your most important rules at the start or end — never rely on the model noticing something buried in the middle.</p>
+            </div>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                If you're stuffing retrieved documents (Chapter 5) or long
+                conversation history into a prompt, put your most important
+                rules at the very start or the very end — never rely on the
+                model noticing something you buried in the middle of a large
+                block of context.
+              </p>
+            </div>
+
+            <p>
+              Knowing <em>where</em> the model pays the most attention is one
+              half of the problem. The other half is making sure it can
+              actually tell your rules apart from everything else you've
+              stuffed into the prompt alongside them.
+            </p>
+
+            <h2>Structural prompting &amp; delimiters</h2>
+
+            <p>
+              As a prompt accumulates multiple kinds of content — instructions,
+              retrieved context, examples, the user's actual question — plain
+              paragraphs make it hard for the model to tell them apart.
+              Wrapping each section in clear delimiters fixes that.
+            </p>
+
+            <pre class="code-block"><code>&lt;rules&gt;
+- Only answer using the &lt;context&gt; below.
+- If the answer isn't in the context, say so — do not guess.
+&lt;/rules&gt;
+
+&lt;context&gt;
+{retrieved_document_text}
+&lt;/context&gt;
+
+&lt;question&gt;
+{user_question}
+&lt;/question&gt;</code></pre>
+
+            <p>
+              XML-style tags and Markdown headings both work well for this —
+              the model treats them as strong structural signals, which
+              reduces "instruction drift" (the model quietly ignoring or
+              blending your rules with the content around them).
+            </p>
+
+            <p>
+              A well-structured prompt gets the model reading the right
+              things. Whether it can actually <em>reason</em> its way to a
+              correct answer is a separate problem — and one you can
+              influence directly with how you frame the task.
+            </p>
+
+            <h2>Advanced reasoning frameworks</h2>
+
+            <ul>
+              <li><strong>Few-shot prompting</strong> — showing the model 2-3 worked examples of input → correct output before asking it to do the real one, so it infers the pattern instead of guessing at your intent from a description alone.</li>
+              <li><strong>Chain-of-Thought (CoT)</strong> — explicitly asking the model to reason step by step before giving a final answer, which measurably improves accuracy on multi-step problems.</li>
+              <li><strong>Extended reasoning / thinking tokens</strong> — newer models (Claude's extended thinking, OpenAI's o-series) can spend an internal reasoning budget before answering; you configure how much, trading latency and cost for accuracy on hard problems.</li>
+            </ul>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                Few-shot and CoT are prompting techniques you write yourself.
+                Extended reasoning is a model capability you turn on via an
+                API parameter — the model does its own step-by-step reasoning
+                internally, separate from the final answer it shows you.
+              </p>
+            </div>
+
+            <p>
+              Every technique so far still assumes you're writing the prompt
+              text by hand. A real application builds prompts out of moving
+              parts — user input, retrieved context, a few examples — and
+              hand-assembling that as a string doesn't scale.
+            </p>
+
+            <h2>Dynamic prompt pipelines &amp; templates</h2>
+
+            <p>
+              Raw string concatenation (<code>"Answer this: " + user_input
+              + more_text</code>) gets unreadable and error-prone fast, and
+              offers no protection if injected content accidentally contains
+              characters that break your template. <code>jinja2</code>
+              templates keep prompt structure and injected data cleanly
+              separated.
+            </p>
+
+            <pre class="code-block"><code>from jinja2 import Template
+
+prompt_template = Template("""
+&lt;rules&gt;{{ rules }}&lt;/rules&gt;
+&lt;context&gt;{{ context }}&lt;/context&gt;
+&lt;question&gt;{{ question }}&lt;/question&gt;
+""")
+
+prompt = prompt_template.render(
+    rules="Only answer from context.",
+    context=retrieved_text,
+    question=user_question,
+)</code></pre>
+
+            <p>
+              A template that cleanly separates structure from injected data
+              is also your first line of defence against a very real risk:
+              some of that injected data — a user's message, a retrieved
+              document — might not be trustworthy at all.
+            </p>
+
+            <h2>Defensive prompting &amp; AI security</h2>
+
+            <p>
+              Anything a user (or a retrieved document!) can type is a
+              potential attack surface. Three risks worth designing against
+              from day one:
+            </p>
+
+            <ul>
+              <li><strong>Prompt injection</strong> — a user, or text pulled in via RAG, contains hidden instructions trying to override your system prompt ("ignore previous instructions and...").</li>
+              <li><strong>System prompt leaks</strong> — a user tricks the model into revealing your private system prompt or internal rules verbatim.</li>
+              <li><strong>Jailbreaks</strong> — crafted inputs designed to get the model to bypass its safety or business-logic constraints.</li>
+            </ul>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Never treat the system prompt as your only defence. Add an
+                input sanitization layer that strips or flags suspicious
+                patterns (like explicit "ignore instructions" phrasing)
+                before user or retrieved text ever reaches the model.
+              </p>
+            </div>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              A production prompt isn't one clever sentence — it's an
+              assembled piece of software: rules placed where the model
+              actually attends to them, structure that keeps every part
+              distinct, a reasoning framework suited to the task, a template
+              that builds it safely, and a defensive layer that assumes some
+              of its input is hostile. With prompts this deliberate, the next
+              problem is making the model's <em>output</em> just as reliable
+              — which is exactly where Chapter 4 picks up.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Burying the most important rule in the middle of a long context dump, then being surprised when the model "ignores" it.</li>
+              <li>Mixing instructions, retrieved context, and the user's question together as one wall of text, with no delimiters separating them.</li>
+              <li>Trusting the system prompt alone as a security boundary, with no input sanitization layer behind it.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Place your most critical rules at the very start or very end of a long prompt, never buried in the middle.</li>
+              <li>Wrap distinct sections (rules, context, question) in clear tags so the model can tell them apart structurally.</li>
+              <li>Build prompts from templates with named variables, not string concatenation, and sanitize untrusted input before it reaches the model.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>The "lost in the middle" effect means position in a long prompt affects how reliably an instruction is followed.</li>
+              <li>Structural delimiters (XML tags, Markdown) reduce instruction drift by making sections distinct.</li>
+              <li>Few-shot examples and Chain-of-Thought are two different levers for improving accuracy.</li>
+              <li>Defensive prompting assumes some input is hostile and sanitizes it before it ever reaches the model.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Practical</span>
+            <h2>Practical things you can apply right now</h2>
+            <ul>
+              <li>Take a prompt you've written as one long paragraph and rewrite it using <code>&lt;rules&gt;</code>, <code>&lt;context&gt;</code>, and <code>&lt;question&gt;</code> tags.</li>
+              <li>Add two or three worked examples to a prompt (few-shot) and compare the output against the same prompt with zero examples.</li>
+              <li>Add "think step by step before answering" to one prompt and check whether the final answer's accuracy changes on a multi-step question.</li>
+              <li>Convert one hard-coded f-string prompt into a <code>jinja2</code> template with named variables.</li>
+              <li>Write down one sentence a malicious user might type to try to override your system prompt, and test whether your current prompt resists it.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Every exercise and the chapter challenge have to be passed
+                before this chapter counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Diagram
+   --------------------------------------------------------------------------
+   A small, static flow-of-labelled-boxes illustration, authored directly in
+   lesson HTML (no JS) for concepts that benefit from a real visual —
+   client-server request/response, layered/MVC architecture, Git's
+   working-tree/staging/repo flow, database table relationships. Simpler
+   sequential flows can stay as plain arrow text inside a <pre
+   class="code-block">, which needs no CSS at all.
+
+   Usage:
+     <div class="diagram">
+       <span class="diagram__box">Client</span>
+       <span class="diagram__arrow" aria-hidden="true">→</span>
+       <span class="diagram__box diagram__box--accent">Server</span>
+       <p class="diagram__caption">What the arrows mean, in one line.</p>
+     </div>
+   Add `diagram--column` to stack boxes vertically instead of in a row.
+   ========================================================================== */
+
+.diagram {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-alt);
+}
+
+.diagram--column {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.diagram__box {
+  flex: 1 1 auto;
+  min-width: 8rem;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  text-align: center;
+  font-size: 0.845rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.diagram__box--accent {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+  color: var(--color-primary);
+}
+
+.diagram__arrow {
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+}
+
+.diagram--column .diagram__arrow {
+  align-self: center;
+  transform: rotate(90deg);
+}
+
+.diagram__caption {
+  flex-basis: 100%;
+  margin-top: var(--space-2);
+  margin-bottom: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}

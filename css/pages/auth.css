@@ -59,7 +59,7 @@
   align-items: center;
   padding: var(--space-7) var(--space-6);
   background-color: var(--color-primary-dark);
-  color: #dbe6f3;
+  color: var(--color-text-on-dark);
 }
 
 .auth__aside-inner {
@@ -73,7 +73,7 @@
 }
 
 .auth__aside p {
-  color: #b9cbe0;
+  color: #c7d7ec;
 }
 
 .auth__checklist {
@@ -117,4 +117,16 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #7fb3e8;
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 900px) {
+  .auth {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .auth__aside {
+    order: -1;
+    padding: var(--space-6) var(--space-5);
+  }
 }

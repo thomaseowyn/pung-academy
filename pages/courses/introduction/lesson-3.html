@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -298,6 +298,29 @@ Next year you will be 21</code></pre>
                 not <code>5</code>.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Forgetting that <code>input()</code> always returns a string, so <code>"5" * 2</code> gives <code>"55"</code> rather than <code>10</code>.</li>
+              <li>Leaving off the <code>f</code> before an f-string, which prints the literal text <code>{name}</code> instead of the value.</li>
+              <li>Calling <code>int()</code> on text that is not a number, such as <code>int("abc")</code>, which raises a <code>ValueError</code>.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A variable is a name pointing at a value; <code>=</code> stores, it does not compare.</li>
+              <li>The core types are <code>int</code>, <code>float</code>, <code>str</code> and <code>bool</code> — <code>type()</code> tells you which you have.</li>
+              <li>f-strings drop variables straight into text using braces, which reads better than joining pieces together.</li>
+              <li>Casting with <code>int()</code>, <code>float()</code> or <code>str()</code> converts between types, and is essential right after <code>input()</code>.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

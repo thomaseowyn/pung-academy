@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 3 — Programming for Software Engineers — Pung Academy</title>
+    <meta name="description" content="Module 3 of Software Engineering: modular programming, scope, abstraction, reusability, error handling, and type hints." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="3">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 3</span>
+            <h1 data-chapter-title>Programming for Software Engineers</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              You already know Python syntax. This module is about writing it
+              differently — breaking work into focused, reusable pieces,
+              understanding scope, hiding complexity behind clean interfaces,
+              handling errors on purpose, and documenting intent with type
+              hints — the habits that separate a script from a program a team
+              can maintain.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Procedural vs. modular programming</h2>
+
+            <p>
+              A <strong>procedural</strong> script runs top to bottom, one
+              long sequence of steps, often with logic repeated wherever it's
+              needed. <strong>Modular</strong> programming breaks the same
+              work into separate functions and modules, each with one clear
+              job, that can be reused, tested, and understood independently
+              of everything else.
+            </p>
+
+            <pre class="code-block"><code># Procedural: the same validation logic copy-pasted twice
+if "@" in email_a and "." in email_a:
+    ...
+if "@" in email_b and "." in email_b:
+    ...
+
+# Modular: the rule lives in one place
+def is_valid_email(text: str) -> bool:
+    return "@" in text and "." in text
+
+if is_valid_email(email_a):
+    ...
+if is_valid_email(email_b):
+    ...</code></pre>
+
+            <h2>Variables, functions, and modules</h2>
+
+            <p>
+              A <strong>module</strong> is just a file of related functions
+              and variables that other files can <code>import</code>. As a
+              program grows, grouping related functions into their own
+              module (e.g. <code>validation.py</code>, <code>database.py</code>)
+              keeps any one file from becoming an unmanageable dumping ground.
+            </p>
+
+            <h2>Scope and state</h2>
+
+            <p>
+              A variable's <strong>scope</strong> is where in the program it
+              can be seen and used. A variable defined inside a function is
+              <strong>local</strong> — it disappears once the function
+              returns. A variable defined outside any function is
+              <strong>global</strong> — visible everywhere, which sounds
+              convenient but makes it hard to know what part of a large
+              program might have changed it.
+            </p>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Relying on global variables for shared state is one of the
+                fastest ways to make a program hard to reason about — any
+                function, anywhere, might silently change it. Prefer passing
+                values explicitly as function parameters and return values.
+              </p>
+            </div>
+
+            <h2>Abstraction and reusability</h2>
+
+            <p>
+              <strong>Abstraction</strong> means hiding how something works
+              behind a simple interface — you call
+              <code>sorted(my_list)</code> without knowing or caring which
+              sorting algorithm Python uses internally. Writing your own
+              functions this way (a clear name and signature, hidden
+              internals) is what makes them genuinely <strong>reusable</strong>
+              — a caller only needs to know what a function does, never how.
+            </p>
+
+            <h2>Error handling</h2>
+
+            <p>
+              Production code has to expect things going wrong: a missing
+              dictionary key, a file that doesn't exist, a network call that
+              times out. <code>try</code>/<code>except</code> lets a program
+              catch a specific, anticipated failure and decide what to do
+              instead of crashing outright.
+            </p>
+
+            <pre class="code-block"><code>try:
+    age = int(user_input)
+except ValueError:
+    print("Please enter a whole number.")</code></pre>
+
+            <h2>Type hints</h2>
+
+            <p>
+              Type hints document what a function expects and returns,
+              directly in its signature. Python doesn't enforce them at
+              runtime, but editors and linters use them to catch a whole
+              class of mistakes — passing a string where a number was
+              expected — before the code ever runs.
+            </p>
+
+            <pre class="code-block"><code>def total_price(quantity: int, unit_price: float) -> float:
+    return quantity * unit_price</code></pre>
+
+            <h2>Writing maintainable programs, structured from the start</h2>
+
+            <p>
+              Even a small application benefits from separating concerns
+              into files: input/output in one place, business logic in
+              another, data access in a third. This is the same idea Module
+              5 explores in depth as "separation of concerns" — here, it
+              just means: don't let one 200-line function do everything.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Copy-pasting a block of logic into a second place instead of extracting it into a function (see Module 5's "DRY" for why this matters).</li>
+              <li>Catching every possible exception with a bare <code>except:</code>, which also silently swallows real bugs you actually needed to see.</li>
+              <li>Writing a function whose name doesn't match what it actually does, forcing anyone reading a call site to go read its implementation to understand it.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Give every function one clear job and a name that describes exactly that job.</li>
+              <li>Catch specific exceptions (<code>ValueError</code>, <code>KeyError</code>) rather than a bare <code>except:</code>, so unexpected bugs still surface.</li>
+              <li>Add type hints to function signatures, especially on anything another engineer will call.</li>
+              <li>Prefer passing data explicitly through parameters and return values over relying on shared global state.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Modular code breaks work into focused, independently reusable pieces instead of one long procedural script.</li>
+              <li>Scope determines where a variable is visible; prefer local variables and explicit parameters over global state.</li>
+              <li>Abstraction hides implementation behind a stable interface, which is what makes code genuinely reusable.</li>
+              <li>Handle errors you can anticipate with specific try/except blocks; document intent with type hints.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

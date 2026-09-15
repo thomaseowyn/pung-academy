@@ -31,6 +31,24 @@ Pung.PathService = (function () {
     return rootPath() + fromRoot.replace(/^\//, "");
   }
 
+  /* Where each course's overview page and lesson folder live, keyed by the
+     same course id used in js/config/courseData.js. */
+  const DEFAULT_COURSE = "introductionToProgramming";
+  const COURSE_PATHS = {
+    introductionToProgramming: {
+      overview: "pages/courses/introduction-to-programming.html",
+      lessonDir: "pages/courses/introduction",
+    },
+    ai: {
+      overview: "pages/courses/ai-overview.html",
+      lessonDir: "pages/courses/ai",
+    },
+    softwareEngineering: {
+      overview: "pages/courses/software-engineering.html",
+      lessonDir: "pages/courses/software-engineering",
+    },
+  };
+
   /* Named destinations, so a rename only has to happen here. */
   const routes = {
     home: () => url("index.html"),
@@ -39,8 +57,9 @@ Pung.PathService = (function () {
     about: () => url("pages/about-us.html"),
     courseTree: () => url("pages/course-tree.html"),
     comingSoon: () => url("pages/coming-soon.html"),
-    courseOverview: () => url("pages/courses/introduction-to-programming.html"),
-    chapter: (n) => url(`pages/courses/introduction/lesson-${Number(n)}.html`),
+    courseOverview: (courseId = DEFAULT_COURSE) => url(COURSE_PATHS[courseId].overview),
+    chapter: (n, courseId = DEFAULT_COURSE) =>
+      url(`${COURSE_PATHS[courseId].lessonDir}/lesson-${Number(n)}.html`),
     teamMember: (who) => url(`pages/team/${who}.html`),
     asset: (file) => url(`assets/${file}`),
   };

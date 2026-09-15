@@ -1,5 +1,8 @@
 /* ==========================================================================
    Site header and primary navigation
+   --------------------------------------------------------------------------
+   A slim 56px bar: brand, primary links, then the session controls.
+   Everything is small and quiet so the page below it carries the weight.
    ========================================================================== */
 
 .site-header {
@@ -28,69 +31,115 @@
 .nav__list {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-4);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .nav__list--primary {
-  flex: 1;
+  flex: none;
 }
 
 .nav__link {
   display: inline-block;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--color-text);
+  font-size: 0.845rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: color 0.15s ease;
 }
 
 .nav__link:hover {
-  background-color: var(--color-accent-soft);
   color: var(--color-primary);
-  text-decoration: none;
 }
 
 .nav__link[aria-current="page"] {
   color: var(--color-primary);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Items that are signposted but not built yet. */
 .nav__link--soon {
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
 }
 
 .nav__badge {
   margin-left: var(--space-2);
   padding: 0.1rem 0.4rem;
   border: 1px solid var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background-color: var(--color-bg-alt);
-  font-size: 0.65rem;
-  font-weight: 600;
+  font-size: 0.625rem;
+  font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
   vertical-align: 2px;
 }
 
-/* Session-aware navigation bits, toggled by js/navigation.js */
+/* Session-aware navigation bits, toggled by SiteChromeView. */
 .nav__session {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  margin-left: auto;
+}
+
+.nav__session .nav__session {
+  margin-left: 0;
+}
+
+/* Signed-in learner: initials disc, as in the design. */
+.nav__avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-accent-soft);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .nav__user {
-  font-size: 0.9rem;
+  font-size: 0.845rem;
   font-weight: 600;
-  color: var(--color-primary-dark);
+  color: var(--color-text-muted);
   white-space: nowrap;
 }
 
 [hidden] {
   display: none !important;
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 900px) {
+  .site-header__inner {
+    flex-wrap: wrap;
+    row-gap: var(--space-3);
+    padding-block: var(--space-3);
+  }
+
+  .nav {
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav__list--primary {
+    flex-basis: 100%;
+    order: 2;
+  }
+
+  .nav__session {
+    flex-basis: 100%;
+    order: 1;
+    margin-left: 0;
+    justify-content: flex-end;
+  }
 }

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 4 — Structured Data &amp; Tool Calling (Pydantic v2) — Pung Academy</title>
+    <meta name="description" content="Chapter 4 of Artificial Intelligence: Pydantic v2 schemas, enforcing JSON output, function/tool calling, and executing AI tools." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="ai" data-chapter="4">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 4</span
+            >
+            <h1 data-chapter-title>Structured Data &amp; Tool Calling (Pydantic v2)</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+
+            <p>
+              Chapter 3 made the prompt going <em>in</em> reliable. This
+              chapter does the same for what comes back <em>out</em> — so a
+              model's free-form reply can actually plug into the rest of your
+              program.
+            </p>
+
+            <h2>Pydantic v2 fundamentals</h2>
+
+            <p>
+              An LLM is non-deterministic; the rest of your software is not.
+              <strong>Pydantic</strong> is the bridge: define the exact shape
+              of data you expect as a Python class, and it validates (or
+              rejects) anything that doesn't match — with clear type hints,
+              not manual <code>if</code> checks scattered everywhere.
+            </p>
+
+            <pre class="code-block"><code>from pydantic import BaseModel
+
+class Invoice(BaseModel):
+    vendor: str
+    amount: float
+    is_paid: bool
+
+data = {"vendor": "Acme", "amount": "129.50", "is_paid": False}
+invoice = Invoice(**data)   # amount is coerced to float automatically
+print(invoice.amount)       # 129.5</code></pre>
+
+            <p>
+              That's the schema half solved. The next question is how to
+              actually get the model to produce data shaped like that in the
+              first place, instead of a paragraph of prose.
+            </p>
+
+            <h2>Enforcing structured JSON output</h2>
+
+            <p>
+              Both OpenAI and Anthropic support a JSON output mode that
+              guarantees the reply parses as valid JSON. That alone isn't
+              enough — valid JSON can still have the wrong fields or types.
+              Combining JSON mode with a Pydantic schema closes that gap:
+              parse the JSON straight into your model, and any mismatch
+              raises a clear validation error immediately.
+            </p>
+
+            <pre class="code-block"><code>from pydantic import BaseModel, ValidationError
+import json
+
+class Extraction(BaseModel):
+    name: str
+    age: int
+
+raw = client.chat.completions.create(
+    model="gpt-4o-mini",
+    response_format={"type": "json_object"},
+    messages=[{"role": "user", "content": "Extract: 'Alex is 29 years old' as JSON with name and age."}],
+).choices[0].message.content
+
+try:
+    person = Extraction.model_validate(json.loads(raw))
+except ValidationError as e:
+    print("Model returned something unexpected:", e)</code></pre>
+
+            <p>
+              Structured JSON is enough for data extraction — but sometimes
+              you don't just want the model to describe an action, you want
+              it to actually trigger one in your system. That's what tool
+              calling is for.
+            </p>
+
+            <h2>Function/tool calling basics</h2>
+
+            <p>
+              <strong>Tool calling</strong> lets you hand the model a list of
+              real Python functions it can "request" — the model never runs
+              your code itself; it only returns which function to call and
+              with what arguments, and your program decides whether and how
+              to actually run it.
+            </p>
+
+            <pre class="code-block"><code>def get_weather(city: str) -> str:
+    return f"It is sunny in {city}."
+
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Get the current weather for a city",
+        "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"],
+        },
+    },
+}]</code></pre>
+
+            <h2>Executing AI tools</h2>
+
+            <p>
+              A tool schema on its own doesn't do anything — it just tells
+              the model what's available. Making it actually run is a loop:
+              the model requests a tool call, your Python code runs the
+              matching function, and the deterministic result is fed back to
+              the model so it can write a final, natural-language answer
+              that incorporates it.
+            </p>
+
+            <pre class="code-block"><code>response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "What's the weather in Tokyo?"}],
+    tools=tools,
+)
+
+tool_call = response.choices[0].message.tool_calls[0]
+args = json.loads(tool_call.function.arguments)
+result = get_weather(**args)   # your own function actually runs, not the model
+
+follow_up = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "user", "content": "What's the weather in Tokyo?"},
+        response.choices[0].message,
+        {"role": "tool", "tool_call_id": tool_call.id, "content": result},
+    ],
+)
+print(follow_up.choices[0].message.content)</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                The model chooses <em>which</em> tool to call and
+                <em>what</em> arguments to pass — it never executes anything.
+                That distinction is what keeps tool calling safe: your code
+                stays in full control of what actually runs.
+              </p>
+            </div>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              The model's output is now something your code can trust: a
+              validated schema instead of free text, and real functions it
+              can trigger instead of just describing what it would do. The
+              next gap is knowledge, not structure — Chapter 5 is about
+              giving the model access to information it was never trained
+              on, so it stops guessing at facts it simply doesn't have.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Trusting JSON-mode output without validating it — JSON mode guarantees valid JSON syntax, not the right fields or types.</li>
+              <li>Letting the model execute a tool's side effects directly, instead of keeping your own code in control of whether it actually runs.</li>
+              <li>Defining a tool schema so vaguely that the model can't reliably tell when it should be used.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Always parse structured output through a Pydantic model, even when the provider guarantees JSON syntax.</li>
+              <li>Keep tool execution in your own code — the model requests, your code decides whether and how to run it.</li>
+              <li>Write clear, specific tool descriptions, since that description is how the model decides when to call it.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Pydantic models define expected data shape as type-hinted classes, validating (or rejecting) anything that doesn't match.</li>
+              <li>JSON mode plus Pydantic closes the gap between "syntactically valid JSON" and "the exact shape your code needs."</li>
+              <li>Tool calling lets a model request a function call; your code always decides whether it actually runs.</li>
+              <li>The full loop is request → tool call → execute → feed result back → final answer.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Practical</span>
+            <h2>Practical things you can apply right now</h2>
+            <ul>
+              <li>Define a Pydantic model for one real data shape you work with, and validate a plain dict against it.</li>
+              <li>Turn one of your existing prompts into a JSON-mode call, then parse the result straight into a Pydantic model and see what happens when the model returns something slightly off-shape.</li>
+              <li>Write one plain Python function (no API calls inside it) and describe it as a tool schema.</li>
+              <li>Build the full request → tool call → execute → follow-up loop for that one function, end to end.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Every exercise and the chapter challenge have to be passed
+                before this chapter counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

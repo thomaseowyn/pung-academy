@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -217,6 +217,29 @@ elif temperature &gt; 30:
                 one <code>if</code> lives inside another.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Writing <code>=</code> where <code>==</code> was meant. <code>=</code> assigns a value; <code>==</code> asks whether two values are equal.</li>
+              <li>Ordering a grade ladder from the lowest threshold up, so a high score is caught by an early branch and never reaches the right one.</li>
+              <li>Forgetting the colon at the end of an <code>if</code> line, or not indenting the block beneath it.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Comparison operators produce a boolean — <code>True</code> or <code>False</code> — which is what a condition tests.</li>
+              <li><code>if</code> runs a block only when its condition is <code>True</code>; <code>else</code> covers every other case.</li>
+              <li><code>elif</code> chains further tests, and Python runs the first branch that matches, then skips the rest.</li>
+              <li>Order your conditions from the most specific threshold to the least, or earlier branches will swallow later ones.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

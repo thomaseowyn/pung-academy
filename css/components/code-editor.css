@@ -1,13 +1,16 @@
 /* ==========================================================================
    The exercise code editor
+   --------------------------------------------------------------------------
+   Light, like every other code surface on the site: the editor is part of
+   the lesson you are reading, not a terminal dropped into it.
    ========================================================================== */
 
 /* ------------------------------ Code editor ------------------------------ */
 .editor {
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-bg-code);
 }
 
 .editor__bar {
@@ -16,21 +19,21 @@
   justify-content: space-between;
   gap: var(--space-4);
   padding: var(--space-2) var(--space-4);
-  background-color: #0e2b4f;
-  border-bottom: 1px solid #1e4272;
+  background-color: var(--color-bg-muted);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .editor__label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #7fb3e8;
+  color: var(--color-accent);
 }
 
 .editor__note {
-  font-size: 0.75rem;
-  color: #8fa8c4;
+  font-size: 0.72rem;
+  color: var(--color-text-faint);
 }
 
 .editor__body {
@@ -42,11 +45,11 @@
   flex: none;
   padding: var(--space-4) var(--space-2) var(--space-4) var(--space-4);
   overflow: hidden;
-  background-color: #0e2b4f;
-  color: #5f7fa5;
-  font-family: "Consolas", "SFMono-Regular", ui-monospace, monospace;
-  font-size: 0.88rem;
-  line-height: 1.65;
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.845rem;
+  line-height: 1.75;
   text-align: right;
   white-space: pre;
   user-select: none;
@@ -59,11 +62,11 @@
   border: 0;
   outline: none;
   resize: vertical;
-  background-color: var(--color-primary-dark);
-  color: #e5edf7;
-  font-family: "Consolas", "SFMono-Regular", ui-monospace, monospace;
-  font-size: 0.88rem;
-  line-height: 1.65;
+  background-color: var(--color-bg-code);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.845rem;
+  line-height: 1.75;
   tab-size: 4;
 }
 

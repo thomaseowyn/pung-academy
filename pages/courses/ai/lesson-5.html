@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 5 — Grounding AI with Your Data (RAG &amp; Vector Search) — Pung Academy</title>
+    <meta name="description" content="Chapter 5 of Artificial Intelligence: RAG architecture, embeddings, document chunking, vector databases, and the full RAG pipeline." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="ai" data-chapter="5">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 5</span
+            >
+            <h1 data-chapter-title>Grounding AI with Your Data (RAG &amp; Vector Search)</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+
+            <p>
+              Chapters 3 and 4 made prompts and outputs reliable. This
+              chapter tackles a different problem entirely: the model simply
+              doesn't know things it was never trained on. No amount of
+              clever prompting fixes that — you have to give it the
+              information directly.
+            </p>
+
+            <h2>The RAG architecture</h2>
+
+            <p>
+              A model only knows what it saw during training — nothing about
+              your private documents, your product's internal database, or
+              anything published after its training cutoff.
+              <strong>Retrieval-Augmented Generation (RAG)</strong> fixes
+              this without retraining anything: at query time, you retrieve
+              the most relevant pieces of your own data and insert them
+              directly into the prompt, so the model answers grounded in
+              real, current text instead of guessing.
+            </p>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                RAG beats fine-tuning for most knowledge tasks because your
+                data can change constantly — update the source documents and
+                the very next query reflects it. Fine-tuning "bakes in"
+                knowledge and needs a fresh, costly retraining pass every time
+                the underlying facts change.
+              </p>
+            </div>
+
+            <p>
+              "Retrieve the most relevant pieces" is doing a lot of work in
+              that sentence. To actually find them, you need a way to
+              measure how close in <em>meaning</em> two pieces of text are —
+              which is exactly what an embedding gives you.
+            </p>
+
+            <h2>Embeddings &amp; semantic similarity</h2>
+
+            <p>
+              An <strong>embedding</strong> is a numeric vector representing
+              the meaning of a piece of text — produced by a dedicated model
+              like <code>text-embedding-3-small</code>. Texts with similar
+              meaning end up as vectors that are mathematically close
+              together, so "semantic distance" becomes something you can
+              actually compute.
+            </p>
+
+            <pre class="code-block"><code>response = client.embeddings.create(
+    model="text-embedding-3-small",
+    input="How do I reset my password?",
+)
+vector = response.data[0].embedding   # e.g. a 1536-number list</code></pre>
+
+            <p>
+              This is what makes retrieval "semantic" rather than
+              keyword-based: a query for "reset my password" can match a
+              document about "account recovery" even though they share no
+              exact words, because their embeddings land close together.
+            </p>
+
+            <p>
+              Embeddings compare pieces of text — but "your data" usually
+              arrives as whole documents, not tidy pieces. Getting from one
+              to the other is the next step.
+            </p>
+
+            <h2>Document loading &amp; chunking</h2>
+
+            <p>
+              Real documents (PDFs, Markdown, web pages) are too long to
+              embed as one giant block — and stuffing an entire document into
+              a prompt wastes tokens on irrelevant parts. Instead, you split
+              each document into smaller, <strong>overlapping</strong> chunks,
+              each coherent enough to stand alone as a unit of meaning.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Overlap matters: without it, a sentence that spans a chunk
+                boundary gets cut in half, and neither half retrieves well on
+                its own. A small overlap (for example, the last few sentences
+                of one chunk repeated at the start of the next) keeps ideas
+                intact across the split.
+              </p>
+            </div>
+
+            <p>
+              Chunked and embedded documents still need somewhere to actually
+              live — somewhere built to search millions of vectors by
+              similarity, not by exact match.
+            </p>
+
+            <h2>Vector databases</h2>
+
+            <p>
+              Once documents are chunked and embedded, they need somewhere to
+              live that supports fast similarity search across potentially
+              millions of vectors. A lightweight vector database like
+              <strong>ChromaDB</strong> or <strong>Qdrant</strong> stores each
+              chunk's text alongside its embedding, and can return the
+              closest matches to a new query vector in milliseconds.
+            </p>
+
+            <pre class="code-block"><code>import chromadb
+
+client = chromadb.Client()
+collection = client.create_collection("docs")
+
+collection.add(
+    documents=[chunk_text_1, chunk_text_2],
+    embeddings=[vector_1, vector_2],
+    ids=["chunk-1", "chunk-2"],
+)</code></pre>
+
+            <p>
+              Every piece is now in place: a way to measure meaning, chunks
+              small enough to retrieve precisely, and somewhere fast to
+              search them. Here's what answering one real user question
+              looks like end to end.
+            </p>
+
+            <h2>The full RAG pipeline</h2>
+
+            <pre class="code-block"><code>query = "How do I reset my password?"
+
+query_vector = embed(query)
+results = collection.query(query_embeddings=[query_vector], n_results=3)
+retrieved_chunks = results["documents"][0]
+
+prompt = f"""
+&lt;context&gt;
+{chr(10).join(retrieved_chunks)}
+&lt;/context&gt;
+
+&lt;question&gt;{query}&lt;/question&gt;
+Answer using only the context above.
+"""
+
+answer = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": prompt}],
+)</code></pre>
+
+            <p>
+              Embed the query, retrieve the top-<em>K</em> closest chunks,
+              inject them into the prompt (Chapter 3's structural prompting
+              applies directly here), and let the model generate its answer
+              grounded in exactly that retrieved text.
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box">Embed query</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Retrieve top-K chunks</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Inject into prompt</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Generate grounded answer</span>
+              <p class="diagram__caption">The four-step shape of every RAG system, regardless of which vector database or model provider it uses.</p>
+            </div>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              The model can now answer from documents it never saw during
+              training, kept current simply by updating what's in the vector
+              database — no retraining required. It still only answers one
+              question at a time, though, with no memory of what was asked
+              before and no way to hand off to a more specialized process.
+              Chapter 6 is where the model starts acting less like a single
+              call and more like an ongoing agent.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Chunking without overlap, splitting one idea across a boundary so neither resulting chunk retrieves well.</li>
+              <li>Retrieving too many chunks and stuffing them all into the prompt, triggering Chapter 3's "lost in the middle" problem.</li>
+              <li>Assuming RAG eliminates hallucination entirely, instead of just reducing it by grounding answers in retrieved text.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Chunk with a small overlap so ideas spanning a boundary still retrieve correctly from at least one chunk.</li>
+              <li>Retrieve only the top few most relevant chunks (top-K), not everything above a loose similarity threshold.</li>
+              <li>Structure retrieved context clearly in the prompt (Chapter 3's tags), and instruct the model to say when the context doesn't contain an answer.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>RAG grounds a model in your own data at query time, without retraining, by retrieving and injecting relevant text.</li>
+              <li>Embeddings measure semantic similarity, enabling retrieval by meaning rather than exact keyword match.</li>
+              <li>Documents are chunked (with overlap) and stored in a vector database for fast similarity search.</li>
+              <li>The pipeline is always: embed the query, retrieve, inject into the prompt, generate.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Practical</span>
+            <h2>Practical things you can apply right now</h2>
+            <ul>
+              <li>Generate an embedding for two similar sentences and two unrelated ones, and confirm the similar pair's vectors are closer together.</li>
+              <li>Take one real document you have and split it into overlapping chunks of a few hundred words each.</li>
+              <li>Stand up a local ChromaDB collection, add your chunks with their embeddings, and query it with a real question.</li>
+              <li>Wire the retrieved chunks into a structured prompt (Chapter 3 style) and generate a grounded answer end to end.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Every exercise and the chapter challenge have to be passed
+                before this chapter counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

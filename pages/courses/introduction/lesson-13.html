@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -231,6 +231,29 @@ if new_note:
                 previous contents every single time it is opened.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Opening an existing file with <code>"w"</code> when you meant <code>"a"</code>, which wipes its contents instantly.</li>
+              <li>Forgetting to close a file — which is exactly why <code>with</code> exists and should be your default.</li>
+              <li>Expecting <code>.write()</code> to add a line break. It does not; you have to include <code>\n</code> yourself.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li><code>with open(...) as file:</code> opens a file and closes it automatically when the block ends.</li>
+              <li>Modes matter: <code>"r"</code> reads, <code>"w"</code> overwrites from empty, <code>"a"</code> appends to the end.</li>
+              <li>CSV suits flat rows of tabular data; JSON suits nested structures like dictionaries and lists.</li>
+              <li><code>json.dump()</code> writes a structure to a file and <code>json.load()</code> reads it back as real Python objects.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

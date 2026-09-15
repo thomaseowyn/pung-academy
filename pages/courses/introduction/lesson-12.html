@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -255,6 +255,29 @@ except IndexError:
                 <code>IndexError</code>, not <code>ValueError</code>.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Using a bare <code>except:</code>, which swallows every error including typos in your own code.</li>
+              <li>Wrapping the whole program in one enormous <code>try</code>, so you cannot tell which line actually failed.</li>
+              <li>Reading a stack trace from the top. The most useful lines are at the bottom — the error type and the line that raised it.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li><code>try</code> holds the risky code; <code>except</code> handles a named failure without crashing the program.</li>
+              <li><code>else</code> runs only when nothing was raised; <code>finally</code> runs either way, which suits cleanup.</li>
+              <li><code>raise</code> lets you signal a problem deliberately when input does not make sense.</li>
+              <li>Catch specific exceptions such as <code>ValueError</code> or <code>ZeroDivisionError</code>, so genuine bugs still surface.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

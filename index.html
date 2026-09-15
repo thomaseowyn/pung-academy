@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/main.css" />
@@ -27,76 +27,107 @@
       <section class="hero">
         <div class="container hero__grid">
           <div>
-            <p class="eyebrow">Structured learning for absolute beginners</p>
+            <p class="eyebrow">Pung Academy · Learn</p>
             <h1 class="hero__title">
-              Learn Programming.<br /><span>Build Your Path.</span>
+              Learn programming, one guided course at a time.
             </h1>
+            <p class="hero__text">
+              Short, structured lessons with a hands-on exercise at the end
+              of every chapter — no filler, just the next step.
+            </p>
             <div class="hero__actions">
               <a class="btn btn--primary btn--lg" href="pages/login.html"
-                >Get Started</a
+                >Start learning</a
               >
+              <!-- An in-page anchor, not the roadmap: the roadmap is behind
+                   the login gate, so a logged-out visitor clicking it would
+                   land on the same login page the primary button goes to. -->
               <a class="btn btn--secondary btn--lg" href="#how-it-works">See how it works</a>
             </div>
 
-            <ul class="hero__points">
-              <li>No prior experience needed</li>
-              <li>One step at a time</li>
-              <li>Curated resources only</li>
-            </ul>
+            <div class="hero__stats">
+              <div>
+                <strong>3</strong>
+                <span>courses</span>
+              </div>
+              <div>
+                <strong>38</strong>
+                <span>lessons</span>
+              </div>
+              <div>
+                <strong>100%</strong>
+                <span>hands-on</span>
+              </div>
+            </div>
           </div>
 
-          <!-- Roadmap visual: pure CSS, no images required. -->
-          <div class="roadmap" id="roadmap-preview" aria-labelledby="roadmap-title">
-            <div class="roadmap__header">
-              <h2 class="roadmap__title" id="roadmap-title">
-                Your learning roadmap
-              </h2>
-              <span class="roadmap__meta">Example path</span>
+          <!-- Code window: static, decorative, no images required. -->
+          <div class="code-window" aria-hidden="true">
+            <div class="code-window__bar">
+              <span class="code-window__dot code-window__dot--red"></span>
+              <span class="code-window__dot code-window__dot--yellow"></span>
+              <span class="code-window__dot code-window__dot--green"></span>
+              <span class="code-window__file">first_project.py</span>
             </div>
+            <pre class="code-window__body"><code><span class="code-window__kw">def</span> <span class="code-window__fn">greet</span>(name):
+    <span class="code-window__kw">return</span> f<span class="code-window__str">"Hello, {name}!"</span>
 
-            <ol class="roadmap__steps">
-              <li class="roadmap__step roadmap__step--active">
-                <span class="roadmap__num" aria-hidden="true"></span>
-                <span>
-                  <span class="roadmap__label">Basics</span>
-                  <span class="roadmap__desc"
-                    >How computers think, variables, logic, problem solving</span
-                  >
-                </span>
-              </li>
-              <li class="roadmap__step">
-                <span class="roadmap__num" aria-hidden="true"></span>
-                <span>
-                  <span class="roadmap__label">Programming</span>
-                  <span class="roadmap__desc"
-                    >One language, properly: syntax, data, functions, debugging</span
-                  >
-                </span>
-              </li>
-              <li class="roadmap__step">
-                <span class="roadmap__num" aria-hidden="true"></span>
-                <span>
-                  <span class="roadmap__label">Projects</span>
-                  <span class="roadmap__desc"
-                    >Small builds that turn knowledge into working software</span
-                  >
-                </span>
-              </li>
-              <li class="roadmap__step">
-                <span class="roadmap__num" aria-hidden="true"></span>
-                <span>
-                  <span class="roadmap__label">Career Path</span>
-                  <span class="roadmap__desc"
-                    >Choose a direction: Artificial Intelligence, Software Engineering, and others</span
-                  >
-                </span>
-              </li>
-            </ol>
+print(greet(<span class="code-window__str">"world"</span>))
+<span class="code-window__out">&gt;&gt;&gt; Hello, world!</span></code></pre>
+          </div>
+        </div>
+      </section>
 
-            <p class="roadmap__footer">
-              <span class="roadmap__progress" aria-hidden="true"><span></span></span>
-              Step 1 of 4
-            </p>
+      <!-- ================= Your path ================= -->
+      <section class="section section--alt" id="your-path">
+        <div class="container">
+          <div class="your-path__header">
+            <h2>Your path</h2>
+            <a href="pages/course-tree.html">See the full path →</a>
+          </div>
+
+          <div class="your-path">
+            <a class="course-card your-path__course" data-course-card href="pages/courses/introduction-to-programming.html">
+              <div class="course-card__top">
+                <div>
+                  <span class="course-card__eyebrow">Course 1 · Available now</span>
+                  <h3 class="course-card__title">Introduction to Programming</h3>
+                </div>
+                <span class="course-card__badge" data-course-badge>Start here</span>
+              </div>
+
+              <p class="course-card__text">
+                Sixteen chapters that take you from what a computer even is
+                to object-oriented Python.
+              </p>
+
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text
+                  >0 / 16 chapters</span
+                >
+              </div>
+
+              <span class="course-card__button" data-course-cta>Start course</span>
+            </a>
+
+            <span class="your-path__connector" aria-hidden="true"></span>
+
+            <div class="your-path__next">
+              <article class="branch-row" data-branch="ai">
+                <span class="branch-row__icon" data-branch-icon aria-hidden="true">🔒</span>
+                <h3 class="branch-row__title">Artificial Intelligence</h3>
+                <span class="branch-row__status" data-branch-status>Locked</span>
+              </article>
+
+              <article class="branch-row" data-branch="software-engineering">
+                <span class="branch-row__icon" data-branch-icon aria-hidden="true">🔒</span>
+                <h3 class="branch-row__title">Software Engineering</h3>
+                <span class="branch-row__status" data-branch-status>Locked</span>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -199,7 +230,7 @@
       </section>
 
       <!-- ================= Resources preview ================= -->
-      <section class="section section--alt" id="resources">
+      <section class="section" id="resources">
         <div class="container">
           <div class="section__header section__header--center">
             <p class="eyebrow">Resources</p>
@@ -239,11 +270,13 @@
       <!-- ================= Final CTA ================= -->
       <section class="cta">
         <div class="container">
-          <h2>Ready to stop guessing what to learn next?</h2>
-          <p>
-            Create a free account and start at step one. You can always change
-            direction later — but you will never again have to wonder where to start.
-          </p>
+          <div class="cta__text">
+            <h2>Ready to stop guessing what to learn next?</h2>
+            <p>
+              Create a free account and start at step one. You can always change
+              direction later — but you will never again have to wonder where to start.
+            </p>
+          </div>
           <div class="cta__actions">
             <a class="btn btn--on-dark btn--lg" href="pages/login.html">Get Started</a>
           </div>

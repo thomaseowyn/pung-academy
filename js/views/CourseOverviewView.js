@@ -14,12 +14,17 @@ Pung.CourseOverviewView = (function () {
   const { routes } = Pung.PathService;
 
   const STATE_LABEL = {
-    completed: "✓ Completed",
-    current: "▶ Current",
-    locked: "🔒 Locked",
+    completed: "Completed",
+    current: "Current",
+    locked: "Locked",
   };
 
-  function renderHeader({ completed, total, percent, finished, next }) {
+  /* A line icon rather than the 🔒 emoji, so the row reads as part of the
+     interface instead of picking up the host platform's emoji font. */
+  const ICON_LOCK =
+    '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+  function renderHeader({ completed, total, percent, finished, next }, courseId) {
     const fill = document.querySelector("[data-course-progress-fill]");
     if (fill) {
       fill.style.width = `${percent}%`;
@@ -36,14 +41,20 @@ Pung.CourseOverviewView = (function () {
       percentSlot.textContent = `${percent}%`;
     }
 
+    /* The whole phrase, not just the number, so "1 lesson" reads correctly
+       and a finished course says so rather than "0 lessons to go". */
     const remaining = document.querySelector("[data-course-remaining]");
     if (remaining) {
-      remaining.textContent = String(total - completed);
+      const left = total - completed;
+      remaining.innerHTML =
+        left === 0
+          ? "Course complete"
+          : `<strong>${left}</strong> lesson${left === 1 ? "" : "s"} to go`;
     }
 
     const begin = document.querySelector("[data-begin-course]");
     if (begin) {
-      begin.href = routes.chapter(next);
+      begin.href = routes.chapter(next, courseId);
       begin.textContent = finished
         ? "Review the final project"
         : completed > 0
@@ -58,7 +69,7 @@ Pung.CourseOverviewView = (function () {
    *                       [start, end] chapter range
    * @param {Function} onLockedClick  called with the row element
    */
-  function renderChapterList(rows, units, onLockedClick) {
+  function renderChapterList(rows, units, onLockedClick, courseId) {
     const list = document.querySelector("[data-chapter-list]");
     if (!list) {
       return;
@@ -70,7 +81,7 @@ Pung.CourseOverviewView = (function () {
 
     const orientation = byNumber.get(1);
     if (orientation) {
-      list.appendChild(buildOrientation(orientation, onLockedClick));
+      list.appendChild(buildOrientation(orientation, onLockedClick, courseId));
       grouped.add(1);
     }
 
@@ -78,17 +89,17 @@ Pung.CourseOverviewView = (function () {
       const [start, end] = unit.range;
       const unitRows = rows.filter((row) => row.number >= start && row.number <= end);
       unitRows.forEach((row) => grouped.add(row.number));
-      list.appendChild(buildUnit(unit, unitRows, onLockedClick));
+      list.appendChild(buildUnit(unit, unitRows, onLockedClick, courseId));
     });
 
     // Any chapter not covered by the orientation slot or a unit range still
     // needs to render, so the list never silently drops a chapter.
     rows
       .filter((row) => !grouped.has(row.number))
-      .forEach((row) => list.appendChild(buildRow(row, onLockedClick)));
+      .forEach((row) => list.appendChild(buildRow(row, onLockedClick, courseId)));
   }
 
-  function buildOrientation({ number, data, state }, onLockedClick) {
+  function buildOrientation({ number, data, state }, onLockedClick, courseId) {
     const wrapper = document.createElement("div");
     wrapper.className = "chapter-list__orientation";
 
@@ -97,11 +108,11 @@ Pung.CourseOverviewView = (function () {
     label.textContent = "Orientation";
     wrapper.appendChild(label);
 
-    wrapper.appendChild(buildRow({ number, data, state }, onLockedClick));
+    wrapper.appendChild(buildRow({ number, data, state }, onLockedClick, courseId));
     return wrapper;
   }
 
-  function buildUnit(unit, unitRows, onLockedClick) {
+  function buildUnit(unit, unitRows, onLockedClick, courseId) {
     const wrapper = document.createElement("div");
     wrapper.className = "unit";
 
@@ -120,7 +131,7 @@ Pung.CourseOverviewView = (function () {
 
     const body = document.createElement("div");
     body.className = "unit__body";
-    unitRows.forEach((row) => body.appendChild(buildRow(row, onLockedClick)));
+    unitRows.forEach((row) => body.appendChild(buildRow(row, onLockedClick, courseId)));
     wrapper.appendChild(body);
 
     if (unit.bridge) {
@@ -133,7 +144,7 @@ Pung.CourseOverviewView = (function () {
     return wrapper;
   }
 
-  function buildRow({ number, data, state }, onLockedClick) {
+  function buildRow({ number, data, state }, onLockedClick, courseId) {
     const row = document.createElement("article");
     row.className = `chapter chapter--${state}`;
     if (data.isFinalProject) {
@@ -142,8 +153,7 @@ Pung.CourseOverviewView = (function () {
 
     const marker = document.createElement("span");
     marker.className = "chapter__marker";
-    marker.textContent =
-      state === "completed" ? "✓" : state === "locked" ? "🔒" : String(number);
+    marker.textContent = String(number);
     row.appendChild(marker);
 
     const body = document.createElement("div");
@@ -176,15 +186,17 @@ Pung.CourseOverviewView = (function () {
     if (state === "locked") {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "btn btn--secondary";
-      button.textContent = "Locked";
+      button.className = "chapter__action-tag chapter__action-tag--locked";
+      button.innerHTML = `${ICON_LOCK}<span>Locked</span>`;
       button.addEventListener("click", () => onLockedClick(row));
       action.appendChild(button);
     } else {
       const link = document.createElement("a");
-      link.className = `btn btn--${state === "completed" ? "secondary" : "primary"}`;
-      link.textContent = state === "completed" ? "Review" : "Start";
-      link.href = routes.chapter(number);
+      link.className = `chapter__action-tag chapter__action-tag--${
+        state === "completed" ? "review" : "continue"
+      }`;
+      link.textContent = state === "completed" ? "Review" : "Continue";
+      link.href = routes.chapter(number, courseId);
       action.appendChild(link);
     }
 

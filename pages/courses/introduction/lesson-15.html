@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -270,6 +270,29 @@ Withdrew 30. New balance: 40</code></pre>
                 class's version.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Leaving <code>self</code> out of a method definition, which produces a confusing 'takes 0 positional arguments' error.</li>
+              <li>Assigning to a plain local name in <code>__init__</code> instead of <code>self.name</code>, so the value vanishes when it returns.</li>
+              <li>Reaching for inheritance whenever two classes look similar, when composition would be simpler to follow.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A class is a template; an object is one specific thing built from that template.</li>
+              <li><code>__init__</code> runs when an object is created and sets up that object's own attributes.</li>
+              <li><code>self</code> refers to the particular object a method was called on, and Python passes it automatically.</li>
+              <li>Inheritance lets a class reuse another's attributes and methods, and override the parts that differ.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

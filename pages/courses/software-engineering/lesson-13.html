@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 13 — Deployment &amp; DevOps Basics — Pung Academy</title>
+    <meta name="description" content="Module 13 of Software Engineering: dev vs production, Docker, containers vs VMs, CI/CD, and basic cloud concepts." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="13">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 13</span>
+            <h1 data-chapter-title>Deployment &amp; DevOps Basics</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              A tested (Module 11), secure (Module 10) backend still has to
+              reach real users. This module covers the gap between "runs on
+              my machine" and "runs reliably in production" — environments,
+              containers, and the CI/CD pipeline that automates getting
+              changes there safely.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Development vs. production</h2>
+
+            <p>
+              <strong>Development</strong> is where code is written and
+              tested, often with fake data and relaxed settings.
+              <strong>Production</strong> is the live system real users
+              depend on. Keeping them close in behaviour (same dependencies,
+              similar configuration) is what makes "it worked in
+              development" a meaningful signal instead of a false promise.
+            </p>
+
+            <h2>Build and deployment, servers, and basic Linux</h2>
+
+            <p>
+              A <strong>build</strong> turns source code into something
+              runnable. <strong>Deployment</strong> gets that build onto a
+              <strong>server</strong> — a machine (often running Linux)
+              that stays on and reachable, running your application
+              continuously.
+            </p>
+
+            <h2>Docker: containers vs. virtual machines</h2>
+
+            <p>
+              A <strong>container</strong> packages an application and its
+              dependencies together, sharing the host machine's OS kernel —
+              lightweight and fast to start. A <strong>virtual machine</strong>
+              virtualizes an entire separate operating system — heavier, but
+              more isolated. Docker is the standard tool for building and
+              running containers.
+            </p>
+
+            <pre class="code-block"><code># Dockerfile
+FROM python:3.12-slim
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]</code></pre>
+
+            <h2>CI/CD and GitHub Actions concepts</h2>
+
+            <p>
+              <strong>CI/CD</strong> (Continuous Integration/Continuous
+              Deployment) automates what happens after code is pushed:
+              build it, run the test suite (Module 11) automatically, and
+              only deploy if everything passes. GitHub Actions is one common
+              tool for defining this pipeline directly alongside the code it
+              tests.
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box">Code pushed</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Build</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Tests run</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Deploy</span>
+              <p class="diagram__caption">A failing test at any step blocks the pipeline — broken code never reaches production automatically.</p>
+            </div>
+
+            <h2>Logging, monitoring, and basic cloud concepts</h2>
+
+            <p>
+              Once deployed, <strong>logging</strong> (Module 11) and
+              <strong>monitoring</strong> are what tell you the system is
+              actually healthy — or alert you the moment it isn't. Cloud
+              providers (AWS, Google Cloud, Azure) rent out servers,
+              storage, and managed services on demand, instead of a team
+              buying and maintaining physical hardware themselves.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Deploying manually and inconsistently instead of through an automated, repeatable pipeline.</li>
+              <li>Letting development and production configurations drift far apart, so "it worked locally" stops meaning anything.</li>
+              <li>Deploying with no logging or monitoring in place, so a production failure is only noticed when a user reports it.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Automate deployment through CI/CD rather than manual steps — consistency matters more than speed here.</li>
+              <li>Never let a failing test block be bypassed just to ship faster — that's exactly what the pipeline exists to prevent.</li>
+              <li>Set up basic logging and monitoring before you need them, not after a production incident.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Development is for building and testing; production is the live system users depend on.</li>
+              <li>Containers share the host OS kernel and are lightweight; VMs virtualize a full separate OS.</li>
+              <li>CI/CD automates build → test → deploy, blocking a broken build or failing test from reaching production.</li>
+              <li>Logging and monitoring are what make a production issue visible before a user has to report it.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

@@ -6,20 +6,32 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 1.15rem;
+  font-size: 0.94rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--color-primary-dark);
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
   white-space: nowrap;
 }
 
 .brand:hover {
-  text-decoration: none;
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
 }
 
 .brand__mark {
+  width: 26px;
+  height: 26px;
+  flex: none;
+}
+
+/* The auth pages and the footer use the lockup as a standalone mark, where
+   it needs a little more presence than it has in the 56px header bar. */
+.auth .brand,
+.site-footer .brand {
+  font-size: 1.05rem;
+}
+
+.auth .brand__mark,
+.site-footer .brand__mark {
   width: 30px;
   height: 30px;
-  flex: none;
 }

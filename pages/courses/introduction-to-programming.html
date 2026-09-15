@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../css/main.css" />
@@ -38,16 +38,10 @@
             programming and writing properly Pythonic code.
           </p>
 
-          <div class="course-hero__actions">
-            <a class="btn btn--primary btn--lg" data-begin-course href="introduction/lesson-1.html"
+          <div class="course-hero__bar">
+            <a class="btn btn--pill" data-begin-course href="introduction/lesson-1.html"
               >Begin Course</a
             >
-            <a class="btn btn--secondary btn--lg" href="../course-tree.html"
-              >Back to roadmap</a
-            >
-          </div>
-
-          <div class="course-hero__progress">
             <div class="progress">
               <span class="progress__track">
                 <span class="progress__fill" data-course-progress-fill></span>
@@ -56,24 +50,34 @@
                 >0 / 16 chapters completed</span
               >
             </div>
+            <span class="course-hero__remaining"
+               data-course-remaining>0 lessons to go</span
+            >
+          </div>
 
+          <div class="course-hero__meta">
             <div class="course-stats">
               <p>
                 <strong data-course-percent>0%</strong>
                 complete
               </p>
               <p>
-                <strong data-course-remaining>16</strong>
-                chapters remaining
-              </p>
-              <p>
                 <strong>8</strong>
                 projects to build
               </p>
             </div>
+            <a class="course-hero__back" href="../course-tree.html">Back to roadmap</a>
           </div>
         </div>
       </section>
+
+      <!-- ================= Tabs ================= -->
+      <div class="course-tabs">
+        <div class="container">
+          <span class="course-tabs__tab course-tabs__tab--active">Lessons</span>
+          <span class="course-tabs__tab">About this course</span>
+        </div>
+      </div>
 
       <!-- ================= What you will learn ================= -->
       <section class="section">
@@ -100,6 +104,36 @@
             <button class="btn btn--secondary" type="button" data-reset-progress>
               Reset my progress
             </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= What's next ================= -->
+      <section class="section">
+        <div class="container">
+          <div class="section__header">
+            <p class="eyebrow">What's next</p>
+            <h2>Finish this course to choose your branch</h2>
+          </div>
+
+          <div class="branch-list">
+            <article class="branch-row" data-branch="ai">
+              <span class="branch-row__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <div class="branch-row__body">
+                <h3 class="branch-row__title">Artificial Intelligence</h3>
+                <p class="branch-row__text">7 lessons · <span data-branch-note>unlocks after Introduction to Programming</span></p>
+              </div>
+              <span class="branch-row__status" data-branch-status>Locked</span>
+            </article>
+
+            <article class="branch-row" data-branch="software-engineering">
+              <span class="branch-row__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <div class="branch-row__body">
+                <h3 class="branch-row__title">Software Engineering</h3>
+                <p class="branch-row__text">15 lessons · <span data-branch-note>unlocks after Introduction to Programming</span></p>
+              </div>
+              <span class="branch-row__status" data-branch-status>Locked</span>
+            </article>
           </div>
         </div>
       </section>

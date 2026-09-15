@@ -1,66 +1,156 @@
 /* ==========================================================================
-   Introduction to Programming overview
+   Course overview page
+   --------------------------------------------------------------------------
+   A single narrow reading column on white: course title, one action bar,
+   tabs, then the lesson list. The header/footer keep the site's full
+   width — only the page body narrows.
    ========================================================================== */
 
-/* =======================================================================
-   Course overview page
-   ======================================================================= */
-.course-hero {
-  padding-block: var(--space-8) var(--space-7);
-  background-color: var(--color-accent-soft);
-  border-bottom: 1px solid var(--color-border);
+main .container {
+  max-width: var(--container-narrow);
 }
 
-.course-hero__inner {
-  max-width: 46rem;
+/* ----------------------------- Course header ----------------------------- */
+.course-hero {
+  padding-block: var(--space-7) 0;
+  background-color: var(--color-bg);
 }
 
 .course-hero h1 {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-2);
+  font-size: clamp(1.875rem, 1.4rem + 1.4vw, 2.375rem);
 }
 
 .course-hero__text {
-  font-size: 1.075rem;
+  max-width: 44rem;
+  margin-bottom: var(--space-5);
+  font-size: 1rem;
+  line-height: 1.6;
   color: var(--color-text-muted);
 }
 
-.course-hero__actions {
+/* The one row that says what to do next and how far you have come. */
+.course-hero__bar {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
+  gap: var(--space-5);
 }
 
-.course-hero__progress {
-  max-width: 34rem;
-  margin-top: var(--space-6);
-  padding-top: var(--space-5);
-  border-top: 1px solid var(--color-border-strong);
+.course-hero__bar .progress {
+  flex: 1;
+  max-width: 20rem;
+}
+
+/* "N lessons to go" beside the bar already says this, in words. */
+.course-hero__bar .progress__text {
+  display: none;
+}
+
+.course-hero__remaining {
+  flex: none;
+  font-size: 0.905rem;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.course-hero__remaining strong {
+  font-weight: 700;
+}
+
+/* Secondary facts, deliberately quieter than the bar above them. */
+.course-hero__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 .course-stats {
   display: flex;
   gap: var(--space-6);
-  margin-top: var(--space-5);
-  font-size: 0.9rem;
+  margin: 0;
+  font-size: 0.82rem;
   color: var(--color-text-muted);
+}
+
+.course-stats p {
+  margin: 0;
 }
 
 .course-stats strong {
   display: block;
-  font-size: 1.35rem;
-  color: var(--color-primary);
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-heading);
 }
 
-/* ------------------------ Reset progress ------------------------ */
+.course-hero__back {
+  flex: none;
+  font-size: 0.845rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------- Tabs ---------------------------------- */
+.course-tabs {
+  margin-top: var(--space-6);
+}
+
+.course-tabs .container {
+  display: flex;
+  gap: 1.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.course-tabs__tab {
+  padding-bottom: var(--space-3);
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--color-text-faint);
+  border-bottom: 2px solid transparent;
+}
+
+.course-tabs__tab--active {
+  font-weight: 700;
+  color: var(--color-heading);
+  border-bottom-color: var(--color-heading);
+}
+
+/* ------------------------ Progress reset / footnote ---------------------- */
 .course-tools {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-top: var(--space-7);
+  margin-top: var(--space-6);
   padding-top: var(--space-5);
   border-top: 1px solid var(--color-border);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-text-muted);
+}
+
+/* .branch-list / .branch-row live in css/components/course-node.css —
+   shared with the course-tree page and the homepage's path preview. */
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 760px) {
+  .course-hero__bar {
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .course-hero__bar .progress {
+    max-width: none;
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .course-hero__meta,
+  .course-stats,
+  .course-tools {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

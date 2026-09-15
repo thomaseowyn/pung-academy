@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 1 — The Modern AI Developer Setup — Pung Academy</title>
+    <meta name="description" content="Chapter 1 of Artificial Intelligence: a production-grade Python setup for AI engineering — uv, ruff, .env secrets, and async basics." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="ai" data-chapter="1">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 1</span
+            >
+            <h1 data-chapter-title>The Modern AI Developer Setup</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Why the tooling changed</h2>
+
+            <p>
+              This course assumes you can already write Python — variables,
+              functions, loops, classes. What it teaches instead is the layer
+              around that: the tooling, APIs, and architecture that turn
+              "a Python script that calls an LLM" into a production AI
+              system. Chapter 1 sets up an environment worth building on
+              before you write a single line of AI code.
+            </p>
+
+            <h2>A 5-minute primer: git and APIs</h2>
+
+            <p>
+              Two things get used constantly from here on without being
+              taught from scratch: <strong>git</strong> and
+              <strong>APIs</strong>. If you're already comfortable with both,
+              skip straight to the next section — this chapter assumes
+              exactly this much and no more.
+            </p>
+
+            <p>
+              <strong>Git</strong> is a tool that tracks every change made to
+              a project over time. A <strong>repository</strong> ("repo") is
+              a project git is tracking; a <strong>commit</strong> is a saved
+              snapshot of the code at one point, with a short message
+              describing what changed. That history is what makes it safe to
+              try things, undo mistakes, and work alongside other people
+              without overwriting each other's work.
+            </p>
+
+            <pre class="code-block"><code>git init                        # start tracking this folder
+git add .                       # stage every changed file
+git commit -m "Initial commit"  # save a snapshot
+git status                      # see what's changed since the last commit</code></pre>
+
+            <p>
+              A <code>.gitignore</code> file (used later in this chapter)
+              simply lists files git should never track — most importantly,
+              anything containing a secret.
+            </p>
+
+            <p>
+              An <strong>API</strong> (Application Programming Interface) is
+              how one program talks to another over the internet — the same
+              basic idea as a browser loading a webpage, except the "visitor"
+              is your code, not a person clicking around. Your program (the
+              <strong>client</strong>) sends a <strong>request</strong> to
+              someone else's computer (the <strong>server</strong> — in this
+              course, OpenAI's or Anthropic's), and gets a
+              <strong>response</strong> back. Two request types matter most:
+              <code>GET</code> (ask for something) and <code>POST</code> (send
+              something, which is how almost every AI API call in this course
+              works). Both the request and the response are usually written
+              in <strong>JSON</strong> — the same text-based data format you
+              may already know from reading or writing files.
+            </p>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                That's the entire primer. Everything from here treats "commit
+                your work" and "send a POST request" as things you can now do
+                without further explanation.
+              </p>
+            </div>
+
+            <h2>Next-gen project management with uv</h2>
+
+            <p>
+              <code>uv</code> replaces the old <code>pip</code> +
+              <code>venv</code> combination with a single, much faster tool.
+              It creates an isolated virtual environment for every project
+              automatically, resolves and locks dependencies, and installs
+              them fast enough that "just run <code>uv sync</code>" feels
+              instant compared to a traditional <code>pip install -r
+              requirements.txt</code>.
+            </p>
+
+            <pre class="code-block"><code>uv init ai-course-project
+cd ai-course-project
+uv add openai anthropic python-dotenv httpx
+uv run python main.py</code></pre>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                <code>uv add</code> installs a package <em>and</em> records it
+                (with an exact resolved version) in the project's lockfile.
+                Anyone who clones the project and runs <code>uv sync</code>
+                gets the identical dependency set — no "works on my machine."
+              </p>
+            </div>
+
+            <p>
+              A locked, isolated environment solves "which packages, which
+              versions" — but a project also needs to stay readable as you
+              (or a team) add to it over time. That's the next habit worth
+              automating.
+            </p>
+
+            <h2>Code quality with ruff</h2>
+
+            <p>
+              <code>ruff</code> is a linter and formatter in one tool,
+              replacing the old stack of <code>flake8</code> +
+              <code>black</code> + <code>isort</code>. It catches unused
+              imports, style violations, and common bugs, and reformats code
+              on save when wired into your editor.
+            </p>
+
+            <pre class="code-block"><code>uv add --dev ruff
+ruff check .      # lint the project
+ruff format .     # auto-format the project</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Configure <code>ruff</code> once in <code>pyproject.toml</code>
+                and set your editor to run it on save. From that point on,
+                consistent formatting stops being something you think about.
+              </p>
+            </div>
+
+            <p>
+              Environment and style are now both handled by tools, not
+              willpower. There's one more piece of hygiene that has to be
+              right from your very first commit, before you write any AI
+              code at all: how you handle the credentials that code will
+              need.
+            </p>
+
+            <h2>Secrets management with .env and git</h2>
+
+            <p>
+              An LLM API key is a credential, not a string constant — it must
+              never be hard-coded or committed to git. The standard pattern:
+              keep secrets in a local <code>.env</code> file, load them with
+              <code>python-dotenv</code>, and make sure git never tracks that
+              file.
+            </p>
+
+            <pre class="code-block"><code># .env  (never commit this file)
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...</code></pre>
+
+            <pre class="code-block"><code># .gitignore
+.env
+.venv/</code></pre>
+
+            <pre class="code-block"><code>from dotenv import load_dotenv
+import os
+
+load_dotenv()
+api_key = os.environ["OPENAI_API_KEY"]</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Add <code>.env</code> to <code>.gitignore</code>
+                <strong>before</strong> your first commit, not after. A key
+                that ever touches git history should be treated as leaked and
+                rotated immediately, even if you remove it in a later commit.
+              </p>
+            </div>
+
+            <p>
+              With your keys safely loaded and never at risk of being
+              committed, you're ready for the part every other chapter in
+              this course depends on: actually calling a model. That's where
+              one habit from ordinary Python scripting starts to break down.
+            </p>
+
+            <h2>Asynchronous Python for API calls</h2>
+
+            <p>
+              An LLM API call is <strong>high-latency network I/O</strong> —
+              your program sends a request and then waits, sometimes for
+              several seconds, before anything comes back. <code>async</code>
+              /<code>await</code> lets your program do other useful work
+              during that wait instead of freezing in place.
+            </p>
+
+            <pre class="code-block"><code>import asyncio
+import httpx
+
+async def fetch_completion(prompt: str) -> str:
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}"},
+            json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
+        )
+        return response.json()["choices"][0]["message"]["content"]
+
+result = asyncio.run(fetch_completion("Say hello"))</code></pre>
+
+            <p>
+              You don't need to master async fully in this chapter — you need
+              enough to recognise the pattern: <code>async def</code> marks a
+              function as awaitable, <code>await</code> pauses it (and only
+              it) until the result is ready, and <code>httpx.AsyncClient</code>
+              is the async-friendly counterpart to a normal HTTP client. The
+              rest of this course builds directly on top of this pattern.
+            </p>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              Four small pieces, one coherent setup: <code>uv</code> for a
+              fast, isolated, reproducible project; <code>ruff</code> to keep
+              the code inside it consistent; <code>.env</code> to keep every
+              credential out of git; and <code>async</code>/<code>await</code>
+              so your program doesn't stall every time it waits on a model.
+              None of this is AI-specific by itself — but every chapter from
+              here on assumes it's already in place. Chapter 2 puts it to
+              work on the first real API call.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Installing packages globally instead of into an isolated project environment, so different projects silently fight over dependency versions.</li>
+              <li>Writing a <code>.gitignore</code> after the first commit instead of before it — by then a secret may already be in git history.</li>
+              <li>Reaching for <code>async</code>/<code>await</code> everywhere out of habit, even around code that never actually waits on anything (like pure computation) — it adds complexity with no benefit there.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Start every new project with <code>uv init</code> before writing any code, so dependencies are tracked from line one.</li>
+              <li>Create <code>.gitignore</code> in the very first commit, before any secret has a chance to be tracked.</li>
+              <li>Reserve <code>async</code>/<code>await</code> for genuinely I/O-bound work — API calls, file access, database queries — not CPU-bound logic.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li><code>uv</code> replaces pip + venv with one fast tool that locks exact dependency versions.</li>
+              <li><code>ruff</code> lints and formats in one tool, keeping code style consistent automatically.</li>
+              <li>Secrets belong in <code>.env</code>, which belongs in <code>.gitignore</code> from the very first commit.</li>
+              <li><code>async</code>/<code>await</code> lets a program keep working while it waits on high-latency network calls, like every LLM API request in this course.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Practical</span>
+            <h2>Practical things you can apply right now</h2>
+            <ul>
+              <li>If <code>git init</code>, <code>git add</code>, and <code>git commit</code> are new to you, run all three on any folder right now, then make one more change and commit it again.</li>
+              <li>Install <code>uv</code>, then run <code>uv init</code> on a fresh folder and add <code>openai</code>, <code>anthropic</code>, <code>python-dotenv</code>, and <code>httpx</code> to it.</li>
+              <li>Add <code>ruff</code> as a dev dependency and run <code>ruff format .</code> against any existing script you have lying around.</li>
+              <li>Create a <code>.env</code> and a <code>.gitignore</code> in that project <strong>before</strong> writing any API key into it, and confirm <code>git status</code> never shows <code>.env</code> as trackable.</li>
+              <li>Take one function you already have that calls an external API with <code>requests</code>, and rewrite it using <code>async def</code>/<code>await</code> and <code>httpx.AsyncClient</code>.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Every exercise and the chapter challenge have to be passed
+                before this chapter counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Software Engineering — Pung Academy</title>
+    <meta
+      name="description"
+      content="Software Engineering: a beginner-to-intermediate curriculum covering process, Git, programming discipline, data structures, design principles, databases, APIs, and more."
+    />
+    <link rel="icon" href="../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/main.css" />
+    <link rel="stylesheet" href="../../css/pages/course-overview.css" />
+  </head>
+  <body data-course="softwareEngineering">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <main id="main">
+      <!-- ================= Course header ================= -->
+      <section class="course-hero">
+        <div class="container course-hero__inner">
+          <p class="eyebrow">Career path · 14 modules + final project</p>
+          <h1>Software Engineering</h1>
+          <p class="course-hero__text">
+            Unlocked once you finish Introduction to Programming. This track
+            goes beyond syntax into how real software gets built: process and
+            requirements, Git and collaboration, data structures and design
+            principles, databases and APIs, a full backend with authentication
+            and security, testing, architecture, deployment, and professional
+            practice — ending in a Task Management System that ties every
+            module together.
+          </p>
+
+          <div class="course-hero__bar">
+            <a class="btn btn--pill" data-begin-course href="software-engineering/lesson-1.html"
+              >Begin Course</a
+            >
+            <div class="progress">
+              <span class="progress__track">
+                <span class="progress__fill" data-course-progress-fill></span>
+              </span>
+              <span class="progress__text" data-course-progress-text
+                >0 / 15 chapters completed</span
+              >
+            </div>
+            <span class="course-hero__remaining"
+               data-course-remaining>0 lessons to go</span
+            >
+          </div>
+
+          <div class="course-hero__meta">
+            <div class="course-stats">
+              <p>
+                <strong data-course-percent>0%</strong>
+                complete
+              </p>
+            </div>
+            <a class="course-hero__back" href="../course-tree.html">Back to roadmap</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= What you will learn ================= -->
+      <section class="section">
+        <div class="container">
+          <div class="section__header">
+            <p class="eyebrow">What you will learn</p>
+            <h2>From "what is software engineering?" to a deployed final project</h2>
+            <p class="lead">
+              Each module explains why a concept matters, shows it with real
+              examples and code, and checks your understanding with several
+              exercises plus a bigger module challenge. Modules unlock in
+              order, same as every other course here.
+            </p>
+          </div>
+
+          <div class="chapter-list" data-chapter-list>
+            <!-- Rendered by js/controllers/CourseController.js from courseData.js. -->
+          </div>
+
+          <div class="course-tools">
+            <p>
+              Your progress is saved in this browser only, separately from
+              the other courses. Signing in keeps it separate from other
+              accounts registered here.
+            </p>
+            <button class="btn btn--secondary" type="button" data-reset-progress>
+              Reset my progress
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer data-site-footer data-full></footer>
+    <script src="../../js/services/StorageService.js"></script>
+    <script src="../../js/services/ValidationService.js"></script>
+    <script src="../../js/services/PathService.js"></script>
+    <script src="../../js/config/courseData.js"></script>
+    <script src="../../js/models/UserModel.js"></script>
+    <script src="../../js/models/CourseProgressModel.js"></script>
+    <script src="../../js/views/SiteChromeView.js"></script>
+    <script src="../../js/views/AuthView.js"></script>
+    <script src="../../js/views/CourseTreeView.js"></script>
+    <script src="../../js/views/CourseOverviewView.js"></script>
+    <script src="../../js/views/LessonView.js"></script>
+    <script src="../../js/controllers/AuthController.js"></script>
+    <script src="../../js/controllers/CourseController.js"></script>
+    <script src="../../js/controllers/LessonController.js"></script>
+    <script src="../../js/pages/_shared.js"></script>
+    <script src="../../js/pages/course-overview.js"></script>
+
+  </body>
+</html>

@@ -10,31 +10,31 @@
 .form-field__label {
   display: block;
   margin-bottom: var(--space-2);
-  font-size: 0.9rem;
+  font-size: 0.845rem;
   font-weight: 600;
-  color: var(--color-primary-dark);
+  color: var(--color-heading);
 }
 
 .form-field__input {
   width: 100%;
-  padding: 0.7rem 0.85rem;
+  padding: 0.65rem 0.8rem;
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 0.905rem;
   color: var(--color-text);
   background-color: var(--color-bg);
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .form-field__input::placeholder {
-  color: #a3aebf;
+  color: var(--color-text-faint);
 }
 
 .form-field__input:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(37, 99, 166, 0.18);
+  box-shadow: 0 0 0 3px rgba(44, 116, 179, 0.16);
 }
 
 .form-field__input[aria-invalid="true"] {
@@ -42,7 +42,7 @@
 }
 
 .form-field__input[aria-invalid="true"]:focus {
-  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.16);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14);
 }
 
 .form-field__hint {
@@ -71,7 +71,7 @@
 
 .form-message--error {
   background-color: var(--color-danger-bg);
-  border-color: #f3c9c4;
+  border-color: #fecaca;
   color: var(--color-danger);
 }
 
@@ -112,7 +112,7 @@
 }
 
 .auth__note strong {
-  color: var(--color-primary-dark);
+  color: var(--color-heading);
 }
 
 /* ---------------------------- Multiple choice ---------------------------- */
@@ -125,8 +125,8 @@
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  padding: var(--space-4);
-  border: 1px solid var(--color-border-strong);
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background-color: var(--color-bg);
   cursor: pointer;
@@ -145,5 +145,71 @@
 }
 
 .choice__label {
-  font-size: 0.97rem;
+  font-size: 0.905rem;
+}
+
+/* --------------------------- Exact-answer exercises ---------------------- */
+.text-input {
+  width: 100%;
+  max-width: 24rem;
+  padding: 0.65rem 0.8rem;
+  font: inherit;
+  font-size: 0.905rem;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(44, 116, 179, 0.16);
+}
+
+/* --------------------------- Order-the-steps exercises -------------------- */
+.order-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+}
+
+.order-item__label {
+  font-size: 0.92rem;
+  font-family: var(--font-mono);
+}
+
+.order-item__select {
+  flex: none;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.order-item__select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(44, 116, 179, 0.16);
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 480px) {
+  .order-item {
+    flex-wrap: wrap;
+  }
 }

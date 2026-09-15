@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -191,6 +191,29 @@ print(f"Highest: {highest}")     # 91</code></pre>
                 add to, remove from and sort a list after it exists.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Forgetting that indexes start at 0, so the last item of a five-item list is at index 4, not 5.</li>
+              <li>Reaching past the end of a list, which raises <code>IndexError: list index out of range</code>.</li>
+              <li>Trying to change an item inside a tuple, which raises a <code>TypeError</code> because tuples are immutable.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A list is an ordered, changeable collection written with square brackets.</li>
+              <li>A tuple is an ordered but unchangeable collection written with round brackets.</li>
+              <li>Indexes start at 0, and negative indexes count back from the end, so <code>[-1]</code> is always the last item.</li>
+              <li>Loop over a sequence directly with <code>for item in items:</code> rather than indexing by position.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

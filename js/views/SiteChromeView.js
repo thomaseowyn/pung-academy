@@ -82,10 +82,13 @@ Pung.SiteChromeView = (function () {
             </ul>
 
             <div class="nav__session" data-session="user"${user ? "" : " hidden"}>
-              <span class="nav__user">Hi, <span data-user-name>${
+              <span class="nav__avatar" aria-hidden="true">${
+                user ? escapeHtml(initialsFor(user)) : ""
+              }</span>
+              <span class="nav__user" data-user-name>${
                 user ? escapeHtml(user.name || user.email) : "learner"
-              }</span></span>
-              <button class="btn btn--secondary" type="button" data-logout>Log out</button>
+              }</span>
+              <button class="btn btn--ghost" type="button" data-logout>Log out</button>
             </div>
           </div>
         </nav>
@@ -144,6 +147,20 @@ Pung.SiteChromeView = (function () {
             </ul>
           </div>
         </div>`;
+  }
+
+  /** Up to two initials for the header's avatar disc: "Bryan Suwarno" → BS,
+   *  falling back to the first letter of the email for accounts with no name. */
+  function initialsFor(user) {
+    const source = String(user.name || "").trim();
+    if (!source) {
+      return String(user.email || "?").charAt(0).toUpperCase();
+    }
+    return source
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((word) => word.charAt(0).toUpperCase())
+      .join("");
   }
 
   function escapeHtml(value) {

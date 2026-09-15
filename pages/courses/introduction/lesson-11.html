@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -317,6 +317,29 @@ print(double(4))</code></pre>
                 double and throws it away — there is no <code>return</code>.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Using <code>print()</code> inside a function where <code>return</code> was meant, so the caller receives <code>None</code>.</li>
+              <li>Trying to read a variable created inside a function from outside it, which raises a <code>NameError</code>.</li>
+              <li>Putting a parameter with a default before one without, which Python rejects outright.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A function bundles steps under a name so they can be reused instead of copied.</li>
+              <li>Parameters are the names in the definition; arguments are the actual values you pass in.</li>
+              <li><code>return</code> hands a value back to the caller and ends the function; <code>print()</code> only puts text on screen.</li>
+              <li>Variables created inside a function are local and disappear when it finishes.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

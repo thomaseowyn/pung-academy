@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -274,6 +274,29 @@ for i in range(1, 3):
                 <code>range(1, 3)</code> gives 1, 2.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Writing a <code>while</code> loop whose condition never becomes <code>False</code>, producing an infinite loop.</li>
+              <li>Expecting <code>range(1, 5)</code> to include 5. The stop value is always excluded.</li>
+              <li>Mixing up <code>break</code> and <code>continue</code>: <code>break</code> leaves the loop entirely, <code>continue</code> only skips the current pass.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A <code>for</code> loop repeats once per item in a sequence — use it when you know what you are looping over.</li>
+              <li>A <code>while</code> loop repeats as long as a condition holds — use it when you do not know how many passes you need.</li>
+              <li><code>range(start, stop, step)</code> includes the start and excludes the stop.</li>
+              <li><code>break</code> stops the loop; <code>continue</code> jumps to the next repetition.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

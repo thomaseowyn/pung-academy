@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -174,6 +174,29 @@ print(unique)    # {1, 2, 3}</code></pre>
                 lists you will want to know before it bites you.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Using square brackets for a key that might not exist, which raises <code>KeyError</code> — reach for <code>.get()</code> instead.</li>
+              <li>Looping over a dictionary directly and expecting values. Bare iteration gives you the keys; use <code>.items()</code> for both.</li>
+              <li>Expecting a set to keep the order things were added in, or to allow duplicates. It does neither.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A dictionary stores key–value pairs and looks values up by name rather than by position.</li>
+              <li><code>.get(key)</code> returns <code>None</code> instead of crashing when a key is missing, and accepts a fallback value.</li>
+              <li><code>.keys()</code>, <code>.values()</code> and <code>.items()</code> give you each half of a dictionary, or both together.</li>
+              <li>A set holds unique, unordered values, which makes it the quickest way to remove duplicates.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

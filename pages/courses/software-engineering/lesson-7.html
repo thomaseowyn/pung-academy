@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 7 — APIs &amp; HTTP — Pung Academy</title>
+    <meta name="description" content="Module 7 of Software Engineering: client-server architecture, HTTP methods and status codes, REST principles, and API error handling." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="7">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 7</span>
+            <h1 data-chapter-title>APIs &amp; HTTP</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              This module explains how one program talks to another over the
+              internet: client-server architecture, the request/response
+              cycle, HTTP methods and status codes, and the REST conventions
+              most APIs follow — the foundation Module 8's backend
+              development builds directly on.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Client-server architecture</h2>
+
+            <p>
+              A <strong>client</strong> (a browser, a mobile app, another
+              backend service) always initiates: it sends a
+              <strong>request</strong> to a <strong>server</strong>, which
+              processes it and sends back a <strong>response</strong>. The
+              server never contacts the client first in this model.
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box">Client</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Server</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Database</span>
+              <p class="diagram__caption">Request flows client → server → database; the response flows back the same path in reverse.</p>
+            </div>
+
+            <h2>HTTP fundamentals: request and response</h2>
+
+            <p>
+              <strong>HTTP</strong> (HyperText Transfer Protocol) is the rules
+              both sides follow. Every request names a
+              <strong>method</strong> (what kind of action) and a
+              <strong>URL</strong> (which resource); every response carries a
+              <strong>status code</strong> and, usually, a body.
+            </p>
+
+            <h2>HTTP methods and status codes</h2>
+
+            <ul>
+              <li><strong>GET</strong> — retrieve data, safe to repeat, no side effects.</li>
+              <li><strong>POST</strong> — create something new.</li>
+              <li><strong>PUT/PATCH</strong> — update an existing resource.</li>
+              <li><strong>DELETE</strong> — remove a resource.</li>
+            </ul>
+
+            <ul>
+              <li><strong>2xx</strong> — success (200 OK, 201 Created).</li>
+              <li><strong>4xx</strong> — the client's request was the problem (400 Bad Request, 404 Not Found).</li>
+              <li><strong>5xx</strong> — the server failed while processing an otherwise valid request (500 Internal Server Error).</li>
+            </ul>
+
+            <h2>Headers and JSON</h2>
+
+            <p>
+              <strong>Headers</strong> carry metadata about a request or
+              response — content type, authentication tokens, caching rules
+              — separately from the actual body. Most modern APIs exchange
+              data as <strong>JSON</strong>, the same lightweight,
+              human-readable format you may already know from reading or
+              writing files.
+            </p>
+
+            <pre class="code-block"><code>{
+  "id": 42,
+  "name": "Alex",
+  "isActive": true
+}</code></pre>
+
+            <h2>REST principles and API endpoints</h2>
+
+            <p>
+              <strong>REST</strong> is a set of conventions for designing
+              APIs around resources, identified by URLs, manipulated with
+              standard HTTP methods. An <strong>endpoint</strong> is one
+              specific URL path an API exposes:
+            </p>
+
+            <pre class="code-block"><code>GET    /users        # list all users
+GET    /users/42     # get one specific user
+POST   /users        # create a new user
+PUT    /users/42     # update user 42
+DELETE /users/42     # delete user 42</code></pre>
+
+            <h2>Query parameters and request bodies</h2>
+
+            <p>
+              A <strong>GET</strong> request typically passes extra
+              information as <strong>query parameters</strong> in the URL
+              (<code>/users?role=admin&amp;page=2</code>). A
+              <strong>POST</strong>/<strong>PUT</strong> request typically
+              carries its data in the <strong>request body</strong>, usually
+              as JSON, since URLs aren't a good place to send a lot of
+              structured data.
+            </p>
+
+            <h2>API error handling</h2>
+
+            <p>
+              A well-designed API returns the right status code for what
+              actually went wrong — 400 for a malformed request, 404 for a
+              resource that doesn't exist, 401/403 for authentication and
+              permission problems (Module 9 covers these in depth), and a
+              clear error message in the body explaining what to fix.
+            </p>
+
+            <pre class="code-block"><code>{
+  "error": "Missing required field: email"
+}</code></pre>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Using GET for a request that changes data — GET should be safe to repeat with no side effects.</li>
+              <li>Returning 200 OK even when an error occurred, with the actual problem only described somewhere in the body text.</li>
+              <li>Putting sensitive data in query parameters, which often end up logged in server access logs and browser history.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Match the HTTP method to the actual action: GET to read, POST to create, PUT/PATCH to update, DELETE to remove.</li>
+              <li>Return the status code that accurately describes what happened, not just 200 for everything.</li>
+              <li>Design endpoints around resources ("/users/42") rather than actions ("/getUserById?id=42").</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>The client always initiates; the server processes and responds — the request/response cycle.</li>
+              <li>HTTP methods signal intent (GET reads, POST creates, PUT/PATCH updates, DELETE removes); status codes signal outcome (2xx/4xx/5xx).</li>
+              <li>REST designs APIs around resources and URLs, manipulated with standard HTTP methods, usually exchanging JSON.</li>
+              <li>4xx means the client's request was the problem; 5xx means the server failed on an otherwise valid request.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

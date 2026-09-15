@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/main.css" />
@@ -93,35 +93,23 @@
             </li>
           </ol>
 
-          <!-- Fork into two future paths -->
-          <div class="fork" aria-hidden="true">
-            <span class="fork__stem"></span>
-            <span class="fork__bar"></span>
-            <span class="fork__drop fork__drop--left"></span>
-            <span class="fork__drop fork__drop--right"></span>
-          </div>
-
-          <div class="branches">
-            <article class="branch-card" data-branch>
-              <span class="branch-card__icon" data-branch-icon aria-hidden="true">🔒</span>
-              <h2 class="branch-card__title">Software Engineering</h2>
-              <p class="branch-card__text">
-                Build real systems: APIs, databases and the version-control
-                habits that let a team ship code together.
-              </p>
-              <span class="branch-card__status" data-branch-status>Locked</span>
-              <p data-branch-note></p>
+          <div class="branch-list">
+            <article class="branch-row" data-branch="ai">
+              <span class="branch-row__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <div class="branch-row__body">
+                <h2 class="branch-row__title">Artificial Intelligence</h2>
+                <p class="branch-row__text">Work with data, then with models — <span data-branch-note>unlocks after Introduction to Programming</span>.</p>
+              </div>
+              <span class="branch-row__status" data-branch-status>Locked</span>
             </article>
 
-            <article class="branch-card" data-branch>
-              <span class="branch-card__icon" data-branch-icon aria-hidden="true">🔒</span>
-              <h2 class="branch-card__title">Artificial Intelligence</h2>
-              <p class="branch-card__text">
-                Work with data, then with models: how machines find patterns and
-                where the limits of that actually are.
-              </p>
-              <span class="branch-card__status" data-branch-status>Locked</span>
-              <p data-branch-note></p>
+            <article class="branch-row" data-branch="software-engineering">
+              <span class="branch-row__icon" data-branch-icon aria-hidden="true">🔒</span>
+              <div class="branch-row__body">
+                <h2 class="branch-row__title">Software Engineering</h2>
+                <p class="branch-row__text">Build real systems: APIs, databases, version control — <span data-branch-note>unlocks after Introduction to Programming</span>.</p>
+              </div>
+              <span class="branch-row__status" data-branch-status>Locked</span>
             </article>
           </div>
         </div>

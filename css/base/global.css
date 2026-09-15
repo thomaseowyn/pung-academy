@@ -6,11 +6,16 @@
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: var(--space-5);
+  padding-inline: var(--space-7);
+}
+
+/* Reading column — course overview and lesson pages sit in this width. */
+.container--narrow {
+  max-width: var(--container-narrow);
 }
 
 .section {
-  padding-block: var(--space-9);
+  padding-block: var(--space-8);
 }
 
 .section--alt {
@@ -19,8 +24,12 @@
 }
 
 .section__header {
-  max-width: 46rem;
-  margin-bottom: var(--space-7);
+  max-width: 48rem;
+  margin-bottom: var(--space-6);
+}
+
+.section__header h2 {
+  max-width: 20ch;
 }
 
 .section__header--center {
@@ -28,19 +37,31 @@
   text-align: center;
 }
 
+.section__header--center h2 {
+  max-width: none;
+}
+
 .eyebrow {
   display: inline-block;
   margin-bottom: var(--space-3);
   font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-accent);
 }
 
 .lead {
-  font-size: 1.075rem;
+  max-width: 42rem;
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--color-text-muted);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-inline: var(--space-5);
+  }
 }
 
 /* ==========================================================================
@@ -75,17 +96,14 @@
 .section:nth-of-type(2) { animation-delay: 0.1s; }
 .section:nth-of-type(3) { animation-delay: 0.2s; }
 
-/* 4. Smooth animated underline for body-text links only
-      (nav and button links have their own styles already). */
+/* 4. Body-text links shift colour rather than underlining, matching the
+      design's quiet link treatment. */
 main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link) {
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link):hover {
-  color: var(--color-primary-dark);
-  text-decoration-color: var(--color-primary-dark);
+  color: var(--color-primary);
 }
 
 /* Respect reduced-motion preferences. */

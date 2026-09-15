@@ -1,22 +1,36 @@
 /* ==========================================================================
-   Landing page — hero and roadmap preview
+   Landing page — hero, path preview and the comparison panels
    ========================================================================== */
 
+/* The hero owns the first screen: nothing below it is visible until the
+   visitor scrolls. Height is the viewport less the sticky header, so the
+   two together come to exactly one screenful. `min-height` (not `height`)
+   means a tall stacked hero on a short window still grows instead of
+   clipping; svh keeps mobile browser chrome from pushing it over. */
 .hero {
-  padding-block: var(--space-9) var(--space-8);
-  background: linear-gradient(180deg, var(--color-accent-soft) 0%, var(--color-bg) 100%);
-  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - var(--header-height));
+  min-height: calc(100svh - var(--header-height));
+  padding-block: var(--space-8);
+  background-color: var(--color-bg);
+}
+
+.hero > .container {
+  width: 100%;
 }
 
 .hero__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: var(--space-8);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+  gap: var(--space-7);
   align-items: center;
 }
 
 .hero__title {
+  max-width: 17ch;
   margin-bottom: var(--space-4);
+  font-size: clamp(2rem, 1.5rem + 1.6vw, 2.5rem);
 }
 
 .hero__title span {
@@ -24,155 +38,245 @@
 }
 
 .hero__text {
-  max-width: 34rem;
-  font-size: 1.1rem;
+  max-width: 30rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  line-height: 1.6;
   color: var(--color-text-muted);
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
-  margin-top: var(--space-6);
+  gap: var(--space-2);
+  margin-top: var(--space-5);
 }
 
-.hero__points {
+.hero__stats {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-5);
-  margin: var(--space-6) 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.9rem;
+  gap: var(--space-7);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.hero__stats strong {
+  display: block;
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-heading);
+}
+
+.hero__stats span {
+  font-size: 0.78rem;
+  font-weight: 600;
   color: var(--color-text-muted);
 }
 
-.hero__points li::before {
-  content: "✓";
-  margin-right: var(--space-2);
-  font-weight: 700;
-  color: var(--color-accent);
-}
-
-/* Roadmap visual (pure CSS + inline SVG connectors) */
-.roadmap {
-  padding: var(--space-5);
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
+/* ------------------------------ Code window ------------------------------ */
+.code-window {
   border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: #0f172a;
   box-shadow: var(--shadow-md);
 }
 
-.roadmap__header {
+.code-window__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.625rem var(--space-4);
+  background-color: #1e293b;
+}
+
+.code-window__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.code-window__dot--red { background-color: #ef4444; }
+.code-window__dot--yellow { background-color: #f59e0b; }
+.code-window__dot--green { background-color: #22c55e; }
+
+.code-window__file {
+  margin-left: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-faint);
+}
+
+.code-window__body {
+  margin: 0;
+  padding: var(--space-5) var(--space-5);
+  font-family: var(--font-mono);
+  font-size: 0.845rem;
+  line-height: 1.85;
+  color: #cbd5e1;
+  white-space: pre;
+}
+
+.code-window__kw { color: #8fc1f0; }
+.code-window__fn { color: #f2c879; }
+.code-window__str { color: #a5d6a7; }
+.code-window__out { color: #64748b; }
+
+/* -------------------------------- Your path ------------------------------
+   One active course on the left, a branch connector, then the two courses it
+   unlocks — the shape of the whole curriculum in a single row. */
+.your-path {
+  display: grid;
+  grid-template-columns: minmax(0, 380px) auto minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.your-path__header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-3);
-  padding-bottom: var(--space-4);
-  margin-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
-.roadmap__title {
+.your-path__header h2 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1.375rem;
+}
+
+.your-path__header a {
+  font-size: 0.845rem;
   font-weight: 700;
-  color: var(--color-primary-dark);
 }
 
-.roadmap__meta {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
+/* The curved fork. Drawn as a background image so the markup stays a single
+   empty element and the two curves scale with the row. */
+.your-path__connector {
+  display: block;
+  width: 56px;
+  height: 90px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='90' viewBox='0 0 56 90' fill='none' stroke='%23CBD5E1' stroke-width='2.5'%3E%3Cpath d='M2 45H22'/%3E%3Cpath d='M22 45C38 45 38 18 54 18'/%3E%3Cpath d='M22 45C38 45 38 72 54 72'/%3E%3C/svg%3E");
 }
 
-.roadmap__steps {
-  display: grid;
-  gap: var(--space-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: roadmap;
-}
-
-.roadmap__step {
+/* --- the one active course --- */
+.your-path__course {
   position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  background-color: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-
-/* Connector line between the numbered markers. */
-.roadmap__step:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: calc(var(--space-4) + 15px);
-  top: 100%;
-  width: 2px;
-  height: var(--space-3);
-  background-color: var(--color-border-strong);
-}
-
-.roadmap__step--active {
-  background-color: var(--color-accent-soft);
-  border-color: var(--color-accent);
-}
-
-.roadmap__num {
-  counter-increment: roadmap;
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.roadmap__num::before {
-  content: counter(roadmap);
-}
-
-.roadmap__label {
-  display: block;
-  font-weight: 600;
-  color: var(--color-primary-dark);
-}
-
-.roadmap__desc {
-  display: block;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-.roadmap__footer {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border);
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-}
-
-.roadmap__progress {
-  flex: 1;
-  height: 6px;
-  background-color: var(--color-border);
-  border-radius: 999px;
+  width: 100%;
+  padding: var(--space-5);
+  padding-top: calc(var(--space-5) + 6px);
   overflow: hidden;
 }
 
-.roadmap__progress span {
+/* The 6px course-colour cap along the top edge of the card. */
+.your-path__course::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background-color: var(--color-primary);
+}
+
+.your-path__course .course-card__title {
+  font-size: 1rem;
+}
+
+.your-path__course .course-card__text {
+  margin-bottom: var(--space-4);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.your-path__course .progress {
+  gap: var(--space-3);
+}
+
+.course-card__button {
   display: block;
-  width: 25%;
-  height: 100%;
-  background-color: var(--color-accent);
+  margin-top: var(--space-4);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.845rem;
+  font-weight: 700;
+  text-align: center;
+  transition: background-color 0.15s ease;
+}
+
+a.course-card:hover .course-card__button {
+  background-color: var(--color-primary-dark);
+}
+
+/* --- what unlocks next --- */
+.your-path__next {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.your-path__next .branch-row {
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+  opacity: 1;
+}
+
+.your-path__next .branch-row {
+  gap: var(--space-3);
+}
+
+.your-path__next .branch-row__icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
+
+.your-path__next .branch-row__icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.your-path__next .branch-row__title {
+  flex: 1;
+  margin: 0;
+  font-size: 0.845rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.your-path__next .branch-row__status {
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-text-faint);
+}
+
+.your-path__next .branch-row.is-unlocked .branch-row__title {
+  color: var(--color-heading);
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 900px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .your-path {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .your-path__connector {
+    width: 3px;
+    height: 32px;
+    margin-inline: auto;
+    background-image: none;
+    background-color: var(--color-border-strong);
+    border-radius: 2px;
+  }
 }

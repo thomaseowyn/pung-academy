@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -151,6 +151,29 @@ You have standard access.</code></pre>
                 <code>if logged_in and is_admin:</code>.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Expecting <code>or</code> to mean one side or the other but not both — in Python it is <code>True</code> whenever at least one side is.</li>
+              <li>Nesting four or five levels deep when a single <code>and</code> would say the same thing far more clearly.</li>
+              <li>Writing <code>if is_ready == True:</code> when <code>if is_ready:</code> already says exactly that.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li><code>and</code> is strict: one <code>False</code> makes the whole expression <code>False</code>.</li>
+              <li><code>or</code> is generous: one <code>True</code> is enough to make the whole expression <code>True</code>.</li>
+              <li><code>not</code> flips a boolean, and reads best applied to a well-named variable.</li>
+              <li>A range check is the classic use of <code>and</code>, and Python also allows the shorter <code>18 &lt;= t &lt;= 25</code> form.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

@@ -5,7 +5,7 @@
 /* ------------------------------ Page intro ----------------------------- */
 .courses-hero {
   padding-block: var(--space-8) var(--space-7);
-  background-color: var(--color-accent-soft);
+  background-color: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
   text-align: center;
 }
@@ -20,5 +20,14 @@
 }
 
 .courses-hero .lead {
+  max-width: none;
   margin-bottom: 0;
+}
+
+/* The branch rows continue the vertical path, so they share its width
+   rather than running the full page. */
+.branch-list {
+  max-width: 720px;
+  margin-inline: auto;
+  margin-top: var(--space-6);
 }

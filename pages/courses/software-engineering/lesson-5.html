@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 5 — Software Design Principles — Pung Academy</title>
+    <meta name="description" content="Module 5 of Software Engineering: separation of concerns, DRY, KISS, YAGNI, Single Responsibility, coupling and cohesion." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="5">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 5</span>
+            <h1 data-chapter-title>Software Design Principles</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              This module covers the small set of principles experienced
+              engineers reach for constantly — separation of concerns, DRY,
+              KISS, YAGNI, Single Responsibility, coupling and cohesion — not
+              as abstract rules to memorise, but as answers to "why does this
+              codebase feel painful to change?"
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Separation of concerns</h2>
+
+            <p>
+              A well-designed program splits distinct responsibilities —
+              reading input, applying business rules, storing data — into
+              separate parts, each concerned with exactly one of them. When
+              concerns are tangled together, a small change to one (say, how
+              data is stored) risks breaking something completely unrelated
+              (say, how input is validated).
+            </p>
+
+            <h2>DRY, KISS, and YAGNI</h2>
+
+            <ul>
+              <li><strong>DRY</strong> (Don't Repeat Yourself) — every piece of knowledge should live in exactly one place. Copy-pasted logic means every future fix has to be applied everywhere it was copied, and it's easy to miss a spot.</li>
+              <li><strong>KISS</strong> (Keep It Simple) — prefer the simplest solution that correctly solves the actual problem. Cleverness that isn't needed is a liability, not a virtue.</li>
+              <li><strong>YAGNI</strong> (You Aren't Gonna Need It) — don't build flexibility or features for requirements that don't exist yet. Speculative complexity costs real time today for a maybe that may never arrive.</li>
+            </ul>
+
+            <pre class="code-block"><code># Violates KISS: needlessly clever for what it does
+def is_even(n):
+    return not bool(n & 1)
+
+# Follows KISS: says exactly what it means
+def is_even(n):
+    return n % 2 == 0</code></pre>
+
+            <h2>Single Responsibility Principle</h2>
+
+            <p>
+              A class or function should have exactly <strong>one reason to
+              change</strong>. A <code>UserManager</code> class that
+              validates input, saves to a database, <em>and</em> sends
+              confirmation emails has at least three reasons to change — a
+              new validation rule, a new database, a new email provider —
+              and any of them forces you to touch the same class.
+            </p>
+
+            <h2>Dependency inversion</h2>
+
+            <p>
+              Instead of a high-level piece of code depending directly on a
+              specific low-level detail (a specific database library, a
+              specific email service), both should depend on a shared,
+              stable interface. This is what lets you swap the concrete
+              implementation later (switch databases, switch email
+              providers) without rewriting the code that uses it.
+            </p>
+
+            <h2>Coupling and cohesion</h2>
+
+            <p>
+              <strong>Coupling</strong> is how much one module depends on
+              another module's internal details — low coupling means modules
+              interact only through a small, stable interface, so a change
+              inside one is unlikely to break the other. <strong>Cohesion</strong>
+              is how closely related the responsibilities inside a single
+              module are — high cohesion means everything in that module
+              genuinely belongs together. Good design aims for low coupling,
+              high cohesion.
+            </p>
+
+            <h2>Composition</h2>
+
+            <p>
+              Rather than building one large class that tries to do
+              everything, <strong>composition</strong> builds a larger
+              behaviour out of smaller, focused pieces plugged together — a
+              <code>Car</code> that <em>has an</em> <code>Engine</code>,
+              rather than a <code>Car</code> that reimplements engine logic
+              itself. This tends to produce more flexible, more testable
+              designs than deep inheritance hierarchies.
+            </p>
+
+            <h2>Designing reusable components</h2>
+
+            <p>
+              Putting these principles together: a reusable component does
+              one job (SRP), doesn't repeat logic that exists elsewhere
+              (DRY), is no more complex than the job requires (KISS), only
+              handles requirements that actually exist today (YAGNI), and
+              exposes a small, stable interface that hides its internals
+              (low coupling, abstraction from Module 3).
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Adding configuration options, plugin systems, or extra flexibility for a need that doesn't exist yet ("we might need it later") — a YAGNI violation that costs real complexity today.</li>
+              <li>Treating "it's all related to users" as license to put validation, storage, and email-sending in one class — SRP is about reasons to change, not vague topical relatedness.</li>
+              <li>Confusing DRY with "never write similar-looking code twice" — two pieces of code that happen to look similar but represent different business rules are not a DRY violation.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Before adding flexibility, ask: is this solving a requirement that exists right now, or one you're guessing about?</li>
+              <li>When a class is hard to name in one sentence, it's probably doing more than one job.</li>
+              <li>Depend on interfaces/abstractions for anything likely to change (databases, external services), not concrete specifics.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>DRY, KISS, and YAGNI each guard against a different kind of unnecessary cost: duplication, complexity, and speculative work.</li>
+              <li>Single Responsibility Principle: one class, one reason to change.</li>
+              <li>Aim for low coupling (modules don't depend on each other's internals) and high cohesion (a module's own responsibilities belong together).</li>
+              <li>Composition builds complex behaviour from small, focused, reusable pieces.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

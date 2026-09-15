@@ -1,34 +1,47 @@
 /* ==========================================================================
    Design tokens — colours, spacing, typography, shape
+   --------------------------------------------------------------------------
+   These values are the Pung Academy design mockup, expressed once. Every
+   component and page stylesheet reads from here, so the whole site moves
+   together when a token changes.
    ========================================================================== */
 
 :root {
   /* Brand */
   --color-primary: #123b73;
   --color-primary-dark: #0b2545;
-  --color-accent: #2563a6;
-  --color-accent-soft: #eaf2fa;
+  --color-accent: #2c74b3;
+  --color-accent-soft: #e7f1fb;
+  --color-accent-light: #7fb3e8;
 
   /* Surfaces */
   --color-bg: #ffffff;
-  --color-bg-alt: #f6f8fb;
+  --color-bg-alt: #f7f9fc;
+  --color-bg-muted: #f1f5f9;
+  --color-bg-code: #f7f8fa;
 
-  /* Text */
-  --color-text: #172033;
+  /* Text — headings sit a shade darker than body copy. */
+  --color-heading: #0f172a;
+  --color-text: #1f2937;
   --color-text-muted: #64748b;
+  --color-text-faint: #94a3b8;
   --color-text-inverse: #ffffff;
+  --color-text-on-dark: #dce8f7;
 
   /* Lines & states */
   --color-border: #e2e8f0;
   --color-border-strong: #cbd5e1;
-  --color-danger: #b42318;
-  --color-danger-bg: #fef3f2;
+  --color-border-hairline: #ededed;
+  --color-danger: #dc2626;
+  --color-danger-bg: #fef2f2;
   --color-success: #15803d;
   --color-success-bg: #f0fdf4;
 
   /* Typography */
   --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
     Arial, sans-serif;
+  --font-mono: "Consolas", "SFMono-Regular", ui-monospace, "Courier New",
+    monospace;
 
   /* Spacing scale */
   --space-1: 0.25rem;
@@ -41,16 +54,21 @@
   --space-8: 4rem;
   --space-9: 6rem;
 
-  /* Shape & depth (kept deliberately subtle) */
+  /* Shape & depth — flat surfaces, hairline borders, shadows used sparingly */
   --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 8px 24px rgba(18, 59, 115, 0.14);
 
-  /* Layout */
-  --container: 1140px;
-  --header-height: 72px;
+  /* Layout — wide marketing column, narrow reading column */
+  --container: 1240px;
+  --container-narrow: 900px;
+  --header-height: 56px;
+  --sidebar-width: 260px;
 }
 
 /* Course states */
@@ -60,4 +78,9 @@
   --color-done: #15803d;
   --color-done-bg: #f0fdf4;
   --color-done-border: #bbf7d0;
+
+  /* "In progress / current" accent — distinct from done (green) and
+     locked (grey), used for the one chapter/course a learner is on. */
+  --color-gold: #b5741a;
+  --color-gold-bg: #fdf1dc;
 }

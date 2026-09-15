@@ -3,30 +3,222 @@
    ========================================================================== */
 
 .lesson {
-  max-width: 780px;
+  max-width: var(--container-narrow);
   margin-inline: auto;
   padding-inline: var(--space-5);
 }
 
-/* ----------------------------- Chapter header ---------------------------- */
-.lesson-header {
-  padding-block: var(--space-7) var(--space-6);
+/* -------------------------- Sidebar layout ------------------------------
+   Added by js/views/LessonView.js's applySidebarLayout()/renderSidebarNav(),
+   which relocate the title/summary/topics into the reading column, turn
+   what's left of the old header band into a slim breadcrumb bar, and fill
+   the sidebar with a course-content nav list — see those functions for why
+   no lesson HTML needed to change. */
+/* The thin course-progress rail sits along the very top of the breadcrumb
+   bar, so the same live percentage doubles as the page's progress meter. */
+.lesson-breadcrumb {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.lesson-breadcrumb__back {
+  flex: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.lesson-breadcrumb__trail {
+  flex: 1;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.lesson-breadcrumb__progress {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.lesson-breadcrumb__progress .progress {
+  display: block;
+}
+
+.lesson-breadcrumb__progress .progress__track {
+  display: block;
+  height: 3px;
+  border-radius: 0;
+  background-color: var(--color-border);
+}
+
+.lesson-breadcrumb__progress .progress__fill {
+  border-radius: 0;
+}
+
+.lesson-breadcrumb__progress .progress__text {
+  display: none;
+}
+
+.lesson-intro {
+  margin-bottom: var(--space-5);
+}
+
+.lesson-intro [data-chapter-title] {
+  margin-bottom: var(--space-2);
+  font-size: 1.6875rem;
+}
+
+.lesson-intro .lesson-header__summary {
+  max-width: none;
+  margin-bottom: 0;
+}
+
+/* ---------------------------- Sidebar contents --------------------------- */
+.lesson-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-nav__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.5625rem var(--space-5);
+  border-left: 3px solid transparent;
+  color: var(--color-text-muted);
+  font-size: 0.845rem;
+  line-height: 1.35;
+}
+
+.lesson-nav__row--locked {
+  color: var(--color-border-strong);
+  cursor: default;
+}
+
+.lesson-nav__row--unlocked {
+  color: var(--color-text-faint);
+}
+
+.lesson-nav__row--current {
   background-color: var(--color-accent-soft);
+  border-left-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+a.lesson-nav__row:hover {
+  background-color: var(--color-bg-alt);
+  color: var(--color-primary);
+}
+
+.lesson-nav__mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.625rem;
+  font-weight: 800;
+}
+
+/* Done: a solid green disc with a white tick. */
+.lesson-nav__row--completed .lesson-nav__mark {
+  background-color: var(--color-done);
+  color: var(--color-text-inverse);
+}
+
+.lesson-nav__row--current .lesson-nav__mark {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Reachable but not started: an empty ring, its number left unsaid. */
+.lesson-nav__row--unlocked .lesson-nav__mark {
+  border: 2px solid var(--color-border-strong);
+  color: transparent;
+}
+
+.lesson-nav__row--locked .lesson-nav__mark {
+  font-size: 0.75rem;
+}
+
+/* ------------------------------ Page layout ------------------------------ */
+.lesson-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  max-width: 1280px;
+  margin-inline: auto;
+  align-items: start;
+}
+
+.lesson-layout .lesson {
+  padding: var(--space-6) var(--space-7) var(--space-8);
+}
+
+/* The sidebar is authored after the reading column so the lesson text comes
+   first for screen readers and on narrow screens; on desktop it sits left. */
+.lesson-sidebar {
+  order: -1;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-right: 1px solid var(--color-border);
+}
+
+.lesson-sidebar__group {
+  padding-inline: var(--space-5);
+}
+
+.lesson-sidebar__label {
+  display: block;
+  padding-inline: var(--space-5);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.lesson-sidebar .lesson-header__progress {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.lesson-sidebar .lesson-header__topics {
+  margin-top: 0;
+}
+
+/* ----------------------------- Chapter header ----------------------------
+   The band only exists for the moment before applySidebarLayout() moves the
+   title into the reading column, and on the locked-chapter screen. */
+.lesson-header {
+  padding-block: var(--space-6);
+  background-color: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
 }
 
 .lesson-header__inner {
-  max-width: 780px;
+  max-width: var(--container-narrow);
   margin-inline: auto;
   padding-inline: var(--space-5);
 }
 
 .lesson-header__eyebrow {
   display: block;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-accent);
 }
@@ -37,7 +229,8 @@
 
 .lesson-header__summary {
   max-width: 42rem;
-  font-size: 1.05rem;
+  font-size: 0.97rem;
+  line-height: 1.6;
   color: var(--color-text-muted);
 }
 
@@ -77,28 +270,29 @@
 
 .lesson-section__label {
   display: block;
-  margin-bottom: var(--space-3);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  margin-bottom: var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-accent);
 }
 
 .lesson-section h2 {
-  font-size: 1.55rem;
-  margin-bottom: var(--space-4);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: var(--space-3);
 }
 
 .lesson-section h3 {
-  margin-top: var(--space-6);
-  margin-bottom: var(--space-3);
-  font-size: 1.12rem;
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-2);
+  font-size: 0.97rem;
 }
 
 .lesson-section p,
 .lesson-section li {
-  font-size: 1rem;
+  font-size: 0.94rem;
   line-height: 1.75;
 }
 
@@ -113,16 +307,15 @@
 
 /* ================================ Exercise =============================== */
 .exercise {
-  padding: var(--space-6);
+  padding: var(--space-5);
   background-color: var(--color-bg);
-  border: 2px solid var(--color-primary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 .exercise__heading {
   margin-bottom: var(--space-3);
-  font-size: 1.3rem;
+  font-size: 1.0625rem;
 }
 
 .exercise__prompt {
@@ -136,16 +329,28 @@
   margin-top: var(--space-5);
 }
 
+/* Chapters with several exercises plus one distinct module challenge
+   (js/views/LessonView.js's renderExerciseSet). */
+.exercise-set {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.exercise-set__challenge {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+}
+
 /* ============================== Completion =============================== */
 .completion {
-  padding: var(--space-6);
+  padding: var(--space-5);
   background-color: var(--color-bg-alt);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
 }
 
 .completion h2 {
-  font-size: 1.3rem;
+  font-size: 1.0625rem;
   margin-bottom: var(--space-4);
 }
 
@@ -203,7 +408,7 @@
   padding: var(--space-6);
   background-color: var(--color-primary-dark);
   border-radius: var(--radius-lg);
-  color: #dbe6f3;
+  color: var(--color-text-on-dark);
 }
 
 .next-step__label {
@@ -212,7 +417,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #7fb3e8;
+  color: var(--color-accent-light);
 }
 
 .next-step__title {
@@ -223,7 +428,7 @@
 
 .next-step__text {
   margin: 0 0 var(--space-5);
-  color: #b9cbe0;
+  color: #c7d7ec;
 }
 
 .next-step .btn--primary {
@@ -241,23 +446,64 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding-block: var(--space-6);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
   border-top: 1px solid var(--color-border);
 }
 
+/* Back reads as an outlined control, forward as the filled one — the next
+   lesson is the action the page is steering you toward. */
 .chapter-nav__link {
-  font-size: 0.9rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.845rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.chapter-nav__link:hover {
+  border-color: var(--color-primary);
   color: var(--color-primary);
 }
 
+/* "All chapters" is a way out, not a step — no control chrome. */
+.chapter-nav__link--plain {
+  border-color: transparent;
+  padding-inline: var(--space-2);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.chapter-nav__link--plain:hover {
+  border-color: transparent;
+}
+
+.chapter-nav__link--next {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.chapter-nav__link--next:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-text-inverse);
+}
+
 .chapter-nav__link--locked {
+  border-color: var(--color-border);
+  background-color: transparent;
   color: var(--color-locked);
   cursor: not-allowed;
 }
 
 .chapter-nav__link--locked:hover {
-  text-decoration: none;
+  border-color: var(--color-border);
+  color: var(--color-locked);
 }
 
 /* ---------------------------- Locked chapter ---------------------------- */
@@ -268,13 +514,24 @@
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   text-align: center;
 }
 
 .locked-panel__icon {
-  margin: 0 0 var(--space-4);
-  font-size: 2.25rem;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--space-4);
+  border-radius: 50%;
+  background-color: var(--color-locked-bg);
+  color: var(--color-locked);
+}
+
+.locked-panel__icon svg {
+  width: 22px;
+  height: 22px;
 }
 
 .locked-panel__title {
@@ -337,4 +594,31 @@
 
 .course-complete .btn {
   margin-top: var(--space-4);
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 900px) {
+  .lesson-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lesson-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .chapter-nav {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: var(--space-3);
+  }
+
+  .locked-panel__actions {
+    flex-direction: column;
+  }
+
+  .course-complete__card {
+    padding: var(--space-6) var(--space-5);
+  }
 }

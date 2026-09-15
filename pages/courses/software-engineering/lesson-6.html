@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 6 — Databases &amp; SQL — Pung Academy</title>
+    <meta name="description" content="Module 6 of Software Engineering: relational databases, keys and relationships, normalization, CRUD, and SQL." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="6">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 6</span>
+            <h1 data-chapter-title>Databases &amp; SQL</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              By the end of this module you'll understand how relational
+              databases organise data into related tables, know what a
+              primary and foreign key actually do, and be able to read and
+              write the core SQL every backend relies on: SELECT, INSERT,
+              UPDATE, DELETE, WHERE, ORDER BY, and JOIN.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Relational databases: tables, rows, columns</h2>
+
+            <p>
+              A <strong>relational database</strong> stores data in tables —
+              each table a grid of rows (individual records) and columns
+              (named fields every row has). A <code>users</code> table might
+              have columns <code>id</code>, <code>name</code>, and
+              <code>email</code>, with one row per actual user.
+            </p>
+
+            <h2>Primary and foreign keys, relationships</h2>
+
+            <p>
+              A <strong>primary key</strong> uniquely identifies each row in
+              its own table (usually an auto-incrementing <code>id</code>). A
+              <strong>foreign key</strong> is a column in one table that
+              stores another table's primary key value, creating a link
+              between them.
+            </p>
+
+            <pre class="code-block"><code>users                    orders
++----+-------+           +----+---------+--------+
+| id | name  |           | id | user_id | total  |
++----+-------+           +----+---------+--------+
+| 1  | Alex  |           | 1  | 1       | 42.50  |
+| 2  | Bo    |           | 2  | 1       | 15.00  |
++----+-------+           | 3  | 2       | 99.99  |
+                          +----+---------+--------+
+
+# orders.user_id is a foreign key referencing users.id</code></pre>
+
+            <h2>Normalization</h2>
+
+            <p>
+              <strong>Normalization</strong> splits data across related
+              tables so each fact lives in exactly one place. Without it, a
+              customer's address copy-pasted into every one of their order
+              rows becomes inconsistent the moment they move and only some
+              copies get updated. With it, the address lives once, in the
+              customers table, and every order just references that customer.
+            </p>
+
+            <h2>CRUD: SELECT, INSERT, UPDATE, DELETE</h2>
+
+            <pre class="code-block"><code>-- Create
+INSERT INTO users (name, email) VALUES ('Alex', 'alex@example.com');
+
+-- Read
+SELECT name, email FROM users WHERE id = 1;
+
+-- Update
+UPDATE users SET email = 'new@example.com' WHERE id = 1;
+
+-- Delete
+DELETE FROM users WHERE id = 1;</code></pre>
+
+            <p>
+              Almost every backend feature, underneath, is some combination
+              of these four operations — CRUD — against one or more tables.
+            </p>
+
+            <h2>WHERE, ORDER BY, GROUP BY</h2>
+
+            <ul>
+              <li><strong>WHERE</strong> — filters which rows are included.</li>
+              <li><strong>ORDER BY</strong> — sorts the results (add <code>DESC</code> for descending).</li>
+              <li><strong>GROUP BY</strong> — collapses rows sharing a value into one summary row, usually paired with a function like <code>COUNT()</code> or <code>SUM()</code>.</li>
+            </ul>
+
+            <pre class="code-block"><code>SELECT user_id, COUNT(*) AS order_count
+FROM orders
+GROUP BY user_id
+ORDER BY order_count DESC;</code></pre>
+
+            <h2>JOINs</h2>
+
+            <p>
+              A <strong>JOIN</strong> combines rows from two tables based on
+              a matching column, so a single query can pull related data
+              from both at once instead of two separate lookups.
+            </p>
+
+            <pre class="code-block"><code>SELECT users.name, orders.total
+FROM orders
+JOIN users ON users.id = orders.user_id;</code></pre>
+
+            <h2>Indexes and transactions</h2>
+
+            <p>
+              An <strong>index</strong> is an extra structure the database
+              maintains on a column so it can find matching rows without
+              scanning the whole table — the database equivalent of a book's
+              index. A <strong>transaction</strong> groups several changes so
+              they either all succeed together or all fail together — if
+              transferring money involves both subtracting from one account
+              and adding to another, a transaction guarantees you never end
+              up doing only one half.
+            </p>
+
+            <h2>Database design for applications</h2>
+
+            <p>
+              Designing a schema starts from the same requirements-gathering
+              habit from Module 1: what real-world things does the
+              application need to track (users, orders, products), and how
+              do they relate to each other? Those relationships become
+              foreign keys; the things themselves become tables.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Running an UPDATE or DELETE without a WHERE clause — this affects every single row in the table.</li>
+              <li>Duplicating the same fact (like a customer's name) across many rows instead of storing it once and referencing it by foreign key.</li>
+              <li>Forgetting an index on a column that's searched or joined on constantly, causing the database to scan the entire table every time.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Always write and check your WHERE clause before running UPDATE/DELETE, especially in production.</li>
+              <li>Normalize data that's genuinely shared and could change (customer details), and design foreign keys around real relationships.</li>
+              <li>Wrap multi-step changes that must succeed or fail together in a transaction.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Relational databases store data in related tables; primary keys identify rows, foreign keys link them across tables.</li>
+              <li>CRUD (SELECT/INSERT/UPDATE/DELETE) covers almost every operation a backend performs on data.</li>
+              <li>WHERE filters, ORDER BY sorts, GROUP BY summarises, and JOIN combines data across tables.</li>
+              <li>Normalization avoids duplicated, inconsistent data by keeping each fact in exactly one place.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

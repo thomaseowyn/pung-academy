@@ -1,12 +1,16 @@
 /* ==========================================================================
    Site footer
+   --------------------------------------------------------------------------
+   Deliberately quiet: hairline rule, small muted type, no tinted band. On
+   pages that ask for the full footer the link columns sit above the same
+   single-line base row.
    ========================================================================== */
 
 .site-footer {
-  padding-block: var(--space-7) var(--space-5);
-  background-color: var(--color-bg-alt);
+  padding-block: var(--space-6) var(--space-4);
+  background-color: var(--color-bg);
   border-top: 1px solid var(--color-border);
-  font-size: 0.92rem;
+  font-size: 0.82rem;
 }
 
 .site-footer__grid {
@@ -23,11 +27,11 @@
 
 .site-footer__title {
   margin-bottom: var(--space-3);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-primary-dark);
+  color: var(--color-text-faint);
 }
 
 .site-footer__list {
@@ -41,6 +45,7 @@
 }
 
 .site-footer__list a {
+  font-weight: 600;
   color: var(--color-text-muted);
 }
 
@@ -52,14 +57,34 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   gap: var(--space-3);
   margin-top: var(--space-6);
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border);
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
+  color: var(--color-text-faint);
+  font-size: 0.78rem;
+}
+
+/* Pages without the link columns get just the base row, no top rule. */
+.site-footer__grid + .site-footer__bottom {
+  border-top: 1px solid var(--color-border);
+}
+
+.site-footer > .container > .site-footer__bottom:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .site-footer__bottom p {
   margin: 0;
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 900px) {
+  .site-footer__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
 }

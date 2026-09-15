@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 9 — Authentication &amp; Sessions — Pung Academy</title>
+    <meta name="description" content="Module 9 of Software Engineering: authentication vs authorization, password hashing, sessions, JWTs, and roles/permissions." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="9">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 9</span>
+            <h1 data-chapter-title>Authentication &amp; Sessions</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              Your Module 8 backend can now serve requests — but it has no
+              idea who's asking. This module covers proving who a user is
+              (authentication), deciding what they're allowed to do
+              (authorization), storing passwords safely, and keeping a user
+              recognised across multiple requests with sessions and tokens.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Authentication vs. authorization</h2>
+
+            <p>
+              <strong>Authentication</strong> answers "who are you?" —
+              usually a username/password check, or a valid token.
+              <strong>Authorization</strong> answers a separate question,
+              asked afterward: "now that I know who you are, are you allowed
+              to do this?" A logged-in user can be authenticated and still
+              be denied a specific action.
+            </p>
+
+            <h2>Password security and hashing</h2>
+
+            <p>
+              A password should never be stored as plain text — if the
+              database ever leaks, every stored password leaks with it.
+              Instead, a <strong>hash</strong> — a one-way transformation —
+              is stored. Logging in re-hashes the entered password and
+              compares hashes; the original password is never saved
+              anywhere.
+            </p>
+
+            <pre class="code-block"><code>import bcrypt
+
+hashed = bcrypt.hashpw(b"my-password", bcrypt.gensalt())
+# store `hashed`, never the original password
+
+bcrypt.checkpw(b"my-password", hashed)  # True — used to verify login</code></pre>
+
+            <h2>Sessions</h2>
+
+            <p>
+              HTTP is <strong>stateless</strong> — the server doesn't
+              remember you between requests by default. A
+              <strong>session</strong> fixes this server-side: after login,
+              the server stores session data and gives the client a small
+              reference (usually a cookie) to send back on every future
+              request.
+            </p>
+
+            <h2>JWT and access tokens</h2>
+
+            <p>
+              A <strong>JWT</strong> (JSON Web Token) takes a different
+              approach: instead of the server storing session data, the
+              token itself carries signed claims (like a user id) that the
+              server can verify without a lookup. This is common for APIs
+              that don't want to maintain shared session storage.
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box">Client submits<br />credentials</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Server verifies<br />hashed password</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Server issues<br />session/token</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Client resends it<br />on every request</span>
+              <p class="diagram__caption">After this handshake, the server (or the token itself) recognises the same user on every later request.</p>
+            </div>
+
+            <h2>Roles and permissions</h2>
+
+            <p>
+              Once a user is authenticated, <strong>roles</strong> (like
+              "admin" or "member") drive <strong>authorization</strong>
+              decisions — which endpoints or actions a given user is allowed
+              to reach.
+            </p>
+
+            <pre class="code-block"><code>def require_admin(current_user):
+    if current_user.role != "admin":
+        raise PermissionError("Admins only")</code></pre>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                Checking a role on the frontend only (hiding a button) is
+                not authorization — it's decoration. The backend must
+                enforce the check itself, since any request can be sent
+                directly, bypassing the frontend entirely.
+              </p>
+            </div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Storing passwords in plain text, or with a weak/reversible encoding instead of a proper one-way hash.</li>
+              <li>Checking permissions only in the frontend UI, with no matching check on the backend.</li>
+              <li>Treating "authenticated" and "authorized to do this specific thing" as the same check.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Always hash passwords with a proper algorithm designed for it (like bcrypt), never a general-purpose hash used alone.</li>
+              <li>Enforce every authorization check on the backend — the frontend is a convenience, not a security boundary.</li>
+              <li>Keep authentication (who) and authorization (what they can do) as two explicit, separate checks in your code.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Authentication confirms identity; authorization decides what that identity is allowed to do.</li>
+              <li>Passwords are stored as one-way hashes, never as plain text.</li>
+              <li>Sessions and JWTs both solve the same problem — recognising a user across HTTP's stateless requests — in different ways.</li>
+              <li>Authorization must be enforced on the backend, regardless of what the frontend shows or hides.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

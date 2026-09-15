@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 10 — Web Security Fundamentals — Pung Academy</title>
+    <meta name="description" content="Module 10 of Software Engineering: input validation, SQL injection, XSS, CSRF, secrets, HTTPS, and common security mistakes." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="10">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 10</span>
+            <h1 data-chapter-title>Web Security Fundamentals</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              Module 9 covered proving who someone is. This module covers
+              defending against people actively trying to abuse your
+              backend: SQL injection, cross-site scripting, cross-site
+              request forgery, and the basic hygiene — secrets management,
+              HTTPS — that closes off the most common attacks entirely.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Input validation</h2>
+
+            <p>
+              Almost every attack in this module starts the same way:
+              untrusted input (from a user, a form, another API) is trusted
+              and used without checking it first. Validating input at the
+              boundary — the moment it enters your system — is the single
+              habit that prevents the most damage.
+            </p>
+
+            <h2>SQL injection</h2>
+
+            <p>
+              When user input is pasted directly into a SQL query string,
+              an attacker can craft input that changes what the query
+              actually does.
+            </p>
+
+            <pre class="code-block"><code># Vulnerable: user input becomes part of the query itself
+query = f"SELECT * FROM users WHERE username = '{username}'"
+# If username is:  ' OR '1'='1
+# the query becomes: ...WHERE username = '' OR '1'='1'  — always true
+
+# Safe: input passed as a separate, escaped parameter
+cursor.execute("SELECT * FROM users WHERE username = ?", (username,))</code></pre>
+
+            <p>
+              A <strong>parameterized query</strong> sends the SQL structure
+              and the data separately — the database driver handles escaping
+              correctly, so user input can never be interpreted as part of
+              the query's structure, no matter what's typed.
+            </p>
+
+            <h2>XSS and CSRF</h2>
+
+            <ul>
+              <li><strong>Cross-Site Scripting (XSS)</strong> — untrusted input (a comment, a username) gets rendered back into a page without escaping, so a malicious <code>&lt;script&gt;</code> tag runs in other users' browsers. Prevented by escaping output, and modern frontend frameworks doing this by default.</li>
+              <li><strong>Cross-Site Request Forgery (CSRF)</strong> — a malicious site tricks a logged-in user's browser into sending a request to your site the user never intended. Prevented with CSRF tokens that verify the request genuinely came from your own frontend.</li>
+            </ul>
+
+            <h2>Secrets and environment variables</h2>
+
+            <p>
+              API keys, database passwords, and signing secrets belong in
+              environment variables (Module 8), never in source code. A
+              secret that ever touches git history — even if removed in a
+              later commit — should be treated as leaked and rotated
+              immediately (Module 2).
+            </p>
+
+            <h2>HTTPS</h2>
+
+            <p>
+              <strong>HTTPS</strong> encrypts traffic between client and
+              server, so anyone intercepting the connection (a shared
+              network, an ISP, an attacker on the same WiFi) sees only
+              scrambled bytes — not passwords, tokens, or personal data in
+              plain text.
+            </p>
+
+            <h2>Common security mistakes</h2>
+
+            <p>
+              Most real security incidents aren't exotic — they're one of
+              the basics in this module skipped under time pressure:
+              unvalidated input, a leaked key, a missing authorization
+              check (Module 9) that nobody tested for.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Building SQL queries with string concatenation or f-strings instead of parameterized queries.</li>
+              <li>Rendering user-provided text into a page without escaping it, opening the door to XSS.</li>
+              <li>Assuming "it's just an internal tool" means security doesn't matter — internal tools get breached too.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Always use parameterized queries — never build SQL by concatenating user input into a string.</li>
+              <li>Escape output rendered from untrusted input, and use CSRF tokens on state-changing requests.</li>
+              <li>Treat every secret as sensitive by default: environment variables, never source code, never committed.</li>
+              <li>Serve everything over HTTPS — there's no good reason for a modern site not to.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>SQL injection and XSS both stem from trusting unescaped input — parameterized queries and output escaping close them off.</li>
+              <li>CSRF tricks a logged-in user's own browser into sending an unintended request; CSRF tokens verify requests are genuine.</li>
+              <li>Secrets belong in environment variables, never in code or git history.</li>
+              <li>HTTPS encrypts data in transit — a baseline, not an optional extra.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

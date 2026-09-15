@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 2 — The LLM API Layer (OpenAI &amp; Anthropic) — Pung Academy</title>
+    <meta name="description" content="Chapter 2 of Artificial Intelligence: the chat completions API, generation parameters, streaming, and token economics." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="ai" data-chapter="2">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 2</span
+            >
+            <h1 data-chapter-title>The LLM API Layer (OpenAI &amp; Anthropic)</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+
+            <p>
+              Chapter 1 got your environment, credentials, and async pattern
+              ready. This chapter is where that setup finally does something:
+              your first real, authenticated call to a model.
+            </p>
+
+            <h2>The Chat Completions API</h2>
+
+            <p>
+              Both OpenAI and Anthropic expose their models through a similar
+              shape of API: you send a list of <strong>messages</strong>,
+              each tagged with a role, and get a generated reply back. Three
+              roles matter most:
+            </p>
+
+            <ul>
+              <li><strong>system</strong> — instructions that set the model's behaviour for the whole conversation (tone, rules, persona).</li>
+              <li><strong>user</strong> — what the person actually asked.</li>
+              <li><strong>assistant</strong> — the model's own previous replies, included so it has conversational memory.</li>
+            </ul>
+
+            <pre class="code-block"><code>from openai import OpenAI
+
+client = OpenAI()
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are a concise coding assistant."},
+        {"role": "user", "content": "What does len() do in Python?"},
+    ],
+)
+
+print(response.choices[0].message.content)</code></pre>
+
+            <p>
+              Anthropic's Messages API follows the same idea, with the system
+              prompt passed as its own top-level parameter rather than a
+              message:
+            </p>
+
+            <pre class="code-block"><code>from anthropic import Anthropic
+
+client = Anthropic()
+
+response = client.messages.create(
+    model="claude-sonnet-4-5",
+    system="You are a concise coding assistant.",
+    max_tokens=300,
+    messages=[{"role": "user", "content": "What does len() do in Python?"}],
+)
+
+print(response.content[0].text)</code></pre>
+
+            <p>
+              Getting a reply back is the easy part. The more useful skill is
+              controlling <em>what kind</em> of reply comes back — and that's
+              a mix of how you build the prompt itself and which generation
+              parameters you dial in alongside it.
+            </p>
+
+            <h2>Programmatic prompt engineering</h2>
+
+            <p>
+              Real applications build prompts dynamically — injecting a
+              user's actual input, retrieved data, or prior context into a
+              template — rather than hard-coding a fixed string. Three
+              parameters shape how the model generates from whatever prompt
+              it receives:
+            </p>
+
+            <ul>
+              <li><strong>temperature</strong> — how much randomness to inject when picking the next token. Low (near 0) is deterministic and repeatable; higher values add variety.</li>
+              <li><strong>top_p</strong> — an alternative way to control randomness, by only sampling from the smallest set of tokens whose combined probability reaches <code>p</code>.</li>
+              <li><strong>max_tokens</strong> — a hard cap on how long the generated reply is allowed to be.</li>
+            </ul>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                Most teams adjust <code>temperature</code>
+                <em>or</em> <code>top_p</code>, not both at once — changing
+                both makes it much harder to reason about why an output
+                changed.
+              </p>
+            </div>
+
+            <p>
+              Those parameters control the content of the reply. The next
+              question is about how that reply actually reaches the user —
+              and whether they have to stare at a blank screen while the
+              whole thing generates.
+            </p>
+
+            <h2>Streaming responses</h2>
+
+            <p>
+              By default, an API call waits for the entire reply to finish
+              generating before returning anything. Streaming instead
+              delivers the reply chunk by chunk, as each new token is
+              produced — the same effect you see as the "typing" animation
+              in ChatGPT or Claude.
+            </p>
+
+            <pre class="code-block"><code>stream = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Write a haiku about Python"}],
+    stream=True,
+)
+
+for chunk in stream:
+    delta = chunk.choices[0].delta.content
+    if delta:
+        print(delta, end="", flush=True)</code></pre>
+
+            <p>
+              Every one of these calls — streamed or not, at any temperature
+              — has a cost attached, and a hard ceiling on how much text it
+              can involve. That's worth understanding before you build
+              anything that makes these calls in a loop.
+            </p>
+
+            <h2>Token economics &amp; logging</h2>
+
+            <p>
+              Every API call is billed by tokens: roughly, pieces of words,
+              counted separately for the input you send and the output the
+              model generates. Each model also has a fixed
+              <strong>context window</strong> — the maximum number of input +
+              output tokens it can handle in one call. Going over it causes
+              the request to fail outright.
+            </p>
+
+            <pre class="code-block"><code>usage = response.usage
+print(usage.prompt_tokens, usage.completion_tokens, usage.total_tokens)</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Log the raw API response (not just the extracted text) during
+                development. When something goes wrong, the raw response —
+                including <code>usage</code>, the finish reason, and any
+                errors — is usually where the actual answer is.
+              </p>
+            </div>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              You can now talk to both major providers directly, shape their
+              output with real parameters, stream it live, and track what
+              it's costing you. That's a working API layer — but every
+              prompt so far has been a single hard-coded string. Chapter 3
+              is about designing that prompt itself like a piece of software,
+              not an afterthought.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Leaving <code>temperature</code> at a high default for tasks that need consistent, repeatable output, like data extraction.</li>
+              <li>Not setting <code>max_tokens</code>, letting a runaway generation cost far more than intended.</li>
+              <li>Building a chat UI without streaming, forcing users to stare at a blank screen for the entire generation time.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Match <code>temperature</code> to the task: near 0 for extraction/classification, higher for creative or conversational replies.</li>
+              <li>Log the full raw response (including <code>usage</code>) during development, not just the extracted text.</li>
+              <li>Stream any reply a user waits on directly, so perceived latency drops even when total generation time doesn't.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>system/user/assistant roles shape a conversation; system sets standing behaviour, assistant carries memory of prior replies.</li>
+              <li><code>temperature</code>, <code>top_p</code>, and <code>max_tokens</code> control randomness and length of generation.</li>
+              <li>Streaming delivers a reply chunk by chunk instead of waiting for the whole thing to finish.</li>
+              <li>Every call is billed by tokens, with a hard context-window ceiling per model.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Practical</span>
+            <h2>Practical things you can apply right now</h2>
+            <ul>
+              <li>Make one real Chat Completions call with a <code>system</code> and a <code>user</code> message, and print the raw response object before extracting just the text.</li>
+              <li>Run the same prompt twice at <code>temperature=0</code>, then twice at a higher value, and compare how much the output actually changes.</li>
+              <li>Convert a non-streaming call into a streaming one, and print each chunk as it arrives instead of the final result.</li>
+              <li>Print <code>response.usage</code> on a real call and calculate its approximate cost using your model provider's published per-token pricing.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Every exercise and the chapter challenge have to be passed
+                before this chapter counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -173,6 +173,29 @@ Encrypted: khoor zruog</code></pre>
               <code>"".join(encrypted)</code> turns the list of letters back
               into one string.
             </p>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Expecting <code>letters[1:4]</code> to include index 4. A slice excludes its stop, exactly like <code>range()</code>.</li>
+              <li>Writing <code>tasks = tasks.append("x")</code>. <code>append()</code> changes the list in place and returns <code>None</code>, so this destroys your list.</li>
+              <li>Calling <code>remove()</code> with a value that is not present, which raises a <code>ValueError</code>.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>A slice <code>[start:stop]</code> returns a new list containing the selected range, leaving the original untouched.</li>
+              <li>Omitting either end of a slice defaults it to the beginning or the end of the list.</li>
+              <li><code>append()</code> adds one item to the end; <code>sort()</code> reorders in place; both return <code>None</code>.</li>
+              <li><code>pop(index)</code> removes by position and hands the item back; <code>remove(value)</code> deletes the first match.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

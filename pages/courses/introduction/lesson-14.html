@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -216,6 +216,29 @@ Fact of the day: f-strings were added in Python 3.6.</code></pre>
                 because only that one name was brought in.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Trying to <code>pip install</code> something that is already part of Python, like <code>math</code> or <code>random</code>.</li>
+              <li>Installing packages system-wide, so two projects end up fighting over incompatible versions.</li>
+              <li>Creating a virtual environment but forgetting to activate it, so packages still land in the wrong place.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Modules let you use code someone else has already written and tested.</li>
+              <li><code>math</code>, <code>random</code> and <code>datetime</code> ship with Python and need only an <code>import</code>.</li>
+              <li><code>pip install</code> fetches third-party packages that do not come with Python.</li>
+              <li>A virtual environment keeps each project's packages separate, so upgrades cannot break another project.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->

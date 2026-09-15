@@ -14,8 +14,10 @@ window.Pung = window.Pung || {};
 Pung.CourseController = (function () {
   "use strict";
 
-  const { TOTAL_CHAPTERS, allChapters, chapterState, completedCount, progressPercent, isCourseComplete, nextChapter, resetProgress } = Pung.CourseProgressModel;
-  const { units } = Pung.courseData;
+  /* courses roadmap page always shows Introduction to Programming's card,
+     regardless of what other courses exist, so it keeps using the default
+     (back-compat) CourseProgressModel/courseData API directly. */
+  const { TOTAL_CHAPTERS, completedCount, progressPercent, isCourseComplete } = Pung.CourseProgressModel;
   const { requireLogin } = Pung.AuthController;
   const TreeView = Pung.CourseTreeView;
   const OverviewView = Pung.CourseOverviewView;
@@ -34,43 +36,53 @@ Pung.CourseController = (function () {
     });
   }
 
-  /** Introduction to Programming overview page */
+  /** Any course's overview page — reads which course from data-course. */
   function initCourseOverview() {
     if (!requireLogin()) {
       return;
     }
 
-    OverviewView.renderHeader({
-      completed: completedCount(),
-      total: TOTAL_CHAPTERS,
-      percent: progressPercent(),
-      finished: isCourseComplete(),
-      next: nextChapter(),
-    });
+    const courseId = document.body.getAttribute("data-course") || Pung.courseData.DEFAULT_COURSE_ID;
+    const course = Pung.courseData.courses[courseId];
+    const progress = Pung.CourseProgressModel.forCourse(courseId);
 
-    const rows = allChapters().map(({ number, data }) => ({
+    OverviewView.renderHeader({
+      completed: progress.completedCount(),
+      total: progress.TOTAL_CHAPTERS,
+      percent: progress.progressPercent(),
+      finished: progress.isCourseComplete(),
+      next: progress.nextChapter(),
+    }, courseId);
+
+    const rows = progress.allChapters().map(({ number, data }) => ({
       number,
       data,
-      state: chapterState(number),
+      state: progress.chapterState(number),
     }));
 
-    OverviewView.renderChapterList(rows, units, OverviewView.showLockedMessage);
+    OverviewView.renderChapterList(rows, course.units, OverviewView.showLockedMessage, courseId);
 
-    wireResetButton();
+    /* Only Introduction to Programming forks into the two career paths, so
+       the "what's next" branch cards only render on its overview page. */
+    if (courseId === Pung.courseData.DEFAULT_COURSE_ID) {
+      Pung.CourseTreeView.renderBranches(progress.isCourseComplete());
+    }
+
+    wireResetButton(course, progress);
   }
 
-  function wireResetButton() {
+  function wireResetButton(course, progress) {
     const button = document.querySelector("[data-reset-progress]");
     if (!button) {
       return;
     }
     button.addEventListener("click", () => {
       const sure = window.confirm(
-        "Reset your progress in Introduction to Programming? " +
+        `Reset your progress in ${course.title}? ` +
           "Every chapter will be locked again except Chapter 1."
       );
       if (sure) {
-        resetProgress();
+        progress.resetProgress();
         window.location.reload();
       }
     });

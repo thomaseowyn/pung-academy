@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 4 — Data Structures &amp; Algorithms — Pung Academy</title>
+    <meta name="description" content="Module 4 of Software Engineering: arrays, stacks/queues, hash tables, linked lists, trees, searching, sorting, and Big-O notation." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="4">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 4</span>
+            <h1 data-chapter-title>Data Structures &amp; Algorithms</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              By the end of this module you'll recognise the handful of data
+              structures behind almost every program (arrays, stacks, queues,
+              hash tables, linked lists, trees), understand searching and
+              sorting at a conceptual level, and be able to use Big-O
+              notation to reason about how a choice of structure or algorithm
+              scales as data grows.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Why data structures matter</h2>
+
+            <p>
+              The same data can be organised many different ways, and the
+              organisation you choose directly determines how fast (or slow)
+              common operations are. Picking the right structure is often
+              the single biggest performance decision in a program — far
+              bigger than micro-optimising the code around it.
+            </p>
+
+            <h2>Arrays/lists, stacks, and queues</h2>
+
+            <ul>
+              <li><strong>Array/list</strong> — items in order, accessed by position (index). Python's <code>list</code> is this.</li>
+              <li><strong>Stack</strong> — Last-In-First-Out (LIFO): the most recently added item comes out first. Undo history is a stack.</li>
+              <li><strong>Queue</strong> — First-In-First-Out (FIFO): the oldest item comes out first. A print queue or a line of people is a queue.</li>
+            </ul>
+
+            <pre class="code-block"><code># A list used as a stack
+stack = []
+stack.append("a")   # push
+stack.append("b")
+stack.pop()          # "b" — the most recent one comes off first
+
+# A list used as a queue (using collections.deque for efficiency)
+from collections import deque
+queue = deque()
+queue.append("a")    # enqueue
+queue.append("b")
+queue.popleft()       # "a" — the oldest one comes off first</code></pre>
+
+            <h2>Hash tables / dictionaries</h2>
+
+            <p>
+              A <strong>hash table</strong> (Python's <code>dict</code>)
+              computes roughly where a value lives directly from its key,
+              giving average constant-time lookup, insertion, and deletion —
+              dramatically faster than scanning a list item by item to find
+              a match.
+            </p>
+
+            <h2>Linked lists and trees</h2>
+
+            <p>
+              A <strong>linked list</strong> stores items as a chain of
+              nodes, each pointing to the next — inserting in the middle is
+              cheap, but reaching item 500 means walking through the 499
+              before it. A <strong>tree</strong> organises items
+              hierarchically (a parent with children, e.g. a file system's
+              folder structure), which is what makes searching a sorted tree
+              much faster than scanning a flat list.
+            </p>
+
+            <h2>Searching and sorting</h2>
+
+            <p>
+              <strong>Linear search</strong> checks every item one by one
+              until it finds a match. <strong>Binary search</strong>, on a
+              sorted list, repeatedly cuts the remaining search space in
+              half — far fewer comparisons, but it only works because the
+              data is sorted first.
+            </p>
+
+            <pre class="code-block"><code>def linear_search(items, target):
+    for index, value in enumerate(items):
+        if value == target:
+            return index
+    return -1</code></pre>
+
+            <h2>Big-O notation</h2>
+
+            <p>
+              <strong>Big-O notation</strong> describes how an algorithm's
+              running time (or memory use) grows as the input size <code>n</code>
+              grows — not the exact time, but the shape of its growth.
+            </p>
+
+            <div class="diagram diagram--column">
+              <span class="diagram__box diagram__box--accent">O(1) — constant, doesn't grow with n</span>
+              <span class="diagram__box">O(log n) — grows very slowly</span>
+              <span class="diagram__box">O(n) — grows in direct proportion to n</span>
+              <span class="diagram__box">O(n log n) — typical of efficient sorting</span>
+              <span class="diagram__box">O(n²) — grows fastest, gets slow quickly</span>
+            </div>
+
+            <h2>Time vs. space complexity</h2>
+
+            <p>
+              Big-O can describe either <strong>time</strong> (how many
+              operations) or <strong>space</strong> (how much extra memory)
+              an algorithm needs. The two often trade off against each
+              other — a hash table trades extra memory for faster lookups
+              than a plain list would give you.
+            </p>
+
+            <h2>Choosing the right data structure</h2>
+
+            <p>
+              The practical question is almost always: what operation
+              happens most often, and how does each structure perform at
+              that specific operation? Frequent lookups by key → a
+              dictionary. Frequent "most recent item first" → a stack.
+              Frequent "process in arrival order" → a queue.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Using a list and scanning it (O(n)) for membership checks that happen constantly, when a set would give near-instant (O(1)) lookups.</li>
+              <li>Assuming "it works fine with my 10 test rows" says anything about how it performs with 10 million rows.</li>
+              <li>Optimising the wrong part of a program before measuring where the actual time is being spent.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Reach for a dict/set the moment "does this exist?" or "look this up by key" happens frequently.</li>
+              <li>Know the rough Big-O of the structures and functions you use most, even without formally proving them.</li>
+              <li>Only optimise after identifying an actual bottleneck — premature optimisation often adds complexity without a measurable benefit.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Stacks are LIFO, queues are FIFO — pick based on which end needs to come out first.</li>
+              <li>Hash tables (dicts/sets) give average O(1) lookup by key — the go-to structure for frequent membership checks.</li>
+              <li>Big-O describes how performance scales with input size, not exact speed — O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²).</li>
+              <li>Choose a structure based on which operation happens most often in your actual use case.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

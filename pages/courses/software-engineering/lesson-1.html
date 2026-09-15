@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 1 — Software Engineering Fundamentals — Pung Academy</title>
+    <meta name="description" content="Module 1 of Software Engineering: what software engineering is, the SDLC, Waterfall vs Agile, Scrum, and gathering requirements." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="1">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 1</span>
+            <h1 data-chapter-title>Software Engineering Fundamentals</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <!-- ========================= Introduction ========================= -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              By the end of this module you'll be able to explain what
+              software engineering actually is, walk through the phases every
+              software project moves through (the SDLC), tell Waterfall and
+              Agile apart and know when each fits, describe how a Scrum team
+              organises its work, and turn a vague idea into concrete
+              functional and non-functional requirements.
+            </p>
+          </section>
+
+          <!-- ========================= Learning material ========================= -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>What software engineering actually is</h2>
+
+            <p>
+              Anyone can write code that works once, on their own machine,
+              for their own use. <strong>Software engineering</strong> is the
+              discipline of building software that keeps working — reliably,
+              for other people, for years, as requirements change and the
+              team around it changes too. The difference isn't the
+              programming language or how many lines of code you write; it's
+              process, collaboration, testing, and design discipline layered
+              on top of the code itself.
+            </p>
+
+            <div class="callout">
+              <span class="callout__label">Real-world example</span>
+              <p>
+                A weekend hobby script that scrapes a website for you is code.
+                The same idea, rebuilt so it handles the website changing its
+                layout, alerts someone when it breaks, has automated tests,
+                and can be safely modified by a teammate who has never seen
+                it before — that's software engineering.
+              </p>
+            </div>
+
+            <h2>The Software Development Life Cycle (SDLC)</h2>
+
+            <p>
+              Every software project, regardless of methodology, moves
+              through the same broad phases — the <strong>Software
+              Development Life Cycle</strong>:
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box">Requirements</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Design</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Implementation</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Testing</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Deployment</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Maintenance</span>
+              <p class="diagram__caption">Maintenance usually lasts far longer than every other phase combined.</p>
+            </div>
+
+            <p>
+              What differs between methodologies isn't these phases — it's
+              how many times you move through them, and how big each pass
+              is.
+            </p>
+
+            <h2>Waterfall vs. Agile</h2>
+
+            <p>
+              <strong>Waterfall</strong> moves through the SDLC once, in
+              strict sequence: all requirements are gathered up front, then
+              design, then implementation, and so on. It works well when
+              requirements are genuinely stable and well understood in
+              advance — construction and safety-critical systems often use
+              it.
+            </p>
+
+            <p>
+              <strong>Agile</strong> instead moves through small versions of
+              the whole cycle repeatedly, in short iterations, re-planning
+              based on real feedback each time. It fits the far more common
+              situation where nobody has perfect information up front and
+              requirements are expected to evolve.
+            </p>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                Neither approach is universally "better" — Waterfall trades
+                flexibility for predictability; Agile trades some
+                predictability for the ability to adapt. Most real teams
+                today lean Agile, because most real requirements do change.
+              </p>
+            </div>
+
+            <h2>Scrum fundamentals</h2>
+
+            <p>
+              <strong>Scrum</strong> is the most common way teams actually
+              practise Agile. Work is planned and delivered in fixed-length
+              iterations called <strong>sprints</strong> (commonly 1-2
+              weeks), with a small set of recurring ceremonies:
+            </p>
+
+            <ul>
+              <li><strong>Sprint planning</strong> — deciding what work fits in the upcoming sprint.</li>
+              <li><strong>Daily stand-up</strong> — a short daily sync on progress and blockers.</li>
+              <li><strong>Sprint review</strong> — demoing what was actually finished.</li>
+              <li><strong>Retrospective</strong> — reflecting on what to improve next sprint.</li>
+            </ul>
+
+            <h2>Gathering requirements: functional vs. non-functional</h2>
+
+            <p>
+              Before any design happens, a team has to know what to build.
+              <strong>Functional requirements</strong> describe what the
+              system does — "users can reset their password," "admins can
+              export data as CSV." <strong>Non-functional requirements</strong>
+              describe how well it does it — performance, security,
+              reliability, usability. A system can satisfy every functional
+              requirement and still be unusable if it takes ten seconds to
+              load a page.
+            </p>
+
+            <div class="callout">
+              <span class="callout__label">Real-world example</span>
+              <p>
+                "Users can search for a product" is functional. "Search
+                results must return within 300ms for 95% of requests" is
+                non-functional — it says nothing new about <em>what</em>
+                search does, only how well it has to perform.
+              </p>
+            </div>
+
+            <h2>A real-world development workflow</h2>
+
+            <p>
+              Put together, a real feature's life looks roughly like this: a
+              product owner writes a requirement, the team breaks it into
+              smaller tasks during sprint planning, an engineer implements it
+              on a branch (Module 2), it's reviewed and merged, tested, and
+              released — then the cycle repeats for the next sprint, informed
+              by what was learned from the last one.
+            </p>
+          </section>
+
+          <!-- ========================= Common mistakes ========================= -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Treating "we'll figure out requirements as we go" as an excuse to skip requirements gathering entirely, rather than as a reason to use shorter iterations.</li>
+              <li>Confusing a functional requirement with a non-functional one, and only ever writing down the former — performance and security requirements get discovered painfully late.</li>
+              <li>Assuming Agile means "no planning" — Scrum still plans deliberately, just in smaller increments.</li>
+            </ul>
+          </section>
+
+          <!-- ========================= Best practices ========================= -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Write requirements down, even briefly — a shared, written understanding beats everyone assuming they agree.</li>
+              <li>Separate "what it does" from "how well it does it" explicitly when gathering requirements, so non-functional needs don't get silently dropped.</li>
+              <li>Pick a methodology to fit the project's actual uncertainty, not out of habit — a well-understood, stable project can genuinely suit Waterfall.</li>
+            </ul>
+          </section>
+
+          <!-- ========================= Summary ========================= -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Software engineering is process and discipline layered on top of code, aimed at keeping software reliable over time.</li>
+              <li>Every project moves through the same SDLC phases; methodologies differ in how many times and how big each pass through them is.</li>
+              <li>Waterfall suits stable, well-understood requirements; Agile/Scrum suits requirements expected to change.</li>
+              <li>Functional requirements describe what a system does; non-functional requirements describe how well it does it.</li>
+            </ul>
+          </section>
+
+          <!-- ========================= Exercises ========================= -->
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <!-- ======================== Completion ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

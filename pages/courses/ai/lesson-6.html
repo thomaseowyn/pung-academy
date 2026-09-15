@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chapter 6 — Agentic Workflows &amp; Memory — Pung Academy</title>
+    <meta name="description" content="Chapter 6 of Artificial Intelligence: conversational memory, multi-agent routing, and error handling with self-correction." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="ai" data-chapter="6">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number
+              >Chapter 6</span
+            >
+            <h1 data-chapter-title>Agentic Workflows &amp; Memory</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+
+            <p>
+              Chapter 5 gave the model access to your data. This chapter
+              gives it something else it's been missing: a memory of the
+              conversation so far, the ability to hand off to a specialist
+              when a request isn't its job, and a way to recover when its
+              own output goes wrong.
+            </p>
+
+            <h2>Conversational memory</h2>
+
+            <p>
+              Every chapter so far has sent one prompt and read one reply. A
+              real conversation needs <strong>memory</strong>: the growing
+              list of past messages, resent with every new request so the
+              model has the full thread of context.
+            </p>
+
+            <pre class="code-block"><code>history = [{"role": "system", "content": "You are a helpful assistant."}]
+
+def ask(user_message: str) -> str:
+    history.append({"role": "user", "content": user_message})
+    reply = client.chat.completions.create(model="gpt-4o-mini", messages=history)
+    text = reply.choices[0].message.content
+    history.append({"role": "assistant", "content": text})
+    return text</code></pre>
+
+            <p>
+              Left unmanaged, that history array grows without bound — and
+              every past message gets resent (and rebilled) on every new
+              call, eventually overflowing the model's context window
+              (Chapter 2). Long-running sessions need a strategy: truncate
+              the oldest messages, or periodically summarize the older half
+              of the conversation into a short recap and replace it in place.
+            </p>
+
+            <p>
+              Memory keeps one agent coherent across a conversation. The next
+              problem shows up once that agent is expected to handle more
+              than one <em>kind</em> of request well.
+            </p>
+
+            <h2>Multi-agent routing</h2>
+
+            <p>
+              As an application takes on more kinds of requests, one giant
+              system prompt trying to handle everything gets unwieldy and
+              inconsistent. A <strong>router</strong> agent solves this by
+              doing one job only: classify what the user actually wants, then
+              forward the request to a specialized sub-agent built for that
+              exact task.
+            </p>
+
+            <pre class="code-block"><code>def route(user_message: str) -> str:
+    classification = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "Reply with exactly one word: 'data' or 'chat'."},
+            {"role": "user", "content": user_message},
+        ],
+    ).choices[0].message.content.strip().lower()
+
+    if classification == "data":
+        return extraction_agent(user_message)
+    return conversational_agent(user_message)</code></pre>
+
+            <div class="diagram">
+              <span class="diagram__box">User message</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Router agent<br />(classifies intent)</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Extraction agent</span>
+              <span class="diagram__box">Conversational agent</span>
+              <p class="diagram__caption">The router's only job is classification and handoff — each sub-agent can have its own prompt, tools, and model.</p>
+            </div>
+
+            <div class="callout">
+              <span class="callout__label">Note</span>
+              <p>
+                Each sub-agent can have its own system prompt, its own tools
+                (Chapter 4), and even its own model — a fast, cheap model for
+                simple chat, a stronger one for complex extraction — instead
+                of one expensive model handling every request identically.
+              </p>
+            </div>
+
+            <p>
+              Routing handles which agent should answer. It doesn't handle
+              what happens when the agent that <em>does</em> answer produces
+              something malformed — which, with structured output
+              (Chapter 4), will eventually happen.
+            </p>
+
+            <h2>Error handling &amp; self-correction</h2>
+
+            <p>
+              Chapter 4 showed Pydantic raising a <code>ValidationError</code>
+              when a model's JSON doesn't match your schema. A resilient
+              agent doesn't just crash on that error — it feeds the exact
+              error text back to the model and asks it to fix its own
+              output.
+            </p>
+
+            <pre class="code-block"><code>from pydantic import ValidationError
+import json
+
+def get_structured_reply(prompt: str, schema, attempts: int = 2):
+    for attempt in range(attempts):
+        raw = client.chat.completions.create(
+            model="gpt-4o-mini",
+            response_format={"type": "json_object"},
+            messages=[{"role": "user", "content": prompt}],
+        ).choices[0].message.content
+        try:
+            return schema.model_validate(json.loads(raw))
+        except ValidationError as e:
+            prompt = f"{prompt}\n\nYour previous output failed validation with this error:\n{e}\nReturn corrected JSON only."
+    raise RuntimeError("Model could not produce valid output after retries.")</code></pre>
+
+            <div class="callout callout--tip">
+              <span class="callout__label">Tip</span>
+              <p>
+                This self-correction loop works because the model is
+                genuinely good at reading an error message and fixing the
+                specific thing that was wrong — far better than it is at
+                guessing your schema correctly with zero feedback.
+              </p>
+            </div>
+
+            <h2>Putting it together</h2>
+
+            <p>
+              An agent that remembers the conversation, routes to the right
+              specialist, and corrects its own mistakes is genuinely close to
+              a real product — everything so far has run as a script,
+              though. Chapter 7 puts it behind a real web server so an actual
+              frontend can use it.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Letting conversation history grow forever, eventually overflowing the context window and rebilling every past message on every call.</li>
+              <li>Building one giant system prompt trying to handle every kind of request instead of routing to specialized sub-agents.</li>
+              <li>Retrying a failed structured-output call with the exact same prompt, giving the model no new information to correct itself with.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Truncate or summarize older messages once history grows past a reasonable length.</li>
+              <li>Give each specialized sub-agent its own prompt, tools, and even model — don't force one model to do everything equally well.</li>
+              <li>Feed the exact validation error back into the retry prompt, so the model has something concrete to fix.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Conversational memory is a growing list of messages resent on every call; it needs a truncation or summarization strategy for long sessions.</li>
+              <li>A router agent classifies intent and hands off to specialized sub-agents, rather than one model doing everything.</li>
+              <li>Self-correction feeds a specific error back to the model, which is far more effective than a blind retry.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Practical</span>
+            <h2>Practical things you can apply right now</h2>
+            <ul>
+              <li>Build a small chat loop that keeps a growing <code>history</code> list and actually holds a multi-turn conversation.</li>
+              <li>Add a simple truncation rule that drops the oldest messages once the history passes a fixed length.</li>
+              <li>Write a one-call classifier that routes a message to either of two different system prompts based on its content.</li>
+              <li>Wrap one of your Chapter 4 structured-output calls in a retry loop that feeds a validation error back to the model.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this chapter</h2>
+              <p>
+                Every exercise and the chapter challenge have to be passed
+                before this chapter counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Lesson material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this chapter
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Chapter navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

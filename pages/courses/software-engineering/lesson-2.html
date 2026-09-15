@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-root="../../..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Module 2 — Git &amp; Version Control — Pung Academy</title>
+    <meta name="description" content="Module 2 of Software Engineering: why version control matters, Git vs GitHub, the working tree/staging/repo flow, branching, and collaborative workflow." />
+    <link rel="icon" href="../../../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="../../../css/pages/lesson.css" />
+  </head>
+  <body data-course="softwareEngineering" data-chapter="2">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header data-site-header data-active="courses"></header>
+
+    <div class="container" data-lesson-guard hidden></div>
+
+    <div data-lesson-content>
+      <main id="main">
+        <section class="lesson-header">
+          <div class="lesson-header__inner">
+            <span class="lesson-header__eyebrow" data-chapter-number>Module 2</span>
+            <h1 data-chapter-title>Git &amp; Version Control</h1>
+            <p class="lesson-header__summary" data-chapter-summary></p>
+
+            <div class="lesson-header__progress">
+              <div class="progress">
+                <span class="progress__track">
+                  <span class="progress__fill" data-course-progress-fill></span>
+                </span>
+                <span class="progress__text" data-course-progress-text></span>
+              </div>
+            </div>
+
+            <ul class="lesson-header__topics" data-chapter-topics></ul>
+          </div>
+        </section>
+
+        <div class="lesson">
+          <section class="lesson-section">
+            <span class="lesson-section__label">Introduction</span>
+            <h2>What you'll learn in this module</h2>
+            <p>
+              By the end of this module you'll understand why version control
+              is non-negotiable on any real project, know the difference
+              between Git and GitHub, be comfortable with the core
+              add/commit/push workflow, and understand branching, pull
+              requests, and merge conflicts well enough to work on a shared
+              codebase with a team.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Learning material</span>
+            <h2>Why version control matters</h2>
+
+            <p>
+              Without version control, "keeping track of changes" usually
+              means files named <code>project_final_v2_REAL.py</code>. Git
+              replaces that with a real history: every saved snapshot is
+              recorded, nothing is ever silently lost, and multiple people
+              can work on the same project at once without overwriting each
+              other's work.
+            </p>
+
+            <h2>Git vs. GitHub</h2>
+
+            <p>
+              <strong>Git</strong> is the version-control tool itself —
+              it runs entirely on your own machine and needs no internet
+              connection to track history. <strong>GitHub</strong> is a
+              separate hosting service built around Git repositories, adding
+              collaboration features on top: pull requests, code review,
+              issue tracking. GitLab and Bitbucket do the same job as
+              GitHub — Git itself doesn't require any of them.
+            </p>
+
+            <h2>Repository, commit, branch, merge</h2>
+
+            <ul>
+              <li><strong>Repository (repo)</strong> — a project, plus its entire tracked history.</li>
+              <li><strong>Commit</strong> — a saved snapshot of the project at one point, with a message describing what changed.</li>
+              <li><strong>Branch</strong> — an independent line of development, so you can work on something without touching the main, stable version.</li>
+              <li><strong>Merge</strong> — combining the changes from one branch into another.</li>
+            </ul>
+
+            <h2>Working tree and staging area</h2>
+
+            <p>
+              A change doesn't become a commit in one step — it passes
+              through three places:
+            </p>
+
+            <div class="diagram">
+              <span class="diagram__box">Working directory<br />(your edited files)</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box diagram__box--accent">Staging area<br />(git add)</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Repository<br />(git commit)</span>
+              <span class="diagram__arrow" aria-hidden="true">→</span>
+              <span class="diagram__box">Remote<br />(git push)</span>
+              <p class="diagram__caption">git add moves changes to staging; git commit saves them to local history; git push shares that history remotely.</p>
+            </div>
+
+            <p>
+              The staging area exists so you can choose exactly which
+              changed files go into the next commit, rather than being
+              forced to commit everything you've touched at once.
+            </p>
+
+            <h2>Essential Git commands</h2>
+
+            <pre class="code-block"><code>git init                        # start tracking a folder
+git status                      # see what's changed
+git add file.py                 # stage one file
+git add .                       # stage everything changed
+git commit -m "Add login form"  # save a snapshot with a message
+git log                         # view commit history
+git push                        # send commits to the remote
+git pull                        # fetch and merge remote changes</code></pre>
+
+            <h2>Branching strategies</h2>
+
+            <p>
+              Real teams almost never commit directly to the main branch.
+              Instead, each new piece of work gets its own branch (often
+              named like <code>feature/login-form</code> or
+              <code>fix/broken-link</code>), keeping <code>main</code> always
+              in a working, deployable state.
+            </p>
+
+            <pre class="code-block"><code>git checkout -b feature/login-form   # create and switch to a new branch
+# ... make changes, commit them ...
+git push -u origin feature/login-form</code></pre>
+
+            <h2>Pull requests and merge conflicts</h2>
+
+            <p>
+              A <strong>pull request</strong> (PR) proposes merging one
+              branch into another and gives teammates a chance to review the
+              change before it lands. If two people changed the exact same
+              lines of the same file differently, Git can't guess which
+              version is correct — it marks the file as
+              <strong>conflicted</strong> and a person has to resolve it by
+              hand, choosing or combining the changes.
+            </p>
+
+            <div class="callout callout--warning">
+              <span class="callout__label">Careful</span>
+              <p>
+                A merge conflict is not an error you did something wrong —
+                it's Git correctly refusing to guess. Read both versions
+                carefully before resolving; picking the wrong side silently
+                deletes real work.
+              </p>
+            </div>
+
+            <h2>Commit best practices and .gitignore</h2>
+
+            <p>
+              A good commit message describes <em>why</em>, not just what
+              ("Fix session timeout on password reset" beats "fix bug"). A
+              <code>.gitignore</code> file lists patterns Git should never
+              track — dependency folders, build output, and, critically,
+              anything holding a secret.
+            </p>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Committing a <code>.env</code> file or an API key before adding it to <code>.gitignore</code> — once it's in history, treat it as leaked and rotate it.</li>
+              <li>Making one giant commit at the end of a day's work instead of small, focused commits — hard to review, hard to undo just one part.</li>
+              <li>Panicking during a merge conflict and discarding one side entirely without reading it, instead of carefully reconciling both changes.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Best practices</span>
+            <h2>Best practices</h2>
+            <ul>
+              <li>Commit often, in small, logically complete chunks — each commit should represent one coherent change.</li>
+              <li>Write commit messages in the imperative mood ("Add," "Fix," "Remove") describing intent, not just a diff summary.</li>
+              <li>Create a <code>.gitignore</code> before your very first commit, not after.</li>
+              <li>Keep <code>main</code> always deployable — do new work on branches, merged in through reviewed pull requests.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Git tracks history locally; GitHub (or similar) hosts repositories and adds collaboration features on top.</li>
+              <li>A change moves working directory → staging (git add) → repository (git commit) → remote (git push).</li>
+              <li>Branches isolate work in progress; pull requests propose merging it back, with review, into a shared branch.</li>
+              <li>Merge conflicts happen when the same lines change on both sides — Git asks a human to resolve them, rather than guessing.</li>
+            </ul>
+          </section>
+
+          <section class="lesson-section" id="exercise">
+            <span class="lesson-section__label">Your turn</span>
+            <div data-exercise></div>
+          </section>
+
+          <section class="lesson-section">
+            <span class="lesson-section__label">Finish</span>
+            <div class="completion">
+              <h2>Complete this module</h2>
+              <p>
+                Every exercise and the module challenge have to be passed
+                before this module counts as done. Completing it unlocks the
+                next one.
+              </p>
+              <ul class="checklist">
+                <li class="check" data-check-viewed>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Module material viewed
+                </li>
+                <li class="check" data-check-exercise>
+                  <span class="check__mark" data-check-mark aria-hidden="true">○</span>
+                  Exercises and challenge completed
+                </li>
+              </ul>
+              <button
+                class="btn btn--primary btn--lg"
+                type="button"
+                data-complete-chapter
+                disabled
+              >
+                Complete the exercises to finish this module
+              </button>
+            </div>
+
+            <div data-next-step hidden></div>
+          </section>
+
+          <nav class="chapter-nav" data-chapter-nav aria-label="Module navigation"></nav>
+        </div>
+      </main>
+    </div>
+    <footer data-site-footer></footer>
+    <script src="../../../js/services/StorageService.js"></script>
+    <script src="../../../js/services/ValidationService.js"></script>
+    <script src="../../../js/services/PathService.js"></script>
+    <script src="../../../js/config/courseData.js"></script>
+    <script src="../../../js/models/UserModel.js"></script>
+    <script src="../../../js/models/CourseProgressModel.js"></script>
+    <script src="../../../js/views/SiteChromeView.js"></script>
+    <script src="../../../js/views/AuthView.js"></script>
+    <script src="../../../js/views/CourseTreeView.js"></script>
+    <script src="../../../js/views/CourseOverviewView.js"></script>
+    <script src="../../../js/views/LessonView.js"></script>
+    <script src="../../../js/controllers/AuthController.js"></script>
+    <script src="../../../js/controllers/CourseController.js"></script>
+    <script src="../../../js/controllers/LessonController.js"></script>
+    <script src="../../../js/pages/_shared.js"></script>
+    <script src="../../../js/pages/lesson.js"></script>
+  </body>
+</html>

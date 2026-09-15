@@ -1,28 +1,65 @@
 /* ==========================================================================
    Call-to-action band
+   --------------------------------------------------------------------------
+   Not a full-bleed dark band — a contained navy card sitting on the page,
+   with the message on the left and the single action on the right.
    ========================================================================== */
 
+/* The horizontal padding here is the page gutter: the .container inside is
+   the navy card itself, so it can no longer supply one. */
 .cta {
-  padding-block: var(--space-8);
-  background-color: var(--color-primary-dark);
-  color: #dbe6f3;
-  text-align: center;
+  padding: var(--space-7) var(--space-6);
+  background-color: var(--color-bg);
+}
+
+.cta .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-6) 2.5rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-primary);
+  color: var(--color-text-on-dark);
+  text-align: left;
+}
+
+.cta__text {
+  min-width: 0;
 }
 
 .cta h2 {
+  margin: 0 0 var(--space-1);
+  font-size: 1.1875rem;
   color: var(--color-text-inverse);
 }
 
 .cta p {
-  max-width: 38rem;
-  margin-inline: auto;
-  color: #b9cbe0;
+  max-width: 40rem;
+  margin: 0;
+  font-size: 0.845rem;
+  color: #c7d7ec;
 }
 
 .cta__actions {
   display: flex;
+  flex: none;
   flex-wrap: wrap;
-  justify-content: center;
   gap: var(--space-3);
-  margin-top: var(--space-5);
+}
+
+/* The band's one action is already the emphasis — drop the oversized
+   padding .btn--lg would add here. */
+.cta__actions .btn--lg {
+  padding: 0.7rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 760px) {
+  .cta .container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-5);
+  }
 }

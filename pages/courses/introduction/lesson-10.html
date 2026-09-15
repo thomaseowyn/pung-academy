@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../css/main.css" />
@@ -207,6 +207,29 @@ for number, student in enumerate(students, start=1):
                 dictionaries, and looping through both.
               </p>
             </div>
+          </section>
+
+          <!-- ==================== Common mistakes ==================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Common mistakes</span>
+            <h2>Common mistakes</h2>
+            <ul>
+              <li>Writing <code>b = a</code> and expecting a copy. Both names point at the same list, so changing one changes the other.</li>
+              <li>Numbering output from <code>enumerate()</code> starting at 0 when a human-facing list should start at 1 — pass <code>start=1</code>.</li>
+              <li>Assuming <code>zip()</code> pads shorter lists. It stops as soon as the shortest one runs out.</li>
+            </ul>
+          </section>
+
+          <!-- ======================== Summary ======================== -->
+          <section class="lesson-section">
+            <span class="lesson-section__label">Summary</span>
+            <h2>Key takeaways</h2>
+            <ul>
+              <li>Data structures nest freely: lists of dictionaries and dictionaries of lists are everyday shapes.</li>
+              <li><code>enumerate()</code> gives you the position alongside the item; <code>start=1</code> makes the numbering human-friendly.</li>
+              <li><code>zip()</code> walks two or more sequences side by side, stopping at the shortest.</li>
+              <li>Lists are mutable and passed by reference, so use <code>.copy()</code> when you need an independent version.</li>
+            </ul>
           </section>
 
           <!-- ========================= Exercise ========================= -->
