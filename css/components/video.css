@@ -20,6 +20,18 @@
   border: 0;
 }
 
+/* Escape hatch for an embed the uploader has blocked, or a network that
+   blocks the player outright. */
+.video-frame__fallback {
+  margin: var(--space-3) 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.video-frame__fallback a {
+  font-weight: 600;
+}
+
 .video-placeholder {
   padding: var(--space-7) var(--space-6);
   border: 1px dashed var(--color-border-strong);

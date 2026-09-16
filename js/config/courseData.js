@@ -79,8 +79,8 @@ Pung.courseData = (function () {
         "Compilers and interpreters",
         "Why this course uses Python"
       ],
-      videoId: "",
-      videoTitle: "Computer basics and what a programming language is",
+      videoId: "zltgXvg6r3k",
+      videoTitle: "Instructions and programs: how a CPU runs what you write",
       exercises: [
         {
           kind: "choice",
@@ -477,8 +477,8 @@ Pung.courseData = (function () {
         "Logical operators (and, or, not)",
         "Nested conditionals"
       ],
-      videoId: "",
-      videoTitle: "Combining conditions with logical operators",
+      videoId: "yFaYylK1yCE",
+      videoTitle: "Logical operators: and, or, not, and execution order",
       exercises: [
         {
           kind: "code",
@@ -1086,8 +1086,8 @@ Pung.courseData = (function () {
         "Default arguments"
       ],
       project: "Quiz Game",
-      videoId: "4jBJhCaNrWU",
-      videoTitle: "Functions and scope in Python",
+      videoId: "89cGQjB5R4M",
+      videoTitle: "Functions in Python",
       exercises: [
         {
           kind: "code",
@@ -1605,8 +1605,8 @@ Pung.courseData = (function () {
       ],
       project: "Personal Task Manager (Object-Oriented)",
       isFinalProject: true,
-      videoId: "",
-      videoTitle: "Pythonic code and the final project",
+      videoId: "YlY2g2xrl6Q",
+      videoTitle: "List comprehensions in Python",
       exercises: [
         {
           kind: "choice",

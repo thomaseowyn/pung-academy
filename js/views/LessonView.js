@@ -217,7 +217,13 @@ Pung.LessonView = (function () {
     if (chapter.videoId) {
       const frame = el("div", "video-frame");
       const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube.com/embed/${chapter.videoId}`;
+      /* Plain youtube.com, not youtube-nocookie.com: the nocookie host
+         validates the embedding page more strictly and fails with "Error
+         153" whenever the browser sends no Referer — which is exactly what
+         happens when a lesson is opened straight off disk as a file:// URL.
+         rel=0 keeps end-screen suggestions within the same channel rather
+         than sending a beginner into the recommendation feed. */
+      iframe.src = `https://www.youtube.com/embed/${chapter.videoId}?rel=0`;
       iframe.title = chapter.videoTitle || chapter.title;
       iframe.loading = "lazy";
       iframe.setAttribute("allowfullscreen", "");
@@ -227,6 +233,17 @@ Pung.LessonView = (function () {
       );
       frame.appendChild(iframe);
       slot.appendChild(frame);
+
+      /* Some uploaders disable embedding entirely. The player then renders
+         its own "Watch on YouTube" error inside the frame and nothing plays
+         here, which looks like a broken page — so always offer a way out. */
+      const fallback = el("p", "video-frame__fallback");
+      const link = el("a", null, "Trouble playing? Watch it on YouTube ↗");
+      link.href = `https://www.youtube.com/watch?v=${chapter.videoId}`;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      fallback.appendChild(link);
+      slot.appendChild(fallback);
       return;
     }
 
