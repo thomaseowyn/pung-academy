@@ -6,6 +6,8 @@ learning roadmap instead of a pile of unordered tutorials.
 Built with **HTML5, CSS3 and vanilla JavaScript only** — no frameworks, no build
 step, no backend. Double-click `index.html` and it works.
 
+Three courses, 38 chapters, 192 graded exercises and challenges.
+
 ## Structure
 
 ```
@@ -17,8 +19,12 @@ pung-academy/
 │   ├── course-tree.html    The roadmap
 │   ├── coming-soon.html
 │   ├── courses/
-│   │   ├── introduction-to-programming.html
-│   │   └── introduction/lesson-1.html … lesson-13.html
+│   │   ├── introduction-to-programming.html   overview · 16 chapters
+│   │   ├── software-engineering.html          overview · 15 chapters
+│   │   ├── ai-overview.html                   overview ·  7 chapters
+│   │   ├── introduction/lesson-1.html … lesson-16.html
+│   │   ├── software-engineering/lesson-1.html … lesson-15.html
+│   │   └── ai/lesson-1.html … lesson-7.html
 │   └── team/kevin.html  bryan.html  elvin.html  thomas.html
 │
 ├── css/
@@ -31,7 +37,7 @@ pung-academy/
 │                           course-overview, lesson, coming-soon, team/*
 │
 ├── js/
-│   ├── config/             courseData.js — the whole course, as data
+│   ├── config/             courseData.js — all three courses, as data
 │   ├── services/           StorageService · ValidationService · PathService
 │   ├── models/             UserModel · CourseProgressModel      (state, no DOM)
 │   ├── views/              SiteChrome · CourseTree · CourseOverview ·
@@ -100,55 +106,97 @@ root-absolute paths.
 
 ## The course system
 
-**Roadmap** (`pages/course-tree.html`) — a vertical path: start node → Introduction to
-Programming → a locked gate → a fork into Software Engineering and Artificial
-Intelligence. Both branches stay locked until the first course is finished.
+**The three courses** — all defined in `js/config/courseData.js`, all built and
+playable:
 
-**Progression** — Chapter 1 is open from the start; every other chapter needs
-the one before it completed. A chapter counts as complete only after its
-exercise is passed, never just by opening the page. The rule is enforced in
-JavaScript, so typing `pages/courses/introduction/lesson-8.html` directly shows
-a locked screen rather than the content.
+| Course | id | Chapters | Shape |
+| --- | --- | --- | --- |
+| Introduction to Programming | `introductionToProgramming` | 16 | The trunk. Python from first principles to an OOP capstone. |
+| Software Engineering | `softwareEngineering` | 15 | Career branch. Version control, design, databases, APIs, security, testing, CI/CD. |
+| Artificial Intelligence | `ai` | 7 | Career branch. LLM APIs, prompt architecture, tool calling, RAG, agents, FastAPI deployment. |
 
-**Exercises** — Chapters 1–2 use a concept-check question; Chapters 3–16 use a
-built-in code editor (plain textarea plus a line-number gutter, no external
-library). Submissions are checked against patterns for the concepts each task
-requires. Nothing is executed — Python cannot run in a static page, and the
-editor says so rather than pretending otherwise. Checks tolerate extra spaces,
-tabs, curly quotes and either quote style. Chapter 16 is the course's final
-project: an object-oriented rebuild of the task manager, which also triggers
-the course-complete screen and unlocks the two career branches.
+Each course groups its chapters into named **units** so the overview page shows
+the shape of the course rather than a flat wall of identical rows.
+
+**Roadmap** (`pages/course-tree.html`) — a vertical path: start node →
+Introduction to Programming → a gate → a fork into Software Engineering and
+Artificial Intelligence. Both branch cards read "Locked" and offer no link until
+Introduction to Programming is finished, at which point the gate icon flips and
+each card gets a live "Start the course" button.
+
+**Progression** — Chapter 1 of a course is open from the start; every other
+chapter needs the one before it completed. A chapter counts as complete only
+after its exercises are passed, never just by opening the page. The rule is
+enforced in JavaScript, not merely displayed, so typing
+`pages/courses/introduction/lesson-8.html` directly shows a locked screen rather
+than the content — and `completeChapter()` refuses a chapter whose exercises are
+unpassed, so it cannot be bypassed from the console either.
+
+This rule runs **per course**: each course keeps its own independent record, and
+`CourseProgressModel.forCourse(id)` scopes every call to one of them.
+
+**Exercises** — every chapter carries a set of exercises plus one final
+`challenge`, and the chapter only completes once all of them are passed. That is
+154 exercises and 38 challenges, 192 graded items in total, in four kinds:
+
+| Kind | What it is | Count |
+| --- | --- | --- |
+| `choice` | Multiple choice concept check | 87 |
+| `code` | Written in the built-in editor | 52 |
+| `text` | Short typed answer (string or regex matched) | 37 |
+| `order` | Put the steps into the right sequence | 16 |
+
+The code editor is a plain textarea plus a synced line-number gutter, with Tab
+bound to insert four spaces — no external library, since there is no build step
+to bundle one. Submissions are matched against a list of `checks`, one regex per
+concept the task requires (183 of them in total); the **first** failing check is
+the one reported, and it carries its own message, so the learner is told which
+concept is missing rather than just "wrong". Before matching, submissions are
+normalised — curly quotes, tabs, line endings and trailing whitespace — and
+comments and blank lines are stripped so an untouched starter template can never
+pass.
+
+> Nothing is executed. Python cannot run in a static page, so the editor is
+> labelled "Checked for concepts — not executed" rather than pretending
+> otherwise. A submission containing the right constructs passes even if the
+> program would not actually run.
+
+Chapter 16 of Introduction to Programming is the final project: an
+object-oriented rebuild of the task manager. Completing it triggers the
+course-complete screen and opens the two career branches on the roadmap.
 
 **Progress storage** — `pungAcademyProgress_<email>` for a signed-in user, or
 `pungAcademyProgress_guest` when nobody is signed in, so two local accounts do
-not share a position:
+not share a position. Each course is a separate key inside the record:
 
 ```json
 {
   "introductionToProgramming": {
     "completedChapters": [1, 2, 3],
     "exercisesCompleted": { "1": true, "2": true, "3": true },
+    "exerciseProgress": {
+      "4": { "passed": [true, false], "challengePassed": false }
+    },
     "updatedAt": "2026-09-03T15:31:20.764Z"
-  }
+  },
+  "ai": { "completedChapters": [1], "exercisesCompleted": { "1": true } }
 }
 ```
 
-**Adding chapter videos** — every chapter without a verified YouTube id shows a
-marked placeholder instead of a player. Chapters 1, 5, 8, 10 and 16 currently
-have no id — Chapter 16 by design, since the curriculum this course follows
-does not pair a video with the final project; the others are second-half
-chapters created by splitting a dense chapter in two, and have not had a
-video recorded for them yet. Put an id into `chapters[N].videoId` in
-`js/config/courseData.js` and that chapter's player appears; no other change
-is needed.
+`exercisesCompleted` is the flag chapter completion reads; `exerciseProgress`
+records which individual exercises within a chapter are done, so a
+half-finished chapter resumes correctly after a reload.
 
-**The 16 chapters** open with a conceptual primer (Chapter 1: what a computer
-and a programming language actually are), then follow a two-phase Python
-curriculum: Chapters 2–10 are foundational (variables through nested data
-structures — deliberately split into small, single-sitting chapters),
-Chapters 11–16 are intermediate (functions, error handling, files, modules,
-OOP, and Pythonic style). Eight chapters (8, 10, 11–16) carry a named
-worked-example project; Chapter 16 is the final, object-oriented capstone.
+**Chapter videos** — only Introduction to Programming has them. Eleven of its
+sixteen chapters carry a verified YouTube id; chapters 1, 5, 8, 10 and 16 do
+not — Chapter 16 by design, since the curriculum does not pair a video with the
+final project, and the others are second-half chapters created by splitting a
+dense chapter in two. Software Engineering and Artificial Intelligence have no
+videos at all and are written-lesson only.
+
+Any chapter without an id shows a marked placeholder instead of a dead player.
+Put an id into `chapters[N].videoId` in `js/config/courseData.js` and that
+chapter's player appears; no other change is needed.
 
 **Editing course content** — chapter titles, summaries, topics, projects and
 every exercise (prompt, starter code, checks, hint, solution) live in
@@ -168,6 +216,11 @@ password confirmation and duplicate emails, then sends you to the login page.
 Logging in checks the stored credentials, writes the session, and returns you to
 the homepage, where the header swaps Login/Sign Up for your name and a Log out
 button.
+
+**The whole Lessons section requires a session.** The roadmap, the course
+overviews and every chapter page check for a signed-in user first and redirect
+to the login page if there is none — before any chapter-lock check runs, so a
+signed-out visitor is asked to log in rather than told a chapter is locked.
 
 > **This is not secure authentication.** Passwords are stored in plain text in
 > the browser and anyone with access to the device can read them. It exists so
@@ -219,10 +272,15 @@ a 1:1 frame.
 - **Passwords are stored as plain text** (see the warning above).
 - **Resources is not built.** The navigation item is signposted with a "Soon"
   badge and explains itself when clicked.
-- **Only Introduction to Programming exists.** Software Engineering and
-  Artificial Intelligence are shown on the roadmap and link to `coming-soon.html`.
 - **Exercises are pattern-checked, not executed.** A submission that contains
   the right constructs passes even if the program would not actually run.
+- **The branch gate is roadmap-only.** The roadmap hides the link to Software
+  Engineering and Artificial Intelligence until Introduction to Programming is
+  finished, but typing a branch chapter's URL directly still opens it —
+  unlike chapter locks *within* a course, which are enforced. Each course's
+  progression is independent of the others.
+- **Only Introduction to Programming has videos.** The other two courses are
+  written-lesson only.
 - Google Fonts are loaded from a CDN, so the pages fall back to system fonts
   when offline.
 
