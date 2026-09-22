@@ -98,11 +98,11 @@
 
 /* 4. Body-text links shift colour rather than underlining, matching the
       design's quiet link treatment. */
-main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link) {
+main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link):not(.review-link) {
   transition: color 0.2s ease;
 }
 
-main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link):hover {
+main a:not(.btn):not(.nav__link):not(.brand):not(.skip-link):not(.review-link):hover {
   color: var(--color-primary);
 }
 

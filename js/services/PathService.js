@@ -56,6 +56,7 @@ Pung.PathService = (function () {
     signup: () => url("pages/signup.html"),
     about: () => url("pages/about-us.html"),
     courseTree: () => url("pages/course-tree.html"),
+    exercises: () => url("pages/exercises.html"),
     comingSoon: () => url("pages/coming-soon.html"),
     courseOverview: (courseId = DEFAULT_COURSE) => url(COURSE_PATHS[courseId].overview),
     chapter: (n, courseId = DEFAULT_COURSE) =>

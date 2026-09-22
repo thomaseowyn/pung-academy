@@ -23,16 +23,14 @@
     <header data-site-header data-active="courses"></header>
 
     <main id="main">
-      <!-- ================= Intro ================= -->
-      <section class="courses-hero">
-        <div class="container courses-hero__inner">
-          <p class="eyebrow">Courses</p>
-          <h1>One path, followed in order</h1>
-          <p class="lead">
-            This is not a catalogue to browse. It is a route. Everyone starts at
-            the same place, and the next stage opens only once the one before it
-            is finished — so you always know exactly what to do next.
-          </p>
+      <!-- ================= Flashcard review ================= -->
+      <section class="review-section" aria-label="Flashcard review">
+        <div class="container review-bar">
+          <div class="review-bar__box" data-flashcard-box></div>
+          <a class="review-link" href="exercises.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
+            <span>Exercises</span>
+          </a>
         </div>
       </section>
 
@@ -159,13 +157,16 @@
     <script src="../js/config/courseData.js"></script>
     <script src="../js/models/UserModel.js"></script>
     <script src="../js/models/CourseProgressModel.js"></script>
+    <script src="../js/models/FlashcardModel.js"></script>
     <script src="../js/views/SiteChromeView.js"></script>
     <script src="../js/views/AuthView.js"></script>
     <script src="../js/views/CourseTreeView.js"></script>
+    <script src="../js/views/FlashcardView.js"></script>
     <script src="../js/views/CourseOverviewView.js"></script>
     <script src="../js/views/LessonView.js"></script>
     <script src="../js/controllers/AuthController.js"></script>
     <script src="../js/controllers/CourseController.js"></script>
+    <script src="../js/controllers/FlashcardController.js"></script>
     <script src="../js/controllers/LessonController.js"></script>
     <script src="../js/pages/_shared.js"></script>
     <script src="../js/pages/course-tree.js"></script>

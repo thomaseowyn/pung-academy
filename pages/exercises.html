@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-root="..">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercises — Pung Academy</title>
+    <meta
+      name="description"
+      content="The Arena: a recommended pick, and every practice exercise grouped by course and unit."
+    />
+    <link rel="icon" href="../assets/icons/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/pages/exercises.css" />
+  </head>
+  <body class="arena">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <div class="arena-gate" aria-hidden="true">
+      <svg viewBox="0 0 640 760" preserveAspectRatio="xMidYMin slice">
+        <defs>
+          <radialGradient id="gatePortal" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color: var(--color-accent-light); stop-opacity: 0.14" />
+            <stop offset="100%" style="stop-color: var(--color-accent-light); stop-opacity: 0" />
+          </radialGradient>
+          <radialGradient id="gateBeamGlow" cx="50%" cy="10%" r="65%">
+            <stop offset="0%" style="stop-color: var(--color-gold); stop-opacity: 0.09" />
+            <stop offset="100%" style="stop-color: var(--color-gold); stop-opacity: 0" />
+          </radialGradient>
+          <linearGradient id="gateBeamCore" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" style="stop-color: var(--color-gold); stop-opacity: 0.22" />
+            <stop offset="45%" style="stop-color: var(--color-gold); stop-opacity: 0.07" />
+            <stop offset="100%" style="stop-color: var(--color-gold); stop-opacity: 0" />
+          </linearGradient>
+          <radialGradient id="gateLantern" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color: var(--color-gold); stop-opacity: 0.22" />
+            <stop offset="100%" style="stop-color: var(--color-gold); stop-opacity: 0" />
+          </radialGradient>
+        </defs>
+
+        <!-- a glimpsed portal, high behind the roofline -->
+        <circle class="arena-gate__portal" cx="320" cy="40" r="70" />
+        <circle class="arena-gate__portal-ring" cx="320" cy="40" r="46" />
+        <circle class="arena-gate__portal-ring" cx="320" cy="40" r="60" />
+
+        <!-- ambient glow + the beam of light down the gate's centre -->
+        <rect class="arena-gate__beam-glow" x="60" y="110" width="520" height="480" fill="url(#gateBeamGlow)" />
+        <rect class="arena-gate__beam-core" x="298" y="150" width="44" height="470" fill="url(#gateBeamCore)" />
+
+        <!-- hanging lanterns -->
+        <ellipse class="arena-gate__lantern-glow" cx="92" cy="232" rx="60" ry="68" fill="url(#gateLantern)" />
+        <ellipse class="arena-gate__lantern" cx="92" cy="232" rx="28" ry="38" />
+        <ellipse class="arena-gate__lantern-glow" cx="548" cy="232" rx="60" ry="68" fill="url(#gateLantern)" />
+        <ellipse class="arena-gate__lantern" cx="548" cy="232" rx="28" ry="38" />
+
+        <!-- the gate itself: curved pagoda roof, lintel and twin pillars -->
+        <path
+          class="arena-gate__roof"
+          d="M60,150 Q60,115 95,105 L150,70 Q195,40 255,58 Q290,42 320,50 Q350,42 385,58 Q445,40 490,70 L545,105 Q580,115 580,150 Z"
+        />
+        <rect class="arena-gate__lintel" x="195" y="150" width="250" height="16" />
+        <path class="arena-gate__pillar" d="M145,150 L195,150 L210,700 L120,700 Z" />
+        <path class="arena-gate__pillar" d="M445,150 L495,150 L520,700 L430,700 Z" />
+      </svg>
+    </div>
+
+    <header data-site-header data-active="exercises"></header>
+
+    <main id="main" class="exercises">
+      <div class="container exercises__inner">
+        <a class="arena-back" href="course-tree.html">&larr; Back to the roadmap</a>
+
+        <p class="eyebrow">$ ./practice --start</p>
+        <h1>The Arena</h1>
+        <p class="lead">
+          Where lessons turn into muscle memory. Take the pick chosen for
+          your level, or work through the full list, unit by unit.
+        </p>
+
+        <div class="arena-boot" data-arena-boot aria-hidden="true"></div>
+
+        <div class="arena-content" data-arena-content>
+          <section class="arena-panel arena-panel--review" aria-label="Recommended for you">
+            <header class="arena-panel__bar">
+              <span class="arena-panel__label arena-cursor">~/recommended</span>
+            </header>
+            <div class="arena-panel__body" data-arena-recommend></div>
+          </section>
+
+          <section aria-label="Exercise bank">
+            <p class="arena-section-label arena-cursor">~/exercises</p>
+            <div class="arena-exercises" data-arena-exercises></div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <div class="arena-log" data-arena-log aria-live="polite"></div>
+    <footer data-site-footer></footer>
+    <script src="../js/services/StorageService.js"></script>
+    <script src="../js/services/ValidationService.js"></script>
+    <script src="../js/services/PathService.js"></script>
+    <script src="../js/config/courseData.js"></script>
+    <script src="../js/config/exerciseBank.js"></script>
+    <script src="../js/models/UserModel.js"></script>
+    <script src="../js/models/CourseProgressModel.js"></script>
+    <script src="../js/models/ExerciseBankModel.js"></script>
+    <script src="../js/views/SiteChromeView.js"></script>
+    <script src="../js/views/AuthView.js"></script>
+    <script src="../js/views/CourseTreeView.js"></script>
+    <script src="../js/views/CourseOverviewView.js"></script>
+    <script src="../js/views/LessonView.js"></script>
+    <script src="../js/views/ExerciseBankView.js"></script>
+    <script src="../js/controllers/AuthController.js"></script>
+    <script src="../js/controllers/CourseController.js"></script>
+    <script src="../js/controllers/LessonController.js"></script>
+    <script src="../js/controllers/ExerciseBankController.js"></script>
+    <script src="../js/pages/_shared.js"></script>
+    <script src="../js/pages/exercises.js"></script>
+  </body>
+</html>

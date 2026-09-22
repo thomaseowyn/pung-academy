@@ -4,4 +4,5 @@
 
   Pung.Shared.initPage();
   Pung.CourseController.initCourseTree();
+  Pung.FlashcardController.initFlashcards();
 })();

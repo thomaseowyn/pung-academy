@@ -24,13 +24,7 @@ Pung.SiteChromeView = (function () {
   const NAV_ITEMS = [
     { key: "courses", label: "Lessons", href: () => routes.courseTree() },
     { key: "about", label: "About Us", href: () => routes.about() },
-    {
-      key: "resources",
-      label: "Resources",
-      href: () => routes.home() + "#resources",
-      soon: true,
-      comingSoon: "The resource library",
-    },
+    { key: "exercises", label: "Exercises", href: () => routes.exercises() },
   ];
 
   function brandMarkup(homeHref, logoSrc) {
@@ -136,7 +130,7 @@ Pung.SiteChromeView = (function () {
             <h2 class="site-footer__title">Learn</h2>
             <ul class="site-footer__list">
               <li><a href="${routes.courseTree()}">Lessons</a></li>
-              <li><a href="${routes.home()}#resources" data-coming-soon="The resource library">Resources</a></li>
+              <li><a href="${routes.exercises()}">Exercises</a></li>
             </ul>
           </div>
 
