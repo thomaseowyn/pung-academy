@@ -20,8 +20,8 @@
    the hero gives that much back and the pair still fit one screenful. */
 @media (min-width: 901px) {
   body.has-dash .hero {
-    min-height: calc(100vh - var(--header-height) - 112px);
-    min-height: calc(100svh - var(--header-height) - 112px);
+    min-height: calc(100vh - var(--header-height) - 140px);
+    min-height: calc(100svh - var(--header-height) - 140px);
     padding-block: var(--space-7);
   }
 }

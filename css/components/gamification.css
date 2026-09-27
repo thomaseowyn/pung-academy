@@ -459,8 +459,9 @@
 }
 
 /* --------------------------- Home-page dashboard -------------------------- */
+/* Sits a little below the header rather than hard against it. */
 .gx-dash-wrap {
-  padding-block: var(--space-3);
+  padding-block: var(--space-6) var(--space-4);
   background-color: #fff;
 }
 
