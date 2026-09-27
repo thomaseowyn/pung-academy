@@ -24,6 +24,10 @@ Pung.ExerciseBankView = (function () {
       .replace(/"/g, "&quot;");
   }
 
+  function xpChip(difficulty, earned) {
+    return Pung.GamificationView.xpChipHtml(Pung.GamificationModel.xpForArena(difficulty), earned);
+  }
+
   function stars(difficulty) {
     return "&#9733;".repeat(difficulty) + "&#9734;".repeat(3 - difficulty);
   }
@@ -101,6 +105,7 @@ Pung.ExerciseBankView = (function () {
         <div class="arena-recommend__footer">
           <span class="arena-stars" aria-label="Difficulty ${pick.difficulty} of 3">${stars(pick.difficulty)}</span>
           <span class="arena-minutes">~${pick.minutes} min</span>
+          ${xpChip(pick.difficulty, false)}
           <button type="button" class="btn btn--primary" data-arena-start>Start &rarr;</button>
         </div>
       </div>`;
@@ -128,6 +133,7 @@ Pung.ExerciseBankView = (function () {
         </div>
         <span class="arena-stars" aria-label="Difficulty ${ex.difficulty} of 3">${stars(ex.difficulty)}</span>
         <span class="arena-minutes">~${ex.minutes} min</span>
+        ${xpChip(ex.difficulty, ex.solved)}
         <button type="button" class="btn btn--secondary" data-exercise-id="${ex.id}">${
       ex.solved ? "Review" : "Solve"
     }</button>
@@ -339,7 +345,7 @@ Pung.ExerciseBankView = (function () {
         <header class="ex-head">
           <span class="ex-head__meta">${escapeHtml(exercise.courseTitle || "")} &middot; ${escapeHtml(
       exercise.unitLabel || ""
-    )}</span>
+    )}${xpChip(exercise.difficulty, false)}</span>
           <button type="button" class="ex-close" data-ex-close aria-label="Close exercise">&#10005;</button>
         </header>
         <div class="ex-body" data-ex-body></div>
@@ -381,7 +387,8 @@ Pung.ExerciseBankView = (function () {
     function submit() {
       const result = onSubmit(textarea.value);
       if (result.ok) {
-        showFeedback("Correct!", "success");
+        showFeedback(result.xpGained ? `Correct! +${result.xpGained} XP` : "Correct!", "success");
+        Pung.GamificationView.markEarned(overlay.querySelector(".ex-head__meta"));
         body.querySelector("[data-ex-actions]").innerHTML = `
           ${exercise.explanation ? `<p class="ex-explain">${escapeHtml(exercise.explanation)}</p>` : ""}
           <button type="button" class="btn btn--primary" data-ex-done>Done</button>`;

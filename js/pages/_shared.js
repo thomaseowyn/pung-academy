@@ -57,6 +57,10 @@ Pung.Shared = (function () {
 
   /** Render the shared chrome, then the small shared behaviours. */
   function initPage() {
+    /* Before the chrome, so the navbar flame reads a settled record. */
+    if (Pung.GamificationModel) {
+      Pung.GamificationModel.ensureBaseline();
+    }
     renderChrome();
     updateYear();
     setupImageFallbacks();

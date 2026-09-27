@@ -4,6 +4,11 @@
 
   Pung.Shared.initPage();
 
+  Pung.GamificationView.renderDashboard(
+    document.querySelector("[data-gx-dashboard]"),
+    !!Pung.UserModel.getCurrentUser()
+  );
+
   /* "Your path" preview reuses the exact same course-card/branch-card
      markup and rendering as the courses roadmap page, just without the
      login gate — anyone landing on the homepage can see where they'd

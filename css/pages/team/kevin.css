@@ -26,8 +26,6 @@
 
 body {
   margin: 0;
-  /* Desktop-only layout: hold the page width, no mobile reflow. */
-  min-width: 1020px;
   background-color: var(--k-bg);
   color: var(--k-text);
   font-family: var(--k-sans);
@@ -328,4 +326,20 @@ img {
 .note {
   font-size: 0.8rem;
   color: #6c7a8a;
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+  }
+
+  .hero__portrait {
+    width: 160px;
+  }
+
+  .panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

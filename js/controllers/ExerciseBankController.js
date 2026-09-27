@@ -47,11 +47,17 @@ Pung.ExerciseBankController = (function () {
     View.openExercise(exercise, {
       onSubmit: (value) => {
         const result = Model.checkAnswer(exercise, value);
-        if (result.ok) {
-          Model.markSolved(exercise.id);
-          solved = true;
+        if (!result.ok) {
+          return result;
         }
-        return result;
+        Model.markSolved(exercise.id);
+        solved = true;
+
+        /* XP is derived from what is solved, so a repeat solve pays nothing
+           (xpGained is 0) but still counts as studying today. */
+        const reward = Pung.GamificationModel.recordActivity();
+        Pung.GamificationView.celebrate(reward);
+        return { ...result, xpGained: reward.xpGained };
       },
       onClose: () => refresh(solved ? exercise.id : null),
     });
@@ -61,6 +67,7 @@ Pung.ExerciseBankController = (function () {
     if (!requireLogin()) {
       return;
     }
+    Pung.GamificationView.renderArenaSidebar(document.querySelector("[data-arena-side]"));
     refresh();
     View.runBoot();
   }

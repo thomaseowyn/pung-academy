@@ -5,12 +5,14 @@
 /* ------------------------ Coming soon page ------------------------ */
 .soon {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   padding-block: var(--space-9);
   text-align: center;
 }
 
 .soon__inner {
+  width: 100%;
   max-width: 34rem;
 }
 
@@ -24,4 +26,10 @@
   justify-content: center;
   gap: var(--space-3);
   margin-top: var(--space-6);
+}
+
+@media (max-width: 480px) {
+  .soon__actions {
+    flex-direction: column;
+  }
 }

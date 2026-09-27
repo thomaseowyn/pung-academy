@@ -158,6 +158,10 @@ a.lesson-nav__row:hover {
 }
 
 .lesson-layout .lesson {
+  /* A grid item with auto side margins sizes to its content, so one wide
+     code block could stretch the whole page past a phone's width. */
+  width: 100%;
+  min-width: 0;
   padding: var(--space-6) var(--space-7) var(--space-8);
 }
 
@@ -333,6 +337,7 @@ a.lesson-nav__row:hover {
    (js/views/LessonView.js's renderExerciseSet). */
 .exercise-set {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
 }
 
@@ -600,6 +605,22 @@ a.lesson-nav__row:hover {
 @media (max-width: 900px) {
   .lesson-layout {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lesson-layout .lesson {
+    padding-inline: var(--space-5);
+  }
+
+  /* Long inline code and long button labels wrap instead of pushing the
+     page wider than the screen. */
+  .lesson :not(pre) > code {
+    overflow-wrap: anywhere;
+  }
+
+  .lesson .btn {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
   }
 
   .lesson-sidebar {

@@ -24,8 +24,6 @@
 
 body {
   margin: 0;
-  /* Desktop-only layout: hold the page width, no mobile reflow. */
-  min-width: 1040px;
   background-color: var(--e-bg);
   color: var(--e-ink);
   font-family: var(--e-font);
@@ -369,6 +367,28 @@ a {
 
 .fineprint p {
   margin: 0 0 0.35rem;
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 800px) {
+  .intro {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .intro__portrait {
+    order: -1;
+    width: min(240px, 70%);
+    margin-inline: auto;
+  }
+
+  .card-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .blob {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

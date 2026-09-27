@@ -21,8 +21,6 @@
 
 body {
   margin: 0;
-  /* Desktop-only layout: hold the page width, no mobile reflow. */
-  min-width: 980px;
   background-color: var(--b-paper);
   color: var(--b-ink);
   font-family: var(--b-serif);
@@ -381,4 +379,20 @@ a {
 }
 .headline h1:hover {
   color: var(--b-accent);
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 720px) {
+  .factbox dl {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .factbox dt {
+    margin-top: 0.6rem;
+  }
+
+  .figure__image {
+    max-width: 100%;
+  }
 }

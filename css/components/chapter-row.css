@@ -78,6 +78,16 @@
   color: var(--color-text-muted);
 }
 
+.chapter__xp {
+  display: inline-block;
+  margin: var(--space-3) var(--space-2) 0 0;
+  vertical-align: top;
+}
+
+.chapter__xp .xp-chip {
+  margin-left: 0;
+}
+
 .chapter__project {
   display: inline-flex;
   align-items: center;

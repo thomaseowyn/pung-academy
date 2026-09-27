@@ -76,6 +76,7 @@ Pung.SiteChromeView = (function () {
             </ul>
 
             <div class="nav__session" data-session="user"${user ? "" : " hidden"}>
+              ${user && Pung.GamificationView ? Pung.GamificationView.streakChipHtml() : ""}
               <span class="nav__avatar" aria-hidden="true">${
                 user ? escapeHtml(initialsFor(user)) : ""
               }</span>

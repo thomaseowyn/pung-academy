@@ -24,8 +24,6 @@
 
 body {
   margin: 0;
-  /* Desktop-only layout: hold the page width, no mobile reflow. */
-  min-width: 1080px;
   background-color: var(--t-bg);
   color: var(--t-ink);
   font-family: var(--t-body);
@@ -332,6 +330,22 @@ a {
 
 .smallprint p {
   margin: 0 0 0.35rem;
+}
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 860px) {
+  .masthead__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

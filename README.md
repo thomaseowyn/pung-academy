@@ -38,6 +38,7 @@ pung-academy/
 │
 ├── js/
 │   ├── config/             courseData.js — all three courses, as data
+│   │                       badges.js — XP values, level titles, badge list
 │   ├── services/           StorageService · ValidationService · PathService
 │   ├── models/             UserModel · CourseProgressModel      (state, no DOM)
 │   ├── views/              SiteChrome · CourseTree · CourseOverview ·
@@ -204,6 +205,32 @@ every exercise (prompt, starter code, checks, hint, solution) live in
 written tutorial text.
 
 
+## XP, levels, badges and the streak
+
+All of it lives in `js/models/GamificationModel.js` (rules and state),
+`js/views/GamificationView.js` (everything drawn) and `js/config/badges.js`
+(XP values, level titles and the badge list — edit numbers there).
+
+- **XP is derived, not stored.** It is recomputed from the progress records
+  every time, so it can never drift out of sync and learners who were already
+  part-way through a course keep what they had earned. Values: lesson exercise
+  10 (code exercise 20), module challenge 50, chapter complete 25, course
+  complete 200, Arena exercise 20 / 40 / 60 by difficulty. Every exercise,
+  chapter and Arena row shows its `+N XP` chip.
+- **Levels** need `50 × n × (n − 1)` total XP (100, 300, 600, 1000 …), with a
+  title per level (Rookie … Legend).
+- **Badges** unlock when a stat reaches a threshold (`stat` / `atLeast` in
+  `badges.js`). Locked ones are faded; hovering any badge explains it.
+- **Streak** — the flame in the navbar, with the day count as a superscript.
+  A day counts when the learner passes a lesson exercise, completes a chapter
+  or solves an Arena exercise. **Flashcards do not count.** Miss a whole day
+  and the streak resets to 0; if yesterday was studied but today has not been,
+  the flame is dimmed to show it is at risk.
+- **Where it shows:** navbar flame (every page), a boot-then-reveal dashboard
+  above the home page, and the level + badge panels beside the Arena.
+- **Storage:** `pungAcademyGamification_<email>` holds only what cannot be
+  derived — the study days and when each badge unlocked.
+
 ## Local accounts
 
 There is no server. Accounts live in the browser's `localStorage`:
@@ -265,8 +292,8 @@ a 1:1 frame.
 
 ## Known limitations
 
-- **Desktop only.** There is no mobile or tablet layout: the pages hold a fixed
-  desktop width and narrow windows scroll horizontally.
+- **Responsive, but not native.** Every page carries the viewport meta tag and
+  reflows down to phone width; there is no Android app.
 - **No backend.** Accounts exist only in the browser that created them; clearing
   site data deletes them, and they do not follow you to another device.
 - **Passwords are stored as plain text** (see the warning above).

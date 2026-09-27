@@ -171,6 +171,14 @@ Pung.CourseOverviewView = (function () {
       body.appendChild(topics);
     }
 
+    const xp = document.createElement("span");
+    xp.className = "chapter__xp";
+    xp.innerHTML = Pung.GamificationView.xpChipHtml(
+      Pung.GamificationModel.chapterXp(data, number, Pung.courseData.courses[courseId].totalChapters),
+      state === "completed"
+    );
+    body.appendChild(xp);
+
     if (data.project) {
       const project = document.createElement("span");
       project.className = "chapter__project";

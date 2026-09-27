@@ -27,6 +27,12 @@ Pung.LessonController = (function () {
   const { requireLogin } = Pung.AuthController;
   const View = Pung.LessonView;
 
+  /* Called after progress has been saved: marks today as studied (which is
+     what feeds the streak) and shows the XP, streak and badge rewards. */
+  function reward() {
+    Pung.GamificationView.celebrate(Pung.GamificationModel.recordActivity());
+  }
+
   function initLessonPage() {
     if (!requireLogin()) {
       return;
@@ -246,6 +252,7 @@ Pung.LessonController = (function () {
 
       View.showSolved(exercise);
       refreshCompletion();
+      reward();
     }
 
     function checkExerciseAt(index, form) {
@@ -279,6 +286,7 @@ Pung.LessonController = (function () {
       View.showSolvedAt(index, exercise);
       maybeCompleteAllExercises();
       refreshCompletion();
+      reward();
     }
 
     function passChallenge(exercise) {
@@ -288,6 +296,7 @@ Pung.LessonController = (function () {
       View.showSolvedAt("challenge", exercise);
       maybeCompleteAllExercises();
       refreshCompletion();
+      reward();
     }
 
     /* markExerciseCompleted(chapterNumber) is the same flag completeChapter()
@@ -318,6 +327,7 @@ Pung.LessonController = (function () {
 
         refreshCompletion();
         refreshProgress();
+        reward();
 
         if (chapter.isFinalProject && isCourseComplete()) {
           View.showCourseComplete({ title: course.title, message: course.completionMessage });

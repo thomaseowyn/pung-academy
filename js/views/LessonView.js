@@ -193,6 +193,22 @@ Pung.LessonView = (function () {
       topics.innerHTML = "";
       chapter.topics.forEach((topic) => topics.appendChild(el("li", null, topic)));
     }
+
+    /* What the whole chapter pays out, so the reward is visible up front. */
+    const anchor = topics || document.querySelector("[data-chapter-summary]");
+    if (anchor && !document.querySelector("[data-chapter-xp]")) {
+      const note = el("p", "xp-note");
+      note.setAttribute("data-chapter-xp", "");
+      note.append(
+        "Earn up to",
+        Pung.GamificationView.createXpChip(
+          Pung.GamificationModel.chapterXp(chapter, chapterNumber, total),
+          false
+        ),
+        "in this chapter"
+      );
+      anchor.insertAdjacentElement("afterend", note);
+    }
   }
 
   function renderCourseProgress({ completed, total, percent }) {
@@ -293,7 +309,11 @@ Pung.LessonView = (function () {
     }
 
     const wrap = el("div", "exercise");
-    wrap.appendChild(el("h2", "exercise__heading", exercise.heading || "Exercise"));
+    const heading = el("h2", "exercise__heading", exercise.heading || "Exercise");
+    heading.appendChild(
+      Pung.GamificationView.createXpChip(Pung.GamificationModel.xpForExercise(exercise, false), false)
+    );
+    wrap.appendChild(heading);
     wrap.appendChild(el("p", "exercise__prompt", exercise.prompt));
 
     const form = el("form", "exercise__form");
@@ -500,6 +520,7 @@ Pung.LessonView = (function () {
       solved.appendChild(pre);
     }
     mount.appendChild(solved);
+    Pung.GamificationView.markEarned(mount);
   }
 
   /* ------------------------------------------------------------ exercise set
@@ -560,7 +581,14 @@ Pung.LessonView = (function () {
 
   function buildExerciseBlock(exercise, id, defaultHeading, onSubmit) {
     const wrap = el("div", "exercise");
-    wrap.appendChild(el("h3", "exercise__heading", exercise.heading || defaultHeading));
+    const heading = el("h3", "exercise__heading", exercise.heading || defaultHeading);
+    heading.appendChild(
+      Pung.GamificationView.createXpChip(
+        Pung.GamificationModel.xpForExercise(exercise, id === "challenge"),
+        false
+      )
+    );
+    wrap.appendChild(heading);
     wrap.appendChild(el("p", "exercise__prompt", exercise.prompt));
 
     const form = el("form", "exercise__form");
@@ -644,6 +672,7 @@ Pung.LessonView = (function () {
       solved.appendChild(pre);
     }
     form.appendChild(solved);
+    Pung.GamificationView.markEarned(form.closest(".exercise"));
   }
 
   /** Freezes an already-solved block's inputs so it can't be resubmitted. */

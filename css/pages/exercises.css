@@ -130,9 +130,38 @@ body.arena .site-header {
 
 /* ------------------------------- Layout ------------------------------- */
 .exercises__inner {
-  max-width: 860px;
-  margin-inline: auto;
   padding-block: var(--space-7) var(--space-9);
+}
+
+/* Exercises on the left, level and badges in a column on the right. */
+.arena-content {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--space-7);
+  align-items: start;
+}
+
+.arena-main {
+  min-width: 0;
+}
+
+.arena-side {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+@media (max-width: 960px) {
+  .arena-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  /* Level first on a narrow screen: it is the short, motivating part. */
+  .arena-side {
+    order: -1;
+  }
 }
 
 .arena-back {
@@ -279,7 +308,7 @@ body.arena .site-header {
 }
 
 .arena-panel--review {
-  margin: var(--space-7) 0;
+  margin: 0 0 var(--space-7);
 }
 
 .arena-panel__note {

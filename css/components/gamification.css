@@ -1,0 +1,959 @@
+/* ==========================================================================
+   Gamification — XP chips, streak flame, level disc, badges, toasts and the
+   home-page dashboard
+   --------------------------------------------------------------------------
+   Everything here reads the design tokens, so it follows whichever theme the
+   page is in (the Arena re-points the tokens to a dark palette). The pieces
+   that must look dark on a light page — the dashboard strip and every
+   tooltip — either carry .gx-dark or use fixed colours.
+   ========================================================================== */
+
+/* A dark palette for a light page, matching the Arena's. */
+.gx-dark {
+  --color-primary: #4f9fe0;
+  --color-accent: #6db8f2;
+  --color-accent-soft: rgba(109, 184, 242, 0.14);
+  --color-accent-light: #9ccdf5;
+  --color-bg: #0a0f1a;
+  --color-bg-alt: #0e1420;
+  --color-bg-muted: #131a28;
+  --color-heading: #eaf1fb;
+  --color-text: #c3cee0;
+  --color-text-muted: #8695ac;
+  --color-text-faint: #56637a;
+  --color-border: #1c2534;
+  --color-border-strong: #2a3547;
+  --color-done: #4bc27a;
+  --color-gold: #e0ab4a;
+  --color-gold-bg: rgba(224, 171, 74, 0.14);
+}
+
+/* ------------------------------- XP chip -------------------------------- */
+.xp-chip {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--space-2);
+  padding: 0.1rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-gold-bg);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-gold);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.xp-chip.is-earned {
+  border-color: var(--color-done-border);
+  background-color: var(--color-done-bg);
+  color: var(--color-done);
+}
+
+/* "Worth up to N XP" line under a chapter's title. */
+.xp-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.xp-note .xp-chip {
+  margin-left: 0;
+}
+
+/* -------------------------------- Flame --------------------------------- */
+.flame-wrap {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 1px;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.flame {
+  width: 1.15em;
+  height: 1.15em;
+  overflow: visible;
+  transform-origin: 50% 90%;
+}
+
+/* The day count sits up and to the right of the flame, like an exponent. */
+.flame-wrap__count {
+  margin-top: -0.12em;
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  font-weight: 800;
+  line-height: 1;
+  color: #ea580c;
+}
+
+.flame__outer {
+  fill: #f97316;
+}
+
+.flame__inner {
+  fill: #fde047;
+}
+
+.flame-wrap--lit .flame {
+  filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.55));
+  animation: flame-flicker 1.6s ease-in-out infinite;
+}
+
+/* Alive, but today has not been studied yet: dimmed and breathing. */
+.flame-wrap--risk .flame {
+  opacity: 0.6;
+  animation: flame-breathe 2.2s ease-in-out infinite;
+}
+
+.flame-wrap--risk .flame-wrap__count {
+  color: var(--color-gold);
+}
+
+/* Streak lost, or never started. */
+.flame-wrap--out .flame__outer {
+  fill: #64748b;
+}
+
+.flame-wrap--out .flame__inner {
+  fill: #94a3b8;
+}
+
+.flame-wrap--out .flame {
+  opacity: 0.45;
+}
+
+.flame-wrap--out .flame-wrap__count {
+  color: var(--color-text-faint);
+}
+
+@keyframes flame-flicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  30% {
+    transform: scale(1.06, 1.1) rotate(-2deg);
+  }
+  60% {
+    transform: scale(0.98, 1.04) rotate(2deg);
+  }
+}
+
+@keyframes flame-breathe {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Navbar chip */
+.streak-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem 0.25rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg-alt);
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.streak-chip:hover,
+.streak-chip:focus-visible {
+  border-color: var(--color-border-strong);
+  background-color: var(--color-bg-muted);
+}
+
+.streak-chip .flame-wrap {
+  font-size: 19px;
+}
+
+/* -------------------------------- Tooltip -------------------------------- */
+/* Fixed dark colours: a tooltip should read the same on every page. */
+.gx-tip {
+  position: absolute;
+  z-index: 70;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  width: max-content;
+  max-width: 220px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #2a3547;
+  border-radius: var(--radius-md);
+  background-color: #080d16;
+  box-shadow: 0 8px 22px rgba(2, 6, 14, 0.45);
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #b4c1d6;
+  /* display:none rather than visibility:hidden, so a tooltip that hangs
+     past the page edge can never add a horizontal scrollbar. */
+  display: none;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+}
+
+.gx-tip strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.8rem;
+  color: #eaf1fb;
+}
+
+.gx-tip em {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-style: normal;
+  color: #e0ab4a;
+}
+
+.gx-tip--below {
+  top: calc(100% + 10px);
+  bottom: auto;
+  transform: translate(-50%, -4px);
+}
+
+.gx-tip--left {
+  left: 0;
+  transform: translate(0, 4px);
+}
+
+.gx-tip--right {
+  right: 0;
+  left: auto;
+  transform: translate(0, 4px);
+}
+
+.gx-tip--below.gx-tip--left,
+.gx-tip--below.gx-tip--right {
+  transform: translate(0, -4px);
+}
+
+.gx-badge:hover > .gx-tip,
+.gx-badge:focus-visible > .gx-tip,
+.streak-chip:hover > .gx-tip,
+.streak-chip:focus-visible > .gx-tip,
+.gx-dash__streaklink:hover > .gx-tip,
+.gx-dash__streaklink:focus-visible > .gx-tip {
+  display: block;
+  transform: translate(-50%, 0);
+  animation: gx-tip-in 0.15s ease both;
+}
+
+@keyframes gx-tip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gx-badge:hover > .gx-tip--left,
+.gx-badge:focus-visible > .gx-tip--left,
+.gx-badge:hover > .gx-tip--right,
+.gx-badge:focus-visible > .gx-tip--right,
+.streak-chip:hover > .gx-tip--right,
+.streak-chip:focus-visible > .gx-tip--right {
+  transform: translate(0, 0);
+}
+
+/* ------------------------------- Level disc ------------------------------ */
+.gx-disc {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(109, 184, 242, 0.28), rgba(109, 184, 242, 0.06));
+  box-shadow: 0 0 18px rgba(109, 184, 242, 0.22);
+  font-family: var(--font-mono);
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-heading);
+}
+
+.gx-disc small {
+  margin-bottom: 2px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-accent);
+}
+
+.gx-disc--sm {
+  width: 54px;
+  height: 54px;
+  font-size: 1.3rem;
+}
+
+/* -------------------------------- XP bar --------------------------------- */
+.gx-bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg-muted);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  overflow: hidden;
+}
+
+.gx-bar__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--color-accent), #e0ab4a);
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* -------------------------------- Badges --------------------------------- */
+.gx-badges {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gx-badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-muted);
+  font-size: 1.5rem;
+  cursor: help;
+  transition: opacity 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+
+.gx-badge__icon {
+  line-height: 1;
+}
+
+.gx-badge.is-unlocked {
+  border-color: rgba(224, 171, 74, 0.55);
+  background: radial-gradient(circle at 50% 30%, rgba(224, 171, 74, 0.22), rgba(224, 171, 74, 0.05));
+  box-shadow: 0 0 12px rgba(224, 171, 74, 0.12);
+}
+
+.gx-badge.is-unlocked:hover,
+.gx-badge.is-unlocked:focus-visible {
+  transform: translateY(-2px);
+}
+
+/* Locked: same tile, but faded and drained of colour. */
+.gx-badge.is-locked {
+  opacity: 0.4;
+}
+
+.gx-badge.is-locked .gx-badge__icon {
+  filter: grayscale(1);
+}
+
+.gx-badge.is-locked:hover,
+.gx-badge.is-locked:focus-visible {
+  opacity: 0.6;
+}
+
+.gx-badge:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ------------------------ Toasts (+XP, level, badge) ---------------------- */
+.gx-toasts {
+  position: fixed;
+  bottom: var(--space-5);
+  left: 50%;
+  z-index: 9999;
+  display: grid;
+  justify-items: center;
+  transform: translateX(-50%);
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.gx-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #2a3547;
+  border-radius: var(--radius-lg);
+  background-color: #080d16;
+  box-shadow: 0 10px 28px rgba(2, 6, 14, 0.5);
+  font-size: 0.82rem;
+  color: #b4c1d6;
+  animation: gx-toast-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.gx-toast strong {
+  margin-right: 0.35em;
+  color: #eaf1fb;
+}
+
+.gx-toast.is-leaving {
+  opacity: 0;
+  transform: translateX(16px);
+}
+
+.gx-toast__big {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #e0ab4a;
+}
+
+.gx-toast--level {
+  border-color: #6db8f2;
+}
+
+.gx-toast--level .gx-toast__big {
+  color: #6db8f2;
+}
+
+.gx-toast--badge {
+  border-color: rgba(224, 171, 74, 0.6);
+}
+
+.gx-toast__icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.gx-toast .flame {
+  width: 1.4rem;
+  height: 1.4rem;
+  filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.55));
+}
+
+@keyframes gx-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --------------------------- Home-page dashboard -------------------------- */
+.gx-dash-wrap {
+  padding-block: var(--space-3);
+  background-color: #fff;
+}
+
+.gx-dash {
+  position: relative;
+  min-height: 88px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: radial-gradient(circle at 12% 0%, rgba(79, 159, 224, 0.12), transparent 50%), var(--color-bg);
+  box-shadow: var(--shadow-md);
+  color: var(--color-text);
+}
+
+/* Boot log, in the same terminal voice as the Arena's. */
+.gx-dash__boot {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-height: 88px;
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-faint);
+}
+
+.gx-dash__boot span {
+  opacity: 0;
+  animation: gx-boot-line 0.2s ease-out forwards;
+}
+
+.gx-dash__boot span.is-ok {
+  color: var(--color-done);
+}
+
+@keyframes gx-boot-line {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gx-dash__body {
+  display: none;
+  grid-template-columns: auto minmax(180px, 1.3fr) auto auto;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-5);
+}
+
+.gx-dash.is-ready .gx-dash__boot {
+  display: none;
+}
+
+.gx-dash.is-ready .gx-dash__body {
+  display: grid;
+  animation: gx-fade-in 0.4s ease both;
+}
+
+@keyframes gx-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gx-dash__cell {
+  min-width: 0;
+}
+
+.gx-dash__level {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.gx-dash__title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-heading);
+}
+
+.gx-dash__sub {
+  margin: 2px 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.gx-dash__xprow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.gx-dash__streaklink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
+}
+
+.gx-dash__streaklink .flame-wrap {
+  font-size: 34px;
+}
+
+.gx-dash__streaktext {
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: var(--color-text-muted);
+}
+
+.gx-dash__streaktext strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--color-heading);
+}
+
+.gx-dash__badges {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.gx-badges--row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.gx-badges--row .gx-badge {
+  width: 34px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  font-size: 1.05rem;
+}
+
+.gx-dash__more {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.gx-dash__nobadge {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  max-width: 16rem;
+}
+
+.gx-dash__count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-faint);
+}
+
+/* Signed-out invitation: one slim line. */
+.gx-dash--guest {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 60px;
+  padding: var(--space-3) var(--space-5);
+  font-size: 0.88rem;
+}
+
+.gx-dash--guest p {
+  margin: 0;
+  flex: 1;
+  color: var(--color-text-muted);
+}
+
+.gx-dash--guest strong {
+  color: var(--color-heading);
+}
+
+.gx-dash__guesticon .flame {
+  width: 1.6rem;
+  height: 1.6rem;
+  opacity: 0.55;
+}
+
+/* ------------------------------ Arena sidebar ---------------------------- */
+.gx-level__body {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* The whole card is pressable: it opens the list of every level. */
+.gx-level {
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.gx-level:hover {
+  border-color: var(--color-border-strong);
+}
+
+.gx-level__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.gx-level__toggle:hover {
+  border-color: var(--color-accent);
+}
+
+.gx-level__toggle svg {
+  transition: transform 0.2s ease;
+}
+
+.gx-level__toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.gx-level__all {
+  cursor: default;
+}
+
+.gx-level__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.gx-level__id {
+  flex: 1;
+  min-width: 0;
+}
+
+.gx-level__title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-heading);
+}
+
+.gx-level__total {
+  margin: 2px 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-gold);
+}
+
+.gx-level__streak .flame-wrap {
+  font-size: 30px;
+}
+
+.gx-level__next {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.gx-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+}
+
+.gx-stats div {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-muted);
+}
+
+.gx-stats dt {
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--color-text-faint);
+}
+
+.gx-stats dd {
+  margin: 2px 0 0;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-heading);
+}
+
+.gx-stats dd small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-faint);
+}
+
+.gx-level__rule {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--color-text-faint);
+}
+
+/* Every level, so the goal is visible: reached ones are checked off, the
+   current one is lit, the rest are faded. */
+.gx-levels {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gx-levels__row {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.28rem var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: 0.78rem;
+  color: var(--color-text-faint);
+  opacity: 0.6;
+}
+
+.gx-levels__num {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.gx-levels__name {
+  font-weight: 700;
+}
+
+.gx-levels__xp {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.gx-levels__row.is-reached {
+  opacity: 1;
+  color: var(--color-text-muted);
+}
+
+.gx-levels__row.is-reached .gx-levels__num {
+  border-color: var(--color-done-border);
+  background-color: var(--color-done-bg);
+  color: var(--color-done);
+}
+
+.gx-levels__row.is-current {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+  color: var(--color-heading);
+  opacity: 1;
+}
+
+.gx-levels__row.is-current .gx-levels__num {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.gx-levels__row.is-current .gx-levels__xp {
+  color: var(--color-gold);
+}
+
+.gx-levels__note {
+  margin: var(--space-3) 0 0;
+  font-size: 0.7rem;
+  color: var(--color-text-faint);
+}
+
+/* The badge panel's tooltips must escape the panel, which clips by default. */
+.gx-badges-panel {
+  overflow: visible;
+}
+
+.gx-badges-panel .arena-panel__bar {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.gx-badges-panel__count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.gx-earn__list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.gx-earn__list div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 0.76rem;
+}
+
+.gx-earn__list dt {
+  color: var(--color-text-muted);
+}
+
+.gx-earn__list dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+/* ------------------------------- Responsive ------------------------------ */
+@media (max-width: 900px) {
+  .gx-dash__body {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4) var(--space-5);
+  }
+
+  .gx-dash__xp {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Level and streak share the first row; XP bar and badges get their own. */
+  .gx-dash__body {
+    grid-template-columns: 1fr auto;
+  }
+
+  .gx-dash__xp {
+    order: 0;
+  }
+
+  .gx-dash__badges {
+    grid-column: 1 / -1;
+  }
+
+  .gx-dash--guest {
+    flex-wrap: wrap;
+  }
+
+  .gx-toasts {
+    width: calc(100% - 2 * var(--space-3));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame,
+  .gx-toast,
+  .gx-dash.is-ready .gx-dash__body {
+    animation: none;
+  }
+
+  .gx-bar__fill {
+    transition: none;
+  }
+}
