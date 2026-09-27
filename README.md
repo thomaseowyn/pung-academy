@@ -297,8 +297,6 @@ a 1:1 frame.
 - **No backend.** Accounts exist only in the browser that created them; clearing
   site data deletes them, and they do not follow you to another device.
 - **Passwords are stored as plain text** (see the warning above).
-- **Resources is not built.** The navigation item is signposted with a "Soon"
-  badge and explains itself when clicked.
 - **Exercises are pattern-checked, not executed.** A submission that contains
   the right constructs passes even if the program would not actually run.
 - **The branch gate is roadmap-only.** The roadmap hides the link to Software

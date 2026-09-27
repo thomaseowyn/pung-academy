@@ -46,7 +46,7 @@
               <!-- An in-page anchor, not the roadmap: the roadmap is behind
                    the login gate, so a logged-out visitor clicking it would
                    land on the same login page the primary button goes to. -->
-              <a class="btn btn--secondary btn--lg" href="#how-it-works">See how it works</a>
+              <a class="btn btn--secondary btn--lg" href="#in-action">See it in action</a>
             </div>
 
             <div class="hero__stats">
@@ -136,8 +136,78 @@ print(greet(<span class="code-window__str">"world"</span>))
         </div>
       </section>
 
+      <!-- ================= See it in action ================= -->
+      <section class="section" id="in-action">
+        <div class="container">
+          <div class="section__header section__header--center">
+            <p class="eyebrow">See it in action</p>
+            <h2>A look inside the academy</h2>
+            <p class="lead">
+              Real screens from the site: the lesson editor, the Arena and your
+              own progress dashboard.
+            </p>
+          </div>
+
+          <div class="showcase">
+            <article class="showcase__row">
+              <figure class="shot">
+                <img
+                  src="assets/images/screens/lesson-editor.jpg"
+                  alt="A chapter page: the course sidebar on the left and a Python exercise with a code editor on the right, marked +20 XP."
+                  width="1440" height="900" loading="lazy" />
+              </figure>
+              <div class="showcase__text">
+                <p class="showcase__kicker">Lessons</p>
+                <h3>Write real code in every chapter</h3>
+                <p>
+                  Each chapter ends with exercises in a built-in code editor. The
+                  checker tells you which concept is missing instead of just
+                  saying &ldquo;wrong&rdquo;, and every exercise shows how much
+                  XP it is worth.
+                </p>
+              </div>
+            </article>
+
+            <article class="showcase__row showcase__row--flip">
+              <figure class="shot">
+                <img
+                  src="assets/images/screens/arena.jpg"
+                  alt="The Arena page: a recommended exercise and a list of solved exercises on the left, a level card with the full level list on the right."
+                  width="1440" height="980" loading="lazy" />
+              </figure>
+              <div class="showcase__text">
+                <p class="showcase__kicker">The Arena</p>
+                <h3>Practice on your own terms</h3>
+                <p>
+                  Pick the exercise chosen for your level or work through the
+                  whole bank, unit by unit. Press the level card to see all ten
+                  levels and how much XP each one takes.
+                </p>
+              </div>
+            </article>
+
+            <article class="showcase__row">
+              <figure class="shot shot--wide">
+                <img
+                  src="assets/images/screens/dashboard.jpg"
+                  alt="The progress dashboard: level 5 Builder, an XP bar, a 9-day streak flame and a row of unlocked badges."
+                  width="2360" height="248" loading="lazy" />
+              </figure>
+              <div class="showcase__text">
+                <p class="showcase__kicker">Progress</p>
+                <h3>Keep the streak burning</h3>
+                <p>
+                  Earn XP, level up and unlock 24 badges. Study every day to keep
+                  your flame alive &mdash; skip a day and it goes out.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <!-- ================= Why Pung Academy ================= -->
-      <section class="section" id="why">
+      <section class="section section--alt" id="why">
         <div class="container">
           <div class="section__header">
             <p class="eyebrow">Why Pung Academy</p>
@@ -187,85 +257,6 @@ print(greet(<span class="code-window__str">"world"</span>))
                   Visible checkpoints that show how far you have actually come.
                 </li>
               </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= How it works ================= -->
-      <section class="section section--alt" id="how-it-works">
-        <div class="container">
-          <div class="section__header section__header--center">
-            <p class="eyebrow">How it works</p>
-            <h2>Three steps, in order</h2>
-            <p class="lead">
-              You never have to design your own curriculum. Follow the sequence
-              and let each stage unlock the next.
-            </p>
-          </div>
-
-          <ol class="steps">
-            <li class="step">
-              <span class="step__num" aria-hidden="true"></span>
-              <h3 class="card__title">Follow the roadmap</h3>
-              <p class="card__text">
-                Each stage lists what to learn, why it matters now, and what you
-                should be able to do before moving on.
-              </p>
-            </li>
-            <li class="step">
-              <span class="step__num" aria-hidden="true"></span>
-              <h3 class="card__title">Learn from curated resources</h3>
-              <p class="card__text">
-                Every topic points to a small, reviewed set of readings, videos
-                and exercises. No infinite lists, no paid detours.
-              </p>
-            </li>
-            <li class="step">
-              <span class="step__num" aria-hidden="true"></span>
-              <h3 class="card__title">Build toward a career goal</h3>
-              <p class="card__text">
-                Once the fundamentals are solid, the roadmap branches into
-                practical directions such as web, data or mobile development.
-              </p>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- ================= Resources preview ================= -->
-      <section class="section" id="resources">
-        <div class="container">
-          <div class="section__header section__header--center">
-            <p class="eyebrow">Resources</p>
-            <h2>Meaningful Materials, not just infinite lists</h2>
-            <p class="lead">
-              Every stage of the roadmap will link to a handful of resources that
-              our team has actually carefully and thoroughly reviewed. The library is still being assembled — here is the shape it will take.
-            </p>
-          </div>
-
-          <div class="grid grid--3">
-            <article class="card">
-              <span class="card__icon" aria-hidden="true">📘</span>
-              <h3 class="card__title">Reading</h3>
-              <p class="card__text">
-                To give learners a reliable source for understanding the concepts and building a strong foundation through written explanations.
-              </p>
-            </article>
-            <article class="card">
-              <span class="card__icon" aria-hidden="true">🎬</span>
-              <h3 class="card__title">Watching</h3>
-              <p class="card__text">
-                To provide a visual way of learning. Some concepts are easier to understand when someone explains or demonstrates them visually.
-              </p>
-            </article>
-            <article class="card">
-              <span class="card__icon" aria-hidden="true">🛠️</span>
-              <h3 class="card__title">Doing</h3>
-              <p class="card__text">
-                To turn knowledge into practical skills. Exercises and small projects let learners apply what they learned and identify gaps in their understanding.
-              </p>
             </article>
           </div>
         </div>
