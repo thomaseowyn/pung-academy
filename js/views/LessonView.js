@@ -362,9 +362,9 @@ Pung.LessonView = (function () {
   }
 
   /** Routes an exercise to the input builder matching its kind. */
-  function buildExerciseInput(form, exercise) {
+  function buildExerciseInput(form, exercise, blockId) {
     if (exercise.kind === "choice") {
-      return buildChoices(form, exercise);
+      return buildChoices(form, exercise, blockId);
     }
     if (exercise.kind === "text") {
       return buildTextInput(form, exercise);
@@ -375,10 +375,14 @@ Pung.LessonView = (function () {
     return buildEditor(form, exercise); // "code"
   }
 
-  function buildChoices(form, exercise) {
+  /* blockId disambiguates the id/for pair between exercise blocks on the
+     same page — without it, every "choice" exercise in a chapter would
+     render radios with the same ids, and clicking one would activate (and
+     scroll to) the first exercise's matching radio instead of its own. */
+  function buildChoices(form, exercise, blockId = "single") {
     const list = el("div", "choices");
     exercise.choices.forEach((label, index) => {
-      const id = `choice-${index}`;
+      const id = `choice-${blockId}-${index}`;
       const row = el("label", "choice");
       row.setAttribute("for", id);
 
@@ -594,7 +598,7 @@ Pung.LessonView = (function () {
     const form = el("form", "exercise__form");
     form.noValidate = true;
 
-    buildExerciseInput(form, exercise);
+    buildExerciseInput(form, exercise, id);
 
     const actions = el("div", "exercise__actions");
     const submit = el(
